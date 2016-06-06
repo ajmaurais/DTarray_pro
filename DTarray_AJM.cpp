@@ -33,7 +33,6 @@ string const COLUMN_HEADER_LINE_ELEMENTS[] = {"Unique", "FileName", "XCorr", "De
     "CalcM+H+", "TotalIntensity", "SpR", "ZScore", "IonProportion", "Redundancy", "Sequence"};
 int const COLUMN_HEADER_LINE_ELEMENTS_SIZE = 13;
 
-bool readParams(string&);
 bool strContains(char, string);
 void split (const string, char, vector<string> &);
 bool isColumnHeaderLine(const vector<string>&);
@@ -320,15 +319,6 @@ bool Proteins::writeOutDB(string ofname) const
 
 int main (int argc, char *argv[])
 {
-    //read in working dirrectory from params file
-    /*string wd;
-     if (!readParams(wd))
-     {
-     cout <<"Failed to read params file!_1" << endl;
-     return 0;
-     }*/
-    
-    //cout << wd << endl;
     
     //read in paramaters
     //string wd = "/Users/Aaron/Google_Drive/School_Work/Mass_spec_data/Human_RA_and_Healthy_SF/";
@@ -391,18 +381,6 @@ int main (int argc, char *argv[])
     //cout << "Sucess!" << endl;
     return 0;
 }
-
-//read working dirrectory from params file in .scripts
-/*bool readParams(string& path)
- {
- ifstream inF (PARAMS_LOCATION.c_str());
- 
- if (!inF)
- return false;
- 
- inF >> path;
- return true;
- }*/
 
 //search through string for char and return true if char is found
 bool strContains(char findTxt, string whithinTxt)
