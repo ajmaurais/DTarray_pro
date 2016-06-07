@@ -9,12 +9,14 @@ if [ -z "$1" ] ; then
     output="standard"
 else output="$1"
 fi
+
 #check if user wants to include unique peptide spectral counts
 #by default answer is no
 if [ -z "$2" ] ; then
     includeUnique="0"
 else includeUnique="$2"
 fi
+
 #check if dirrectory was specified. If not, use working dirrectory
 if [ -z "$3" ] ; then
     wd=$(pwd)
@@ -38,14 +40,9 @@ fi
 # and add all folders where one is found to params file
 cd $wd
 if ! [[ -a dtarray_ajm.params ]] ; then
-    for D in * ; do
-        if [ -d "$D" ] ; then
-            cd "$D"
-            if [ -a DTASelect-filter.txt ] ; then
-                echo -e $D'\t'$D'/'>> ../dtarray_ajm.params
-            fi
-        fi
-        cd ..
+    for f in *.dtafilter ; do
+        colName=${f::${#f}-10}
+        echo -e $colName'\t'$f >> dtarray_ajm.params
     done
 fi
 

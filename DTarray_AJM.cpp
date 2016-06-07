@@ -425,7 +425,7 @@ int main (int argc, char *argv[])
     Proteins proteins;
     proteins.initialize(filterFileParams);
     for (int i = 0; i < filterFileParams.numFiles; i++)
-        if(!proteins.readIn(wd+filterFileParams.file[i].path+"DTASelect-filter.txt", filterFileParams.file[i].colname,
+        if(!proteins.readIn(wd+filterFileParams.file[i].path, filterFileParams.file[i].colname,
                             INCLUDE_NUM_UNIQUE_PEPTIDES))
         {
             cout <<"Failed to read in " << filterFileParams.file[i].path <<"!" << endl;
