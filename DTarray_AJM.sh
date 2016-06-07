@@ -9,11 +9,16 @@ if [ -z "$1" ] ; then
     output="standard"
 else output="$1"
 fi
-
-#check if dirrectory was specified. If not, use working dirrectory
+#check if user wants to include unique peptide spectral counts
+#by default answer is no
 if [ -z "$2" ] ; then
+    includeUnique="0"
+else includeUnique="$2"
+fi
+#check if dirrectory was specified. If not, use working dirrectory
+if [ -z "$3" ] ; then
     wd=$(pwd)
-else wd="$2"
+else wd="$3"
 fi
 
 #compile source code if necissary
@@ -46,6 +51,6 @@ fi
 
 #run DTarray_AJM
 cd $scriptWD
-./a.out $wd/ $output
+./a.out $wd/ $output $includeUnique
 
 echo "Done"

@@ -16,22 +16,25 @@
 
 using namespace std;
 
-//string const PARAMS_LOCATION = "/Users/Aaron/scripts/DTarray_AJM/DTarray_AJM_WD.params";
+//editable paramaters
 string const DTA_PARAMS_NAME = "dtarray_ajm.params";
 string const OF_NAME = "DTarray_AJM.txt";
 int const FILTER_FILE_PARAMS_SIZE = 50;
 //string const DEFAULT_COL_NAMES [] = {"IPI", "Description", "Mass (Da)"};
 string const DEFAULT_COL_NAMES [] = {"Protein","IPI", "Description", "Mass (Da)"};
+bool const INCLUDE_FULL_DESCRIPTION = true;
 int const DEFAULT_COL_NAMES_LENGTH = 4;
 string const DEFAULT_COL_NAMES_DB [] = {"Protein","Match dirrection","IPI", "Description", "Mass (Da)", "Long sample name",
-    "Spectral counts", "Sample", "replicate"};
+    "Spectral counts", "Sample", "Replicate"};
 int const DEFAULT_COL_NAMES_DB_LENGTH = 9;
 string const SAMPLE_NAME_PREFIX = "Biotin-PG_Tryp_";
-bool const PARSE_SAMPLE_NAME = true;
-bool const INCLUDE_FULL_DESCRIPTION = true;
 string const COLUMN_HEADER_LINE_ELEMENTS[] = {"Unique", "FileName", "XCorr", "DeltCN", "Conf%", "M+H+",
     "CalcM+H+", "TotalIntensity", "SpR", "ZScore", "IonProportion", "Redundancy", "Sequence"};
 int const COLUMN_HEADER_LINE_ELEMENTS_SIZE = 13;
+//params for DB output format
+bool const PARSE_SAMPLE_NAME = true;
+bool const INCLUDE_NUM_UNIQUE_PEPTIDES = true;
+string const UNIQUE_PEPTIDE_HEADERS[] = {"SC", "Unique pep. SC"};
 
 bool strContains(char, string);
 void split (const string, char, vector<string> &);
@@ -39,6 +42,7 @@ bool isColumnHeaderLine(const vector<string>&);
 bool dirExists (string);
 string parseSample(string);
 string parseReplicate(string);
+int parseUniquePeptides(string);
 
 struct FilterFileParam{
     string path;
@@ -76,15 +80,17 @@ bool FilterFileParams::readDTParams(string fname, string path)
 struct FilterFile{
     string colname;
     string count;
+    string coverage, peptides, uniquePeptides;
     
     //modifiers
-    FilterFile (string, string);
+    FilterFile (string, string, string);
 };
 
-FilterFile::FilterFile(string arg1, string arg2)
+FilterFile::FilterFile(string arg1, string arg2, string arg3)
 {
     colname = arg1;
     count = arg2;
+    uniquePeptides = arg3;
 }
 
 struct Protein{
@@ -103,7 +109,7 @@ void Protein::initialize(const vector<string>& colNames)
     
     for (int i = 0; i < len; i++)
     {
-        FilterFile newFilterFile(colNames[i], "0");
+        FilterFile newFilterFile(colNames[i], "0", "0");
         col.push_back(newFilterFile);
     }
 }
@@ -158,15 +164,16 @@ struct Proteins{
     
     //properities
     int previousOccurance(const Protein&) const;
-    bool writeOut(string) const;
-    bool writeOutDB(string) const;
+    bool writeOut(string, bool) const;
+    bool writeOutDB(string, bool) const;
     
     //modifiers
     void initialize(const FilterFileParams&);
-    bool readIn(string, string);
+    bool readIn(string, string, bool);
     void addBlanks();
 };
 
+//initialize Proteins.colnames with files contained in params file
 void Proteins::initialize(const FilterFileParams& files)
 {
     colIndex = 0;
@@ -176,20 +183,26 @@ void Proteins::initialize(const FilterFileParams& files)
 }
 
 //read in protein headder lines and parse with getProteinData
-bool Proteins::readIn(string fname, string colname)
+bool Proteins::readIn(string fname, string colname, bool countUniquePeptides)
 {
     ifstream inF(fname.c_str());
     int proteinsIndex = int(proteins.size());
     int previousOccuranceIndex;
     Protein blank;
     blank.initialize(colNames);
+    bool inProtein = false;
+    bool getNewLine = true;
+    int numUniquePeptides = 0;
+    int uniquePeptidesIndex = -1;
     
     if(!inF)
         return false;
     
     string line;
     while(!inF.eof()){
-        getline(inF, line);
+        if(getNewLine)
+            getline(inF, line);
+        getNewLine = true;
         if(strContains('%', line))  //find protein header lines by percent symbol for percent coverage
             //if(strContains('|', line) && strContains('%', line))  //alternativly use both | and % symbols but may loose
             //some uncharacterized proteins
@@ -198,16 +211,32 @@ bool Proteins::readIn(string fname, string colname)
             newProtein.initialize(colNames);
             if(newProtein.getProteinData(line, colIndex))
             {
+                //cout << line << endl;
+                inProtein = true;
                 previousOccuranceIndex = previousOccurance(newProtein);
                 if (previousOccuranceIndex == -1)
                 {
                     proteins.push_back(blank);
                     proteins[proteinsIndex] = newProtein;
+                    uniquePeptidesIndex = proteinsIndex;
                     proteinsIndex++;
                 }
                 else {
                     proteins[previousOccuranceIndex].consolidate(newProtein, colIndex);
+                    uniquePeptidesIndex = previousOccuranceIndex;
                 }
+            }
+            if(countUniquePeptides && inProtein)
+            {
+                do{
+                    getline(inF, line);
+                    //cout << line << endl;
+                    if(line[0] == '*')
+                        numUniquePeptides += parseUniquePeptides(line);
+                } while(!strContains('%', line) && !inF.eof()); //&& isPeptide(line, colname));
+                proteins[uniquePeptidesIndex].col[colIndex].uniquePeptides = to_string(numUniquePeptides);
+                numUniquePeptides = 0;
+                getNewLine = false;
             }
         }
     }
@@ -230,26 +259,47 @@ int Proteins::previousOccurance(const Protein& newProtein) const
 }
 
 //write out combined protein lists to
-bool Proteins::writeOut(string ofname) const
+bool Proteins::writeOut(string ofname, bool includeUnique) const
 {
     ofstream outF (ofname.c_str());
     
     if(!outF)
         return false;
     
-    //populate ofColNames with default collumn headings and variable headings
-    //and print to first row of ofname
-    vector<string> ofColNames;
-    for (int i = 0; i < DEFAULT_COL_NAMES_LENGTH; i ++)
-        ofColNames.push_back(DEFAULT_COL_NAMES[i]);
-    for (int i = 0; i < colNames.size(); i ++)
-        ofColNames.push_back(colNames[i]);
-    int colNamesLen = int(ofColNames.size());
-    for (int i = 0; i < colNamesLen; i++)
+    
+    //print header lines
+    if (includeUnique)
     {
-        outF << ofColNames[i] << '\t';
+        for (int i = 0; i < DEFAULT_COL_NAMES_LENGTH; i++)
+            outF << '\t';
+        for (int i = 0; i < colNames.size(); i++)
+        {
+            if (i == 0)
+                outF << colNames[i];
+            else outF << '\t' <<'\t' << colNames[i];
+        }
+        outF << endl;
+        for (int i = 0; i < DEFAULT_COL_NAMES_LENGTH; i++)
+            outF << DEFAULT_COL_NAMES[i] <<'\t';
+        for (int i = 0; i < colNames.size(); i++)
+            outF << UNIQUE_PEPTIDE_HEADERS[0] << '\t' << UNIQUE_PEPTIDE_HEADERS[1] << '\t';
+        outF << endl;
+        
     }
-    outF << endl;
+    else
+    {
+        vector<string> ofColNames;
+        for (int i = 0; i < DEFAULT_COL_NAMES_LENGTH; i ++)
+            ofColNames.push_back(DEFAULT_COL_NAMES[i]);
+        for (int i = 0; i < colNames.size(); i ++)
+            ofColNames.push_back(colNames[i]);
+        int colNamesLen = int(ofColNames.size());
+        for (int i = 0; i < colNamesLen; i++)
+        {
+            outF << ofColNames[i] << '\t';
+        }
+        outF << endl;
+    }
     
     //print proteins and spectral counts
     int proteinsLen = int(proteins.size());
@@ -263,7 +313,11 @@ bool Proteins::writeOut(string ofname) const
         proteins[i].MW << '\t';
         
         for (int j = 0; j < colIndex; j++)
+        {
             outF << proteins[i].col[j].count << '\t';
+            if (includeUnique)
+                outF << proteins[i].col[j].uniquePeptides << '\t';
+        }
         
         outF << endl;
     }
@@ -272,17 +326,24 @@ bool Proteins::writeOut(string ofname) const
     return true;
 }
 
-bool Proteins::writeOutDB(string ofname) const
+bool Proteins::writeOutDB(string ofname, bool includeUnique) const
 {
     ofstream outF (ofname.c_str());
     
     if(!outF)
         return false;
     
-    //Print to first row of ofname
-    for (int i = 0; i < DEFAULT_COL_NAMES_DB_LENGTH; i++)
+    //popuate ofColNames with default col names and unique peptide headers if necissary
+    //and print first line of report
+    vector<string> ofColNames;
+    for (int i = 0; i < DEFAULT_COL_NAMES_DB_LENGTH; i ++)
+        ofColNames.push_back(DEFAULT_COL_NAMES_DB[i]);
+    if(includeUnique)
+        ofColNames.push_back(UNIQUE_PEPTIDE_HEADERS[1]);
+    
+    for (int i = 0; i < int(ofColNames.size()); i++)
     {
-        outF << DEFAULT_COL_NAMES_DB[i] << '\t';
+        outF << ofColNames[i] << '\t';
     }
     outF << endl;
     
@@ -309,12 +370,16 @@ bool Proteins::writeOutDB(string ofname) const
                 
             }
             
+            if (includeUnique)
+            {
+                outF << '\t' << proteins[j].col[i].uniquePeptides;
+            }
+            
             outF << endl;
         }
     }
     
     return true;
-    
 }
 
 int main (int argc, char *argv[])
@@ -325,8 +390,27 @@ int main (int argc, char *argv[])
     string wd = string(argv[1]);
     assert(dirExists(wd));
     string outputFormat = "standard";
-    if (argc == 3)
+    if (argc >= 3)
+    {
         outputFormat = argv[2];
+        if(outputFormat != "standard" && outputFormat != "DB")
+        {
+            cout << outputFormat << " is not a valid output format. Exiting..." << endl;
+            return 0;
+        }
+    }
+    int includeUnique = 0;
+    if (argc == 4)
+    {
+        string includeUniqueStr = argv[3];
+        if (includeUniqueStr != "0" && includeUniqueStr != "1")
+        {
+            cout << includeUniqueStr << " is not a valid arguement for includeUnique. Exiting..." << endl;
+            return 0;
+        }
+        includeUnique = stoi(argv[3]);
+    }
+    
     
     //read in names of files to combine from params file
     FilterFileParams filterFileParams;
@@ -341,7 +425,8 @@ int main (int argc, char *argv[])
     Proteins proteins;
     proteins.initialize(filterFileParams);
     for (int i = 0; i < filterFileParams.numFiles; i++)
-        if(!proteins.readIn(wd+filterFileParams.file[i].path+"DTASelect-filter.txt", filterFileParams.file[i].colname))
+        if(!proteins.readIn(wd+filterFileParams.file[i].path+"DTASelect-filter.txt", filterFileParams.file[i].colname,
+                            INCLUDE_NUM_UNIQUE_PEPTIDES))
         {
             cout <<"Failed to read in " << filterFileParams.file[i].path <<"!" << endl;
             return 0;
@@ -350,7 +435,7 @@ int main (int argc, char *argv[])
     //write out combined data to OF_NAME
     if (outputFormat == "standard")
     {
-        if(!proteins.writeOut(wd + OF_NAME))
+        if(!proteins.writeOut(wd + OF_NAME, includeUnique))
         {
             cout << "Could not write outFile!" << endl;
             return 0;
@@ -358,7 +443,7 @@ int main (int argc, char *argv[])
     }
     else if (outputFormat == "DB")
     {
-        if(!proteins.writeOutDB(wd + OF_NAME))
+        if(!proteins.writeOutDB(wd + OF_NAME, includeUnique))
         {
             cout << "Could not write outFile!" << endl;
             return 0;
@@ -441,6 +526,16 @@ string parseSample(string str)
 string parseReplicate(string str)
 {
     return str.substr(str.find_last_of("_")+1);
+}
+
+int parseUniquePeptides(string line)
+{
+    //split line by tabs
+    vector<string> elems;
+    split(line, '\t', elems);
+    
+    //return SC for peptide as int
+    return stoi(elems[11]);
 }
 
 
