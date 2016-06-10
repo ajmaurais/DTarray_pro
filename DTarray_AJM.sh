@@ -35,6 +35,12 @@ if $recompile ; then
     echo $recompileMessage
 fi
 
+#check if wd contains .ms2 files
+if [ $(ls -lR $wd/*.dtafilter | wc -l) -lt 1 ] ; then
+    echo "DTA-filter files could not be found in the specified directory! Exiting..."
+    exit
+fi
+
 # If no params file is found in wd then create one by searching
 # all dirrectories one level below wd for a DTASelect-filter file
 # and add all folders where one is found to params file

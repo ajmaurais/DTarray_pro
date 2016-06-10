@@ -4,7 +4,7 @@
  
  Written by Aaron Maurais
  25 May 2016
- */
+*/
 
 
 #include <iostream>
@@ -27,23 +27,26 @@ int const DEFAULT_COL_NAMES_LENGTH = 4;
 string const DEFAULT_COL_NAMES_DB [] = {"Protein","Match dirrection","IPI", "Description", "Mass (Da)", "Long sample name",
     "Spectral counts", "Sample", "Replicate"};
 int const DEFAULT_COL_NAMES_DB_LENGTH = 9;
-string const SAMPLE_NAME_PREFIX = "Biotin-PG_Tryp_";
 string const COLUMN_HEADER_LINE_ELEMENTS[] = {"Unique", "FileName", "XCorr", "DeltCN", "Conf%", "M+H+",
     "CalcM+H+", "TotalIntensity", "SpR", "ZScore", "IonProportion", "Redundancy", "Sequence"};
 int const COLUMN_HEADER_LINE_ELEMENTS_SIZE = 13;
-//params for DB output format
+
+//editable params for DB output format
 bool const PARSE_SAMPLE_NAME = true;
+string const SAMPLE_NAME_PREFIX = "Biotin-PG_Tryp_";
 bool const INCLUDE_NUM_UNIQUE_PEPTIDES = true;
 string const UNIQUE_PEPTIDE_HEADERS[] = {"SC", "Unique pep. SC"};
 
+//function definitions
 bool strContains(char, string);
 void split (const string, char, vector<string> &);
 bool isColumnHeaderLine(const vector<string>&);
 bool dirExists (string);
 string parseSample(string);
-string parseReplicate(string);
 int parseUniquePeptides(string);
+string parseReplicate(string);
 
+//class definitions and functions
 struct FilterFileParam{
     string path;
     string colname;
@@ -78,8 +81,7 @@ bool FilterFileParams::readDTParams(string fname, string path)
 }
 
 struct FilterFile{
-    string colname;
-    string count;
+    string colname, count;
     string coverage, peptides, uniquePeptides;
     
     //modifiers
@@ -152,9 +154,9 @@ bool Protein::getProteinData(string line, int colIndex)
     return true;
 }
 
-void Protein::consolidate(const Protein& destroy, int colIndex)
+void Protein::consolidate(const Protein& toAdd, int colIndex)
 {
-    col[colIndex] = destroy.col[colIndex];
+    col[colIndex] = toAdd.col[colIndex];
 }
 
 struct Proteins{
@@ -186,19 +188,19 @@ void Proteins::initialize(const FilterFileParams& files)
 bool Proteins::readIn(string fname, string colname, bool countUniquePeptides)
 {
     ifstream inF(fname.c_str());
-    int proteinsIndex = int(proteins.size());
-    int previousOccuranceIndex;
-    Protein blank;
-    blank.initialize(colNames);
-    bool inProtein = false;
-    bool getNewLine = true;
-    int numUniquePeptides = 0;
-    int uniquePeptidesIndex = -1;
-    
     if(!inF)
         return false;
-    
+
+    int proteinsIndex = int(proteins.size());
+    int previousOccuranceIndex;
+    int numUniquePeptides = 0;
+    int uniquePeptidesIndex = -1;
+    bool inProtein = false;
+    bool getNewLine = true;
+    Protein blank;
+        blank.initialize(colNames);
     string line;
+    
     while(!inF.eof()){
         if(getNewLine)
             getline(inF, line);
@@ -211,7 +213,6 @@ bool Proteins::readIn(string fname, string colname, bool countUniquePeptides)
             newProtein.initialize(colNames);
             if(newProtein.getProteinData(line, colIndex))
             {
-                //cout << line << endl;
                 inProtein = true;
                 previousOccuranceIndex = previousOccurance(newProtein);
                 if (previousOccuranceIndex == -1)
@@ -230,10 +231,9 @@ bool Proteins::readIn(string fname, string colname, bool countUniquePeptides)
             {
                 do{
                     getline(inF, line);
-                    //cout << line << endl;
                     if(line[0] == '*')
                         numUniquePeptides += parseUniquePeptides(line);
-                } while(!strContains('%', line) && !inF.eof()); //&& isPeptide(line, colname));
+                } while(!strContains('%', line) && !inF.eof());
                 proteins[uniquePeptidesIndex].col[colIndex].uniquePeptides = to_string(numUniquePeptides);
                 numUniquePeptides = 0;
                 getNewLine = false;
@@ -367,7 +367,6 @@ bool Proteins::writeOutDB(string ofname, bool includeUnique) const
             {
                 outF << '\t' << parseSample(proteins[j].col[i].colname) << '\t' <<
                 parseReplicate(proteins[j].col[i].colname);
-                
             }
             
             if (includeUnique)
@@ -382,6 +381,7 @@ bool Proteins::writeOutDB(string ofname, bool includeUnique) const
     return true;
 }
 
+//begin main
 int main (int argc, char *argv[])
 {
     
@@ -421,23 +421,28 @@ int main (int argc, char *argv[])
         return 0;
     }
     
+    cout << endl;
     //combine files
     Proteins proteins;
     proteins.initialize(filterFileParams);
     for (int i = 0; i < filterFileParams.numFiles; i++)
+    {
         if(!proteins.readIn(wd+filterFileParams.file[i].path, filterFileParams.file[i].colname,
                             INCLUDE_NUM_UNIQUE_PEPTIDES))
         {
-            cout <<"Failed to read in " << filterFileParams.file[i].path <<"!" << endl;
+            cout <<"Failed to read in " << filterFileParams.file[i].path <<"!" << endl <<
+            "Exiting..." << endl;
             return 0;
         }
+        cout << "Adding " << filterFileParams.file[i].colname << "..." << endl;
+    }
     
     //write out combined data to OF_NAME
     if (outputFormat == "standard")
     {
         if(!proteins.writeOut(wd + OF_NAME, includeUnique))
         {
-            cout << "Could not write outFile!" << endl;
+            cout << "Could not write outFile! Exiting..." << endl;
             return 0;
         }
     }
@@ -445,7 +450,7 @@ int main (int argc, char *argv[])
     {
         if(!proteins.writeOutDB(wd + OF_NAME, includeUnique))
         {
-            cout << "Could not write outFile!" << endl;
+            cout << "Could not write outFile! Exiting..." << endl;
             return 0;
         }
         cout << endl << "Results written in database format." << endl;
@@ -457,15 +462,12 @@ int main (int argc, char *argv[])
     }
     
     //summarize results for user
-    cout << endl;
-    for (int i = 0; i < proteins.colNames.size(); i++)
-        cout << "Adding " << proteins.colNames[i] << "..." << endl;
     cout << proteins.colNames.size() << " files combined." << endl;
     cout << "Results written to: " << OF_NAME << endl;
     
     //cout << "Sucess!" << endl;
     return 0;
-}
+} //end main
 
 //search through string for char and return true if char is found
 bool strContains(char findTxt, string whithinTxt)
@@ -512,6 +514,7 @@ bool dirExists (string path)
     return false;
 }
 
+//optional fxn to parse long sample name
 string parseSample(string str)
 {
     string sample = str.substr(SAMPLE_NAME_PREFIX.length());
