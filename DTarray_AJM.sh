@@ -3,25 +3,40 @@
 recompile=false
 scriptWD="$HOME/scripts/DTarray_AJM/"
 recompileMessage='DTarray_AJM source code recompiled.'
+invalidOptionMessage="is an invalid option! Exiting..."
 
-#check if output format was specified. If not, use standard.
-if [ -z "$1" ] ; then
-    output="standard"
-else output="$1"
-fi
+#default paramaters
+input="standard"
+output="standard"
+includeUnique="0"
+wd=$(pwd)
+filesFound=false
 
-#check if user wants to include unique peptide spectral counts
-#by default answer is no
-if [ -z "$2" ] ; then
-    includeUnique="0"
-else includeUnique="$2"
-fi
-
-#check if dirrectory was specified. If not, use working dirrectory
-if [ -z "$3" ] ; then
-    wd=$(pwd)
-else wd="$3"
-fi
+#get arguements
+while ! [[ -z "$1" ]] ; do
+    case $1 in
+        "-in")
+            shift
+            input="$1"
+            ;;
+        "-out")
+            shift
+            output="$1"
+            ;;
+        "-uniuque")
+            includeUnique="1"
+            ;;
+        "-dir")
+            shift
+            wd="$1"
+            ;;
+        *)
+            echo "$1" $invalidOptionMessage
+            exit
+        ;;
+    esac
+    shift
+done
 
 #compile source code if necissary
 echo 'recompile = '$recompile
@@ -35,22 +50,50 @@ if $recompile ; then
     echo $recompileMessage
 fi
 
-#check if wd contains .ms2 files
-if [ $(ls -lR $wd/*.dtafilter | wc -l) -lt 1 ] ; then
-    echo "DTA-filter files could not be found in the specified directory! Exiting..."
-    exit
-fi
-
-# If no params file is found in wd then create one by searching
-# all dirrectories one level below wd for a DTASelect-filter file
-# and add all folders where one is found to params file
+#create params file
 cd $wd
-if ! [[ -a dtarray_ajm.params ]] ; then
-    for f in *.dtafilter ; do
-        colName=${f::${#f}-10}
-        echo -e $colName'\t'$f >> dtarray_ajm.params
-    done
-fi
+case $input in
+    "standard")
+        if ! [[ -a dtarray_ajm.params ]] ; then
+            #check if wd contains .dtafilter files
+            if [ $(ls -l $wd/*.dtafilter | wc -l) -lt 1 ] ; then
+                echo "DTA-filter files could not be found in the specified directory! Exiting..."
+                exit
+            fi
+			#add all .dtafilter files to params file
+            for f in *.dtafilter ; do
+                colName=${f::${#f}-10}
+                echo -e $colName'\t'$f >> dtarray_ajm.params
+            done
+        fi
+	;;
+    "subdir")
+        if ! [[ -a dtarray_ajm.params ]] ; then
+			#check all directories on level below parent for DTASelect-filter files and
+			#add all found to params file
+			for D in * ; do
+                if [ -d "$D" ] ; then
+                    cd "$D"
+                    if [ -a DTASelect-filter.txt ] ; then
+                        echo -e $D'\t'$D'/'"DTASelect-filter.txt" >> ../dtarray_ajm.params
+                        filesFound=true
+                    fi
+                fi
+                cd ..
+            done
+			#if no DTA-filter files were found, exit program.
+			if ! $filesFound ; then
+				echo "No DTA-filter files were found! Exiting..."
+				exit
+			fi
+		fi
+	;;
+	*)
+		echo "$input is not a valid input format! Exiting..."
+		exit
+	;;
+esac
+
 
 #run DTarray_AJM
 cd $scriptWD

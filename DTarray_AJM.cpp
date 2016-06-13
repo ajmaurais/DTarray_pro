@@ -20,21 +20,20 @@ using namespace std;
 string const DTA_PARAMS_NAME = "dtarray_ajm.params";
 string const OF_NAME = "DTarray_AJM.txt";
 int const FILTER_FILE_PARAMS_SIZE = 50;
+bool const INCLUDE_FULL_DESCRIPTION = true;
 //string const DEFAULT_COL_NAMES [] = {"IPI", "Description", "Mass (Da)"};
 string const DEFAULT_COL_NAMES [] = {"Protein","IPI", "Description", "Mass (Da)"};
-bool const INCLUDE_FULL_DESCRIPTION = true;
 int const DEFAULT_COL_NAMES_LENGTH = 4;
-string const DEFAULT_COL_NAMES_DB [] = {"Protein","Match dirrection","IPI", "Description", "Mass (Da)", "Long sample name",
-    "Spectral counts", "Sample", "Replicate"};
-int const DEFAULT_COL_NAMES_DB_LENGTH = 9;
 string const COLUMN_HEADER_LINE_ELEMENTS[] = {"Unique", "FileName", "XCorr", "DeltCN", "Conf%", "M+H+",
     "CalcM+H+", "TotalIntensity", "SpR", "ZScore", "IonProportion", "Redundancy", "Sequence"};
 int const COLUMN_HEADER_LINE_ELEMENTS_SIZE = 13;
 
 //editable params for DB output format
 bool const PARSE_SAMPLE_NAME = true;
+string const DEFAULT_COL_NAMES_DB [] = {"Protein","Match dirrection","IPI", "Description", "Mass (Da)", "Long sample name",
+	"Spectral counts", "Sample", "Replicate"};
+int const DEFAULT_COL_NAMES_DB_LENGTH = 9;
 string const SAMPLE_NAME_PREFIX = "Biotin-PG_Tryp_";
-bool const INCLUDE_NUM_UNIQUE_PEPTIDES = true;
 string const UNIQUE_PEPTIDE_HEADERS[] = {"SC", "Unique pep. SC"};
 
 //function definitions
@@ -125,7 +124,6 @@ bool Protein::getProteinData(string line, int colIndex)
     
     if(isColumnHeaderLine(elems))
         return false;
-    
     
     //keep fullDescription but seperate by spaces instead of tabs
     fullDescription = elems[0];
@@ -384,9 +382,7 @@ bool Proteins::writeOutDB(string ofname, bool includeUnique) const
 //begin main
 int main (int argc, char *argv[])
 {
-    
-    //read in paramaters
-    //string wd = "/Users/Aaron/Google_Drive/School_Work/Mass_spec_data/Human_RA_and_Healthy_SF/";
+    //check paramaters
     string wd = string(argv[1]);
     assert(dirExists(wd));
     string outputFormat = "standard";
@@ -411,24 +407,22 @@ int main (int argc, char *argv[])
         includeUnique = stoi(argv[3]);
     }
     
-    
     //read in names of files to combine from params file
     FilterFileParams filterFileParams;
     if (!filterFileParams.readDTParams(DTA_PARAMS_NAME, wd))
     {
-        cout <<"Failed to read params file!" << endl <<
-        "Check that DTASelect-filter files exist in subdirectories." << endl;
+        cout <<"Failed to read params file! Exiting..." << endl;
         return 0;
     }
-    
+	
+	//combine files
     cout << endl;
-    //combine files
     Proteins proteins;
     proteins.initialize(filterFileParams);
     for (int i = 0; i < filterFileParams.numFiles; i++)
     {
         if(!proteins.readIn(wd+filterFileParams.file[i].path, filterFileParams.file[i].colname,
-                            INCLUDE_NUM_UNIQUE_PEPTIDES))
+                            includeUnique))
         {
             cout <<"Failed to read in " << filterFileParams.file[i].path <<"!" << endl <<
             "Exiting..." << endl;
@@ -464,8 +458,7 @@ int main (int argc, char *argv[])
     //summarize results for user
     cout << proteins.colNames.size() << " files combined." << endl;
     cout << "Results written to: " << OF_NAME << endl;
-    
-    //cout << "Sucess!" << endl;
+	
     return 0;
 } //end main
 
