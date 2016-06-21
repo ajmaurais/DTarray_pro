@@ -1,6 +1,5 @@
 
 #editable paramaters
-recompile=false
 scriptWD="$HOME/scripts/DTarray_AJM/"
 recompileMessage='DTarray_AJM source code recompiled.'
 invalidOptionMessage="is an invalid option! Exiting..."
@@ -10,26 +9,31 @@ input="standard"
 output="standard"
 includeUnique="0"
 wd=$(pwd)
+recompile=false
 filesFound=false
 
 #get arguements
 while ! [[ -z "$1" ]] ; do
     case $1 in
-        "-in")
+        "-i" | "--in")
             shift
             input="$1"
             ;;
-        "-out")
+        "-o" | "--out")
             shift
             output="$1"
             ;;
-        "-uniuque")
+        "-u" | "--uniuque")
             includeUnique="1"
             ;;
-        "-dir")
+        "-d" | "--directory" )
             shift
             wd="$1"
             ;;
+		"-r" | "--recompile")
+			shift
+			recompile=true
+			;;
         *)
             echo "$1" $invalidOptionMessage
             exit
