@@ -29,9 +29,9 @@ int const COLUMN_HEADER_LINE_ELEMENTS_SIZE = 13;
 
 //editable params for DB output format
 bool const PARSE_SAMPLE_NAME = true;
-string const DEFAULT_COL_NAMES_DB [] = {"Protein","Match dirrection","IPI", "Description", "Mass (Da)", "Long sample name",
+string const DEFAULT_COL_NAMES_DB [] = {"Protein","IPI", "Description", "Mass (Da)", "Long sample name",
 	"Spectral counts", "Sample", "Replicate"};
-int const DEFAULT_COL_NAMES_DB_LENGTH = 9;
+int const DEFAULT_COL_NAMES_DB_LENGTH = 8;
 string const SAMPLE_NAME_PREFIX = "Biotin-PG_Tryp_";
 string const UNIQUE_PEPTIDE_HEADERS[] = {"SC", "Unique pep. SC"};
 
@@ -132,13 +132,15 @@ bool Protein::getProteinData(string line, int colIndex)
 	for (int i = 1; i < len; i++)
 		fullDescription += (" " + elems[i]);
 	
-	//Extract uniprotID
+	//extract matchDirrection
 	size_t firstBar = elems[0].find("|");
+	matchDirrection = line.substr(0, firstBar);
+	
+	//Extract uniprotID
 	size_t secBar = elems[0].find("|", firstBar+1);
 	IPI = line.substr(firstBar+1, secBar-firstBar-1);
-	
-	//extract matchDirrection
-	matchDirrection = line.substr(0, firstBar);
+	if(matchDirrection == "Reverse_sp")
+		IPI = "reverse_" + IPI;
 	
 	//extract MW
 	MW = elems[5];
@@ -205,8 +207,8 @@ bool Proteins::readIn(string fname, string colname, bool countUniquePeptides)
 			getline(inF, line);
 		getNewLine = true;
 		if(strContains('%', line))  //find protein header lines by percent symbol for percent coverage
-		//if(strContains('|', line) && strContains('%', line))  //alternativly use both | and % symbols but may loose
-		//some uncharacterized proteins
+									//if(strContains('|', line) && strContains('%', line))  //alternativly use both | and % symbols but may loose
+									//some uncharacterized proteins
 			{
 			Protein newProtein;
 			newProtein.initialize(colNames);
@@ -352,8 +354,7 @@ bool Proteins::writeOutDB(string ofname, bool includeUnique) const
 			if (INCLUDE_FULL_DESCRIPTION)
 				outF << proteins[j].fullDescription << '\t';
 			
-			outF << proteins[j].matchDirrection << '\t' <<
-			proteins[j].IPI << '\t' <<
+			outF << proteins[j].IPI << '\t' <<
 			proteins[j].description << '\t' <<
 			proteins[j].MW << '\t' <<
 			proteins[j].col[i].colname << '\t' <<
@@ -396,7 +397,7 @@ int main (int argc, char *argv[])
 			return 0;
 			}
 		}
-	int includeUnique = 1;
+	int includeUnique = 0;
 	if (argc == 4)
 		{
 		string includeUniqueStr = argv[3];
@@ -405,7 +406,6 @@ int main (int argc, char *argv[])
 			cout << includeUniqueStr << " is not a valid arguement for includeUnique. Exiting..." << endl;
 			return 0;
 			}
-		//includeUnique = stoi(argv[3]);
 		includeUnique = toInt(argv[3]);
 		}
 	
