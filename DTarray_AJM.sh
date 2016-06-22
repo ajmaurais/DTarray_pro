@@ -10,6 +10,9 @@ output="standard"
 includeUnique="0"
 wd=$(pwd)
 recompile=false
+parseSamplePrefix="0"
+sampleNamePrefix=""
+rewriteParams=false
 filesFound=false
 
 #get arguements
@@ -27,12 +30,19 @@ while ! [[ -z "$1" ]] ; do
             includeUnique="1"
             ;;
         "-d" | "--directory" )
-            shift
+			shift
             wd="$1"
             ;;
 		"-r" | "--recompile")
-			shift
 			recompile=true
+			;;
+		"-p" | "--prefix")
+			parseSamplePrefix="1"
+			shift
+			sampleNamePrefix="$1"
+			;;
+		"-rw")
+			rewriteParams=true
 			;;
         *)
             echo "$1" $invalidOptionMessage
@@ -56,6 +66,9 @@ fi
 
 #create params file
 cd $wd
+if $rewriteParams ; then
+	mv dtarray_ajm.params .dtarray_ajm.temp
+fi
 case $input in
     "standard")
         if ! [[ -a dtarray_ajm.params ]] ; then
@@ -69,6 +82,8 @@ case $input in
                 colName=${f::${#f}-10}
                 echo -e $colName'\t'$f >> dtarray_ajm.params
             done
+			#add sampleNamePrefix
+			echo "sampleNamePrefix="$sampleNamePrefix >> dtarray_ajm.params
         fi
 	;;
     "subdir")
@@ -85,6 +100,8 @@ case $input in
                 fi
                 cd ..
             done
+			#add sampleNamePrefix
+			echo "sampleNamePrefix="$sampleNamePrefix >> dtarray_ajm.params
 			#if no DTA-filter files were found, exit program.
 			if ! $filesFound ; then
 				echo "No DTA-filter files were found! Exiting..."
@@ -97,10 +114,15 @@ case $input in
 		exit
 	;;
 esac
-
+if [ -a dtarray_ajm.params ] ; then
+	numLines=$(($(echo $(wc -l dtarray_ajm.params)|cut -d' ' -f 1)-1))
+	head -n $numLines dtarray_ajm.params > .dtarray_ajm.temp
+	cat .dtarray_ajm.temp > dtarray_ajm.params
+	echo "sampleNamePrefix="$sampleNamePrefix >> dtarray_ajm.params
+fi
 
 #run DTarray_AJM
 cd $scriptWD
-./a.out $wd/ $output $includeUnique
+./a.out $wd/ $output $includeUnique $parseSamplePrefix
 
 echo "Done"
