@@ -83,34 +83,34 @@ bool FilterFileParams::readDTParams(string fname, string path)
 	string line;
 	
 	if (!inF)
-		return false;
+	return false;
 	
 	while(!inF.eof())
+	{
+	getline(inF, line);
+	if(strContains('=', line))
 		{
-		getline(inF, line);
-		if(strContains('=', line))
-			{
-			Param param (line);
-			if(param.param == "sampleNamePrefix")
-				sampleNamePrefix = param.value;
-			else return false;
-			}
-		else {
-			vector<string>elems;
-			split(line, '\t', elems);
-			if(elems.size() == 2)
-			{
-				FilterFileParam blank;
-				file.push_back(blank);
-				file[i].colname = elems[0];
-				file[i].path = elems[1];
-				numFiles++;
-				i++;
-			}
-			else if (elems.size() != 0)
-				return false;
+		Param param (line);
+		if(param.param == "sampleNamePrefix")
+		sampleNamePrefix = param.value;
+		else return false;
 		}
+	else {
+		vector<string>elems;
+		split(line, '\t', elems);
+		if(elems.size() == 2)
+		{
+		FilterFileParam blank;
+		file.push_back(blank);
+		file[i].colname = elems[0];
+		file[i].path = elems[1];
+		numFiles++;
+		i++;
 		}
+		else if (elems.size() != 0)
+		return false;
+	}
+	}
 	
 	return true;
 }
@@ -145,10 +145,10 @@ void Protein::initialize(const vector<string>& colNames)
 	int len = int(colNames.size());
 	
 	for (int i = 0; i < len; i++)
-		{
-		FilterFile newFilterFile(colNames[i], "0", "0");
-		col.push_back(newFilterFile);
-		}
+	{
+	FilterFile newFilterFile(colNames[i], "0", "0");
+	col.push_back(newFilterFile);
+	}
 }
 
 //parse proten header line and extract desired data
@@ -159,13 +159,13 @@ bool Protein::getProteinData(string line, int colIndex)
 	split(line, '\t', elems);
 	
 	if(isColumnHeaderLine(elems))
-		return false;
+	return false;
 	
 	//keep fullDescription but seperate by spaces instead of tabs
 	fullDescription = elems[0];
 	int len = int(elems.size());
 	for (int i = 1; i < len; i++)
-		fullDescription += (" " + elems[i]);
+	fullDescription += (" " + elems[i]);
 	
 	//extract matchDirrection
 	size_t firstBar = elems[0].find("|");
@@ -175,7 +175,7 @@ bool Protein::getProteinData(string line, int colIndex)
 	size_t secBar = elems[0].find("|", firstBar+1);
 	ID = line.substr(firstBar+1, secBar-firstBar-1);
 	if(matchDirrection == "Reverse_sp")
-		ID = "reverse_" + ID;
+	ID = "reverse_" + ID;
 	
 	//extract MW
 	MW = elems[5];
@@ -217,7 +217,7 @@ void Proteins::initialize(const FilterFileParams& files)
 	colIndex = 0;
 	
 	for (int i = 0; i < files.numFiles; i++)
-		colNames.push_back(files.file[i].colname);
+	colNames.push_back(files.file[i].colname);
 }
 
 //read in protein headder lines and parse with getProteinData
@@ -225,7 +225,7 @@ bool Proteins::readIn(string fname, string colname, bool countUniquePeptides)
 {
 	ifstream inF(fname.c_str());
 	if(!inF)
-		return false;
+	return false;
 	
 	int proteinsIndex = int(proteins.size());
 	int previousOccuranceIndex;
@@ -239,42 +239,42 @@ bool Proteins::readIn(string fname, string colname, bool countUniquePeptides)
 	
 	while(!inF.eof()){
 		if(getNewLine)
-			getline(inF, line);
+		getline(inF, line);
 		getNewLine = true;
 		if(strContains('%', line))  //find protein header lines by percent symbol for percent coverage
 									//if(strContains('|', line) && strContains('%', line))  //alternativly use both | and % symbols but may loose
 									//some uncharacterized proteins
+		{
+		Protein newProtein;
+		newProtein.initialize(colNames);
+		if(newProtein.getProteinData(line, colIndex))
 			{
-			Protein newProtein;
-			newProtein.initialize(colNames);
-			if(newProtein.getProteinData(line, colIndex))
+			inProtein = true;
+			previousOccuranceIndex = previousOccurance(newProtein);
+			if (previousOccuranceIndex == -1)
 				{
-				inProtein = true;
-				previousOccuranceIndex = previousOccurance(newProtein);
-				if (previousOccuranceIndex == -1)
-					{
-					proteins.push_back(blank);
-					proteins[proteinsIndex] = newProtein;
-					uniquePeptidesIndex = proteinsIndex;
-					proteinsIndex++;
-					}
-				else {
-					proteins[previousOccuranceIndex].consolidate(newProtein, colIndex);
-					uniquePeptidesIndex = previousOccuranceIndex;
+				proteins.push_back(blank);
+				proteins[proteinsIndex] = newProtein;
+				uniquePeptidesIndex = proteinsIndex;
+				proteinsIndex++;
 				}
-				}
-			if(countUniquePeptides && inProtein)
-				{
-				do{
-					getline(inF, line);
-					if(line[0] == '*')
-						numUniquePeptides += parsePeptideSC(line);
-				} while(!strContains('%', line) && !inF.eof());
-				proteins[uniquePeptidesIndex].col[colIndex].uniquePeptides = toString(numUniquePeptides);
-				numUniquePeptides = 0;
-				getNewLine = false;
-				}
+			else {
+				proteins[previousOccuranceIndex].consolidate(newProtein, colIndex);
+				uniquePeptidesIndex = previousOccuranceIndex;
 			}
+			}
+		if(countUniquePeptides && inProtein)
+			{
+			do{
+				getline(inF, line);
+				if(line[0] == '*')
+				numUniquePeptides += parsePeptideSC(line);
+			} while(!strContains('%', line) && !inF.eof());
+			proteins[uniquePeptidesIndex].col[colIndex].uniquePeptides = toString(numUniquePeptides);
+			numUniquePeptides = 0;
+			getNewLine = false;
+			}
+		}
 	}
 	colIndex++;
 	return true;
@@ -287,8 +287,8 @@ int Proteins::previousOccurance(const Protein& newProtein) const
 	int len = int(proteins.size());
 	
 	for (int i = 0; i < len; i++)
-		if (proteins[i].ID == newProtein.ID && proteins[i].matchDirrection == newProtein.matchDirrection)
-			return i;
+	if (proteins[i].ID == newProtein.ID && proteins[i].matchDirrection == newProtein.matchDirrection)
+	return i;
 	
 	//if newProtein is not found return -1
 	return -1;
@@ -300,71 +300,71 @@ bool Proteins::writeOut(string ofname, bool includeUnique, bool parseSampleName,
 	ofstream outF (ofname.c_str());
 	
 	if(!outF)
-		return false;
+	return false;
 	
 	//print header lines
 	if(parseSampleName)
-		{
-		string delim;
-		if(includeUnique)
-			delim = "\t\t";
-		else delim = "\t";
-		for (int i = 0; i < DEFAULT_COL_NAMES_LENGTH; i++)
-			outF << '\t';
-		for (int i = 0; i < colNames.size() ; i++)
-			outF << colNames[i] << delim;
-		outF << endl;
-		}
+	{
+	string delim;
+	if(includeUnique)
+	delim = "\t\t";
+	else delim = "\t";
+	for (int i = 0; i < DEFAULT_COL_NAMES_LENGTH; i++)
+	outF << '\t';
+	for (int i = 0; i < colNames.size() ; i++)
+	outF << colNames[i] << delim;
+	outF << endl;
+	}
 	if (includeUnique)
+	{
+	for (int i = 0; i < DEFAULT_COL_NAMES_LENGTH; i++)
+	outF << '\t';
+	for (int i = 0; i < colNames.size(); i++)
 		{
-		for (int i = 0; i < DEFAULT_COL_NAMES_LENGTH; i++)
-			outF << '\t';
-		for (int i = 0; i < colNames.size(); i++)
-			{
-			if (i == 0)
-				outF << parseSample(colNames[i], samplePrefix);
-			else outF << '\t' <<'\t' << parseSample(colNames[i], samplePrefix);
-			}
-		outF << endl;
-		for (int i = 0; i < DEFAULT_COL_NAMES_LENGTH; i++)
-			outF << DEFAULT_COL_NAMES[i] <<'\t';
-		for (int i = 0; i < colNames.size(); i++)
-			outF << UNIQUE_PEPTIDE_HEADERS[0] << '\t' << UNIQUE_PEPTIDE_HEADERS[1] << '\t';
-		outF << endl;
+		if (i == 0)
+		outF << parseSample(colNames[i], samplePrefix);
+		else outF << '\t' <<'\t' << parseSample(colNames[i], samplePrefix);
 		}
+	outF << endl;
+	for (int i = 0; i < DEFAULT_COL_NAMES_LENGTH; i++)
+	outF << DEFAULT_COL_NAMES[i] <<'\t';
+	for (int i = 0; i < colNames.size(); i++)
+	outF << UNIQUE_PEPTIDE_HEADERS[0] << '\t' << UNIQUE_PEPTIDE_HEADERS[1] << '\t';
+	outF << endl;
+	}
 	else
-		{
-		vector<string> ofColNames;
-		for (int i = 0; i < DEFAULT_COL_NAMES_LENGTH; i ++)
-			ofColNames.push_back(DEFAULT_COL_NAMES[i]);
-		for (int i = 0; i < colNames.size(); i ++)
-			ofColNames.push_back(parseSample(colNames[i], samplePrefix));
-		int colNamesLen = int(ofColNames.size());
-		for (int i = 0; i < colNamesLen; i++)
-			outF << ofColNames[i] << '\t';
-		outF << endl;
-		}
+	{
+	vector<string> ofColNames;
+	for (int i = 0; i < DEFAULT_COL_NAMES_LENGTH; i ++)
+	ofColNames.push_back(DEFAULT_COL_NAMES[i]);
+	for (int i = 0; i < colNames.size(); i ++)
+	ofColNames.push_back(parseSample(colNames[i], samplePrefix));
+	int colNamesLen = int(ofColNames.size());
+	for (int i = 0; i < colNamesLen; i++)
+	outF << ofColNames[i] << '\t';
+	outF << endl;
+	}
 	
 	//print proteins and spectral counts
 	int proteinsLen = int(proteins.size());
 	for (int i = 0; i < proteinsLen; i++)
+	{
+	if (INCLUDE_FULL_DESCRIPTION)
+	outF << proteins[i].fullDescription << '\t';
+	
+	outF << proteins[i].ID << '\t' <<
+	proteins[i].description << '\t' <<
+	proteins[i].MW << '\t';
+	
+	for (int j = 0; j < colIndex; j++)
 		{
-		if (INCLUDE_FULL_DESCRIPTION)
-			outF << proteins[i].fullDescription << '\t';
-		
-		outF << proteins[i].ID << '\t' <<
-		proteins[i].description << '\t' <<
-		proteins[i].MW << '\t';
-		
-		for (int j = 0; j < colIndex; j++)
-			{
-			outF << proteins[i].col[j].count << '\t';
-			if (includeUnique)
-				outF << proteins[i].col[j].uniquePeptides << '\t';
-			}
-		
-		outF << endl;
+		outF << proteins[i].col[j].count << '\t';
+		if (includeUnique)
+		outF << proteins[i].col[j].uniquePeptides << '\t';
 		}
+	
+	outF << endl;
+	}
 	
 	
 	return true;
@@ -375,49 +375,49 @@ bool Proteins::writeOutDB(string ofname, bool includeUnique, bool parseSampleNam
 	ofstream outF (ofname.c_str());
 	
 	if(!outF)
-		return false;
+	return false;
 	
 	//popuate ofColNames with default col names and unique peptide headers if necissary
 	//and print first line of report
 	vector<string> ofColNames;
 	for (int i = 0; i < DEFAULT_COL_NAMES_DB_LENGTH - (!parseSampleName * 2); i ++)
-		ofColNames.push_back(DEFAULT_COL_NAMES_DB[i]);
+	ofColNames.push_back(DEFAULT_COL_NAMES_DB[i]);
 	if(includeUnique)
-		ofColNames.push_back(UNIQUE_PEPTIDE_HEADERS[1]);
+	ofColNames.push_back(UNIQUE_PEPTIDE_HEADERS[1]);
 	
 	for (int i = 0; i < int(ofColNames.size()); i++)
-		outF << ofColNames[i] << '\t';
+	outF << ofColNames[i] << '\t';
 	outF << endl;
 	
 	//print proteins and spectral counts
 	int proteinsLen = int(proteins.size());
 	for (int i = 0; i < colNames.size(); i++)
+	{
+	for (int j = 0; j < proteinsLen; j++)
 		{
-		for (int j = 0; j < proteinsLen; j++)
+		if (INCLUDE_FULL_DESCRIPTION)
+		outF << proteins[j].fullDescription << '\t';
+		
+		outF << proteins[j].ID << '\t' <<
+		proteins[j].description << '\t' <<
+		proteins[j].MW << '\t' <<
+		proteins[j].col[i].colname << '\t' <<
+		proteins[j].col[i].count;
+		
+		if (parseSampleName)
 			{
-			if (INCLUDE_FULL_DESCRIPTION)
-				outF << proteins[j].fullDescription << '\t';
-			
-			outF << proteins[j].ID << '\t' <<
-			proteins[j].description << '\t' <<
-			proteins[j].MW << '\t' <<
-			proteins[j].col[i].colname << '\t' <<
-			proteins[j].col[i].count;
-			
-			if (parseSampleName)
-				{
-				outF << '\t' << parseSample(proteins[j].col[i].colname, sampleName) << '\t' <<
-				parseReplicate(proteins[j].col[i].colname);
-				}
-			
-			if (includeUnique)
-				{
-				outF << '\t' << proteins[j].col[i].uniquePeptides;
-				}
-			
-			outF << endl;
+			outF << '\t' << parseSample(proteins[j].col[i].colname, sampleName) << '\t' <<
+			parseReplicate(proteins[j].col[i].colname);
 			}
+		
+		if (includeUnique)
+			{
+			outF << '\t' << proteins[j].col[i].uniquePeptides;
+			}
+		
+		outF << endl;
 		}
+	}
 	
 	return true;
 }
@@ -431,85 +431,85 @@ int main (int argc, char *argv[])
 	assert(dirExists(wd));
 	string outputFormat = "standard";
 	if (argc >= 3)
+	{
+	outputFormat = argv[2];
+	if(outputFormat != "standard" && outputFormat != "DB")
 		{
-		outputFormat = argv[2];
-		if(outputFormat != "standard" && outputFormat != "DB")
-			{
-			cout << outputFormat << " is not a valid output format. Exiting..." << endl;
-			return 0;
-			}
+		cout << outputFormat << " is not a valid output format. Exiting..." << endl;
+		return 0;
 		}
+	}
 	int includeUnique = 0;
 	if (argc >= 4)
+	{
+	string includeUniqueStr = argv[3];
+	if (includeUniqueStr != "0" && includeUniqueStr != "1")
 		{
-		string includeUniqueStr = argv[3];
-		if (includeUniqueStr != "0" && includeUniqueStr != "1")
-			{
-			cout << includeUniqueStr << " is not a valid arguement for includeUnique. Exiting..." << endl;
-			return 0;
-			}
-		includeUnique = toInt(includeUniqueStr);
+		cout << includeUniqueStr << " is not a valid arguement for includeUnique. Exiting..." << endl;
+		return 0;
 		}
+	includeUnique = toInt(includeUniqueStr);
+	}
 	int parseSampleName = 0;
 	if (argc >= 5)
+	{
+	string parseSampleNameStr = argv[4];
+	if (parseSampleNameStr != "0" && parseSampleNameStr != "1")
 		{
-		string parseSampleNameStr = argv[4];
-		if (parseSampleNameStr != "0" && parseSampleNameStr != "1")
-			{
-			cout << parseSampleNameStr << " is not a valid arguement for parseSampleName. Exiting..." << endl;
-			return 0;
-			}
-		parseSampleName = toInt(parseSampleNameStr);
+		cout << parseSampleNameStr << " is not a valid arguement for parseSampleName. Exiting..." << endl;
+		return 0;
 		}
+	parseSampleName = toInt(parseSampleNameStr);
+	}
 	
 	//read in names of files to combine from params file
 	FilterFileParams filterFileParams;
 	if (!filterFileParams.readDTParams(DTA_PARAMS_NAME, wd))
-		{
-		cout <<"Failed to read params file! Exiting..." << endl;
-		return 0;
-		}
+	{
+	cout <<"Failed to read params file! Exiting..." << endl;
+	return 0;
+	}
 	if(parseSampleName)
-		cout << "Parsing colnames by prefix: " << filterFileParams.sampleNamePrefix << endl;
+	cout << "Parsing colnames by prefix: " << filterFileParams.sampleNamePrefix << endl;
 	
 	//combine files
 	cout << endl;
 	Proteins proteins;
 	proteins.initialize(filterFileParams);
 	for (int i = 0; i < filterFileParams.numFiles; i++)
+	{
+	if(!proteins.readIn(wd+filterFileParams.file[i].path, filterFileParams.file[i].colname, includeUnique))
 		{
-		if(!proteins.readIn(wd+filterFileParams.file[i].path, filterFileParams.file[i].colname, includeUnique))
-			{
-			cout <<"Failed to read in " << filterFileParams.file[i].path <<"!" << endl <<
-			"Exiting..." << endl;
-			return 0;
-			}
-		cout << "Adding " << filterFileParams.file[i].colname << "..." << endl;
+		cout <<"Failed to read in " << filterFileParams.file[i].path <<"!" << endl <<
+		"Exiting..." << endl;
+		return 0;
 		}
+	cout << "Adding " << filterFileParams.file[i].colname << "..." << endl;
+	}
 	
 	//write out combined data to OF_NAME
 	if (outputFormat == "standard")
+	{
+	if(!proteins.writeOut(wd + OF_NAME, includeUnique, parseSampleName, filterFileParams.sampleNamePrefix))
 		{
-		if(!proteins.writeOut(wd + OF_NAME, includeUnique, parseSampleName, filterFileParams.sampleNamePrefix))
-			{
-			cout << "Could not write outFile! Exiting..." << endl;
-			return 0;
-			}
-		}
-	else if (outputFormat == "DB")
-		{
-		if(!proteins.writeOutDB(wd + OF_NAME, includeUnique, parseSampleName, filterFileParams.sampleNamePrefix))
-			{
-			cout << "Could not write outFile! Exiting..." << endl;
-			return 0;
-			}
-		cout << endl << "Results written in database format." << endl;
-		}
-	else
-		{
-		cout << endl << outputFormat << " is not a valid output format! Exiting..." << endl;
+		cout << "Could not write outFile! Exiting..." << endl;
 		return 0;
 		}
+	}
+	else if (outputFormat == "DB")
+	{
+	if(!proteins.writeOutDB(wd + OF_NAME, includeUnique, parseSampleName, filterFileParams.sampleNamePrefix))
+		{
+		cout << "Could not write outFile! Exiting..." << endl;
+		return 0;
+		}
+	cout << endl << "Results written in database format." << endl;
+	}
+	else
+	{
+	cout << endl << outputFormat << " is not a valid output format! Exiting..." << endl;
+	return 0;
+	}
 	
 	//summarize results for user
 	cout << proteins.colNames.size() << " files combined." << endl;
@@ -525,8 +525,8 @@ bool strContains(char findTxt, string whithinTxt)
 	int len = int(whithinTxt.length());
 	
 	for(int i = 0; i < len; i++)
-		if(whithinTxt[i] == findTxt)
-			return true;
+	if(whithinTxt[i] == findTxt)
+	return true;
 	
 	return false;
 }
@@ -549,8 +549,8 @@ bool isColumnHeaderLine(const vector<string>& elems)
 	assert(len <= COLUMN_HEADER_LINE_ELEMENTS_LENGTH);
 	
 	for (int i = 0; i < len; i++)
-		if(COLUMN_HEADER_LINE_ELEMENTS[i] != elems[i])
-			return false;
+	if(COLUMN_HEADER_LINE_ELEMENTS[i] != elems[i])
+	return false;
 	
 	return true;
 }
@@ -560,7 +560,7 @@ bool dirExists (string path)
 {
 	struct stat buffer;
 	if (stat(path.c_str(), &buffer) == 0 && S_ISDIR(buffer.st_mode))
-		return true;
+	return true;
 	return false;
 }
 
@@ -569,12 +569,15 @@ string parseSample(string sampleName, string prefix)
 {
 	//return unparsed sampleName if prefix is empty string or is not found in sampleName
 	if(sampleName.find(prefix) == string::npos || prefix.length() == 0)
-		return sampleName;
+	return sampleName;
+	
+	//old version which adds space instead of _ between sample name
+	//size_t posBegin = sample.find("_");
+	//sample = sample.substr(0, posBegin) + " " + sample.substr(posBegin+1, sample.length() - posEnd);
 	
 	string sample = sampleName.substr(prefix.length());
-	size_t posBegin = sample.find("_");
 	size_t posEnd = sample.find_last_of("_");
-	sample = sample.substr(0, posBegin) + " " + sample.substr(posBegin+1, sample.length() - posEnd);
+	sample = sample.substr(0, posEnd);
 	
 	return sample;
 }
