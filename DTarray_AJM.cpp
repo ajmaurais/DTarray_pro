@@ -37,7 +37,7 @@ bool strContains(char, string);
 void split (const string, char, vector<string> &);
 bool isColumnHeaderLine(const vector<string>&);
 bool dirExists (string);
-string parseSample(string, string);
+string parseSample(string, string, string);
 int parsePeptideSC(string);
 string parseReplicate(string);
 string toString(int);
@@ -322,8 +322,8 @@ bool Proteins::writeOut(string ofname, bool includeUnique, bool parseSampleName,
 	for (int i = 0; i < colNames.size(); i++)
 		{
 		if (i == 0)
-		outF << parseSample(colNames[i], samplePrefix);
-		else outF << '\t' <<'\t' << parseSample(colNames[i], samplePrefix);
+		outF << parseSample(colNames[i], samplePrefix, "standard");
+		else outF << '\t' <<'\t' << parseSample(colNames[i], samplePrefix, "standard");
 		}
 	outF << endl;
 	for (int i = 0; i < DEFAULT_COL_NAMES_LENGTH; i++)
@@ -338,7 +338,7 @@ bool Proteins::writeOut(string ofname, bool includeUnique, bool parseSampleName,
 	for (int i = 0; i < DEFAULT_COL_NAMES_LENGTH; i ++)
 	ofColNames.push_back(DEFAULT_COL_NAMES[i]);
 	for (int i = 0; i < colNames.size(); i ++)
-	ofColNames.push_back(parseSample(colNames[i], samplePrefix));
+	ofColNames.push_back(parseSample(colNames[i], samplePrefix, "standard"));
 	int colNamesLen = int(ofColNames.size());
 	for (int i = 0; i < colNamesLen; i++)
 	outF << ofColNames[i] << '\t';
@@ -406,7 +406,7 @@ bool Proteins::writeOutDB(string ofname, bool includeUnique, bool parseSampleNam
 		
 		if (parseSampleName)
 			{
-			outF << '\t' << parseSample(proteins[j].col[i].colname, sampleName) << '\t' <<
+			outF << '\t' << parseSample(proteins[j].col[i].colname, sampleName, "DB") << '\t' <<
 			parseReplicate(proteins[j].col[i].colname);
 			}
 		
@@ -565,7 +565,7 @@ bool dirExists (string path)
 }
 
 //optional fxn to parse long sample name
-string parseSample(string sampleName, string prefix)
+string parseSample(string sampleName, string prefix, string outputFormat)
 {
 	//return unparsed sampleName if prefix is empty string or is not found in sampleName
 	if(sampleName.find(prefix) == string::npos || prefix.length() == 0)
@@ -576,10 +576,12 @@ string parseSample(string sampleName, string prefix)
 	//sample = sample.substr(0, posBegin) + " " + sample.substr(posBegin+1, sample.length() - posEnd);
 	
 	string sample = sampleName.substr(prefix.length());
-	size_t posEnd = sample.find_last_of("_");
-	sample = sample.substr(0, posEnd);
+	if(outputFormat == "standard")
+		return sample;
+	if(outputFormat == "DB")
+		return sample.substr(0, sample.find_last_of("_"));
 	
-	return sample;
+	return sampleName;
 }
 
 //get replicate number from sample name
