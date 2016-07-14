@@ -3,6 +3,7 @@
 scriptWD="$HOME/scripts/DTarray_AJM/"
 recompileMessage='DTarray_AJM source code recompiled.'
 invalidOptionMessage="is an invalid option! Exiting..."
+numParamsInParamsFile=1
 
 #default paramaters
 input="standard"
@@ -52,8 +53,17 @@ while ! [[ -z "$1" ]] ; do
     shift
 done
 
+#summarize params for user
+echo "input = "$input
+echo "output = "$output
+echo "includeUniuque = "$includeUnique
+echo "wd = "$wd
+echo "recompile = "$recompile
+echo "parseSamplePrefix = "$parseSamplePrefix
+echo "sampleNamePrefix = "$sampleNamePrefix
+echo "rewriteParams = "$rewriteParams
+
 #compile source code if necissary
-echo 'recompile = '$recompile
 cd $scriptWD/
 if ! [[ -a a.out ]] ; then
     recompileMessage='DTarray_AJM object file not found. Recompiling from source code...'
@@ -82,7 +92,7 @@ case $input in
                 colName=${f::${#f}-10}
                 echo -e $colName'\t'$f >> dtarray_ajm.params
             done
-			#add sampleNamePrefix
+			#add sampleNamePrefix to params
 			echo "sampleNamePrefix="$sampleNamePrefix >> dtarray_ajm.params
         fi
 	;;
@@ -100,7 +110,7 @@ case $input in
                 fi
                 cd ..
             done
-			#add sampleNamePrefix
+			#add sampleNamePrefix to params
 			echo "sampleNamePrefix="$sampleNamePrefix >> dtarray_ajm.params
 			#if no DTA-filter files were found, exit program.
 			if ! $filesFound ; then
@@ -115,7 +125,7 @@ case $input in
 	;;
 esac
 if [ -a dtarray_ajm.params ] ; then
-	numLines=$(($(echo $(wc -l dtarray_ajm.params)|cut -d' ' -f 1)-1))
+	numLines=$(($(echo $(wc -l dtarray_ajm.params)|cut -d' ' -f 1)-$numParamsInParamsFile))
 	head -n $numLines dtarray_ajm.params > .dtarray_ajm.temp
 	cat .dtarray_ajm.temp > dtarray_ajm.params
 	echo "sampleNamePrefix="$sampleNamePrefix >> dtarray_ajm.params

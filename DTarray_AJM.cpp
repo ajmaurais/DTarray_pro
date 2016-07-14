@@ -19,15 +19,15 @@ using namespace std;
 string const DTA_PARAMS_NAME = "dtarray_ajm.params"; //if value is changed DTarray.sh must also be updated
 string const OF_NAME = "DTarray_AJM.txt";
 bool const INCLUDE_FULL_DESCRIPTION = true;
-//string const DEFAULT_COL_NAMES [] = {"IPI", "Description", "Mass (Da)"};
-string const DEFAULT_COL_NAMES [] = {"Protein","IPI", "Description", "Mass (Da)"};
+//string const DEFAULT_COL_NAMES [] = {"ID", "Description", "Mass (Da)"};
+string const DEFAULT_COL_NAMES [] = {"Protein","ID", "Description", "Mass (Da)"};
 int const DEFAULT_COL_NAMES_LENGTH = 4;
 string const COLUMN_HEADER_LINE_ELEMENTS[] = {"Unique", "FileName", "XCorr", "DeltCN", "Conf%", "M+H+",
 	"CalcM+H+", "TotalIntensity", "SpR", "ZScore", "IonProportion", "Redundancy", "Sequence"};
 int const COLUMN_HEADER_LINE_ELEMENTS_LENGTH = 13;
 
 //editable params for DB output format
-string const DEFAULT_COL_NAMES_DB [] = {"Protein","IPI", "Description", "Mass (Da)", "Long sample name",
+string const DEFAULT_COL_NAMES_DB [] = {"Protein","ID", "Description", "Mass (Da)", "Long sample name",
 	"Spectral counts", "Sample", "Replicate"};
 int const DEFAULT_COL_NAMES_DB_LENGTH = 8;
 string const UNIQUE_PEPTIDE_HEADERS[] = {"SC", "Unique pep. SC"};
@@ -93,19 +93,22 @@ bool FilterFileParams::readDTParams(string fname, string path)
 			Param param (line);
 			if(param.param == "sampleNamePrefix")
 				sampleNamePrefix = param.value;
+			else return false;
 			}
 		else {
 			vector<string>elems;
 			split(line, '\t', elems);
 			if(elems.size() == 2)
-				{
+			{
 				FilterFileParam blank;
 				file.push_back(blank);
 				file[i].colname = elems[0];
 				file[i].path = elems[1];
-				numFiles ++;
+				numFiles++;
 				i++;
-				}
+			}
+			else if (elems.size() != 0)
+				return false;
 		}
 		}
 	
@@ -128,7 +131,7 @@ FilterFile::FilterFile(string arg1, string arg2, string arg3)
 }
 
 struct Protein{
-	string fullDescription, matchDirrection, IPI, description, MW;
+	string fullDescription, matchDirrection, ID, description, MW;
 	vector <FilterFile> col;
 	
 	//modifier
@@ -170,9 +173,9 @@ bool Protein::getProteinData(string line, int colIndex)
 	
 	//Extract uniprotID
 	size_t secBar = elems[0].find("|", firstBar+1);
-	IPI = line.substr(firstBar+1, secBar-firstBar-1);
+	ID = line.substr(firstBar+1, secBar-firstBar-1);
 	if(matchDirrection == "Reverse_sp")
-		IPI = "reverse_" + IPI;
+		ID = "reverse_" + ID;
 	
 	//extract MW
 	MW = elems[5];
@@ -239,8 +242,8 @@ bool Proteins::readIn(string fname, string colname, bool countUniquePeptides)
 			getline(inF, line);
 		getNewLine = true;
 		if(strContains('%', line))  //find protein header lines by percent symbol for percent coverage
-		//if(strContains('|', line) && strContains('%', line))  //alternativly use both | and % symbols but may loose
-		//some uncharacterized proteins
+									//if(strContains('|', line) && strContains('%', line))  //alternativly use both | and % symbols but may loose
+									//some uncharacterized proteins
 			{
 			Protein newProtein;
 			newProtein.initialize(colNames);
@@ -284,7 +287,7 @@ int Proteins::previousOccurance(const Protein& newProtein) const
 	int len = int(proteins.size());
 	
 	for (int i = 0; i < len; i++)
-		if (proteins[i].IPI == newProtein.IPI && proteins[i].matchDirrection == newProtein.matchDirrection)
+		if (proteins[i].ID == newProtein.ID && proteins[i].matchDirrection == newProtein.matchDirrection)
 			return i;
 	
 	//if newProtein is not found return -1
@@ -328,7 +331,6 @@ bool Proteins::writeOut(string ofname, bool includeUnique, bool parseSampleName,
 		for (int i = 0; i < colNames.size(); i++)
 			outF << UNIQUE_PEPTIDE_HEADERS[0] << '\t' << UNIQUE_PEPTIDE_HEADERS[1] << '\t';
 		outF << endl;
-		
 		}
 	else
 		{
@@ -350,7 +352,7 @@ bool Proteins::writeOut(string ofname, bool includeUnique, bool parseSampleName,
 		if (INCLUDE_FULL_DESCRIPTION)
 			outF << proteins[i].fullDescription << '\t';
 		
-		outF << proteins[i].IPI << '\t' <<
+		outF << proteins[i].ID << '\t' <<
 		proteins[i].description << '\t' <<
 		proteins[i].MW << '\t';
 		
@@ -396,7 +398,7 @@ bool Proteins::writeOutDB(string ofname, bool includeUnique, bool parseSampleNam
 			if (INCLUDE_FULL_DESCRIPTION)
 				outF << proteins[j].fullDescription << '\t';
 			
-			outF << proteins[j].IPI << '\t' <<
+			outF << proteins[j].ID << '\t' <<
 			proteins[j].description << '\t' <<
 			proteins[j].MW << '\t' <<
 			proteins[j].col[i].colname << '\t' <<
@@ -404,7 +406,6 @@ bool Proteins::writeOutDB(string ofname, bool includeUnique, bool parseSampleNam
 			
 			if (parseSampleName)
 				{
-				//cout << parseSample(proteins[j].col[i].colname, sampleName);
 				outF << '\t' << parseSample(proteins[j].col[i].colname, sampleName) << '\t' <<
 				parseReplicate(proteins[j].col[i].colname);
 				}
@@ -464,10 +465,10 @@ int main (int argc, char *argv[])
 	//read in names of files to combine from params file
 	FilterFileParams filterFileParams;
 	if (!filterFileParams.readDTParams(DTA_PARAMS_NAME, wd))
-	{
+		{
 		cout <<"Failed to read params file! Exiting..." << endl;
 		return 0;
-	}
+		}
 	if(parseSampleName)
 		cout << "Parsing colnames by prefix: " << filterFileParams.sampleNamePrefix << endl;
 	
@@ -564,12 +565,13 @@ bool dirExists (string path)
 }
 
 //optional fxn to parse long sample name
-string parseSample(string longStr, string prefix)
+string parseSample(string sampleName, string prefix)
 {
-	if(longStr.find(prefix) == string::npos)
-		return longStr;
+	//return unparsed sampleName if prefix is empty string or is not found in sampleName
+	if(sampleName.find(prefix) == string::npos || prefix.length() == 0)
+		return sampleName;
 	
-	string sample = longStr.substr(prefix.length());
+	string sample = sampleName.substr(prefix.length());
 	size_t posBegin = sample.find("_");
 	size_t posEnd = sample.find_last_of("_");
 	sample = sample.substr(0, posBegin) + " " + sample.substr(posBegin+1, sample.length() - posEnd);
