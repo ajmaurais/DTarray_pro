@@ -65,7 +65,7 @@ void split (const string str, char delim, vector<string> & elems)
 }
 
 //remove trailing WHITESPACE
-inline std::string trim_traling(const string& str)
+inline string trimTraling(const string& str)
 {
 	if (str == "")
 		return "";
@@ -73,7 +73,7 @@ inline std::string trim_traling(const string& str)
 }
 
 //remove leading WHITESPACE
-inline std::string trim_leading(const string& str)
+inline string trimLeading(const string& str)
 {
 	if (str == "")
 		return "";
@@ -81,16 +81,16 @@ inline std::string trim_leading(const string& str)
 }
 
 //remove trailing and leading WHITESPACE
-inline std::string trim(const string& str)
+inline string trim(const string& str)
 {
 	if (str == "")
 		return "";
-	return trim_leading( trim_traling(str));
+	return trimLeading( trimTraling(str));
 }
 
 bool isCommentLine(string line)
 {
-	line = trim_leading(line);
+	line = trimLeading(line);
 	if(line[0] == '#')
 		return true;
 	return false;

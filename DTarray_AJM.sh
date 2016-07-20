@@ -70,7 +70,7 @@ if ! [[ -a a.out ]] ; then
     recompile=true
 fi
 if $recompile ; then
-    g++ DTarray_AJM.cpp
+    g++ utils.h dtafilter.h DTarray_AJM.cpp
     echo $recompileMessage
 fi
 
@@ -79,51 +79,50 @@ cd $wd
 if $rewriteParams ; then
 	mv dtarray_ajm.params .dtarray_ajm.temp
 fi
-case $input in
-    "standard")
-        if ! [[ -a dtarray_ajm.params ]] ; then
-            #check if wd contains .dtafilter files
-            if [ $(ls -l $wd/*.dtafilter | wc -l) -lt 1 ] ; then
-                echo "DTA-filter files could not be found in the specified directory! Exiting..."
-                exit
-            fi
+if ! [[ -a dtarray_ajm.params ]] ; then
+	echo -e "#Params for DTarray_AJM\n#File list generated on: "$(date +"%y-%m-%d_%H:%M:%S") > ./dtarray_ajm.params
+	echo -e "\n#Files to add" >> ./dtarray_ajm.params
+	case $input in
+		"standard")
+			#check if wd contains .dtafilter files
+			if [ $(ls -l $wd/*.dtafilter | wc -l) -lt 1 ] ; then
+				echo "DTA-filter files could not be found in the specified directory! Exiting..."
+				exit
+			fi
 			#add all .dtafilter files to params file
-            for f in *.dtafilter ; do
-                colName=${f::${#f}-10}
-                echo -e $colName'\t'$f >> dtarray_ajm.params
-            done
-			#add sampleNamePrefix to params
-			echo "sampleNamePrefix="$sampleNamePrefix >> dtarray_ajm.params
-        fi
-	;;
-    "subdir")
-        if ! [[ -a dtarray_ajm.params ]] ; then
+			for f in *.dtafilter ; do
+				colName=${f::${#f}-10}
+				echo -e $colName'\t'$f >> dtarray_ajm.params
+			done
+		;;
+		"subdir")
 			#check all directories on level below parent for DTASelect-filter files and
 			#add all found to params file
 			for D in * ; do
-                if [ -d "$D" ] ; then
-                    cd "$D"
-                    if [ -a DTASelect-filter.txt ] ; then
-                        echo -e $D'\t'$D'/'"DTASelect-filter.txt" >> ../dtarray_ajm.params
-                        filesFound=true
-                    fi
-                fi
-                cd ..
-            done
-			#add sampleNamePrefix to params
-			echo "sampleNamePrefix="$sampleNamePrefix >> dtarray_ajm.params
+				if [ -d "$D" ] ; then
+					cd "$D"
+					if [ -a DTASelect-filter.txt ] ; then
+						echo -e $D'\t'$D'/'"DTASelect-filter.txt" >> ../dtarray_ajm.params
+						filesFound=true
+					fi
+				fi
+				cd ..
+			done
 			#if no DTA-filter files were found, exit program.
 			if ! $filesFound ; then
 				echo "No DTA-filter files were found! Exiting..."
 				exit
 			fi
-		fi
-	;;
-	*)
-		echo "$input is not a valid input format! Exiting..."
-		exit
-	;;
-esac
+		;;
+		*)
+			echo "$input is not a valid input format! Exiting..."
+			exit
+		;;
+	esac
+	#add sampleNamePrefix to params
+	echo -e "\n#Params" >> ./dtarray_ajm.params
+	echo "sampleNamePrefix="$sampleNamePrefix >> ./dtarray_ajm.params
+fi
 if [ -a dtarray_ajm.params ] ; then
 	numLines=$(($(echo $(wc -l dtarray_ajm.params)|cut -d' ' -f 1)-$numParamsInParamsFile))
 	head -n $numLines dtarray_ajm.params > .dtarray_ajm.temp
