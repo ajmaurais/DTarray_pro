@@ -85,7 +85,7 @@ inline string trim(const string& str)
 {
 	if (str == "")
 		return "";
-	return trimLeading( trimTraling(str));
+	return trimLeading(trimTraling(str));
 }
 
 bool isCommentLine(string line)

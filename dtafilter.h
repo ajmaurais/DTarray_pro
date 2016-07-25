@@ -1,4 +1,5 @@
 
+#include <iostream>
 #include <vector>
 #include <fstream>
 #include <cassert>
@@ -16,6 +17,7 @@ int const DEFAULT_COL_NAMES_LENGTH = 4;
 string const COLUMN_HEADER_LINE_ELEMENTS[] = {"Unique", "FileName", "XCorr", "DeltCN", "Conf%", "M+H+",
 	"CalcM+H+", "TotalIntensity", "SpR", "ZScore", "IonProportion", "Redundancy", "Sequence"};
 int const COLUMN_HEADER_LINE_ELEMENTS_LENGTH = 13;
+string const PARAM_ERROR_MESSAGE = " is an invalid arguement for: ";
 
 //editable params for DB output format
 string const DEFAULT_COL_NAMES_DB [] = {"Protein","ID", "Description", "Mass (Da)", "Long sample name",
@@ -54,7 +56,11 @@ Param::Param(string line)
 struct FilterFileParams{
 	vector<FilterFileParam> file;
 	int numFiles;
+	
+	string outputFormat;
 	string sampleNamePrefix;
+	bool includeUnique;
+	
 	
 	//modifiers
 	bool readDTParams(string, string);
@@ -81,7 +87,25 @@ bool FilterFileParams::readDTParams(string fname, string path)
 			{
 			Param param (line);
 			if(param.param == "sampleNamePrefix")
+			{
 				sampleNamePrefix = param.value;
+				continue;
+			}
+			if(param.param == "outputFormat")
+			{
+				if(param.param != "standard" && param.param == "DB") {
+					cout << param.param << PARAM_ERROR_MESSAGE << "outputFormat" << endl;
+					return false;
+				}
+				outputFormat = param.value;
+				continue;
+			}
+			if(param.param == "includeUnique")
+			{
+				assert(param.value == "0" || param.value == "1");
+				includeUnique = toInt(param.value);
+				continue;
+			}
 			else return false;
 			}
 		else {
@@ -191,12 +215,13 @@ struct Proteins{
 	
 	//properities
 	int previousOccurance(const Protein&) const;
-	bool writeOut(string, bool, bool, string) const;
-	bool writeOutDB(string, bool, bool, string) const;
+	bool writeOut(string, const FilterFileParams&) const;
+	bool writeOutDB(string, const FilterFileParams&) const;
 	
 	//modifiers
 	void initialize(const FilterFileParams&);
-	bool readIn(string, string, bool);
+	bool readIn(string, const FilterFileParam&, bool);
+	bool readIn(string, const FilterFileParams&);
 	void addBlanks();
 };
 
@@ -210,8 +235,10 @@ void Proteins::initialize(const FilterFileParams& files)
 }
 
 //read in protein headder lines and parse with getProteinData
-bool Proteins::readIn(string fname, string colname, bool countUniquePeptides)
+//bool Proteins::readIn(string fname, string colname, bool countUniquePeptides)
+bool Proteins::readIn(string wd, const FilterFileParam& filterFile, bool countUniquePeptides)
 {
+	string fname = wd + filterFile.path;
 	ifstream inF(fname.c_str());
 	if(!inF)
 		return false;
@@ -269,6 +296,21 @@ bool Proteins::readIn(string fname, string colname, bool countUniquePeptides)
 	return true;
 }
 
+bool Proteins::readIn(string wd, const FilterFileParams& filterFile)
+{
+	for (int i = 0; i < filterFile.numFiles; i++)
+		{
+		if(!readIn(wd, filterFile.file[i], filterFile.includeUnique))
+			{
+			cout <<"Failed to read in " << filterFile.file[i].path <<"!" << endl <<
+			"Exiting..." << endl;
+			return false;
+			}
+		cout << "Adding " << filterFile.file[i].colname << "..." << endl;
+		}
+	return true;
+}
+
 //itterate through all previous proteins and return index at which a previous occurance
 //of newProtein occures
 int Proteins::previousOccurance(const Protein& newProtein) const
@@ -284,9 +326,10 @@ int Proteins::previousOccurance(const Protein& newProtein) const
 }
 
 //write out combined protein lists to ofname
-bool Proteins::writeOut(string ofname, bool includeUnique, bool parseSampleName, string samplePrefix) const
+bool Proteins::writeOut(string ofname, const FilterFileParams& filterFileParams) const
 {
 	ofstream outF (ofname.c_str());
+	bool parseSampleName = filterFileParams.sampleNamePrefix != "";
 	
 	if(!outF)
 		return false;
@@ -295,7 +338,7 @@ bool Proteins::writeOut(string ofname, bool includeUnique, bool parseSampleName,
 	if(parseSampleName)
 		{
 		string delim;
-		if(includeUnique)
+		if(filterFileParams.includeUnique)
 			delim = "\t\t";
 		else delim = "\t";
 		for (int i = 0; i < DEFAULT_COL_NAMES_LENGTH; i++)
@@ -304,15 +347,15 @@ bool Proteins::writeOut(string ofname, bool includeUnique, bool parseSampleName,
 			outF << colNames[i] << delim;
 		outF << endl;
 		}
-	if (includeUnique)
+	if (filterFileParams.includeUnique)
 		{
 		for (int i = 0; i < DEFAULT_COL_NAMES_LENGTH; i++)
 			outF << '\t';
 		for (int i = 0; i < colNames.size(); i++)
 			{
 			if (i == 0)
-				outF << parseSample(colNames[i], samplePrefix, "standard");
-			else outF << '\t' <<'\t' << parseSample(colNames[i], samplePrefix, "standard");
+				outF << parseSample(colNames[i], filterFileParams.sampleNamePrefix, "standard");
+			else outF << '\t' <<'\t' << parseSample(colNames[i], filterFileParams.sampleNamePrefix, "standard");
 			}
 		outF << endl;
 		for (int i = 0; i < DEFAULT_COL_NAMES_LENGTH; i++)
@@ -327,7 +370,7 @@ bool Proteins::writeOut(string ofname, bool includeUnique, bool parseSampleName,
 		for (int i = 0; i < DEFAULT_COL_NAMES_LENGTH; i ++)
 			ofColNames.push_back(DEFAULT_COL_NAMES[i]);
 		for (int i = 0; i < colNames.size(); i ++)
-			ofColNames.push_back(parseSample(colNames[i], samplePrefix, "standard"));
+			ofColNames.push_back(parseSample(colNames[i], filterFileParams.sampleNamePrefix, "standard"));
 		int colNamesLen = int(ofColNames.size());
 		for (int i = 0; i < colNamesLen; i++)
 			outF << ofColNames[i] << '\t';
@@ -348,7 +391,7 @@ bool Proteins::writeOut(string ofname, bool includeUnique, bool parseSampleName,
 		for (int j = 0; j < colIndex; j++)
 			{
 			outF << proteins[i].col[j].count << '\t';
-			if (includeUnique)
+			if (filterFileParams.includeUnique)
 				outF << proteins[i].col[j].uniquePeptides << '\t';
 			}
 		
@@ -359,9 +402,10 @@ bool Proteins::writeOut(string ofname, bool includeUnique, bool parseSampleName,
 	return true;
 }
 
-bool Proteins::writeOutDB(string ofname, bool includeUnique, bool parseSampleName, string sampleName) const
+bool Proteins::writeOutDB(string ofname, const FilterFileParams& filterFileParams) const
 {
 	ofstream outF (ofname.c_str());
+	bool parseSampleName = (filterFileParams.sampleNamePrefix != "");
 	
 	if(!outF)
 		return false;
@@ -371,7 +415,7 @@ bool Proteins::writeOutDB(string ofname, bool includeUnique, bool parseSampleNam
 	vector<string> ofColNames;
 	for (int i = 0; i < DEFAULT_COL_NAMES_DB_LENGTH - (!parseSampleName * 2); i ++)
 		ofColNames.push_back(DEFAULT_COL_NAMES_DB[i]);
-	if(includeUnique)
+	if(filterFileParams.includeUnique)
 		ofColNames.push_back(UNIQUE_PEPTIDE_HEADERS[1]);
 	
 	for (int i = 0; i < int(ofColNames.size()); i++)
@@ -395,11 +439,11 @@ bool Proteins::writeOutDB(string ofname, bool includeUnique, bool parseSampleNam
 			
 			if (parseSampleName)
 				{
-				outF << '\t' << parseSample(proteins[j].col[i].colname, sampleName, "DB") << '\t' <<
+				outF << '\t' << parseSample(proteins[j].col[i].colname, filterFileParams.sampleNamePrefix, "DB") << '\t' <<
 				parseReplicate(proteins[j].col[i].colname);
 				}
 			
-			if (includeUnique)
+			if (filterFileParams.includeUnique)
 				{
 				outF << '\t' << proteins[j].col[i].uniquePeptides;
 				}
