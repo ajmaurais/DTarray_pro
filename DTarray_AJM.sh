@@ -4,9 +4,10 @@ scriptWD="$HOME/scripts/DTarray_AJM/"
 recompileMessage='DTarray_AJM source code recompiled.'
 invalidOptionMessage="is an invalid option! Exiting..."
 numParamsInParamsFile=3
-paramsFileName="dtarray_ajm.params"
+defaultParamsName="dtarray_ajm.params"
 
 #default paramaters
+paramsName=$defaultParamsName
 input="standard"
 output="standard"
 includeUnique="0"
@@ -18,9 +19,9 @@ filesFound=false
 keepParams=false
 
 function writeParams {
-echo 'outputFormat='$1 >> ./$paramsFileName
-echo 'includeUnique='$2 >> ./$paramsFileName
-echo 'sampleNamePrefix='$3 >> ./$paramsFileName
+echo 'outputFormat='$1 >> ./$paramsName
+echo 'includeUnique='$2 >> ./$paramsName
+echo 'sampleNamePrefix='$3 >> ./$paramsName
 }
 
 #get arguements
@@ -54,6 +55,11 @@ while ! [[ -z "$1" ]] ; do
 		"-k" | "--keep")
 			keepParams=true
 			;;
+		"-par")
+			shift
+			paramsName="$1"
+			keepParams=true
+			;;
         *)
             echo "$1" $invalidOptionMessage
             exit
@@ -63,6 +69,7 @@ while ! [[ -z "$1" ]] ; do
 done
 
 #summarize params for user
+echo -e "\nThe folowing paramaters were used:"
 echo "input = "$input
 echo "output = "$output
 echo "includeUnique = "$includeUnique
@@ -71,6 +78,8 @@ echo "recompile = "$recompile
 echo "sampleNamePrefix = "$sampleNamePrefix
 echo "rewriteParams = "$rewriteParams
 echo "keepParams = "$keepParams
+echo "paramsName = "$paramsName
+echo
 
 #compile source code if necissary
 cd $scriptWD/
@@ -79,18 +88,19 @@ if ! [[ -a a.out ]] ; then
     recompile=true
 fi
 if $recompile ; then
-    g++ utils.h dtafilter.h DTarray_AJM.cpp
+    g++ utils.h dtafilter.h DTarray_AJM.cpp >& compiler_output.txt
     echo $recompileMessage
 fi
 
 #create params file
 cd $wd
 if $rewriteParams ; then
-	mv $paramsFileName .dtarray_ajm.temp
+	mv $paramsName .dtarray_ajm.temp
 fi
-if ! [[ -a $paramsFileName ]] ; then
-	echo -e "#Params for DTarray_AJM\n#File list generated on: "$(date +"%y-%m-%d_%H:%M:%S") > ./$paramsFileName
-	echo -e "\n#Files to add" >> ./$paramsFileName
+if ! [[ -a $paramsName ]] ; then
+	echo "Generating $paramsName using $input input format."
+	echo -e "#Params for DTarray_AJM\n#File list generated on: "$(date +"%y-%m-%d_%H:%M:%S") > ./$paramsName
+	echo -e "\n#Files to add" >> ./$paramsName
 	case $input in
 		"standard")
 			#check if wd contains .dtafilter files
@@ -101,7 +111,7 @@ if ! [[ -a $paramsFileName ]] ; then
 			#add all .dtafilter files to params file
 			for f in *.dtafilter ; do
 				colName=${f::${#f}-10}
-				echo -e $colName'\t'$f >> $paramsFileName
+				echo -e $colName'\t'$f >> $paramsName
 			done
 		;;
 		"subdir")
@@ -111,7 +121,7 @@ if ! [[ -a $paramsFileName ]] ; then
 				if [ -d "$D" ] ; then
 					cd "$D"
 					if [ -a DTASelect-filter.txt ] ; then
-						echo -e $D'\t'$D'/'"DTASelect-filter.txt" >> ../$paramsFileName
+						echo -e $D'\t'$D'/'"DTASelect-filter.txt" >> ../$paramsName
 						filesFound=true
 					fi
 				fi
@@ -129,19 +139,19 @@ if ! [[ -a $paramsFileName ]] ; then
 		;;
 	esac
 	#add sampleNamePrefix to params
-	echo -e "\n#Params" >> ./$paramsFileName
+	echo -e "\n#Params" >> ./$paramsName
 	writeParams $output $includeUnique $sampleNamePrefix
-	fi
-if [ -a $paramsFileName ] && ! $keepParams ; then
-	echo "Params overwritten"
-	numLines=$(($(echo $(wc -l $paramsFileName)|cut -d' ' -f 1)-$numParamsInParamsFile))
-	head -n $numLines $paramsFileName > .dtarray_ajm.temp
-	cat .dtarray_ajm.temp > $paramsFileName
+	keepParams=true
+fi
+if [ -a $paramsName ] && ! $keepParams ; then
+	numLines=$(($(echo $(wc -l $paramsName)|cut -d' ' -f 1)-$numParamsInParamsFile))
+	head -n $numLines $paramsName > .dtarray_ajm.temp
+	cat .dtarray_ajm.temp > $paramsName
 	writeParams $output $includeUnique $sampleNamePrefix
 fi
 
 #run DTarray_AJM
 cd $scriptWD
-./a.out $wd/
+./a.out $wd/ $paramsName
 
 echo "Done"

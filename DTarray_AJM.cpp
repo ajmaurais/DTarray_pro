@@ -16,16 +16,18 @@ using namespace std;
 int main (int argc, char *argv[])
 {
 	//check paramaters
+	assert(argc == 3);
 	string wd = string(argv[1]);
+	string paramsName = string(argv[2]);
 	assert(dirExists(wd));
 	
 	//read in names of files to combine from params file
 	FilterFileParams filterFileParams;
-	if (!filterFileParams.readDTParams(DTA_PARAMS_NAME, wd))
-		{
+	if (!filterFileParams.readDTParams(paramsName, wd))
+	{
 		cout <<"Failed to read params file! Exiting..." << endl;
 		return 0;
-		}
+	}
 	if(filterFileParams.sampleNamePrefix != "")
 		cout << "Parsing colnames by prefix: " << filterFileParams.sampleNamePrefix << endl;
 	

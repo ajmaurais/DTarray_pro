@@ -8,7 +8,6 @@
 using namespace std;
 
 //editable paramaters
-string const DTA_PARAMS_NAME = "dtarray_ajm.params"; //if value is changed DTarray.sh must also be updated
 string const OF_NAME = "DTarray_AJM.txt";
 bool const INCLUDE_FULL_DESCRIPTION = true;
 //string const DEFAULT_COL_NAMES [] = {"ID", "Description", "Mass (Da)"};
@@ -495,7 +494,7 @@ string parseReplicate(string str)
 	return str.substr(str.find_last_of("_")+1);
 }
 
-//return number of spectral counts from a
+//return number of spectral counts for a peptide from a line in DTA filter file
 int parsePeptideSC(string line)
 {
 	//split line by tabs
@@ -505,5 +504,3 @@ int parsePeptideSC(string line)
 	//return SC for peptide as int
 	return toInt(elems[11]);
 }
-
-
