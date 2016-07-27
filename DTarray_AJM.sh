@@ -5,6 +5,7 @@ recompileMessage='DTarray_AJM source code recompiled.'
 invalidOptionMessage="is an invalid option! Exiting..."
 numParamsInParamsFile=3
 defaultParamsName="dtarray_ajm.params"
+paramsCommentSymbol="#" #if changed, value must also be changed in utils.h
 
 #default paramaters
 paramsName=$defaultParamsName
@@ -99,8 +100,8 @@ if $rewriteParams ; then
 fi
 if ! [[ -a $paramsName ]] ; then
 	echo "Generating $paramsName using $input input format."
-	echo -e "#Params for DTarray_AJM\n#File list generated on: "$(date +"%y-%m-%d_%H:%M:%S") > ./$paramsName
-	echo -e "\n#Files to add" >> ./$paramsName
+	echo -e "$paramsCommentSymbol Params for DTarray_AJM\n$paramsCommentSymbol File list generated on: "$(date +"%y-%m-%d_%H:%M:%S") > ./$paramsName
+	echo -e "\n$paramsCommentSymbol Files to add" >> ./$paramsName
 	case $input in
 		"standard")
 			#check if wd contains .dtafilter files
@@ -139,7 +140,7 @@ if ! [[ -a $paramsName ]] ; then
 		;;
 	esac
 	#add sampleNamePrefix to params
-	echo -e "\n#Params" >> ./$paramsName
+	echo -e "\n$paramsCommentSymbol Params" >> ./$paramsName
 	writeParams $output $includeUnique $sampleNamePrefix
 	keepParams=true
 fi

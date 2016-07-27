@@ -9,7 +9,7 @@
 using namespace std;
 
 string const WHITESPACE = " \f\n\r\t\v";
-char const COMMENT_SYMBOL = '#';
+string const COMMENT_SYMBOL = "#"; //if changed value must also be changed in DTarray_AJM.sh
 
 bool dirExists (string);
 bool fileExists (string);
@@ -113,11 +113,11 @@ inline string trim(const string& str)
 	return trimLeading(trimTraling(str));
 }
 
-//returns true if line begins with COMMENT_CHAR, ignoring leading whitespace
+//returns true if line begins with COMMENT_SYMBOL, ignoring leading whitespace
 bool isCommentLine(string line)
 {
 	line = trimLeading(line);
-	if(line[0] == COMMENT_SYMBOL)
+	if(line.substr(0, COMMENT_SYMBOL.length()) == COMMENT_SYMBOL)
 		return true;
 	return false;
 }
