@@ -20,9 +20,9 @@ filesFound=false
 keepParams=false
 
 function writeParams {
-echo 'outputFormat='$1 >> ./$paramsName
-echo 'includeUnique='$2 >> ./$paramsName
-echo 'sampleNamePrefix='$3 >> ./$paramsName
+	echo 'outputFormat='$1 >> ./$paramsName
+	echo 'includeUnique='$2 >> ./$paramsName
+	echo 'sampleNamePrefix='$3 >> ./$paramsName
 }
 
 #get arguements
@@ -89,7 +89,7 @@ if ! [[ -a a.out ]] ; then
     recompile=true
 fi
 if $recompile ; then
-    g++ utils.h dtafilter.h DTarray_AJM.cpp >& compiler_output.txt
+	g++ main.cpp #>& compiler_output.txt
     echo $recompileMessage
 fi
 

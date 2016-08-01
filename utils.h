@@ -32,6 +32,7 @@ bool dirExists (string path)
 	return false;
 }
 
+//returns true if file at end of path exists and false if it does not
 bool fileExists (string path)
 {
 	struct stat buffer;
@@ -53,6 +54,7 @@ string toString(int num)
 }
 
 //converts string to int because atoi does not work with some c++ compilers
+//Precondition: str must be an integer stored as a string
 int toInt(string str)
 {
 	assert(isInteger(str));
@@ -117,9 +119,7 @@ inline string trim(const string& str)
 bool isCommentLine(string line)
 {
 	line = trimLeading(line);
-	if(line.substr(0, COMMENT_SYMBOL.length()) == COMMENT_SYMBOL)
-		return true;
-	return false;
+	return line.substr(0, COMMENT_SYMBOL.length()) == COMMENT_SYMBOL;
 }
 
 //return true if str can be converted to an int

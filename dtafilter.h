@@ -257,8 +257,8 @@ bool Proteins::readIn(string wd, const FilterFileParam& filterFile, bool countUn
 			getline(inF, line);
 		getNewLine = true;
 		if(strContains('%', line))  //find protein header lines by percent symbol for percent coverage
-									//if(strContains('|', line) && strContains('%', line))  //alternativly use both | and % symbols but may loose
-									//some uncharacterized proteins
+		//if(strContains('|', line) && strContains('%', line))  //alternativly use both | and % symbols but may loose
+		//some uncharacterized proteins
 			{
 			Protein newProtein;
 			newProtein.initialize(colNames);

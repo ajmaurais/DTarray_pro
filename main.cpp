@@ -12,7 +12,6 @@
 
 using namespace std;
 
-//begin main
 int main (int argc, char *argv[])
 {
 	//check paramaters
@@ -28,7 +27,7 @@ int main (int argc, char *argv[])
 		cout <<"Failed to read params file! Exiting..." << endl;
 		return 0;
 	}
-	if(filterFileParams.sampleNamePrefix != "")
+	if(!filterFileParams.sampleNamePrefix.empty())
 		cout << "Parsing colnames by prefix: " << filterFileParams.sampleNamePrefix << endl;
 	
 	//combine files
@@ -63,5 +62,4 @@ int main (int argc, char *argv[])
 	
 	return 0;
 }
-//end main
 
