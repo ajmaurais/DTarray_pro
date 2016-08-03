@@ -37,27 +37,40 @@ int main (int argc, char *argv[])
 	if(!proteins.readIn(wd, filterFileParams))
 		return 0;
 	
+	//read in subcellular locations database and add sub cell locations to proteins
+	if(filterFileParams.getSubCelluarLoc)
+	{
+		Btree proteinDBtree;
+		if(!proteinDBtree.readInProteins(filterFileParams.locDBfname))
+		{
+			cout <<"Failed to read protein location DB file! Exiting..." << endl;
+			return 0;
+		}
+		cout << endl << "Searching for subcellular locations of proteins in dataset..." << endl;
+		proteins.addSubcelluarLoc(proteinDBtree);
+	}
+	
 	//write out combined data to OF_NAME
 	if (filterFileParams.outputFormat == "standard")
-		{
+	{
 		if(!proteins.writeOut(wd + OF_NAME, filterFileParams))
-			{
-			cout << "Could not write outFile! Exiting..." << endl;
-			return 0;
-			}
-		}
-	else if (filterFileParams.outputFormat == "DB")
 		{
-		if(!proteins.writeOutDB(wd + OF_NAME, filterFileParams))
-			{
 			cout << "Could not write outFile! Exiting..." << endl;
 			return 0;
-			}
-		cout << endl << "Results written in database format." << endl;
 		}
+	}
+	else if (filterFileParams.outputFormat == "DB")
+	{
+		if(!proteins.writeOutDB(wd + OF_NAME, filterFileParams))
+		{
+			cout << "Could not write outFile! Exiting..." << endl;
+			return 0;
+		}
+		cout << endl << "Results written in database format." << endl;
+	}
 	
 	//summarize results for user
-	cout << proteins.colNames.size() << " files combined." << endl;
+	cout << endl << proteins.colNames.size() << " files combined." << endl;
 	cout << "Results written to: " << OF_NAME << endl;
 	
 	return 0;

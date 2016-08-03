@@ -1,6 +1,7 @@
 
 #editable paramaters
 scriptWD="$HOME/scripts/DTarray_AJM/"
+locDBfname="/Users/Aaron/scripts/DTarray_AJM/subcellLocDB.txt"
 recompileMessage='DTarray_AJM source code recompiled.'
 invalidOptionMessage="is an invalid option! Exiting..."
 numParamsInParamsFile=3
@@ -18,12 +19,7 @@ sampleNamePrefx=""
 rewriteParams=false
 filesFound=false
 keepParams=false
-
-function writeParams {
-	echo 'outputFormat='$1 >> ./$paramsName
-	echo 'includeUnique='$2 >> ./$paramsName
-	echo 'sampleNamePrefix='$3 >> ./$paramsName
-}
+getSubCelluarLoc="0"
 
 #get arguements
 while ! [[ -z "$1" ]] ; do
@@ -61,6 +57,10 @@ while ! [[ -z "$1" ]] ; do
 			paramsName="$1"
 			keepParams=true
 			;;
+		"-loc")
+			getSubCelluarLoc="1"
+			;;
+
         *)
             echo "$1" $invalidOptionMessage
             exit
@@ -80,6 +80,7 @@ echo "sampleNamePrefix = "$sampleNamePrefix
 echo "rewriteParams = "$rewriteParams
 echo "keepParams = "$keepParams
 echo "paramsName = "$paramsName
+echo "getSubCelluarLoc = "$getSubCelluarLoc
 echo
 
 #compile source code if necissary
@@ -141,14 +142,23 @@ if ! [[ -a $paramsName ]] ; then
 	esac
 	#add sampleNamePrefix to params
 	echo -e "\n$paramsCommentSymbol Params" >> ./$paramsName
-	writeParams $output $includeUnique $sampleNamePrefix
+	echo 'outputFormat='$output >> ./$paramsName
+	echo 'includeUnique='$includeUnique >> ./$paramsName
+	echo 'sampleNamePrefix='$sampleNamePrefix >> ./$paramsName
+	echo 'getSubCelluarLoc='$getSubCelluarLoc >> ./$paramsName
+	echo 'locDBfname='$locDBfname >> ./$paramsName
 	keepParams=true
 fi
 if [ -a $paramsName ] && ! $keepParams ; then
 	numLines=$(($(echo $(wc -l $paramsName)|cut -d' ' -f 1)-$numParamsInParamsFile))
 	head -n $numLines $paramsName > .dtarray_ajm.temp
 	cat .dtarray_ajm.temp > $paramsName
-	writeParams $output $includeUnique $sampleNamePrefix
+	echo -e "\n$paramsCommentSymbol Params" >> ./$paramsName
+	echo 'outputFormat='$output >> ./$paramsName
+	echo 'includeUnique='$includeUnique >> ./$paramsName
+	echo 'sampleNamePrefix='$sampleNamePrefix >> ./$paramsName
+	echo 'getSubCelluarLoc='$getSubCelluarLoc >> ./$paramsName
+	echo 'locDBfname='$locDBfname >> ./$paramsName
 fi
 
 #run DTarray_AJM

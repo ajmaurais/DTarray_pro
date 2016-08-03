@@ -27,18 +27,14 @@ bool isInteger(string);
 bool dirExists (string path)
 {
 	struct stat buffer;
-	if (stat(path.c_str(), &buffer) == 0 && S_ISDIR(buffer.st_mode))
-		return true;
-	return false;
+	return stat(path.c_str(), &buffer) == 0 && S_ISDIR(buffer.st_mode);
 }
 
 //returns true if file at end of path exists and false if it does not
 bool fileExists (string path)
 {
 	struct stat buffer;
-	if (stat(path.c_str(), &buffer) == 0)
-		return true;
-	return false;
+	return stat(path.c_str(), &buffer) == 0;
 }
 
 //converts int to string because to_string does not work with some c++ compilers

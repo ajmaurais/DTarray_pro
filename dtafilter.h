@@ -4,6 +4,7 @@
 #include <fstream>
 #include <cassert>
 #include "utils.h"
+#include "subCelluarLoc.h"
 
 using namespace std;
 
@@ -11,7 +12,7 @@ using namespace std;
 string const OF_NAME = "DTarray_AJM.txt";
 bool const INCLUDE_FULL_DESCRIPTION = true;
 //string const DEFAULT_COL_NAMES [] = {"ID", "Description", "Mass (Da)"};
-string const DEFAULT_COL_NAMES [] = {"Protein","ID", "Description", "Mass (Da)"};
+string const DEFAULT_COL_NAMES [] = {"Protein","ID", "Description", "Mass (Da)", "subcellular location"};
 int const DEFAULT_COL_NAMES_LENGTH = 4;
 string const COLUMN_HEADER_LINE_ELEMENTS[] = {"Unique", "FileName", "XCorr", "DeltCN", "Conf%", "M+H+",
 	"CalcM+H+", "TotalIntensity", "SpR", "ZScore", "IonProportion", "Redundancy", "Sequence"};
@@ -22,6 +23,9 @@ string const PARAM_ERROR_MESSAGE = " is an invalid arguement for: ";
 string const DEFAULT_COL_NAMES_DB [] = {"Protein","ID", "Description", "Mass (Da)", "Long sample name",
 	"Spectral counts", "Sample", "Replicate"};
 int const DEFAULT_COL_NAMES_DB_LENGTH = 8;
+string const DEFAULT_COL_NAMES_DB_LOC [] = {"Protein","ID", "Description", "Mass (Da)", "subcellular location", "Long sample name",
+	"Spectral counts", "Sample", "Replicate"};
+int const DEFAULT_COL_NAMES_DB_LOC_LENGTH = 9;
 string const UNIQUE_PEPTIDE_HEADERS[] = {"SC", "Unique pep. SC"};
 
 //function definitions
@@ -31,6 +35,9 @@ int parsePeptideSC(string);
 string parseReplicate(string);
 
 //class definitions and member functions
+class Protein;
+class Proteins;
+
 struct FilterFileParam{
 	string path;
 	string colname;
@@ -59,7 +66,8 @@ struct FilterFileParams{
 	string outputFormat;
 	string sampleNamePrefix;
 	bool includeUnique;
-	
+	bool getSubCelluarLoc;
+	string locDBfname;
 	
 	//modifiers
 	bool readDTParams(string, string);
@@ -77,13 +85,13 @@ bool FilterFileParams::readDTParams(string fname, string path)
 		return false;
 	
 	while(!inF.eof())
-		{
+	{
 		getline(inF, line);
 		line = trim(line);
 		if(isCommentLine(line) || line == "")
 			continue;
 		if(strContains('=', line))
-			{
+		{
 			Param param (line);
 			if(param.param == "sampleNamePrefix")
 			{
@@ -99,30 +107,41 @@ bool FilterFileParams::readDTParams(string fname, string path)
 				outputFormat = param.value;
 				continue;
 			}
+			if(param.param == "locDBfname")
+			{
+				locDBfname = param.value;
+				continue;
+			}
 			if(param.param == "includeUnique")
 			{
 				assert(param.value == "0" || param.value == "1");
 				includeUnique = toInt(param.value);
 				continue;
 			}
-			else return false;
+			if(param.param == "getSubCelluarLoc")
+			{
+				assert(param.value == "0" || param.value == "1");
+				getSubCelluarLoc = toInt(param.value);
+				continue;
 			}
+			else return false;
+		}
 		else {
 			vector<string>elems;
 			split(line, '\t', elems);
 			if(elems.size() == 2)
-				{
+			{
 				FilterFileParam blank;
 				file.push_back(blank);
 				file[i].colname = elems[0];
 				file[i].path = elems[1];
 				numFiles++;
 				i++;
-				}
+			}
 			else if (elems.size() != 0)
 				return false;
 		}
-		}
+	}
 	
 	return true;
 }
@@ -142,14 +161,18 @@ FilterFile::FilterFile(string arg1, string arg2, string arg3)
 	uniquePeptides = arg3;
 }
 
-struct Protein{
-	string fullDescription, matchDirrection, ID, description, MW;
+class Protein{
+	friend class Proteins;
 	vector <FilterFile> col;
 	
 	//modifier
 	void initialize(const vector<string>&);
 	bool getProteinData(string, int);
 	void consolidate(const Protein&, int);
+	DBProtein toDBprotein() const;
+	
+public:
+	string fullDescription, matchDirrection, ID, description, MW, loc;
 };
 
 void Protein::initialize(const vector<string>& colNames)
@@ -157,10 +180,10 @@ void Protein::initialize(const vector<string>& colNames)
 	int len = int(colNames.size());
 	
 	for (int i = 0; i < len; i++)
-		{
+	{
 		FilterFile newFilterFile(colNames[i], "0", "0");
 		col.push_back(newFilterFile);
-		}
+	}
 }
 
 //parse proten header line and extract desired data
@@ -202,26 +225,41 @@ bool Protein::getProteinData(string line, int colIndex)
 	return true;
 }
 
+DBProtein Protein::toDBprotein() const
+{
+	DBProtein dbprotein;
+	dbprotein.ID = ID;
+	
+	return dbprotein;
+}
+
 void Protein::consolidate(const Protein& toAdd, int colIndex)
 {
 	col[colIndex] = toAdd.col[colIndex];
 }
 
-struct Proteins{
+class Proteins{
 	vector <Protein> proteins;
-	vector<string> colNames;
 	int colIndex;
 	
-	//properities
+	//modifers
+	bool readIn(string, const FilterFileParam&, bool);
+	
+	//properties
 	int previousOccurance(const Protein&) const;
+	
+public:
+	vector<string> colNames;
+	
+	//properities
 	bool writeOut(string, const FilterFileParams&) const;
 	bool writeOutDB(string, const FilterFileParams&) const;
 	
 	//modifiers
 	void initialize(const FilterFileParams&);
-	bool readIn(string, const FilterFileParam&, bool);
 	bool readIn(string, const FilterFileParams&);
 	void addBlanks();
+	void addSubcelluarLoc(const Btree&);
 };
 
 //initialize Proteins.colnames with files contained in params file
@@ -257,29 +295,29 @@ bool Proteins::readIn(string wd, const FilterFileParam& filterFile, bool countUn
 			getline(inF, line);
 		getNewLine = true;
 		if(strContains('%', line))  //find protein header lines by percent symbol for percent coverage
-		//if(strContains('|', line) && strContains('%', line))  //alternativly use both | and % symbols but may loose
-		//some uncharacterized proteins
-			{
+									//if(strContains('|', line) && strContains('%', line))  //alternativly use both | and % symbols but may loose
+									//some uncharacterized proteins
+		{
 			Protein newProtein;
 			newProtein.initialize(colNames);
 			if(newProtein.getProteinData(line, colIndex))
-				{
+			{
 				inProtein = true;
 				previousOccuranceIndex = previousOccurance(newProtein);
 				if (previousOccuranceIndex == -1)
-					{
+				{
 					proteins.push_back(blank);
 					proteins[proteinsIndex] = newProtein;
 					uniquePeptidesIndex = proteinsIndex;
 					proteinsIndex++;
-					}
+				}
 				else {
 					proteins[previousOccuranceIndex].consolidate(newProtein, colIndex);
 					uniquePeptidesIndex = previousOccuranceIndex;
 				}
-				}
+			}
 			if(countUniquePeptides && inProtein)
-				{
+			{
 				do{
 					getline(inF, line);
 					if(line[0] == '*')
@@ -288,8 +326,8 @@ bool Proteins::readIn(string wd, const FilterFileParam& filterFile, bool countUn
 				proteins[uniquePeptidesIndex].col[colIndex].uniquePeptides = toString(numUniquePeptides);
 				numUniquePeptides = 0;
 				getNewLine = false;
-				}
 			}
+		}
 	}
 	colIndex++;
 	return true;
@@ -298,15 +336,15 @@ bool Proteins::readIn(string wd, const FilterFileParam& filterFile, bool countUn
 bool Proteins::readIn(string wd, const FilterFileParams& filterFile)
 {
 	for (int i = 0; i < filterFile.numFiles; i++)
-		{
+	{
 		if(!readIn(wd, filterFile.file[i], filterFile.includeUnique))
-			{
+		{
 			cout <<"Failed to read in " << filterFile.file[i].path <<"!" << endl <<
 			"Exiting..." << endl;
 			return false;
-			}
-		cout << "Adding " << filterFile.file[i].colname << "..." << endl;
 		}
+		cout << "Adding " << filterFile.file[i].colname << "..." << endl;
+	}
 	return true;
 }
 
@@ -329,44 +367,47 @@ bool Proteins::writeOut(string ofname, const FilterFileParams& filterFileParams)
 {
 	ofstream outF (ofname.c_str());
 	bool parseSampleName = filterFileParams.sampleNamePrefix != "";
+	int colNamesLength = DEFAULT_COL_NAMES_LENGTH;
+	if(filterFileParams.getSubCelluarLoc)
+		colNamesLength++;
 	
 	if(!outF)
 		return false;
 	
 	//print header lines
 	if(parseSampleName)
-		{
+	{
 		string delim;
 		if(filterFileParams.includeUnique)
 			delim = "\t\t";
 		else delim = "\t";
-		for (int i = 0; i < DEFAULT_COL_NAMES_LENGTH; i++)
+		for (int i = 0; i < colNamesLength; i++)
 			outF << '\t';
 		for (int i = 0; i < colNames.size() ; i++)
 			outF << colNames[i] << delim;
 		outF << endl;
-		}
+	}
 	if (filterFileParams.includeUnique)
-		{
-		for (int i = 0; i < DEFAULT_COL_NAMES_LENGTH; i++)
+	{
+		for (int i = 0; i < colNamesLength; i++)
 			outF << '\t';
 		for (int i = 0; i < colNames.size(); i++)
-			{
+		{
 			if (i == 0)
 				outF << parseSample(colNames[i], filterFileParams.sampleNamePrefix, "standard");
 			else outF << '\t' <<'\t' << parseSample(colNames[i], filterFileParams.sampleNamePrefix, "standard");
-			}
+		}
 		outF << endl;
-		for (int i = 0; i < DEFAULT_COL_NAMES_LENGTH; i++)
+		for (int i = 0; i < colNamesLength; i++)
 			outF << DEFAULT_COL_NAMES[i] <<'\t';
 		for (int i = 0; i < colNames.size(); i++)
 			outF << UNIQUE_PEPTIDE_HEADERS[0] << '\t' << UNIQUE_PEPTIDE_HEADERS[1] << '\t';
 		outF << endl;
-		}
+	}
 	else
-		{
+	{
 		vector<string> ofColNames;
-		for (int i = 0; i < DEFAULT_COL_NAMES_LENGTH; i ++)
+		for (int i = 0; i < colNamesLength; i ++)
 			ofColNames.push_back(DEFAULT_COL_NAMES[i]);
 		for (int i = 0; i < colNames.size(); i ++)
 			ofColNames.push_back(parseSample(colNames[i], filterFileParams.sampleNamePrefix, "standard"));
@@ -374,12 +415,12 @@ bool Proteins::writeOut(string ofname, const FilterFileParams& filterFileParams)
 		for (int i = 0; i < colNamesLen; i++)
 			outF << ofColNames[i] << '\t';
 		outF << endl;
-		}
+	}
 	
 	//print proteins and spectral counts
 	int proteinsLen = int(proteins.size());
 	for (int i = 0; i < proteinsLen; i++)
-		{
+	{
 		if (INCLUDE_FULL_DESCRIPTION)
 			outF << proteins[i].fullDescription << '\t';
 		
@@ -387,15 +428,18 @@ bool Proteins::writeOut(string ofname, const FilterFileParams& filterFileParams)
 		proteins[i].description << '\t' <<
 		proteins[i].MW << '\t';
 		
+		if(filterFileParams.getSubCelluarLoc)
+			outF << proteins[i].loc << '\t';
+		
 		for (int j = 0; j < colIndex; j++)
-			{
+		{
 			outF << proteins[i].col[j].count << '\t';
 			if (filterFileParams.includeUnique)
 				outF << proteins[i].col[j].uniquePeptides << '\t';
-			}
+		}
 		
 		outF << endl;
-		}
+	}
 	
 	
 	return true;
@@ -409,11 +453,25 @@ bool Proteins::writeOutDB(string ofname, const FilterFileParams& filterFileParam
 	if(!outF)
 		return false;
 	
+	vector<string> headers;
+	int len;
+	if(filterFileParams.getSubCelluarLoc)
+	{
+		for (int i = 0; i < DEFAULT_COL_NAMES_DB_LOC_LENGTH ; i++)
+			headers.push_back(DEFAULT_COL_NAMES_DB_LOC[i]);
+		len = DEFAULT_COL_NAMES_DB_LOC_LENGTH;
+	}
+	else {
+		for (int i = 0; i < DEFAULT_COL_NAMES_DB_LENGTH ; i++)
+			headers.push_back(DEFAULT_COL_NAMES_DB[i]);
+		len = DEFAULT_COL_NAMES_DB_LENGTH;
+	}
+	
 	//popuate ofColNames with default col names and unique peptide headers if necissary
 	//and print first line of report
 	vector<string> ofColNames;
-	for (int i = 0; i < DEFAULT_COL_NAMES_DB_LENGTH - (!parseSampleName * 2); i ++)
-		ofColNames.push_back(DEFAULT_COL_NAMES_DB[i]);
+	for (int i = 0; i < len - (!parseSampleName * 2); i ++)
+		ofColNames.push_back(headers[i]);
 	if(filterFileParams.includeUnique)
 		ofColNames.push_back(UNIQUE_PEPTIDE_HEADERS[1]);
 	
@@ -424,34 +482,47 @@ bool Proteins::writeOutDB(string ofname, const FilterFileParams& filterFileParam
 	//print proteins and spectral counts
 	int proteinsLen = int(proteins.size());
 	for (int i = 0; i < colNames.size(); i++)
-		{
+	{
 		for (int j = 0; j < proteinsLen; j++)
-			{
+		{
 			if (INCLUDE_FULL_DESCRIPTION)
 				outF << proteins[j].fullDescription << '\t';
 			
 			outF << proteins[j].ID << '\t' <<
 			proteins[j].description << '\t' <<
-			proteins[j].MW << '\t' <<
-			proteins[j].col[i].colname << '\t' <<
+			proteins[j].MW << '\t';
+			
+			if(filterFileParams.getSubCelluarLoc)
+				outF << proteins[j].loc << '\t';
+			
+			outF << proteins[j].col[i].colname << '\t' <<
 			proteins[j].col[i].count;
 			
 			if (parseSampleName)
-				{
+			{
 				outF << '\t' << parseSample(proteins[j].col[i].colname, filterFileParams.sampleNamePrefix, "DB") << '\t' <<
 				parseReplicate(proteins[j].col[i].colname);
-				}
+			}
 			
 			if (filterFileParams.includeUnique)
-				{
 				outF << '\t' << proteins[j].col[i].uniquePeptides;
-				}
 			
 			outF << endl;
-			}
 		}
+	}
 	
 	return true;
+}
+
+void Proteins::addSubcelluarLoc(const Btree& locDBtree)
+{
+	int len = int(proteins.size());
+	for (int i = 0; i < len; i++)
+	{
+		DBProtein temp = proteins[i].toDBprotein();
+		string loc = locDBtree.locSearch(temp);
+		proteins[i].loc = loc;
+	}
 }
 
 //check if line containing % is a collumn header line instead of a protein header line
