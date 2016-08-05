@@ -9,7 +9,7 @@
 using namespace std;
 
 string const WHITESPACE = " \f\n\r\t\v";
-string const COMMENT_SYMBOL = "#"; //if changed value must also be changed in DTarray_AJM.sh
+string const COMMENT_SYMBOL = "#"; //if changed, paramsCommentSymbol must also be changed in DTarray_AJM.sh
 
 bool dirExists (string);
 bool fileExists (string);
@@ -50,7 +50,7 @@ string toString(int num)
 }
 
 //converts string to int because atoi does not work with some c++ compilers
-//Precondition: str must be an integer stored as a string
+//Precondition: str must be a string with a valid interger conversion
 int toInt(string str)
 {
 	assert(isInteger(str));

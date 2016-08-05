@@ -27,13 +27,10 @@ int main (int argc, char *argv[])
 		cout <<"Failed to read params file! Exiting..." << endl;
 		return 0;
 	}
-	if(!filterFileParams.sampleNamePrefix.empty())
-		cout << "Parsing colnames by prefix: " << filterFileParams.sampleNamePrefix << endl;
 	
 	//combine files
 	cout << endl;
-	Proteins proteins;
-	proteins.initialize(filterFileParams);
+	Proteins proteins(filterFileParams);
 	if(!proteins.readIn(wd, filterFileParams))
 		return 0;
 	
@@ -50,12 +47,15 @@ int main (int argc, char *argv[])
 		proteins.addSubcelluarLoc(proteinDBtree);
 	}
 	
+	if(!filterFileParams.sampleNamePrefix.empty())
+		cout << "Parsing colnames by prefix: " << filterFileParams.sampleNamePrefix << endl;
+	
 	//write out combined data to OF_NAME
 	if (filterFileParams.outputFormat == "standard")
 	{
 		if(!proteins.writeOut(wd + OF_NAME, filterFileParams))
 		{
-			cout << "Could not write outFile! Exiting..." << endl;
+			cout << "Could not write out file! Exiting..." << endl;
 			return 0;
 		}
 	}
@@ -63,7 +63,7 @@ int main (int argc, char *argv[])
 	{
 		if(!proteins.writeOutDB(wd + OF_NAME, filterFileParams))
 		{
-			cout << "Could not write outFile! Exiting..." << endl;
+			cout << "Could not write out file! Exiting..." << endl;
 			return 0;
 		}
 		cout << endl << "Results written in database format." << endl;

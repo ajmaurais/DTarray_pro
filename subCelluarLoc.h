@@ -103,17 +103,16 @@ class Btree{
 public:
 	Btree();
 	~Btree();
-	int count;
 	
 	void insert(const DBProtein&);
-	Node *search(const DBProtein&) const;
 	bool readInProteins(string);
-	void destroyTree();
 	string locSearch(const DBProtein&) const;
 	
 private:
+	void destroyTree();
 	void insert(const DBProtein& p, Node *leaf);
 	Node *search(const DBProtein& p, Node *leaf) const;
+	Node *search(const DBProtein&) const;
 	void destroyTree(Node *leaf);
 	
 	Node *root;
@@ -121,7 +120,6 @@ private:
 
 Btree::Btree()
 {
-	count = 0;
 	root = nullptr;
 }
 
@@ -142,46 +140,40 @@ void Btree::destroyTree(Node *leaf)
 
 void Btree::destroyTree()
 {
-	if(count != 0)
-	{
-		destroyTree(root);
-		count = 0;
-	}
+	destroyTree(root);
 }
 
 void Btree::insert(const DBProtein& p, Node *leaf)
 {
 	if(p < leaf->protein)
 	{
-		if(leaf->left!=nullptr)
+		if(leaf->left != nullptr)
 			insert(p, leaf->left);
 		else
 		{
-			leaf->left=new Node;
+			leaf->left = new Node;
 			leaf->left->protein = p;
 			leaf->left->left=nullptr;
 			leaf->left->right=nullptr;
-			count ++;
 		}
 	}
 	else if(p > leaf->protein || p == leaf->protein)
 	{
-		if(leaf->right!=nullptr)
+		if(leaf->right != nullptr)
 			insert(p, leaf->right);
 		else
 		{
-			leaf->right=new Node;
+			leaf->right = new Node;
 			leaf->right->protein = p;
 			leaf->right->left=nullptr;
 			leaf->right->right=nullptr;
-			count ++;
 		}
 	}
 }
 
 Node *Btree::search(const DBProtein& p, Node *leaf) const
 {
-	if(leaf!=NULL)
+	if(leaf!=nullptr)
 	{
 		if(p == leaf->protein)
 			return leaf;
@@ -190,20 +182,19 @@ Node *Btree::search(const DBProtein& p, Node *leaf) const
 		else
 			return search(p, leaf->right);
 	}
-	else return NULL;
+	else return nullptr;
 }
 
 void Btree::insert(const DBProtein& p)
 {
-	if(root!=NULL)
+	if(root!=nullptr)
 		insert(p, root);
 	else
 	{
 		root=new Node;
 		root->protein = p;
-		root->left=NULL;
-		root->right=NULL;
-		count ++;
+		root->left=nullptr;
+		root->right=nullptr;
 	}
 }
 
@@ -214,7 +205,7 @@ Node *Btree::search(const DBProtein& p) const
 
 string Btree::locSearch(const DBProtein& p) const
 {
-	Node* node =  search(p, root);
+	Node* node = search(p, root);
 	if(node == nullptr)
 		return "NOT FOUND IN DB";
 	
@@ -234,7 +225,7 @@ bool Btree::readInProteins(string fname)
 	while(!inF.eof()){
 		getline(inF, line);
 		DBProtein newDBProtein(line);
-		if (newDBProtein.ID != "ID")
+		if (newDBProtein.ID != "ID") //skip line if it is header line
 			insert(newDBProtein);
 	}
 	

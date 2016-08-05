@@ -1,12 +1,12 @@
 
 #editable paramaters
 scriptWD="$HOME/scripts/DTarray_AJM/"
-locDBfname="/Users/Aaron/scripts/DTarray_AJM/subcellLocDB.txt"
+locDBfname="/Users/Aaron/scripts/DTarray_AJM/subCelluarLoc.txt"
 recompileMessage='DTarray_AJM source code recompiled.'
 invalidOptionMessage="is an invalid option! Exiting..."
 numParamsInParamsFile=3
 defaultParamsName="dtarray_ajm.params"
-paramsCommentSymbol="#" #if changed, value must also be changed in utils.h
+paramsCommentSymbol="#" #if changed, COMMENT_SYMBOL must also be changed in utils.h
 
 #default paramaters
 paramsName=$defaultParamsName

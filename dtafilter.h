@@ -88,7 +88,7 @@ bool FilterFileParams::readDTParams(string fname, string path)
 	{
 		getline(inF, line);
 		line = trim(line);
-		if(isCommentLine(line) || line == "")
+		if(isCommentLine(line) || line.empty())
 			continue;
 		if(strContains('=', line))
 		{
@@ -251,19 +251,26 @@ class Proteins{
 public:
 	vector<string> colNames;
 	
+	//constructor
+	Proteins(const FilterFileParams&);
+	Proteins();
+	
 	//properities
 	bool writeOut(string, const FilterFileParams&) const;
 	bool writeOutDB(string, const FilterFileParams&) const;
 	
 	//modifiers
-	void initialize(const FilterFileParams&);
 	bool readIn(string, const FilterFileParams&);
-	void addBlanks();
 	void addSubcelluarLoc(const Btree&);
 };
 
+Proteins::Proteins()
+{
+	colIndex = 0;
+}
+
 //initialize Proteins.colnames with files contained in params file
-void Proteins::initialize(const FilterFileParams& files)
+Proteins::Proteins(const FilterFileParams& files)
 {
 	colIndex = 0;
 	
@@ -295,15 +302,14 @@ bool Proteins::readIn(string wd, const FilterFileParam& filterFile, bool countUn
 			getline(inF, line);
 		getNewLine = true;
 		if(strContains('%', line))  //find protein header lines by percent symbol for percent coverage
-									//if(strContains('|', line) && strContains('%', line))  //alternativly use both | and % symbols but may loose
-									//some uncharacterized proteins
 		{
 			Protein newProtein;
 			newProtein.initialize(colNames);
-			if(newProtein.getProteinData(line, colIndex))
+			if(newProtein.getProteinData(line, colIndex)) //if line is not column header line populate protein to Proteins
 			{
-				inProtein = true;
-				previousOccuranceIndex = previousOccurance(newProtein);
+				inProtein = true; //used to determine if whether it is valid to loop through peptide lines below protein
+								  //header line to extract unique peptide spectral counts
+				previousOccuranceIndex = previousOccurance(newProtein); //find index at which newProtein occures in Proteins
 				if (previousOccuranceIndex == -1)
 				{
 					proteins.push_back(blank);
@@ -316,6 +322,7 @@ bool Proteins::readIn(string wd, const FilterFileParam& filterFile, bool countUn
 					uniquePeptidesIndex = previousOccuranceIndex;
 				}
 			}
+			//count spectral counts for unique peptides
 			if(countUniquePeptides && inProtein)
 			{
 				do{
@@ -326,6 +333,7 @@ bool Proteins::readIn(string wd, const FilterFileParam& filterFile, bool countUn
 				proteins[uniquePeptidesIndex].col[colIndex].uniquePeptides = toString(numUniquePeptides);
 				numUniquePeptides = 0;
 				getNewLine = false;
+				inProtein = false;
 			}
 		}
 	}
@@ -441,7 +449,6 @@ bool Proteins::writeOut(string ofname, const FilterFileParams& filterFileParams)
 		outF << endl;
 	}
 	
-	
 	return true;
 }
 
@@ -510,19 +517,16 @@ bool Proteins::writeOutDB(string ofname, const FilterFileParams& filterFileParam
 			outF << endl;
 		}
 	}
-	
 	return true;
 }
 
+//seearches binary tree containing subcelluar localization data and populates data
+//to loc element in each Protein in Proteins
 void Proteins::addSubcelluarLoc(const Btree& locDBtree)
 {
 	int len = int(proteins.size());
 	for (int i = 0; i < len; i++)
-	{
-		DBProtein temp = proteins[i].toDBprotein();
-		string loc = locDBtree.locSearch(temp);
-		proteins[i].loc = loc;
-	}
+		proteins[i].loc = locDBtree.locSearch(proteins[i].toDBprotein());
 }
 
 //check if line containing % is a collumn header line instead of a protein header line
@@ -538,7 +542,6 @@ bool isColumnHeaderLine(const vector<string>& elems)
 	return true;
 }
 
-
 //optional fxn to parse long sample name
 string parseSample(string sampleName, string prefix, string outputFormat)
 {
@@ -550,10 +553,10 @@ string parseSample(string sampleName, string prefix, string outputFormat)
 	//size_t posBegin = sample.find("_");
 	//sample = sample.substr(0, posBegin) + " " + sample.substr(posBegin+1, sample.length() - posEnd);
 	
-	string sample = sampleName.substr(prefix.length());
+	string sample = sampleName.substr(prefix.length()); //remove prefix from begining of sampleName
 	if(outputFormat == "standard")
 		return sample;
-	if(outputFormat == "DB")
+	if(outputFormat == "DB") //remove replicate number from sampleName if using DB outformat
 		return sample.substr(0, sample.find_last_of("_"));
 	
 	return sampleName;
@@ -571,6 +574,7 @@ int parsePeptideSC(string line)
 	//split line by tabs
 	vector<string> elems;
 	split(line, '\t', elems);
+	assert(elems.size() > 11);
 	
 	//return SC for peptide as int
 	return toInt(elems[11]);
