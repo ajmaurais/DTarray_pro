@@ -6,9 +6,10 @@
  25 May 2016
  */
 
-#include <iostream>
-#include <vector>
-#include "dtafilter.h"
+#include "DTarray_AJM.h"
+#include "dtafilter.cpp"
+#include "subCelluarLoc.cpp"
+#include "utils.cpp"
 
 using namespace std;
 
@@ -28,7 +29,7 @@ int main (int argc, char *argv[])
 		return 0;
 	}
 	
-	//combine files
+	//read in and combine files
 	cout << endl;
 	Proteins proteins(filterFileParams);
 	if(!proteins.readIn(wd, filterFileParams))

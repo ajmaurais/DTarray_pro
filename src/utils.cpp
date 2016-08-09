@@ -1,27 +1,5 @@
 
-#include <sys/stat.h>
-#include <string>
-#include <sstream>
-#include <vector>
-#include <stdlib.h>
-#include <cassert>
-
-using namespace std;
-
-string const WHITESPACE = " \f\n\r\t\v";
-string const COMMENT_SYMBOL = "#"; //if changed, paramsCommentSymbol must also be changed in DTarray_AJM.sh
-
-bool dirExists (string);
-bool fileExists (string);
-string toString(int);
-int toInt(string);
-bool strContains(char, string);
-void split (const string, char, vector<string> &);
-inline string trimTraling(const string&);
-inline string trimLeading(const string&);
-inline string trim(const string&);
-bool isCommentLine(string);
-bool isInteger(string);
+//using namespace std;
 
 //returns true if folder at end of path exists and false if it does not
 bool dirExists (string path)
@@ -64,16 +42,16 @@ int toInt(string str)
 	return num;
 }
 
-//search through string for char and return true if char is found
-bool strContains(char findTxt, string whithinTxt)
+//returns true if findTxt is found in whithinTxt and false if it it not
+inline bool strContains(string findTxt, string whithinTxt)
 {
-	int len = int(whithinTxt.length());
-	
-	for(int i = 0; i < len; i++)
-		if(whithinTxt[i] == findTxt)
-			return true;
-	
-	return false;
+	return whithinTxt.find(findTxt) != string::npos;
+}
+
+//overloaded version of strContains handels findTxt as char
+inline bool strContains(char findTxt, string whithinTxt)
+{
+	return strContains(string(1, findTxt), whithinTxt);
 }
 
 //split str by delim and populate each split into elems

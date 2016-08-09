@@ -1,10 +1,14 @@
 
 #editable paramaters
-scriptWD="$HOME/scripts/DTarray_AJM/"
-locDBfname="/Users/Aaron/scripts/DTarray_AJM/subCelluarLoc.txt"
+scriptWDHome="$HOME/scripts/DTarray_AJM"
+scriptWDbin="$scriptWDHome/bin"
+scriptWDsrc="$scriptWDHome/src"
+locDBfname="$scriptWDHome/db/subCelluarLoc.txt"
+binName="DTarray_AJM"
+
 recompileMessage='DTarray_AJM source code recompiled.'
 invalidOptionMessage="is an invalid option! Exiting..."
-numParamsInParamsFile=3
+numParamsInParamsFile=7
 defaultParamsName="dtarray_ajm.params"
 paramsCommentSymbol="#" #if changed, COMMENT_SYMBOL must also be changed in utils.h
 
@@ -84,13 +88,14 @@ echo "getSubCelluarLoc = "$getSubCelluarLoc
 echo
 
 #compile source code if necissary
-cd $scriptWD/
-if ! [[ -a a.out ]] ; then
+cd $scriptWDbin
+if ! [[ -a $binName ]] ; then
     recompileMessage='DTarray_AJM object file not found. Recompiling from source code...'
     recompile=true
 fi
 if $recompile ; then
-	g++ main.cpp #>& compiler_output.txt
+	cd $scriptWDsrc
+	g++ -o $scriptWDbin/$binName main.cpp
     echo $recompileMessage
 fi
 
@@ -126,8 +131,8 @@ if ! [[ -a $paramsName ]] ; then
 						echo -e $D'\t'$D'/'"DTASelect-filter.txt" >> ../$paramsName
 						filesFound=true
 					fi
+					cd ..
 				fi
-				cd ..
 			done
 			#if no DTA-filter files were found, exit program.
 			if ! $filesFound ; then
@@ -140,29 +145,32 @@ if ! [[ -a $paramsName ]] ; then
 			exit
 		;;
 	esac
-	#add sampleNamePrefix to params
-	echo -e "\n$paramsCommentSymbol Params" >> ./$paramsName
-	echo 'outputFormat='$output >> ./$paramsName
-	echo 'includeUnique='$includeUnique >> ./$paramsName
-	echo 'sampleNamePrefix='$sampleNamePrefix >> ./$paramsName
-	echo 'getSubCelluarLoc='$getSubCelluarLoc >> ./$paramsName
-	echo 'locDBfname='$locDBfname >> ./$paramsName
+#	echo -e "\n$paramsCommentSymbol Params" >> ./$paramsName#
+#	echo 'outputFormat='$output >> ./$paramsName#
+#	echo 'includeUnique='$includeUnique >> ./$paramsName
+#	echo 'sampleNamePrefix='$sampleNamePrefix >> ./$paramsName
+#	echo 'getSubCelluarLoc='$getSubCelluarLoc >> ./$paramsName
+#	echo 'locDBfname='$locDBfname >> ./$paramsName
 	keepParams=true
 fi
+
+#add output paramaters to params
+cd $wd
 if [ -a $paramsName ] && ! $keepParams ; then
 	numLines=$(($(echo $(wc -l $paramsName)|cut -d' ' -f 1)-$numParamsInParamsFile))
 	head -n $numLines $paramsName > .dtarray_ajm.temp
 	cat .dtarray_ajm.temp > $paramsName
-	echo -e "\n$paramsCommentSymbol Params" >> ./$paramsName
-	echo 'outputFormat='$output >> ./$paramsName
-	echo 'includeUnique='$includeUnique >> ./$paramsName
-	echo 'sampleNamePrefix='$sampleNamePrefix >> ./$paramsName
-	echo 'getSubCelluarLoc='$getSubCelluarLoc >> ./$paramsName
-	echo 'locDBfname='$locDBfname >> ./$paramsName
 fi
+echo -e "\n$paramsCommentSymbol Params" >> ./$paramsName
+echo 'outputFormat='$output >> ./$paramsName
+echo 'includeUnique='$includeUnique >> ./$paramsName
+echo 'sampleNamePrefix='$sampleNamePrefix >> ./$paramsName
+echo 'getSubCelluarLoc='$getSubCelluarLoc >> ./$paramsName
+echo 'locDBfname='$locDBfname >> ./$paramsName
+
 
 #run DTarray_AJM
-cd $scriptWD
-./a.out $wd/ $paramsName
+cd $scriptWDbin
+./$binName $wd/ $paramsName
 
 echo "Done"

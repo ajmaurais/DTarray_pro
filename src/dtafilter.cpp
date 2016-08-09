@@ -1,55 +1,5 @@
 
-#include <iostream>
-#include <vector>
-#include <fstream>
-#include <cassert>
-#include "utils.h"
-#include "subCelluarLoc.h"
-
-using namespace std;
-
-//editable paramaters
-string const OF_NAME = "DTarray_AJM.txt";
-bool const INCLUDE_FULL_DESCRIPTION = true;
-//string const DEFAULT_COL_NAMES [] = {"ID", "Description", "Mass (Da)"};
-string const DEFAULT_COL_NAMES [] = {"Protein","ID", "Description", "Mass (Da)", "subcellular location"};
-int const DEFAULT_COL_NAMES_LENGTH = 4;
-string const COLUMN_HEADER_LINE_ELEMENTS[] = {"Unique", "FileName", "XCorr", "DeltCN", "Conf%", "M+H+",
-	"CalcM+H+", "TotalIntensity", "SpR", "ZScore", "IonProportion", "Redundancy", "Sequence"};
-int const COLUMN_HEADER_LINE_ELEMENTS_LENGTH = 13;
-string const PARAM_ERROR_MESSAGE = " is an invalid arguement for: ";
-
-//editable params for DB output format
-string const DEFAULT_COL_NAMES_DB [] = {"Protein","ID", "Description", "Mass (Da)", "Long sample name",
-	"Spectral counts", "Sample", "Replicate"};
-int const DEFAULT_COL_NAMES_DB_LENGTH = 8;
-string const DEFAULT_COL_NAMES_DB_LOC [] = {"Protein","ID", "Description", "Mass (Da)", "subcellular location", "Long sample name",
-	"Spectral counts", "Sample", "Replicate"};
-int const DEFAULT_COL_NAMES_DB_LOC_LENGTH = 9;
-string const UNIQUE_PEPTIDE_HEADERS[] = {"SC", "Unique pep. SC"};
-
-//function definitions
-bool isColumnHeaderLine(const vector<string>&);
-string parseSample(string, string, string);
-int parsePeptideSC(string);
-string parseReplicate(string);
-
-//class definitions and member functions
-class Protein;
-class Proteins;
-
-struct FilterFileParam{
-	string path;
-	string colname;
-};
-
-struct Param {
-	string param;
-	string value;
-	
-	//constructor
-	Param (string);
-};
+//using namespace std;
 
 Param::Param(string line)
 {
@@ -59,38 +9,25 @@ Param::Param(string line)
 	value = line.substr(posStart + 1);
 }
 
-struct FilterFileParams{
-	vector<FilterFileParam> file;
-	int numFiles;
-	
-	string outputFormat;
-	string sampleNamePrefix;
-	bool includeUnique;
-	bool getSubCelluarLoc;
-	string locDBfname;
-	
-	//modifiers
-	bool readDTParams(string, string);
-};
-
+//read in files to combine and output paramaters from params file
 bool FilterFileParams::readDTParams(string fname, string path)
 {
 	ifstream inF ((path + fname).c_str());
+	
+	if (!inF)
+		return false;
 	
 	int i = 0;
 	numFiles = 0;
 	string line;
 	
-	if (!inF)
-		return false;
-	
 	while(!inF.eof())
 	{
 		getline(inF, line);
 		line = trim(line);
-		if(isCommentLine(line) || line.empty())
+		if(isCommentLine(line) || line.empty()) //skip line if is comment line
 			continue;
-		if(strContains('=', line))
+		if(strContains('=', line)) //find lines containing params by = symbol
 		{
 			Param param (line);
 			if(param.param == "sampleNamePrefix")
@@ -126,7 +63,8 @@ bool FilterFileParams::readDTParams(string fname, string path)
 			}
 			else return false;
 		}
-		else {
+		else //else line contains data for filter file
+		{
 			vector<string>elems;
 			split(line, '\t', elems);
 			if(elems.size() == 2)
@@ -146,13 +84,8 @@ bool FilterFileParams::readDTParams(string fname, string path)
 	return true;
 }
 
-struct FilterFile{
-	string colname, count;
-	string coverage, peptides, uniquePeptides;
-	
-	//constructor
-	FilterFile (string, string, string);
-};
+
+
 
 FilterFile::FilterFile(string arg1, string arg2, string arg3)
 {
@@ -161,22 +94,12 @@ FilterFile::FilterFile(string arg1, string arg2, string arg3)
 	uniquePeptides = arg3;
 }
 
-class Protein{
-	friend class Proteins;
-	vector <FilterFile> col;
-	
-	//modifier
-	void initialize(const vector<string>&);
-	bool getProteinData(string, int);
-	void consolidate(const Protein&, int);
-	DBProtein toDBprotein() const;
-	
-public:
-	string fullDescription, matchDirrection, ID, description, MW, loc;
-};
 
+
+//fill col element with colNames found in params file
 void Protein::initialize(const vector<string>& colNames)
 {
+	col.clear();
 	int len = int(colNames.size());
 	
 	for (int i = 0; i < len; i++)
@@ -225,6 +148,7 @@ bool Protein::getProteinData(string line, int colIndex)
 	return true;
 }
 
+//convert Protein to DBprotein to allow inteface with Btree of DBproteins
 DBProtein Protein::toDBprotein() const
 {
 	DBProtein dbprotein;
@@ -235,34 +159,12 @@ DBProtein Protein::toDBprotein() const
 
 void Protein::consolidate(const Protein& toAdd, int colIndex)
 {
-	col[colIndex] = toAdd.col[colIndex];
+	col[colIndex].colname = toAdd.col[colIndex].colname;
+	col[colIndex].count = toAdd.col[colIndex].count;
 }
 
-class Proteins{
-	vector <Protein> proteins;
-	int colIndex;
-	
-	//modifers
-	bool readIn(string, const FilterFileParam&, bool);
-	
-	//properties
-	int previousOccurance(const Protein&) const;
-	
-public:
-	vector<string> colNames;
-	
-	//constructor
-	Proteins(const FilterFileParams&);
-	Proteins();
-	
-	//properities
-	bool writeOut(string, const FilterFileParams&) const;
-	bool writeOutDB(string, const FilterFileParams&) const;
-	
-	//modifiers
-	bool readIn(string, const FilterFileParams&);
-	void addSubcelluarLoc(const Btree&);
-};
+
+
 
 Proteins::Proteins()
 {
@@ -278,8 +180,7 @@ Proteins::Proteins(const FilterFileParams& files)
 		colNames.push_back(files.file[i].colname);
 }
 
-//read in protein headder lines and parse with getProteinData
-//bool Proteins::readIn(string fname, string colname, bool countUniquePeptides)
+//loop through protein headder and peptide lines in DTA filter file and add data to Proteins
 bool Proteins::readIn(string wd, const FilterFileParam& filterFile, bool countUniquePeptides)
 {
 	string fname = wd + filterFile.path;
@@ -310,19 +211,20 @@ bool Proteins::readIn(string wd, const FilterFileParam& filterFile, bool countUn
 				inProtein = true; //used to determine if whether it is valid to loop through peptide lines below protein
 								  //header line to extract unique peptide spectral counts
 				previousOccuranceIndex = previousOccurance(newProtein); //find index at which newProtein occures in Proteins
-				if (previousOccuranceIndex == -1)
+				if (previousOccuranceIndex == -1) //if protein is not found, add to proteins dataset
 				{
 					proteins.push_back(blank);
 					proteins[proteinsIndex] = newProtein;
 					uniquePeptidesIndex = proteinsIndex;
 					proteinsIndex++;
 				}
-				else {
+				else //if protein is found, add spectral counts to appropiate filterFile
+				{
 					proteins[previousOccuranceIndex].consolidate(newProtein, colIndex);
 					uniquePeptidesIndex = previousOccuranceIndex;
 				}
 			}
-			//count spectral counts for unique peptides
+			//extract spectral counts for unique peptides
 			if(countUniquePeptides && inProtein)
 			{
 				do{
@@ -341,17 +243,18 @@ bool Proteins::readIn(string wd, const FilterFileParam& filterFile, bool countUn
 	return true;
 }
 
-bool Proteins::readIn(string wd, const FilterFileParams& filterFile)
+//public Proteins::readIn function which adds all files in filterFileParams to Proteins
+//and summarizes progress for user.
+bool Proteins::readIn(string wd, const FilterFileParams& filterFileParams)
 {
-	for (int i = 0; i < filterFile.numFiles; i++)
+	for (int i = 0; i < filterFileParams.numFiles; i++)
 	{
-		if(!readIn(wd, filterFile.file[i], filterFile.includeUnique))
+		if(!readIn(wd, filterFileParams.file[i], filterFileParams.includeUnique))
 		{
-			cout <<"Failed to read in " << filterFile.file[i].path <<"!" << endl <<
-			"Exiting..." << endl;
+			cout <<"Failed to read in " << filterFileParams.file[i].path <<"!" << endl << "Exiting..." << endl;
 			return false;
 		}
-		cout << "Adding " << filterFile.file[i].colname << "..." << endl;
+		cout << "Adding " << filterFileParams.file[i].colname << "..." << endl;
 	}
 	return true;
 }
@@ -370,7 +273,7 @@ int Proteins::previousOccurance(const Protein& newProtein) const
 	return -1;
 }
 
-//write out combined protein lists to ofname
+//write out combined protein lists to ofname in wide format
 bool Proteins::writeOut(string ofname, const FilterFileParams& filterFileParams) const
 {
 	ofstream outF (ofname.c_str());
@@ -452,6 +355,7 @@ bool Proteins::writeOut(string ofname, const FilterFileParams& filterFileParams)
 	return true;
 }
 
+//write out combined protein lists to ofname in long format
 bool Proteins::writeOutDB(string ofname, const FilterFileParams& filterFileParams) const
 {
 	ofstream outF (ofname.c_str());
@@ -521,7 +425,7 @@ bool Proteins::writeOutDB(string ofname, const FilterFileParams& filterFileParam
 }
 
 //seearches binary tree containing subcelluar localization data and populates data
-//to loc element in each Protein in Proteins
+//to loc element for each Protein in Proteins
 void Proteins::addSubcelluarLoc(const Btree& locDBtree)
 {
 	int len = int(proteins.size());
@@ -546,7 +450,8 @@ bool isColumnHeaderLine(const vector<string>& elems)
 string parseSample(string sampleName, string prefix, string outputFormat)
 {
 	//return unparsed sampleName if prefix is empty string or is not found in sampleName
-	if(sampleName.find(prefix) == string::npos || prefix.length() == 0)
+	//if(sampleName.find(prefix) == string::npos || prefix.length() == 0)
+	if(strContains(prefix, sampleName) || prefix.length() == 0)
 		return sampleName;
 	
 	//old version which adds space instead of _ between sample name

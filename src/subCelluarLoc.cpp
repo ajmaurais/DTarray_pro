@@ -1,28 +1,5 @@
 
-//#include<iostream>
-#include<fstream>
-#include<vector>
-#include<sstream>
-#include<cassert>
-
-using namespace std;
-
-struct DBProtein{
-	string ID, gene, description, loc;
-	
-	//constructor
-	DBProtein(string);
-	DBProtein();
-	
-	//modifers
-	void operator = (const DBProtein&);
-	void clear();
-	
-	//properties
-	bool operator < (const DBProtein&) const;
-	bool operator > (const DBProtein&) const;
-	bool operator == (const DBProtein&) const;
-};
+//using namespace std;
 
 DBProtein::DBProtein()
 {
@@ -60,20 +37,17 @@ DBProtein::DBProtein(string line)
 
 bool DBProtein::operator < (const DBProtein& compp) const
 {
-	int comp = strcmp(compp.ID.c_str(), ID.c_str());
-	return comp > 0;
+	return strComp(compp.ID, ID) > 0;
 }
 
 bool DBProtein::operator > (const DBProtein& compp) const
 {
-	int comp = strcmp(compp.ID.c_str(), ID.c_str());
-	return comp < 0;
+	return strComp(compp.ID, ID) < 0;
 }
 
 bool DBProtein::operator == (const DBProtein& compp) const
 {
-	int comp = strcmp(compp.ID.c_str(), ID.c_str());
-	return comp == 0;
+	return strComp(compp.ID, ID) == 0;
 }
 
 void DBProtein::operator = (const DBProtein& pget)
@@ -84,39 +58,12 @@ void DBProtein::operator = (const DBProtein& pget)
 	loc = pget.loc;
 }
 
-struct Node{
-	DBProtein protein;
-	Node();
-	
-	Node *left;
-	Node *right;
-};
-
 Node::Node()
 {
 	new struct DBProtein;
 	left = nullptr;
 	right = nullptr;
 }
-
-class Btree{
-public:
-	Btree();
-	~Btree();
-	
-	void insert(const DBProtein&);
-	bool readInProteins(string);
-	string locSearch(const DBProtein&) const;
-	
-private:
-	void destroyTree();
-	void insert(const DBProtein& p, Node *leaf);
-	Node *search(const DBProtein& p, Node *leaf) const;
-	Node *search(const DBProtein&) const;
-	void destroyTree(Node *leaf);
-	
-	Node *root;
-};
 
 Btree::Btree()
 {
@@ -215,7 +162,7 @@ string Btree::locSearch(const DBProtein& p) const
 
 bool Btree::readInProteins(string fname)
 {
-	ifstream inF (fname);
+	ifstream inF (fname.c_str());
 	
 	if (!inF)
 		return false;
@@ -230,4 +177,9 @@ bool Btree::readInProteins(string fname)
 	}
 	
 	return true;
+}
+
+inline int strComp(const string& str1, const string& str2)
+{
+	return strcmp(str1.c_str(), str2.c_str());
 }
