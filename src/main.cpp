@@ -16,16 +16,22 @@ using namespace std;
 int main (int argc, char *argv[])
 {
 	//check paramaters
-	assert(argc == 3);
+	assert(argc == 4);
 	string wd = string(argv[1]);
-	string paramsName = string(argv[2]);
+	string flistName = string(argv[2]);
+	string paramsName = string(argv[3]);
 	assert(dirExists(wd));
 	
-	//read in names of files to combine from params file
+	//read in names of files to combine and output params
 	FilterFileParams filterFileParams;
+	if (!filterFileParams.readFlist(flistName, wd))
+	{
+		cout << "Failed to read file list! Exiting..." << endl;
+		return 0;
+	}
 	if (!filterFileParams.readDTParams(paramsName, wd))
 	{
-		cout <<"Failed to read params file! Exiting..." << endl;
+		cout << "Failed to read params file! Exiting..." << endl;
 		return 0;
 	}
 	

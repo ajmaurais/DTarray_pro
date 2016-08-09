@@ -17,8 +17,6 @@ bool FilterFileParams::readDTParams(string fname, string path)
 	if (!inF)
 		return false;
 	
-	int i = 0;
-	numFiles = 0;
 	string line;
 	
 	while(!inF.eof())
@@ -61,8 +59,29 @@ bool FilterFileParams::readDTParams(string fname, string path)
 				getSubCelluarLoc = toInt(param.value);
 				continue;
 			}
-			else return false;
 		}
+		else return false;
+	}
+	return true;
+}
+
+bool FilterFileParams::readFlist(string fname, string path)
+{
+	ifstream inF ((path + fname).c_str());
+	
+	if (!inF)
+		return false;
+	
+	int i = 0;
+	numFiles = 0;
+	string line;
+	
+	while(!inF.eof())
+	{
+		getline(inF, line);
+		line = trim(line);
+		if(isCommentLine(line) || line.empty()) //skip line if is comment line
+			continue;
 		else //else line contains data for filter file
 		{
 			vector<string>elems;
@@ -83,9 +102,6 @@ bool FilterFileParams::readDTParams(string fname, string path)
 	
 	return true;
 }
-
-
-
 
 FilterFile::FilterFile(string arg1, string arg2, string arg3)
 {

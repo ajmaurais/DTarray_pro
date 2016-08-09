@@ -10,17 +10,19 @@ recompileMessage='DTarray_AJM source code recompiled.'
 invalidOptionMessage="is an invalid option! Exiting..."
 numParamsInParamsFile=7
 defaultParamsName="dtarray_ajm.params"
+defaultFlistName="dtarray_ajm_flist.txt"
 paramsCommentSymbol="#" #if changed, COMMENT_SYMBOL must also be changed in utils.h
 
 #default paramaters
 paramsName=$defaultParamsName
+flistName=$defaultFlistName
 input="standard"
 output="standard"
 includeUnique="0"
 wd=$(pwd)
 recompile=false
 sampleNamePrefx=""
-rewriteParams=false
+rewriteFlist=false
 filesFound=false
 keepParams=false
 getSubCelluarLoc="0"
@@ -51,14 +53,14 @@ while ! [[ -z "$1" ]] ; do
 			sampleNamePrefix="$1"
 			;;
 		"-rw")
-			rewriteParams=true
+			rewriteFlist=true
 			;;
 		"-k" | "--keep")
 			keepParams=true
 			;;
 		"-par")
 			shift
-			paramsName="$1"
+			flistName="$1"
 			keepParams=true
 			;;
 		"-loc")
@@ -78,11 +80,12 @@ echo -e "\nThe folowing paramaters were used:"
 echo "input = "$input
 echo "output = "$output
 echo "includeUnique = "$includeUnique
-echo "wd = "$wd
+#echo "wd = "$wd
 echo "recompile = "$recompile
 echo "sampleNamePrefix = "$sampleNamePrefix
 echo "rewriteParams = "$rewriteParams
 echo "keepParams = "$keepParams
+echo "flistName = "$flistName
 echo "paramsName = "$paramsName
 echo "getSubCelluarLoc = "$getSubCelluarLoc
 echo
@@ -101,13 +104,12 @@ fi
 
 #create params file
 cd $wd
-if $rewriteParams ; then
-	mv $paramsName .dtarray_ajm.temp
+if $rewriteFlist ; then
+	mv $flistName .dtarray_ajm.temp
 fi
-if ! [[ -a $paramsName ]] ; then
-	echo "Generating $paramsName using $input input format."
-	echo -e "$paramsCommentSymbol Params for DTarray_AJM\n$paramsCommentSymbol File list generated on: "$(date +"%y-%m-%d_%H:%M:%S") > ./$paramsName
-	echo -e "\n$paramsCommentSymbol Files to add" >> ./$paramsName
+if ! [[ -a $flistName ]] ; then
+	echo "Generating $flistName using $input input format."
+	echo -e "$paramsCommentSymbol File list for DTarray_AJM\n$paramsCommentSymbol File list generated on: "$(date +"%y-%m-%d_%H:%M:%S")'\n' > ./$flistName
 	case $input in
 		"standard")
 			#check if wd contains .dtafilter files
@@ -118,7 +120,7 @@ if ! [[ -a $paramsName ]] ; then
 			#add all .dtafilter files to params file
 			for f in *.dtafilter ; do
 				colName=${f::${#f}-10}
-				echo -e $colName'\t'$f >> $paramsName
+				echo -e $colName'\t'$f >> $flistName
 			done
 		;;
 		"subdir")
@@ -128,7 +130,7 @@ if ! [[ -a $paramsName ]] ; then
 				if [ -d "$D" ] ; then
 					cd "$D"
 					if [ -a DTASelect-filter.txt ] ; then
-						echo -e $D'\t'$D'/'"DTASelect-filter.txt" >> ../$paramsName
+						echo -e $D'\t'$D'/'"DTASelect-filter.txt" >> ../$flistName
 						filesFound=true
 					fi
 					cd ..
@@ -145,32 +147,22 @@ if ! [[ -a $paramsName ]] ; then
 			exit
 		;;
 	esac
-#	echo -e "\n$paramsCommentSymbol Params" >> ./$paramsName#
-#	echo 'outputFormat='$output >> ./$paramsName#
-#	echo 'includeUnique='$includeUnique >> ./$paramsName
-#	echo 'sampleNamePrefix='$sampleNamePrefix >> ./$paramsName
-#	echo 'getSubCelluarLoc='$getSubCelluarLoc >> ./$paramsName
-#	echo 'locDBfname='$locDBfname >> ./$paramsName
-	keepParams=true
 fi
 
 #add output paramaters to params
 cd $wd
-if [ -a $paramsName ] && ! $keepParams ; then
-	numLines=$(($(echo $(wc -l $paramsName)|cut -d' ' -f 1)-$numParamsInParamsFile))
-	head -n $numLines $paramsName > .dtarray_ajm.temp
-	cat .dtarray_ajm.temp > $paramsName
+if ! $keepParams ; then
+	echo -e "$paramsCommentSymbol Params for DTarray_AJM\n$paramsCommentSymbol Params generated on: "$(date +"%y-%m-%d_%H:%M:%S")'\n' > ./$paramsName
+	echo 'outputFormat='$output >> ./$paramsName
+	echo 'includeUnique='$includeUnique >> ./$paramsName
+	echo 'sampleNamePrefix='$sampleNamePrefix >> ./$paramsName
+	echo 'getSubCelluarLoc='$getSubCelluarLoc >> ./$paramsName
+	echo 'locDBfname='$locDBfname >> ./$paramsName
 fi
-echo -e "\n$paramsCommentSymbol Params" >> ./$paramsName
-echo 'outputFormat='$output >> ./$paramsName
-echo 'includeUnique='$includeUnique >> ./$paramsName
-echo 'sampleNamePrefix='$sampleNamePrefix >> ./$paramsName
-echo 'getSubCelluarLoc='$getSubCelluarLoc >> ./$paramsName
-echo 'locDBfname='$locDBfname >> ./$paramsName
 
 
 #run DTarray_AJM
 cd $scriptWDbin
-./$binName $wd/ $paramsName
+./$binName $wd/ $flistName $paramsName
 
 echo "Done"

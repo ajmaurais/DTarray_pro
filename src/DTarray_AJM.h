@@ -83,6 +83,7 @@ public:
 	
 	//modifiers
 	bool readDTParams(string, string);
+	bool readFlist(string, string);
 };
 
 //stores the data pertaining to a specific filter file (or MS run) for each protein
