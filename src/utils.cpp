@@ -1,6 +1,4 @@
 
-//using namespace std;
-
 //returns true if folder at end of path exists and false if it does not
 bool dirExists (string path)
 {

@@ -34,7 +34,7 @@ int main (int argc, char *argv[])
 		cout << "Failed to read params file! Exiting..." << endl;
 		return 0;
 	}
-	
+
 	//read in and combine files
 	cout << endl;
 	Proteins proteins(filterFileParams);
@@ -44,14 +44,14 @@ int main (int argc, char *argv[])
 	//read in subcellular locations database and add sub cell locations to proteins
 	if(filterFileParams.getSubCelluarLoc)
 	{
-		Btree proteinDBtree;
-		if(!proteinDBtree.readInProteins(filterFileParams.locDBfname))
+		BinTree proteinDBTree;
+		if(!proteinDBTree.readInProteins(filterFileParams.locDBfname))
 		{
 			cout <<"Failed to read protein location DB file! Exiting..." << endl;
 			return 0;
 		}
 		cout << endl << "Searching for subcellular locations of proteins in dataset..." << endl;
-		proteins.addSubcelluarLoc(proteinDBtree);
+		proteins.addSubcelluarLoc(proteinDBTree);
 	}
 	
 	if(!filterFileParams.sampleNamePrefix.empty())

@@ -8,10 +8,9 @@ binName="DTarray_AJM"
 
 recompileMessage='DTarray_AJM source code recompiled.'
 invalidOptionMessage="is an invalid option! Exiting..."
-numParamsInParamsFile=7
 defaultParamsName="dtarray_ajm.params"
 defaultFlistName="dtarray_ajm_flist.txt"
-paramsCommentSymbol="#" #if changed, COMMENT_SYMBOL must also be changed in utils.h
+paramsCommentSymbol="#" #if changed, COMMENT_SYMBOL must also be changed in src/utils.h
 
 #default paramaters
 paramsName=$defaultParamsName
@@ -19,7 +18,7 @@ flistName=$defaultFlistName
 input="standard"
 output="standard"
 includeUnique="0"
-wd=$(pwd)
+wd=$(pwd)'/'
 recompile=false
 sampleNamePrefx=""
 rewriteFlist=false
@@ -80,10 +79,9 @@ echo -e "\nThe folowing paramaters were used:"
 echo "input = "$input
 echo "output = "$output
 echo "includeUnique = "$includeUnique
-#echo "wd = "$wd
+echo "wd = "$wd
 echo "recompile = "$recompile
 echo "sampleNamePrefix = "$sampleNamePrefix
-echo "rewriteParams = "$rewriteParams
 echo "keepParams = "$keepParams
 echo "flistName = "$flistName
 echo "paramsName = "$paramsName
@@ -149,7 +147,7 @@ if ! [[ -a $flistName ]] ; then
 	esac
 fi
 
-#add output paramaters to params
+#write output paramaters to params file
 cd $wd
 if ! $keepParams ; then
 	echo -e "$paramsCommentSymbol Params for DTarray_AJM\n$paramsCommentSymbol Params generated on: "$(date +"%y-%m-%d_%H:%M:%S")'\n' > ./$paramsName
@@ -160,9 +158,8 @@ if ! $keepParams ; then
 	echo 'locDBfname='$locDBfname >> ./$paramsName
 fi
 
-
 #run DTarray_AJM
 cd $scriptWDbin
-./$binName $wd/ $flistName $paramsName
+./$binName $wd $flistName $paramsName
 
 echo "Done"

@@ -1,6 +1,4 @@
 
-//using namespace std;
-
 Param::Param(string line)
 {
 	size_t posStart = line.find("=");
@@ -132,6 +130,7 @@ bool Protein::getProteinData(string line, int colIndex)
 	vector<string> elems;
 	split(line, '\t', elems);
 	
+	//tell readIn function to skip line if it is header line
 	if(isColumnHeaderLine(elems))
 		return false;
 	
@@ -164,7 +163,7 @@ bool Protein::getProteinData(string line, int colIndex)
 	return true;
 }
 
-//convert Protein to DBprotein to allow inteface with Btree of DBproteins
+//convert Protein to DBprotein to allow inteface with BinTree of DBproteins
 DBProtein Protein::toDBprotein() const
 {
 	DBProtein dbprotein;
@@ -301,7 +300,7 @@ bool Proteins::writeOut(string ofname, const FilterFileParams& filterFileParams)
 	if(!outF)
 		return false;
 	
-	//print header lines
+	//print column headers
 	if(parseSampleName)
 	{
 		string delim;
@@ -380,6 +379,7 @@ bool Proteins::writeOutDB(string ofname, const FilterFileParams& filterFileParam
 	if(!outF)
 		return false;
 	
+	//print column headers
 	vector<string> headers;
 	int len;
 	if(filterFileParams.getSubCelluarLoc)
@@ -394,8 +394,6 @@ bool Proteins::writeOutDB(string ofname, const FilterFileParams& filterFileParam
 		len = DEFAULT_COL_NAMES_DB_LENGTH;
 	}
 	
-	//popuate ofColNames with default col names and unique peptide headers if necissary
-	//and print first line of report
 	vector<string> ofColNames;
 	for (int i = 0; i < len - (!parseSampleName * 2); i ++)
 		ofColNames.push_back(headers[i]);
@@ -442,20 +440,20 @@ bool Proteins::writeOutDB(string ofname, const FilterFileParams& filterFileParam
 
 //seearches binary tree containing subcelluar localization data and populates data
 //to loc element for each Protein in Proteins
-void Proteins::addSubcelluarLoc(const Btree& locDBtree)
+void Proteins::addSubcelluarLoc(const BinTree& locDBinTree)
 {
 	int len = int(proteins.size());
 	for (int i = 0; i < len; i++)
-		proteins[i].loc = locDBtree.locSearch(proteins[i].toDBprotein());
+		proteins[i].loc = locDBinTree.locSearch(proteins[i].toDBprotein());
 }
 
 //check if line containing % is a collumn header line instead of a protein header line
 bool isColumnHeaderLine(const vector<string>& elems)
 {
-	int len = int(elems.size());
-	assert(len <= COLUMN_HEADER_LINE_ELEMENTS_LENGTH);
+	//int len = int(elems.size());
+	//assert(len <= COLUMN_HEADER_LINE_ELEMENTS_LENGTH);
 	
-	for (int i = 0; i < len; i++)
+	for (int i = 0; i < COLUMN_HEADER_LINE_ELEMENTS_LENGTH; i++)
 		if(COLUMN_HEADER_LINE_ELEMENTS[i] != elems[i])
 			return false;
 	

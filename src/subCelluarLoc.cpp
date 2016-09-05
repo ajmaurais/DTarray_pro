@@ -1,6 +1,4 @@
 
-//using namespace std;
-
 DBProtein::DBProtein()
 {
 	ID = "";
@@ -15,7 +13,6 @@ void DBProtein::clear()
 	gene = "";
 	description = "";
 	loc = "";
-	
 }
 
 DBProtein::DBProtein(string line)
@@ -138,10 +135,10 @@ void Btree::insert(const DBProtein& p)
 		insert(p, root);
 	else
 	{
-		root=new Node;
+		root = new Node;
 		root->protein = p;
-		root->left=nullptr;
-		root->right=nullptr;
+		root->left = nullptr;
+		root->right = nullptr;
 	}
 }
 
@@ -179,7 +176,7 @@ bool Btree::readInProteins(string fname)
 	return true;
 }
 
-inline int strComp(const string& str1, const string& str2)
+inline int strComp(string str1, string str2)
 {
 	return strcmp(str1.c_str(), str2.c_str());
 }

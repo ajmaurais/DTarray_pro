@@ -6,7 +6,6 @@
 #include <sstream>
 #include <sys/stat.h>
 #include <string>
-#include <sstream>
 #include <cstring>
 #include <stdlib.h>
 
@@ -140,7 +139,7 @@ public:
 /* #################### subCelluarLoc.cpp #################### */
 
 class DBProtein{
-	friend class Btree;
+	friend class BinTree;
 	friend class Protein;
 	string ID, gene, description, loc;
 	
@@ -167,7 +166,7 @@ struct Node{
 	Node *right;
 };
 
-class Btree{
+class BinTree{
 public:
 	Btree();
 	~Btree();
@@ -178,8 +177,8 @@ public:
 	
 private:
 	void destroyTree();
-	void insert(const DBProtein& p, Node *leaf);
-	Node *search(const DBProtein& p, Node *leaf) const;
+	void insert(const DBProtein&, Node *);
+	Node *search(const DBProtein&, Node *) const;
 	Node *search(const DBProtein&) const;
 	void destroyTree(Node *leaf);
 	
@@ -198,7 +197,7 @@ int parsePeptideSC(string);
 string parseReplicate(string);
 
 /* subCelluarLoc.cpp */
-inline int strComp(const string&, const string&);
+inline int strComp(string, string);
 
 /* utils.cpp */
 bool dirExists (string);
