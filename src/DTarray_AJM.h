@@ -8,6 +8,7 @@
 #include <string>
 #include <cstring>
 #include <stdlib.h>
+#include <functional>
 
 //#define nullptr NULL //to compile on pleiades this line must be included
 
@@ -27,6 +28,7 @@ string const COLUMN_HEADER_LINE_ELEMENTS[] = {"Unique", "FileName", "XCorr", "De
 	"CalcM+H+", "TotalIntensity", "SpR", "ZScore", "IonProportion", "Redundancy", "Sequence"};
 int const COLUMN_HEADER_LINE_ELEMENTS_LENGTH = 13;
 string const PARAM_ERROR_MESSAGE = " is an invalid arguement for: ";
+int const MAX_PARAM_ITTERATIONS = 100;
 
 //editable params for DB output format
 string const DEFAULT_COL_NAMES_DB [] = {"Protein","ID", "Description", "Mass (Da)", "Long sample name",
@@ -36,6 +38,8 @@ string const DEFAULT_COL_NAMES_DB_LOC [] = {"Protein","ID", "Description", "Mass
 	"Spectral counts", "Sample", "Replicate"};
 int const DEFAULT_COL_NAMES_DB_LOC_LENGTH = 9;
 string const UNIQUE_PEPTIDE_HEADERS[] = {"SC", "Unique pep. SC"};
+string const MWCALC_HEADERS [] = {"sequence", "avg mass", "monoisotopic mass"};
+int const MWCALC_HEADERS_LENGTH = 3;
 
 /* utils.cpp */
 string const WHITESPACE = " \f\n\r\t\v";
@@ -50,7 +54,10 @@ class FilterFileParams;
 class Protein;
 class Proteins;
 class DBProtein;
-class Btree;
+class BinTree;
+class MWDB;
+class nwNode;
+class peptide;
 
 /* #################### dtafilter.cpp #################### */
 
@@ -79,6 +86,8 @@ public:
 	bool includeUnique;
 	bool getSubCelluarLoc;
 	string locDBfname;
+	bool calcMW;
+	string aaDBfanme, peptideDBfname, staticModsFname;
 	
 	//modifiers
 	bool readDTParams(string, string);
@@ -105,8 +114,11 @@ private:
 	bool getProteinData(string, int);
 	void consolidate(const Protein&, int);
 	DBProtein toDBprotein() const;
+	void calcMW(const MWDB&);
 	
 	string fullDescription, matchDirrection, ID, description, MW, loc;
+	double avgMass, monoMass;
+	string calcSequence;
 };
 
 //stores data for all proteins found in DTA filter files
@@ -133,7 +145,8 @@ public:
 	
 	//modifiers
 	bool readIn(string, const FilterFileParams&);
-	void addSubcelluarLoc(const Btree&);
+	void addSubcelluarLoc(const BinTree&);
+	void calcMW(const MWDB&);
 };
 
 /* #################### subCelluarLoc.cpp #################### */
@@ -168,8 +181,8 @@ struct Node{
 
 class BinTree{
 public:
-	Btree();
-	~Btree();
+	BinTree();
+	~BinTree();
 	
 	void insert(const DBProtein&);
 	bool readInProteins(string);
@@ -185,6 +198,83 @@ private:
 	Node *root;
 };
 
+/* #################### calcMW.cpp #################### */
+
+class AminoAcid{
+	friend class MWDB;
+private:
+	string symbol;
+	double avgMass, monoMass;
+public:
+	//constructor
+	AminoAcid(string);
+	AminoAcid(string, double, double);
+	AminoAcid(string, double);
+	AminoAcid();
+	
+	//modifer
+	void operator += (const AminoAcid&);
+	
+	//properities
+	bool operator < (const AminoAcid&) const;
+	bool operator > (const AminoAcid&) const;
+	bool operator == (const AminoAcid&) const;
+};
+
+class Peptide{
+	friend class MWDB;
+private:
+	int ID;
+	string sequence;
+	
+public:
+	Peptide(string);
+};
+
+class mwNode{
+	friend class MWDB;
+private:
+	AminoAcid aa;
+	mwNode();
+	
+	mwNode *left;
+	mwNode *right;
+};
+
+class MWDB{
+public:
+	//constructors
+	MWDB();
+	~MWDB();
+	
+	//modifers
+	void insert(const AminoAcid&);
+	bool readIn(string, const FilterFileParams&);
+	
+	//properties
+	double getMW(string, int) const;
+	double getMW(char, int) const;
+	mwNode *search(const AminoAcid&) const;
+	double calcMW(string, int) const;
+	string getSequence(string) const;
+	
+private:
+	vector<Peptide> peptides;
+	mwNode *root;
+	
+	//modofers
+	bool readInPeptides(string);
+	bool readInAAs(string, string);
+	bool readInAADB(string);
+	bool addStaticMod(const AminoAcid&);
+	void destroyTree(mwNode *leaf);
+	void destroyTree();
+	void insert(const AminoAcid&, mwNode *);
+	
+	//properties
+	mwNode *search(const AminoAcid&, mwNode *) const;
+	int search(string, int, int) const;
+};
 
 /*************/
 /* functions */
@@ -195,9 +285,7 @@ bool isColumnHeaderLine(const vector<string>&);
 string parseSample(string, string, string);
 int parsePeptideSC(string);
 string parseReplicate(string);
-
-/* subCelluarLoc.cpp */
-inline int strComp(string, string);
+string parseIDPrefix(string, string);
 
 /* utils.cpp */
 bool dirExists (string);
@@ -212,3 +300,7 @@ inline string trimLeading(const string&);
 inline string trim(const string&);
 bool isCommentLine(string);
 bool isInteger(string);
+inline void getLineTrim(ifstream&, string&);
+inline int strComp(string, string);
+
+/* calcMW.cpp */

@@ -106,3 +106,13 @@ bool isInteger(string str)
 	return (*p == 0) ;
 }
 
+inline void getLineTrim(ifstream& inF, string& line)
+{
+	getline(inF, line);
+	line = trim(line);
+}
+
+inline int strComp(string str1, string str2)
+{
+	return strcmp(str1.c_str(), str2.c_str());
+}

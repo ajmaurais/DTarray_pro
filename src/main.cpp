@@ -1,4 +1,4 @@
-/*
+  /*
  DTarray_AJM reads in a specified number of dtaselect-filter files and writes protein, their molecular
  weights and spectral count data to OF_NAME in the working dirrectory.
  
@@ -10,12 +10,13 @@
 #include "dtafilter.cpp"
 #include "subCelluarLoc.cpp"
 #include "utils.cpp"
+#include "calcMW.cpp"
 
 using namespace std;
 
 int main (int argc, char *argv[])
 {
-	//check paramaters
+	//check arguements
 	assert(argc == 4);
 	string wd = string(argv[1]);
 	string flistName = string(argv[2]);
@@ -52,6 +53,18 @@ int main (int argc, char *argv[])
 		}
 		cout << endl << "Searching for subcellular locations of proteins in dataset..." << endl;
 		proteins.addSubcelluarLoc(proteinDBTree);
+	}
+	
+	//calculate mass of peptides or proteins from sequence and amino acid mass databases
+	if(filterFileParams.calcMW)
+	{
+		MWDB mwDB;
+		if(!mwDB.readIn(wd, filterFileParams))
+		{
+			cout << "Failed to read mwDB files! Exiting..." << endl;
+			return 0;
+		}
+		proteins.calcMW(mwDB);
 	}
 	
 	if(!filterFileParams.sampleNamePrefix.empty())

@@ -62,17 +62,17 @@ Node::Node()
 	right = nullptr;
 }
 
-Btree::Btree()
+BinTree::BinTree()
 {
 	root = nullptr;
 }
 
-Btree::~Btree()
+BinTree::~BinTree()
 {
 	destroyTree();
 }
 
-void Btree::destroyTree(Node *leaf)
+void BinTree::destroyTree(Node *leaf)
 {
 	if(leaf != nullptr)
 	{
@@ -82,12 +82,12 @@ void Btree::destroyTree(Node *leaf)
 	}
 }
 
-void Btree::destroyTree()
+void BinTree::destroyTree()
 {
 	destroyTree(root);
 }
 
-void Btree::insert(const DBProtein& p, Node *leaf)
+void BinTree::insert(const DBProtein& p, Node *leaf)
 {
 	if(p < leaf->protein)
 	{
@@ -115,7 +115,7 @@ void Btree::insert(const DBProtein& p, Node *leaf)
 	}
 }
 
-Node *Btree::search(const DBProtein& p, Node *leaf) const
+Node *BinTree::search(const DBProtein& p, Node *leaf) const
 {
 	if(leaf!=nullptr)
 	{
@@ -129,7 +129,7 @@ Node *Btree::search(const DBProtein& p, Node *leaf) const
 	else return nullptr;
 }
 
-void Btree::insert(const DBProtein& p)
+void BinTree::insert(const DBProtein& p)
 {
 	if(root!=nullptr)
 		insert(p, root);
@@ -142,12 +142,12 @@ void Btree::insert(const DBProtein& p)
 	}
 }
 
-Node *Btree::search(const DBProtein& p) const
+Node *BinTree::search(const DBProtein& p) const
 {
 	return search(p, root);
 }
 
-string Btree::locSearch(const DBProtein& p) const
+string BinTree::locSearch(const DBProtein& p) const
 {
 	Node* node = search(p, root);
 	if(node == nullptr)
@@ -157,7 +157,7 @@ string Btree::locSearch(const DBProtein& p) const
 	return loc;
 }
 
-bool Btree::readInProteins(string fname)
+bool BinTree::readInProteins(string fname)
 {
 	ifstream inF (fname.c_str());
 	
@@ -174,9 +174,4 @@ bool Btree::readInProteins(string fname)
 	}
 	
 	return true;
-}
-
-inline int strComp(string str1, string str2)
-{
-	return strcmp(str1.c_str(), str2.c_str());
 }

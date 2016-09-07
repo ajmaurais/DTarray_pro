@@ -17,49 +17,78 @@ bool FilterFileParams::readDTParams(string fname, string path)
 	
 	string line;
 	
-	while(!inF.eof())
-	{
-		getline(inF, line);
-		line = trim(line);
+	do{
+		getLineTrim(inF, line);
 		if(isCommentLine(line) || line.empty()) //skip line if is comment line
 			continue;
-		if(strContains('=', line)) //find lines containing params by = symbol
-		{
-			Param param (line);
-			if(param.param == "sampleNamePrefix")
-			{
-				sampleNamePrefix = param.value;
-				continue;
-			}
-			if(param.param == "outputFormat")
-			{
-				if(param.param != "standard" && param.param == "DB") {
-					cout << param.param << PARAM_ERROR_MESSAGE << "outputFormat" << endl;
-					return false;
+		
+		if(line == "<params>")
+			do{
+				getLineTrim(inF, line);
+				if(strContains('=', line)) //find lines containing params by = symbol
+				{
+					Param param (line);
+					if(param.param == "sampleNamePrefix")
+					{
+						sampleNamePrefix = param.value;
+						continue;
+					}
+					if(param.param == "outputFormat")
+					{
+						if(param.param != "standard" && param.param == "DB") {
+							cout << param.param << PARAM_ERROR_MESSAGE << "outputFormat" << endl;
+							return false;
+						}
+						outputFormat = param.value;
+						continue;
+					}
+					if(param.param == "locDBfname")
+					{
+						locDBfname = param.value;
+						continue;
+					}
+					if(param.param == "includeUnique")
+					{
+						assert(param.value == "0" || param.value == "1");
+						includeUnique = toInt(param.value);
+						continue;
+					}
+					if(param.param == "getSubCelluarLoc")
+					{
+						assert(param.value == "0" || param.value == "1");
+						getSubCelluarLoc = toInt(param.value);
+						continue;
+					}
+					if(param.param == "calcMW")
+					{
+						assert(param.value == "0" || param.value == "1");
+						calcMW = toInt(param.value);
+						continue;
+					}
+					if(param.param == "peptideDBfname")
+					{
+						peptideDBfname = param.value;
+						continue;
+					}
+					if(param.param == "aaDBfanme")
+					{
+						aaDBfanme = param.value;
+						continue;
+					}
+					if(param.param == "staticModsFname")
+					{
+						staticModsFname = param.value;
+						continue;
+					}
+					else return false;
 				}
-				outputFormat = param.value;
-				continue;
-			}
-			if(param.param == "locDBfname")
-			{
-				locDBfname = param.value;
-				continue;
-			}
-			if(param.param == "includeUnique")
-			{
-				assert(param.value == "0" || param.value == "1");
-				includeUnique = toInt(param.value);
-				continue;
-			}
-			if(param.param == "getSubCelluarLoc")
-			{
-				assert(param.value == "0" || param.value == "1");
-				getSubCelluarLoc = toInt(param.value);
-				continue;
-			}
-		}
-		else return false;
-	}
+				else if(isCommentLine(line) || line.empty())
+					continue;
+				else if(line != "</params>")
+					return false;
+			} while(line != "</params>");
+		
+	} while(!inF.eof() && line != "</paramsFile>");
 	return true;
 }
 
@@ -107,8 +136,6 @@ FilterFile::FilterFile(string arg1, string arg2, string arg3)
 	count = arg2;
 	uniquePeptides = arg3;
 }
-
-
 
 //fill col element with colNames found in params file
 void Protein::initialize(const vector<string>& colNames)
@@ -163,6 +190,15 @@ bool Protein::getProteinData(string line, int colIndex)
 	return true;
 }
 
+void Protein::calcMW(const MWDB& mwDB)
+{
+	string sequence = mwDB.getSequence(parseIDPrefix(ID, "KL_"));
+	
+	avgMass = mwDB.calcMW(sequence, 0);
+	monoMass = mwDB.calcMW(sequence, 1);
+	calcSequence = sequence;
+}
+
 //convert Protein to DBprotein to allow inteface with BinTree of DBproteins
 DBProtein Protein::toDBprotein() const
 {
@@ -177,9 +213,6 @@ void Protein::consolidate(const Protein& toAdd, int colIndex)
 	col[colIndex].colname = toAdd.col[colIndex].colname;
 	col[colIndex].count = toAdd.col[colIndex].count;
 }
-
-
-
 
 Proteins::Proteins()
 {
@@ -301,6 +334,10 @@ bool Proteins::writeOut(string ofname, const FilterFileParams& filterFileParams)
 		return false;
 	
 	//print column headers
+	if(filterFileParams.calcMW)
+	{
+		
+	}
 	if(parseSampleName)
 	{
 		string delim;
@@ -321,7 +358,7 @@ bool Proteins::writeOut(string ofname, const FilterFileParams& filterFileParams)
 		{
 			if (i == 0)
 				outF << parseSample(colNames[i], filterFileParams.sampleNamePrefix, "standard");
-			else outF << '\t' <<'\t' << parseSample(colNames[i], filterFileParams.sampleNamePrefix, "standard");
+			else outF << '\t' << '\t' << parseSample(colNames[i], filterFileParams.sampleNamePrefix, "standard");
 		}
 		outF << endl;
 		for (int i = 0; i < colNamesLength; i++)
@@ -353,6 +390,12 @@ bool Proteins::writeOut(string ofname, const FilterFileParams& filterFileParams)
 		outF << proteins[i].ID << '\t' <<
 		proteins[i].description << '\t' <<
 		proteins[i].MW << '\t';
+		
+		if(filterFileParams.calcMW)
+			outF << proteins[i].calcSequence << '\t' <<
+			proteins[i].avgMass << '\t' <<
+			proteins[i].monoMass << '\t';
+			
 		
 		if(filterFileParams.getSubCelluarLoc)
 			outF << proteins[i].loc << '\t';
@@ -447,6 +490,13 @@ void Proteins::addSubcelluarLoc(const BinTree& locDBinTree)
 		proteins[i].loc = locDBinTree.locSearch(proteins[i].toDBprotein());
 }
 
+void Proteins::calcMW(const MWDB& mwDB)
+{
+	int len = int(proteins.size());
+	for (int i = 0; i < len; i++)
+		proteins[i].calcMW(mwDB);
+}
+
 //check if line containing % is a collumn header line instead of a protein header line
 bool isColumnHeaderLine(const vector<string>& elems)
 {
@@ -497,4 +547,11 @@ int parsePeptideSC(string line)
 	
 	//return SC for peptide as int
 	return toInt(elems[11]);
+}
+
+string parseIDPrefix(string str, string prefix)
+{
+	size_t begin = str.find(prefix);
+	string ret = str.substr(begin + prefix.length());
+	return ret;
 }

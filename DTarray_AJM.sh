@@ -3,18 +3,23 @@
 scriptWDHome="$HOME/scripts/DTarray_AJM"
 scriptWDbin="$scriptWDHome/bin"
 scriptWDsrc="$scriptWDHome/src"
-locDBfname="$scriptWDHome/db/subCelluarLoc.txt"
+scriptWDdb="$scriptWDHome/db"
+locDBfname="$scriptWDdb/subCelluarLoc.txt"
+aaDBfanme="$scriptWDdb/aaMasses.txt"
+staticModificationsDB="$scriptWDdb/staticModifications.txt"
 binName="DTarray_AJM"
 
 recompileMessage='DTarray_AJM source code recompiled.'
 invalidOptionMessage="is an invalid option! Exiting..."
 defaultParamsName="dtarray_ajm.params"
 defaultFlistName="dtarray_ajm_flist.txt"
+defaultStaticModificationsName="staticModifications.txt"
 paramsCommentSymbol="#" #if changed, COMMENT_SYMBOL must also be changed in src/utils.h
 
 #default paramaters
 paramsName=$defaultParamsName
 flistName=$defaultFlistName
+staticModificationsName=$defaultStaticModificationsName
 input="standard"
 output="standard"
 includeUnique="0"
@@ -25,6 +30,10 @@ rewriteFlist=false
 filesFound=false
 keepParams=false
 getSubCelluarLoc="0"
+calcMW=false
+calcMWStr="1"
+peptideDBfname=""
+rewriteSmod=false
 
 #get arguements
 while ! [[ -z "$1" ]] ; do
@@ -52,7 +61,16 @@ while ! [[ -z "$1" ]] ; do
 			sampleNamePrefix="$1"
 			;;
 		"-rw")
-			rewriteFlist=true
+			shift
+			arg="$1"
+			case $arg in
+				"flist")
+					rewriteFlist=true
+				;;
+				"smod")
+					rewriteSmod=true
+				;;
+			esac
 			;;
 		"-k" | "--keep")
 			keepParams=true
@@ -65,7 +83,12 @@ while ! [[ -z "$1" ]] ; do
 		"-loc")
 			getSubCelluarLoc="1"
 			;;
-
+		"-mw")
+			shift
+			peptideDBfname="$1"
+			calcMWStr="1"
+			calcMW=true
+			;;
         *)
             echo "$1" $invalidOptionMessage
             exit
@@ -86,6 +109,9 @@ echo "keepParams = "$keepParams
 echo "flistName = "$flistName
 echo "paramsName = "$paramsName
 echo "getSubCelluarLoc = "$getSubCelluarLoc
+echo "calcMW = "$calcMW
+echo "peptideDBfname = "$peptideDBfname
+echo "rewriteSmod = "$rewriteSmod
 echo
 
 #compile source code if necissary
@@ -151,15 +177,33 @@ fi
 cd $wd
 if ! $keepParams ; then
 	echo -e "$paramsCommentSymbol Params for DTarray_AJM\n$paramsCommentSymbol Params generated on: "$(date +"%y-%m-%d_%H:%M:%S")'\n' > ./$paramsName
+	echo -e '<paramsFile>\n' >> ./$paramsName
+	echo -e '<params>\n' >> ./$paramsName
 	echo 'outputFormat='$output >> ./$paramsName
 	echo 'includeUnique='$includeUnique >> ./$paramsName
 	echo 'sampleNamePrefix='$sampleNamePrefix >> ./$paramsName
 	echo 'getSubCelluarLoc='$getSubCelluarLoc >> ./$paramsName
 	echo 'locDBfname='$locDBfname >> ./$paramsName
+	echo 'calcMW='$calcMWStr >> ./$paramsName
+	echo 'peptideDBfname='$peptideDBfname >> ./$paramsName
+	echo 'aaDBfanme='$aaDBfanme >> ./$paramsName
+	echo 'staticModsFname='$staticModificationsName >> ./$paramsName
+	echo -e '\n</params>\n' >> ./$paramsName
+	echo -e '</paramsFile>' >> ./$paramsName
 fi
+
+if $calcMW == "1" ; then
+	if ! [ -a $staticModificationsName ] || $rewriteSmod ; then
+		echo -e "$paramsCommentSymbol Static modifications for DTarray_AJM\n$paramsCommentSymbol file generated on: "$(date +"%y-%m-%d_%H:%M:%S")'\n' > $staticModificationsName
+		echo -e '<staticModifications>\n' >> ./$staticModificationsName
+		cat $staticModificationsDB >> ./$staticModificationsName
+		echo -e '\n\n</staticModifications>\n' >> ./$staticModificationsName
+	fi
+fi
+
 
 #run DTarray_AJM
 cd $scriptWDbin
-./$binName $wd $flistName $paramsName
+#./$binName $wd $flistName $paramsName
 
 echo "Done"
