@@ -8,9 +8,10 @@ locDBfname="$scriptWDdb/subCelluarLoc.txt"
 aaDBfanme="$scriptWDdb/aaMasses.txt"
 staticModificationsDB="$scriptWDdb/staticModifications.txt"
 binName="DTarray_AJM"
+helpFileFname="$scriptWDdb/helpFile.txt"
 
 recompileMessage='DTarray_AJM source code recompiled.'
-invalidOptionMessage="is an invalid option! Exiting..."
+invalidOptionMessage="is an invalid option! Exiting...\nUse DTarray --help to see usage."
 defaultParamsName="dtarray_ajm.params"
 defaultFlistName="dtarray_ajm_flist.txt"
 defaultStaticModificationsName="staticModifications.txt"
@@ -31,13 +32,17 @@ filesFound=false
 keepParams=false
 getSubCelluarLoc="0"
 calcMW=false
-calcMWStr="1"
+calcMWStr="0"
 peptideDBfname=""
 rewriteSmod=false
 
 #get arguements
 while ! [[ -z "$1" ]] ; do
     case $1 in
+		"-h" | "--help")
+			less $helpFileFname
+			exit
+			;;
         "-i" | "--in")
             shift
             input="$1"
@@ -46,7 +51,7 @@ while ! [[ -z "$1" ]] ; do
             shift
             output="$1"
             ;;
-        "-u" | "--Unique")
+        "-u" | "--unique")
             includeUnique="1"
             ;;
         "-d" | "--directory" )
@@ -90,7 +95,7 @@ while ! [[ -z "$1" ]] ; do
 			calcMW=true
 			;;
         *)
-            echo "$1" $invalidOptionMessage
+            echo -e "$1" $invalidOptionMessage
             exit
         ;;
     esac
@@ -204,6 +209,6 @@ fi
 
 #run DTarray_AJM
 cd $scriptWDbin
-#./$binName $wd $flistName $paramsName
+./$binName $wd $flistName $paramsName
 
 echo "Done"

@@ -106,6 +106,7 @@ bool isInteger(string str)
 	return (*p == 0) ;
 }
 
+//gets new line from inF and removes trailing and leading whitespace
 inline void getLineTrim(ifstream& inF, string& line)
 {
 	getline(inF, line);
@@ -115,4 +116,21 @@ inline void getLineTrim(ifstream& inF, string& line)
 inline int strComp(string str1, string str2)
 {
 	return strcmp(str1.c_str(), str2.c_str());
+}
+
+//removes findStr from whithinStr and returns whithinStr
+string removeSubstr(string findStr, string whithinStr)
+{
+	string::size_type i = whithinStr.find(findStr);
+	
+	if(i != string::npos)
+		whithinStr.erase(i, findStr.length());
+	
+	return whithinStr;
+}
+
+string toLower(string str)
+{
+	transform(str.begin(), str.end(), str.begin(), ::tolower);
+	return str;
 }

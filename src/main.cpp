@@ -6,7 +6,8 @@
  25 May 2016
  */
 
-#include "DTarray_AJM.h"
+#include "DTarray_AJM.hpp"
+#include "hashTable.cpp"
 #include "dtafilter.cpp"
 #include "subCelluarLoc.cpp"
 #include "utils.cpp"
@@ -64,6 +65,8 @@ int main (int argc, char *argv[])
 			cout << "Failed to read mwDB files! Exiting..." << endl;
 			return 0;
 		}
+		cout << "Calculating protein molecular weights from " << filterFileParams.peptideDBfname << endl;
+		
 		proteins.calcMW(mwDB);
 	}
 	
@@ -79,7 +82,7 @@ int main (int argc, char *argv[])
 			return 0;
 		}
 	}
-	else if (filterFileParams.outputFormat == "DB")
+	else if (filterFileParams.outputFormat == "db")
 	{
 		if(!proteins.writeOutDB(wd + OF_NAME, filterFileParams))
 		{

@@ -151,7 +151,7 @@ string BinTree::locSearch(const DBProtein& p) const
 {
 	Node* node = search(p, root);
 	if(node == nullptr)
-		return "NOT FOUND IN DB";
+		return LOC_NOT_FOUND;
 	
 	string loc = node->protein.loc;
 	return loc;

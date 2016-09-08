@@ -35,11 +35,11 @@ bool FilterFileParams::readDTParams(string fname, string path)
 					}
 					if(param.param == "outputFormat")
 					{
-						if(param.param != "standard" && param.param == "DB") {
+						if(param.param != "standard" && param.param == "db") {
 							cout << param.param << PARAM_ERROR_MESSAGE << "outputFormat" << endl;
 							return false;
 						}
-						outputFormat = param.value;
+						outputFormat = toLower(param.value);
 						continue;
 					}
 					if(param.param == "locDBfname")
@@ -172,8 +172,7 @@ bool Protein::getProteinData(string line, int colIndex)
 	matchDirrection = line.substr(0, firstBar);
 	
 	//Extract uniprotID
-	size_t secBar = elems[0].find("|", firstBar+1);
-	ID = line.substr(firstBar+1, secBar-firstBar-1);
+	ID = getID(elems[0]);
 	if(matchDirrection == "Reverse_sp")
 		ID = "reverse_" + ID;
 	
@@ -192,7 +191,15 @@ bool Protein::getProteinData(string line, int colIndex)
 
 void Protein::calcMW(const MWDB& mwDB)
 {
-	string sequence = mwDB.getSequence(parseIDPrefix(ID, "KL_"));
+	string sequence = mwDB.getSequence(ID);
+
+	if(sequence == SEQ_NOT_FOUND)
+	{
+		avgMass = -1;
+		monoMass = -1;
+		calcSequence = SEQ_NOT_FOUND;
+		return;
+	}
 	
 	avgMass = mwDB.calcMW(sequence, 0);
 	monoMass = mwDB.calcMW(sequence, 1);
@@ -325,18 +332,29 @@ int Proteins::previousOccurance(const Protein& newProtein) const
 bool Proteins::writeOut(string ofname, const FilterFileParams& filterFileParams) const
 {
 	ofstream outF (ofname.c_str());
-	bool parseSampleName = filterFileParams.sampleNamePrefix != "";
-	int colNamesLength = DEFAULT_COL_NAMES_LENGTH;
-	if(filterFileParams.getSubCelluarLoc)
-		colNamesLength++;
 	
 	if(!outF)
 		return false;
 	
+	bool parseSampleName = filterFileParams.sampleNamePrefix != "";
+	int colNamesLength = DEFAULT_COL_NAMES_LENGTH;
+	if(filterFileParams.getSubCelluarLoc)
+		colNamesLength++;
+	vector<string> headers;
+	vector<string>::iterator it = headers.begin();
+	headers.insert(it, DEFAULT_COL_NAMES, DEFAULT_COL_NAMES + colNamesLength);
+	
 	//print column headers
 	if(filterFileParams.calcMW)
 	{
-		
+		it = headers.begin();
+		for(int i = 0; i < colNamesLength; i++)
+			if(headers[i] == "Mass(Da)")
+			{
+				headers.insert(it + i + 1, MWCALC_HEADERS, MWCALC_HEADERS + MWCALC_HEADERS_LENGTH);
+				colNamesLength = int(headers.size());
+				break;
+			}
 	}
 	if(parseSampleName)
 	{
@@ -357,12 +375,12 @@ bool Proteins::writeOut(string ofname, const FilterFileParams& filterFileParams)
 		for (int i = 0; i < colNames.size(); i++)
 		{
 			if (i == 0)
-				outF << parseSample(colNames[i], filterFileParams.sampleNamePrefix, "standard");
-			else outF << '\t' << '\t' << parseSample(colNames[i], filterFileParams.sampleNamePrefix, "standard");
+				outF << parseSample(colNames[i], filterFileParams.sampleNamePrefix, 0);
+			else outF << '\t' << '\t' << parseSample(colNames[i], filterFileParams.sampleNamePrefix, 0);
 		}
 		outF << endl;
 		for (int i = 0; i < colNamesLength; i++)
-			outF << DEFAULT_COL_NAMES[i] <<'\t';
+			outF << headers[i] <<'\t';
 		for (int i = 0; i < colNames.size(); i++)
 			outF << UNIQUE_PEPTIDE_HEADERS[0] << '\t' << UNIQUE_PEPTIDE_HEADERS[1] << '\t';
 		outF << endl;
@@ -370,10 +388,11 @@ bool Proteins::writeOut(string ofname, const FilterFileParams& filterFileParams)
 	else
 	{
 		vector<string> ofColNames;
-		for (int i = 0; i < colNamesLength; i ++)
-			ofColNames.push_back(DEFAULT_COL_NAMES[i]);
+		int len = int(headers.size());
+		for (int i = 0; i < len; i ++)
+			ofColNames.push_back(headers[i]);
 		for (int i = 0; i < colNames.size(); i ++)
-			ofColNames.push_back(parseSample(colNames[i], filterFileParams.sampleNamePrefix, "standard"));
+			ofColNames.push_back(parseSample(colNames[i], filterFileParams.sampleNamePrefix, 0));
 		int colNamesLen = int(ofColNames.size());
 		for (int i = 0; i < colNamesLen; i++)
 			outF << ofColNames[i] << '\t';
@@ -417,10 +436,11 @@ bool Proteins::writeOut(string ofname, const FilterFileParams& filterFileParams)
 bool Proteins::writeOutDB(string ofname, const FilterFileParams& filterFileParams) const
 {
 	ofstream outF (ofname.c_str());
-	bool parseSampleName = (filterFileParams.sampleNamePrefix != "");
 	
 	if(!outF)
 		return false;
+	
+	bool parseSampleName = (filterFileParams.sampleNamePrefix != "");
 	
 	//print column headers
 	vector<string> headers;
@@ -436,12 +456,25 @@ bool Proteins::writeOutDB(string ofname, const FilterFileParams& filterFileParam
 			headers.push_back(DEFAULT_COL_NAMES_DB[i]);
 		len = DEFAULT_COL_NAMES_DB_LENGTH;
 	}
+	if(filterFileParams.calcMW)
+	{
+		vector<string>::iterator it = headers.begin();
+		for(int i = 0; i < headers.size(); i++)
+			if(headers[i] == "Mass(Da)")
+			{
+				headers.insert(it + i + 1, MWCALC_HEADERS, MWCALC_HEADERS + MWCALC_HEADERS_LENGTH);
+				len = int(headers.size());
+				break;
+			}
+	}
+	
 	
 	vector<string> ofColNames;
 	for (int i = 0; i < len - (!parseSampleName * 2); i ++)
 		ofColNames.push_back(headers[i]);
 	if(filterFileParams.includeUnique)
 		ofColNames.push_back(UNIQUE_PEPTIDE_HEADERS[1]);
+	
 	
 	for (int i = 0; i < int(ofColNames.size()); i++)
 		outF << ofColNames[i] << '\t';
@@ -460,6 +493,11 @@ bool Proteins::writeOutDB(string ofname, const FilterFileParams& filterFileParam
 			proteins[j].description << '\t' <<
 			proteins[j].MW << '\t';
 			
+			if(filterFileParams.calcMW)
+				outF << proteins[j].calcSequence << '\t' <<
+				proteins[j].avgMass << '\t' <<
+				proteins[j].monoMass << '\t';
+			
 			if(filterFileParams.getSubCelluarLoc)
 				outF << proteins[j].loc << '\t';
 			
@@ -468,7 +506,7 @@ bool Proteins::writeOutDB(string ofname, const FilterFileParams& filterFileParam
 			
 			if (parseSampleName)
 			{
-				outF << '\t' << parseSample(proteins[j].col[i].colname, filterFileParams.sampleNamePrefix, "DB") << '\t' <<
+				outF << '\t' << parseSample(proteins[j].col[i].colname, filterFileParams.sampleNamePrefix, 1) << '\t' <<
 				parseReplicate(proteins[j].col[i].colname);
 			}
 			
@@ -500,9 +538,6 @@ void Proteins::calcMW(const MWDB& mwDB)
 //check if line containing % is a collumn header line instead of a protein header line
 bool isColumnHeaderLine(const vector<string>& elems)
 {
-	//int len = int(elems.size());
-	//assert(len <= COLUMN_HEADER_LINE_ELEMENTS_LENGTH);
-	
 	for (int i = 0; i < COLUMN_HEADER_LINE_ELEMENTS_LENGTH; i++)
 		if(COLUMN_HEADER_LINE_ELEMENTS[i] != elems[i])
 			return false;
@@ -511,21 +546,18 @@ bool isColumnHeaderLine(const vector<string>& elems)
 }
 
 //optional fxn to parse long sample name
-string parseSample(string sampleName, string prefix, string outputFormat)
+string parseSample(string sampleName, string prefix, int outputFormat)
 {
+	assert(outputFormat == 0 || outputFormat == 1);
+	
 	//return unparsed sampleName if prefix is empty string or is not found in sampleName
-	//if(sampleName.find(prefix) == string::npos || prefix.length() == 0)
-	if(strContains(prefix, sampleName) || prefix.length() == 0)
+	if(!strContains(prefix, sampleName) || prefix.length() == 0)
 		return sampleName;
 	
-	//old version which adds space instead of _ between sample name
-	//size_t posBegin = sample.find("_");
-	//sample = sample.substr(0, posBegin) + " " + sample.substr(posBegin+1, sample.length() - posEnd);
-	
-	string sample = sampleName.substr(prefix.length()); //remove prefix from begining of sampleName
-	if(outputFormat == "standard")
+	string sample = removeSubstr(prefix, sampleName); //remove prefix from sampleName
+	if(outputFormat == 0) //return for standard output format
 		return sample;
-	if(outputFormat == "DB") //remove replicate number from sampleName if using DB outformat
+	if(outputFormat == 1) //remove replicate number from sampleName if using DB outformat
 		return sample.substr(0, sample.find_last_of("_"));
 	
 	return sampleName;
@@ -549,9 +581,9 @@ int parsePeptideSC(string line)
 	return toInt(elems[11]);
 }
 
-string parseIDPrefix(string str, string prefix)
+string getID(string str)
 {
-	size_t begin = str.find(prefix);
-	string ret = str.substr(begin + prefix.length());
-	return ret;
+	size_t firstBar = str.find("|");
+	size_t secBar = str.find("|", firstBar+1);
+	return str.substr(firstBar+1, secBar-firstBar-1);
 }
