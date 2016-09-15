@@ -6,67 +6,75 @@
 //  Copyright © 2016 Aaron Maurais. All rights reserved.
 //
 
+#include "hashTable.hpp"
+
 /**********************/
 /*        Item        */
 /*********************/
 
-Item::Item()
+template <class T>
+LNode<T>::LNode()
 {
-	Peptide temp;
-	val = temp;
+	next = nullptr;
 }
 
 /**********************/
 /*     LinkedList     */
 /*********************/
 
-LinkedList::LinkedList()
+template<class T>
+LinkedList<T>::LinkedList()
 {
 	head = nullptr;
 	length = 0;
 }
 
-LinkedList::~LinkedList()
+template<class T>
+LinkedList<T>::~LinkedList()
 {
 	destroyList();
 }
 
-void LinkedList::destroyList()
+template<class T>
+void LinkedList<T>::destroyList()
 {
 	destroyList(head);
 }
 
-void LinkedList::destroyList(Item* item)
+template<class T>
+void LinkedList<T>::destroyList(typename LNode<T>::LNode* node)
 {
-	if(item != nullptr)
+	if(node != nullptr)
 	{
-		destroyList(item->next);
-		delete item;
+		destroyList(node->next);
+		delete node;
 	}
 }
 
-void LinkedList::insert(const Peptide& newPeptide)
+template<class T>
+void LinkedList<T>::insert(const T& newItem)
 {
 	if(head != nullptr)
-		insert(newPeptide, head);
+		insert(newItem, head);
 	else
 	{
-		head = new Item;
-		head->val = newPeptide;
+		head = new LNode<T>;
+		head->val = newItem;
 		head->next = nullptr;
 		length++;
 	}
 }
 
-void LinkedList::insert(const Peptide& newPeptide, Item* item)
+template<class T>
+void LinkedList<T>::insert(const T& newItem, typename LNode<T>::LNode* leaf)
 {
-	if(item->next != nullptr)
-		insert(newPeptide, item->next);
+	if(leaf->next != nullptr)
+		insert(newItem, leaf->next);
 	else
 	{
-		item->next = new Item;
-		item->next->val = newPeptide;
-		item->next->next = nullptr;
+		leaf->next = new LNode<T>;
+		leaf->next->val = newItem;
+		leaf->next->next = nullptr;
 		length++;
 	}
 }
@@ -92,23 +100,26 @@ void LinkedList::insert(const Peptide& newPeptide, Item* item)
 	return false;
 }*/
 
-Item* LinkedList::getItem(string key, Item* item) const
+template<class T>
+typename LNode<T>::LNode* LinkedList<T>::getItem(string key, typename LNode<T>::LNode* node) const
 {
-	if(item != nullptr)
+	if(node != nullptr)
 	{
-		if(item->val == key)
-			return item;
-		else return getItem(key, item->next);
+		if(node->val == key)
+			return node;
+		else return getItem(key, node->next);
 	}
 	else return nullptr;
 }
 
-Item* LinkedList::getItem(string key) const
+template<class T>
+typename LNode<T>::LNode* LinkedList<T>::getItem(string key) const
 {
 	return getItem(key, head);
 }
 
-int LinkedList::getLength()
+template<class T>
+int LinkedList<T>::getLength()
 {
 	return length;
 }
@@ -117,31 +128,36 @@ int LinkedList::getLength()
 /*     HashTable     */
 /*********************/
 
-HashTable::HashTable(int s)
+template<class T>
+HashTable<T>::HashTable(int s)
 {
 	size = s;
-	array = new LinkedList[HASH_TABLE_SIZE];
+	array = new LinkedList<T>[HASH_TABLE_SIZE];
 }
 
-void HashTable::destroyTable()
+template<class T>
+void HashTable<T>::destroyTable()
 {
 	delete [] array;
 }
 
-HashTable::~HashTable()
+template<class T>
+HashTable<T>::~HashTable()
 {
 	destroyTable();
 }
 
-int HashTable::hash(string key) const
+template<class T>
+int HashTable<T>::hash(string key) const
 {
 	return str_hash(key) % size;
 }
 
-void HashTable::insert(const Peptide& newPeptide)
+template<class T>
+void HashTable<T>::insert(const T& newItem, string key)
 {
-	int index = hash(newPeptide.getID());
-	array[index].insert(newPeptide);
+	int index = hash(key);
+	array[index].insert(newItem);
 }
 
 /*bool HashTable::remove(string key)
@@ -150,13 +166,15 @@ void HashTable::insert(const Peptide& newPeptide)
 	return array[index].removeItem(key);
 }*/
 
-Item* HashTable::getItem(string itemKey) const
+template<class T>
+typename LNode<T>::LNode* HashTable<T>::getItem(string key) const
 {
-	int index = hash(itemKey);
-	return array[index].getItem(itemKey);
+	int index = hash(key);
+	return array[index].getItem(key);
 }
 
-void HashTable::printHistogram() const
+template<class T>
+void HashTable<T>::printHistogram() const
 {
 	cout << "\nHash Table Contains ";
 	cout << getNumItems() << " Items total\n";
@@ -169,7 +187,8 @@ void HashTable::printHistogram() const
 	}
 }
 
-int HashTable::getNumItems() const
+template<class T>
+int HashTable<T>::getNumItems() const
 {
 	int itemCount = 0;
 	for ( int i = 0; i < size; i++ )

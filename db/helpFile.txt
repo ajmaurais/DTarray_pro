@@ -1,21 +1,23 @@
 DTaray_AJM v1.0
-
-DTaray_AJM v1.0 Extracts Uniprot ID numbers, spectral counts, and 
-molecular weights from DTASelect-filter.txt files.
 (c) Aaron Maurais 2016
 
-USAGE: DTarray_AJM  [-i, —-in <mode>]
-		    [-o, —-out <format>]
-		    [-u, —-unique]
-		    [-d, —-directory <file>]
-		    [-r, —-recompile]
-		    [-p, —-prefix <prefix>]
-		    [-rw <arg>]
-		    [-par <file>]
-		    [-loc]
-		    [-mw <file>]
+NAME
+	DTarray_AJM 
+
+
+USAGE: DTarray    [-i, —-in <mode>]
+		  [-o, —-out <format>]
+		  [-u, —-unique]
+		  [-d, —-directory <directory>]
+		  [-r, —-recompile]
+		  [-p, —-prefix <prefix>]
+		  [-rw <arg>]
+		  [-par <file>]
+		  [-loc]
+		  [-mw <file>]
 
 DESCRIPTION
+	DTarray_AJM 
 
 OPTIONS
 	Command line options are processed from left to right without regard
@@ -36,8 +38,8 @@ OPTIONS
 				subdirrectories where the sample name is the
 				dirrectory name and the filter file is named
 				DTASelect-filter.txt. In subdir mode, DTarray 
-				will search all files one level below working
-				directory for valid DTASelect-filter files.
+				will search all dirrectories one level below 					working	directory for valid DTASelect-filter 
+				files.
 
 	-o, —-out <format>
 		Specify format of output file.
@@ -58,8 +60,12 @@ OPTIONS
 		g++ must be installed to use this option.
 
 	-p <prefix>
-		Remove <prefix> from all sample names. If <prefix> is not found, 
-		the sample name is unchanged. In db output format, 
+		Remove <prefix> from all sample names. If <prefix> is not 
+		found, the sample name is unchanged. In db output format, 
+		columns will be included for long sample name, short sample name 
+		and replicate number. The value for replicate number is taken 
+		as: <number> where the sample name is in the format 
+		<sample name>_<number>.
 
 	-rw <arg>
 		Rewrite existing param files in working directory.
@@ -90,11 +96,12 @@ EXAMPLES
 		Run DTarray using default parameters.
 	
 	DTarray -i subdir
-		Run DTarray in working reading DTASelect-filter files in subdir
-		format.
+		Run DTarray in working directory reading DTASelect-filter files
+		in subdir format.
 
 	DTarray -mw <file>
-		
-		
+		Combine filter files with DTarray then use static modifications
+		file and sequence file to calculate the molecular weights of
+		proteins in dataset.
 
- 
+				 9 September 2016 

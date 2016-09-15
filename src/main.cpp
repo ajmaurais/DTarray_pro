@@ -1,13 +1,12 @@
-  /*
- DTarray_AJM reads in a specified number of dtaselect-filter files and writes protein, their molecular
- weights and spectral count data to OF_NAME in the working dirrectory.
- 
- Written by Aaron Maurais
- 25 May 2016
- */
+//
+//  main.cpp
+//  DTarray_AJM
+//
+//  Created by Aaron Maurais on 3/25/16.
+//  Copyright © 2016 Aaron Maurais. All rights reserved.
+//
 
 #include "DTarray_AJM.hpp"
-#include "hashTable.cpp"
 #include "dtafilter.cpp"
 #include "subCelluarLoc.cpp"
 #include "utils.cpp"
@@ -46,14 +45,14 @@ int main (int argc, char *argv[])
 	//read in subcellular locations database and add sub cell locations to proteins
 	if(filterFileParams.getSubCelluarLoc)
 	{
-		BinTree proteinDBTree;
-		if(!proteinDBTree.readInProteins(filterFileParams.locDBfname))
+		//BinTree proteinDBTree;
+		if(!proteins.readInLocDB(filterFileParams.locDBfname))
 		{
 			cout <<"Failed to read protein location DB file! Exiting..." << endl;
 			return 0;
 		}
 		cout << endl << "Searching for subcellular locations of proteins in dataset..." << endl;
-		proteins.addSubcelluarLoc(proteinDBTree);
+		proteins.addSubcelluarLoc();
 	}
 	
 	//calculate mass of peptides or proteins from sequence and amino acid mass databases

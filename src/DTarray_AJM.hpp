@@ -1,3 +1,10 @@
+//
+//  DTarray_AJM.hpp
+//  DTarray_AJM
+//
+//  Created by Aaron Maurais on 3/25/16.
+//  Copyright © 2016 Aaron Maurais. All rights reserved.
+//
 
 #include <iostream>
 #include <vector>
@@ -9,6 +16,8 @@
 #include <cstring>
 #include <stdlib.h>
 #include <algorithm>
+#include "BinTree.cpp"
+#include "hashTable.cpp"
 
 //#define nullptr NULL //to compile on pleiades this line must be included
 
@@ -46,7 +55,6 @@ string const WHITESPACE = " \f\n\r\t\v";
 string const COMMENT_SYMBOL = "#"; //if changed, paramsCommentSymbol must also be changed in DTarray_AJM.sh
 
 /* hashTable.cpp */
-int const HASH_TABLE_SIZE = 20000;
 string const SEQ_NOT_FOUND = "SEQUENCE_NOT_FOUND_IN_DB";
 
 /* subcelluarLoc.cpp */
@@ -61,14 +69,32 @@ class FilterFileParams;
 class Protein;
 class Proteins;
 class DBProtein;
-class BinTree;
 class MWDB;
 class nwNode;
 class Peptide;
-class LinkedList;
-class HashTable;
 class AATree;
 
+/* #################### subCelluarLoc.cpp #################### */
+
+class DBProtein{
+	friend class Protein;
+	friend class Proteins;
+	string ID, gene, description, loc;
+	
+	//modifers
+	void clear();
+	
+public:
+	//constructor
+	DBProtein(string);
+	DBProtein();
+	
+	//modifers
+	void operator = (const DBProtein&);
+	
+	//properties
+	bool operator == (string) const;
+};
 
 /* #################### dtafilter.cpp #################### */
 
@@ -126,6 +152,7 @@ private:
 	void consolidate(const Protein&, int);
 	DBProtein toDBprotein() const;
 	void calcMW(const MWDB&);
+	void addLoc(string);
 	
 	string fullDescription, matchDirrection, ID, description, MW, loc;
 	double avgMass, monoMass;
@@ -136,6 +163,7 @@ private:
 class Proteins{
 	vector <Protein> proteins;
 	int colIndex;
+	HashTable<DBProtein> locDB;
 	
 	//modifers
 	bool readIn(string, const FilterFileParam&, bool);
@@ -150,72 +178,28 @@ public:
 	Proteins(const FilterFileParams&);
 	Proteins();
 	
+	bool readInLocDB(string);
+	string locSearch(const DBProtein&) const;
+	
 	//properities
 	bool writeOut(string, const FilterFileParams&) const;
 	bool writeOutDB(string, const FilterFileParams&) const;
 	
 	//modifiers
 	bool readIn(string, const FilterFileParams&);
-	void addSubcelluarLoc(const BinTree&);
+	void addSubcelluarLoc();
 	void calcMW(const MWDB&);
 };
 
-/* #################### subCelluarLoc.cpp #################### */
-
-class DBProtein{
-	friend class BinTree;
-	friend class Protein;
-	string ID, gene, description, loc;
-	
-	//modifers
-	void operator = (const DBProtein&);
-	void clear();
-	
-public:
-	//constructor
-	DBProtein(string);
-	DBProtein();
-	
-	//properties
-	bool operator < (const DBProtein&) const;
-	bool operator > (const DBProtein&) const;
-	bool operator == (const DBProtein&) const;
-};
-
-struct Node{
-	DBProtein protein;
-	Node();
-	
-	Node *left;
-	Node *right;
-};
-
-class BinTree{
-public:
-	BinTree();
-	~BinTree();
-	
-	void insert(const DBProtein&);
-	bool readInProteins(string);
-	string locSearch(const DBProtein&) const;
-	
-private:
-	void destroyTree();
-	void insert(const DBProtein&, Node *);
-	Node *search(const DBProtein&, Node *) const;
-	Node *search(const DBProtein&) const;
-	void destroyTree(Node *leaf);
-	
-	Node *root;
-};
-
-/* #################### hashTable.cpp #################### */
+/* #################### calcMW.cpp #################### */
 
 class Peptide{
-public:
+	friend class MWDB;
+private:
 	string ID, sequence;
+public:
 	Peptide();
-	Peptide(string);
+	//Peptide(string);
 	
 	//modifers
 	void operator = (const Peptide&);
@@ -223,72 +207,11 @@ public:
 	//properties
 	bool operator == (string) const;
 	string getID() const;
+	string getSequence() const;
 };
-
-struct Item
-{
-	//struct or vars to sture in list
-	Peptide val;
-	Item* next;
-	
-	Item();
-};
-
-class LinkedList {
-private:
-	Item * head;
-	int length;
-	
-	void destroyList(Item*);
-	void insert(const Peptide&, Item*);
-	Item * getItem(string, Item*) const;
-	
-public:
-	//constructor
-	LinkedList();
-	~LinkedList();
-	
-	//modifer
-	void insert(const Peptide&);
-	//bool removeItem(string);
-	void destroyList();
-	
-	//properties
-	int getLength();
-	Item * getItem(string) const;
-};
-
-class HashTable{
-private:
-	int size;
-	LinkedList* array;
-	hash<string> str_hash;
-	
-	int hash(string) const;
-	void destroyTable(LinkedList*);
-	void insertItem(Item*);
-public:
-	//coonstructor
-	HashTable(int s = HASH_TABLE_SIZE);
-	~HashTable();
-	
-	//modifers
-	//bool remove(string);
-	void destroyTable();
-	void insert(const Peptide&);
-	
-	//properties
-	int getLength();
-	void printTable();
-	Item * getItem(string) const;
-	int getNumItems() const;
-	void printHistogram() const;
-};
-
-/* #################### calcMW.cpp #################### */
 
 class AminoAcid{
-	friend class AATree;
+	friend class MWDB;
 private:
 	string symbol;
 	double avgMass, monoMass;
@@ -308,42 +231,12 @@ public:
 	bool operator == (const AminoAcid&) const;
 };
 
-class mwNode{
-	friend class AATree;
-private:
-	AminoAcid aa;
-	mwNode();
-	
-	mwNode *left;
-	mwNode *right;
-};
-
-class AATree{
-public:
-	AATree();
-	~AATree();
-	
-	bool readInAAs(string, string);
-	void insert(const AminoAcid&);
-	void destroyTree();
-	mwNode *search(const AminoAcid&) const;
-	
-	double getMW(string, int) const;
-	double getMW(char, int) const;
-	
-private:
-	mwNode* root;
-	
-	bool readInAADB(string);
-	bool addStaticMod(const AminoAcid&);
-	void destroyTree(mwNode *leaf);
-	void insert(const AminoAcid&, mwNode *);
-	mwNode *search(const AminoAcid&, mwNode *) const;
-};
-
 class MWDB{
 public:
-	//constructors
+	HashTable <Peptide> peptideLibrary;
+	BinTree <AminoAcid> aminoAcidsDB;
+	
+	//constructor
 	MWDB();
 	~MWDB();
 	
@@ -353,18 +246,16 @@ public:
 	//properties
 	double calcMW(string, int) const;
 	string getSequence(string) const;
-	
-	HashTable peptideLibrary;
-	AATree aminoAcidsDB;
+	double getMW(string, int) const;
+	double getMW(char, int) const;
 	
 private:	
 	//modofers
+	bool readInAAs(string, string);
 	bool readInPeptides(string);
-	
-	//properties
-	int search(string, int, int) const;
+	bool readInAADB(string);
+	bool addStaticMod(const AminoAcid&);
 };
-
 
 /*************/
 /* functions */
@@ -372,7 +263,7 @@ private:
 
 /* dtafilter.cpp */
 bool isColumnHeaderLine(const vector<string>&);
-string parseSample(string, string, int);
+string parseSample(string, string, bool);
 int parsePeptideSC(string);
 string parseReplicate(string);
 string getID(string);

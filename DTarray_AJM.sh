@@ -11,7 +11,7 @@ binName="DTarray_AJM"
 helpFileFname="$scriptWDdb/helpFile.txt"
 
 recompileMessage='DTarray_AJM source code recompiled.'
-invalidOptionMessage="is an invalid option! Exiting...\nUse DTarray --help to see usage."
+invalidOptionMessage="is an invalid option! Exiting...\nUse DTarray -h for help."
 defaultParamsName="dtarray_ajm.params"
 defaultFlistName="dtarray_ajm_flist.txt"
 defaultStaticModificationsName="staticModifications.txt"
@@ -35,6 +35,19 @@ calcMW=false
 calcMWStr="0"
 peptideDBfname=""
 rewriteSmod=false
+continueExc=true
+
+function usage {
+	cat $scriptWDdb/usage.txt
+	echo
+	exit
+}
+
+function isArg {
+	if [[ $1 == -* ]] || [[ -z "$1" ]] ; then
+		usage
+	fi
+}
 
 #get arguements
 while ! [[ -z "$1" ]] ; do
@@ -45,10 +58,12 @@ while ! [[ -z "$1" ]] ; do
 			;;
         "-i" | "--in")
             shift
+			isArg "$1"
             input="$1"
             ;;
         "-o" | "--out")
             shift
+			isArg "$1"
             output="$1"
             ;;
         "-u" | "--unique")
@@ -56,17 +71,21 @@ while ! [[ -z "$1" ]] ; do
             ;;
         "-d" | "--directory" )
 			shift
+			isArg "$1"
             wd="$1"
             ;;
 		"-r" | "--recompile")
 			recompile=true
+			continueExc=false
 			;;
 		"-p" | "--prefix")
 			shift
+			isArg "$1"
 			sampleNamePrefix="$1"
 			;;
 		"-rw")
 			shift
+			isArg "$1"
 			arg="$1"
 			case $arg in
 				"flist")
@@ -82,6 +101,7 @@ while ! [[ -z "$1" ]] ; do
 			;;
 		"-par")
 			shift
+			isArg "$1"
 			flistName="$1"
 			keepParams=true
 			;;
@@ -90,13 +110,14 @@ while ! [[ -z "$1" ]] ; do
 			;;
 		"-mw")
 			shift
+			isArg "$1"
 			peptideDBfname="$1"
 			calcMWStr="1"
 			calcMW=true
 			;;
         *)
             echo -e "$1" $invalidOptionMessage
-            exit
+			usage
         ;;
     esac
     shift
@@ -124,11 +145,15 @@ cd $scriptWDbin
 if ! [[ -a $binName ]] ; then
     recompileMessage='DTarray_AJM object file not found. Recompiling from source code...'
     recompile=true
+	continueExc=true
 fi
 if $recompile ; then
 	cd $scriptWDsrc
 	g++ -o $scriptWDbin/$binName main.cpp
     echo $recompileMessage
+	if ! $continueExc ; then
+		exit
+	fi
 fi
 
 #create params file

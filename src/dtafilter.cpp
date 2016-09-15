@@ -189,6 +189,11 @@ bool Protein::getProteinData(string line, int colIndex)
 	return true;
 }
 
+void Protein::addLoc(string newLoc)
+{
+	loc = newLoc;
+}
+
 void Protein::calcMW(const MWDB& mwDB)
 {
 	string sequence = mwDB.getSequence(ID);
@@ -310,6 +315,24 @@ bool Proteins::readIn(string wd, const FilterFileParams& filterFileParams)
 			return false;
 		}
 		cout << "Adding " << filterFileParams.file[i].colname << "..." << endl;
+	}
+	return true;
+}
+
+bool Proteins::readInLocDB(string fname)
+{
+	ifstream inF (fname.c_str());
+	
+	if(!inF)
+		return false;
+	
+	string line;
+	
+	while(!inF.eof()){
+		getline(inF, line);
+		DBProtein newDBProtein(line);
+		if (newDBProtein.ID != "ID") //skip line if it is header line
+			locDB.insert(newDBProtein, newDBProtein.ID);
 	}
 	return true;
 }
@@ -468,13 +491,11 @@ bool Proteins::writeOutDB(string ofname, const FilterFileParams& filterFileParam
 			}
 	}
 	
-	
 	vector<string> ofColNames;
 	for (int i = 0; i < len - (!parseSampleName * 2); i ++)
 		ofColNames.push_back(headers[i]);
 	if(filterFileParams.includeUnique)
 		ofColNames.push_back(UNIQUE_PEPTIDE_HEADERS[1]);
-	
 	
 	for (int i = 0; i < int(ofColNames.size()); i++)
 		outF << ofColNames[i] << '\t';
@@ -521,11 +542,16 @@ bool Proteins::writeOutDB(string ofname, const FilterFileParams& filterFileParam
 
 //seearches binary tree containing subcelluar localization data and populates data
 //to loc element for each Protein in Proteins
-void Proteins::addSubcelluarLoc(const BinTree& locDBinTree)
+void Proteins::addSubcelluarLoc()
 {
+	LNode<DBProtein>* nodeTemp;
+	
 	int len = int(proteins.size());
 	for (int i = 0; i < len; i++)
-		proteins[i].loc = locDBinTree.locSearch(proteins[i].toDBprotein());
+	{
+		nodeTemp = locDB.getItem(proteins[i].ID);
+		nodeTemp == nullptr ? proteins[i].loc = string(LOC_NOT_FOUND) : proteins[i].loc = string(nodeTemp->val.loc);
+	}
 }
 
 void Proteins::calcMW(const MWDB& mwDB)
@@ -546,21 +572,15 @@ bool isColumnHeaderLine(const vector<string>& elems)
 }
 
 //optional fxn to parse long sample name
-string parseSample(string sampleName, string prefix, int outputFormat)
+string parseSample(string sampleName, string prefix, bool outputFormat)
 {
-	assert(outputFormat == 0 || outputFormat == 1);
-	
 	//return unparsed sampleName if prefix is empty string or is not found in sampleName
 	if(!strContains(prefix, sampleName) || prefix.length() == 0)
 		return sampleName;
 	
 	string sample = removeSubstr(prefix, sampleName); //remove prefix from sampleName
-	if(outputFormat == 0) //return for standard output format
-		return sample;
-	if(outputFormat == 1) //remove replicate number from sampleName if using DB outformat
-		return sample.substr(0, sample.find_last_of("_"));
 	
-	return sampleName;
+	return outputFormat ? sample.substr(0, sample.find_last_of("_")) : sample;
 }
 
 //get replicate number from sample name

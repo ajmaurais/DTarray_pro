@@ -26,6 +26,11 @@ string Peptide::getID() const
 	return ID;
 }
 
+string Peptide::getSequence() const
+{
+	return sequence;
+}
+
 /* #################### AminoAcid #################### */
 
 AminoAcid::AminoAcid() {}
@@ -79,123 +84,56 @@ void AminoAcid::operator += (const AminoAcid& mod)
 	monoMass += mod.avgMass;
 }
 
-/* #################### mwNode #################### */
+/* #################### MWDB #################### */
 
-mwNode::mwNode()
+MWDB::MWDB()
 {
-	new struct AminoAcid;
-	left = nullptr;
-	right = nullptr;
+	new HashTable <Peptide>;
+	new BinTree <AminoAcid>;
 }
 
-/* #################### AATree #################### */
-
-AATree::AATree()
+MWDB::~MWDB()
 {
-	root = nullptr;
+	//peptideLibrary.destroyTable();
+	//aminoAcidsDB.destroyTree();
 }
 
-AATree::~AATree()
+double MWDB::calcMW(string sequence, int avgMono) const
 {
-	destroyTree();
+	double mass = 0;
+	int len = int(sequence.length());
+	
+	mass += getMW("N_term", avgMono);
+	
+	for(int j = 0; j < len; j++)
+		mass += getMW(sequence[j], avgMono);
+	
+	mass += getMW("C_term", avgMono);
+	
+	return mass;
 }
 
-void AATree::destroyTree(mwNode *leaf)
-{
-	if(leaf != nullptr)
-	{
-		destroyTree(leaf->left);
-		destroyTree(leaf->right);
-		delete leaf;
-	}
-}
-
-void AATree::destroyTree()
-{
-	destroyTree(root);
-}
-
-void AATree::insert(const AminoAcid& a, mwNode *leaf)
-{
-	if(a < leaf->aa)
-	{
-		if(leaf->left != nullptr)
-			insert(a, leaf->left);
-		else
-		{
-			leaf->left = new mwNode;
-			leaf->left->aa = a;
-			leaf->left->left=nullptr;
-			leaf->left->right=nullptr;
-		}
-	}
-	else if(a > leaf->aa || a == leaf->aa)
-	{
-		if(leaf->right != nullptr)
-			insert(a, leaf->right);
-		else
-		{
-			leaf->right = new mwNode;
-			leaf->right->aa = a;
-			leaf->right->left=nullptr;
-			leaf->right->right=nullptr;
-		}
-	}
-}
-
-void AATree::insert(const AminoAcid& a)
-{
-	if(root!=nullptr)
-		insert(a, root);
-	else
-	{
-		root = new mwNode;
-		root->aa = a;
-		root->left = nullptr;
-		root->right = nullptr;
-	}
-}
-
-mwNode* AATree::search(const AminoAcid& a, mwNode *leaf) const
-{
-	if(leaf!=nullptr)
-	{
-		if(a == leaf->aa)
-			return leaf;
-		if(a < leaf->aa)
-			return search(a, leaf->left);
-		else
-			return search(a, leaf->right);
-	}
-	else return nullptr;
-}
-
-mwNode* AATree::search(const AminoAcid& a) const
-{
-	return search(a, root);
-}
-
-double AATree::getMW(string a, int avgMono) const
+double MWDB::getMW(string a, int avgMono) const
 {
 	AminoAcid temp (a, 0, 0);
-	mwNode* nTemp = search(temp);
+	Node<AminoAcid>* nTemp = aminoAcidsDB.search(temp);
 	
 	if(nTemp == nullptr)
 		return -1;
-
+	
 	if(avgMono == 0)
-		return nTemp->aa.avgMass;
+		return nTemp->val.avgMass;
 	else if(avgMono == 1)
-		return nTemp->aa.monoMass;
+		return nTemp->val.monoMass;
 	else return -1;
 }
 
-double AATree::getMW(char a, int avgMono) const
+double MWDB::getMW(char a, int avgMono) const
 {
 	return getMW(string(1, a), avgMono);
 }
 
-bool AATree::readInAADB(string aaDB)
+bool MWDB::readInAADB(string aaDB)
 {
 	ifstream inF (aaDB.c_str());
 	
@@ -208,13 +146,13 @@ bool AATree::readInAADB(string aaDB)
 		getLineTrim(inF, line);
 		if(isCommentLine(line) || line.empty())
 			continue;
-		else insert(AminoAcid(line));
+		else aminoAcidsDB.insert(AminoAcid(line));
 	}while(!inF.eof());
 	
 	return true;
 }
 
-bool AATree::readInAAs(string staticMods, string aaDB)
+bool MWDB::readInAAs(string staticMods, string aaDB)
 {
 	ifstream inF (staticMods.c_str());
 	
@@ -251,53 +189,25 @@ bool AATree::readInAAs(string staticMods, string aaDB)
 	return true;
 }
 
-bool AATree::addStaticMod(const AminoAcid& mod)
+bool MWDB::addStaticMod(const AminoAcid& mod)
 {
-	mwNode* nTemp = search(mod);
+	Node<AminoAcid>* nTemp = aminoAcidsDB.search(mod);
 	
 	if(nTemp == nullptr)
 		return false;
 	
-	nTemp->aa += mod;
+	nTemp->val += mod;
 	
 	return true;
 }
 
-/* #################### MWDB #################### */
-
-MWDB::MWDB()
-{
-	new HashTable;
-	new AATree;
-}
-
-MWDB::~MWDB()
-{
-	//peptideLibrary.destroyTable();
-	//aminoAcidsDB.destroyTree();
-}
-
-double MWDB::calcMW(string sequence, int avgMono) const
-{
-	double mass = 0;
-	int len = int(sequence.length());
-	
-	mass += aminoAcidsDB.getMW("N_term", avgMono);
-	
-	for(int j = 0; j < len; j++)
-		mass += aminoAcidsDB.getMW(sequence[j], avgMono);
-	
-	mass += aminoAcidsDB.getMW("C_term", avgMono);
-	
-	return mass;
-}
 
 string MWDB::getSequence(string id) const
 {
-	Item* temp = peptideLibrary.getItem(id);
+	LNode<Peptide>* temp = peptideLibrary.getItem(id);
 	if(temp == nullptr)
 		return SEQ_NOT_FOUND;
-	else return temp->val.sequence;
+	else return temp->val.getSequence();
 }
 
 bool MWDB::readInPeptides(string fname)
@@ -321,7 +231,7 @@ bool MWDB::readInPeptides(string fname)
 				temp.ID = getID(line);
 				getLineTrim(inF, line);
 				temp.sequence = line;
-				peptideLibrary.insert(temp);
+				peptideLibrary.insert(temp, temp.getID());
 			}
 		}
 	} while(!inF.eof());
@@ -331,5 +241,8 @@ bool MWDB::readInPeptides(string fname)
 
 bool MWDB::readIn(string wd, const FilterFileParams& params)
 {
-	return readInPeptides(wd + params.peptideDBfname) && aminoAcidsDB.readInAAs(wd + params.staticModsFname, params.aaDBfanme);
+	bool val1 = readInPeptides(wd + params.peptideDBfname);
+	bool val2 = readInAAs(wd + params.staticModsFname, params.aaDBfanme);
+	
+	return val1 && val2;
 }
