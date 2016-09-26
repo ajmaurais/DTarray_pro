@@ -32,9 +32,9 @@ DBProtein::DBProtein(string line)
 	}
 }
 
-bool DBProtein::operator == (string compp) const
+bool DBProtein::operator == (string comp) const
 {
-	return strComp(compp, ID) == 0;
+	return comp == ID;
 }
 
 void DBProtein::operator = (const DBProtein& pget)

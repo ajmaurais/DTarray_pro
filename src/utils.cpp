@@ -113,11 +113,6 @@ inline void getLineTrim(ifstream& inF, string& line)
 	line = trim(line);
 }
 
-inline int strComp(string str1, string str2)
-{
-	return strcmp(str1.c_str(), str2.c_str());
-}
-
 //removes findStr from whithinStr and returns whithinStr
 string removeSubstr(string findStr, string whithinStr)
 {
@@ -134,3 +129,27 @@ string toLower(string str)
 	transform(str.begin(), str.end(), str.begin(), ::tolower);
 	return str;
 }
+
+template<class T>
+typename vector<T>::iterator insertSorted(vector<T> & vec, T const& item)
+{
+	return vec.insert(upper_bound(vec.begin(), vec.end(), item), item);
+}
+
+template <class T>
+long binSearch(const vector<T>& vec, const T& findItem, long begin, long end)
+{
+	if (begin > end)
+		return -1;
+	
+	long mid = (begin + end)/2;
+	
+	if (vec[mid] == findItem)
+		return mid;
+	
+	if (vec[mid] < findItem)
+		return binSearch(vec, findItem, mid + 1, end);
+	else
+		return binSearch(vec, findItem, begin, mid - 1);
+}
+

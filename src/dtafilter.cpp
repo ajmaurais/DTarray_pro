@@ -80,6 +80,11 @@ bool FilterFileParams::readDTParams(string fname, string path)
 						staticModsFname = param.value;
 						continue;
 					}
+					if(param.param == "ofname")
+					{
+						ofname = param.value;
+						continue;
+					}
 					else return false;
 				}
 				else if(isCommentLine(line) || line.empty())
@@ -149,6 +154,25 @@ void Protein::initialize(const vector<string>& colNames)
 		col.push_back(newFilterFile);
 	}
 }
+
+bool Protein::operator == (const Protein& comp) const
+{
+	//return strComp(comp.ID, ID) == 0;
+	return comp.ID == ID;
+}
+
+bool Protein::operator > (const Protein& comp) const
+{
+	//return strComp(comp.ID, ID) < 0;
+	return comp.ID > ID;
+}
+
+bool Protein::operator < (const Protein& comp) const
+{
+	//return strComp(comp.ID, ID) > 0;
+	return comp.ID < ID;
+}
+
 
 //parse proten header line and extract desired data
 bool Protein::getProteinData(string line, int colIndex)
@@ -240,6 +264,27 @@ Proteins::Proteins(const FilterFileParams& files)
 		colNames.push_back(files.file[i].colname);
 }
 
+long Proteins::insert(const Protein& newProtein)
+{
+	if(proteins.size() == 0)
+	{
+		proteins.push_back(newProtein);
+		return 0;
+	}
+	else {
+		long index = binSearch(proteins, newProtein, 0, proteins.size() - 1);
+		if(index == -1)
+		{
+			vector<Protein>::iterator it = insertSorted(proteins, newProtein);
+			return int(distance(proteins.begin(), it));
+		}
+		else {
+			proteins[index].consolidate(newProtein, colIndex);
+			return index;
+		}
+	}
+}
+
 //loop through protein headder and peptide lines in DTA filter file and add data to Proteins
 bool Proteins::readIn(string wd, const FilterFileParam& filterFile, bool countUniquePeptides)
 {
@@ -248,13 +293,11 @@ bool Proteins::readIn(string wd, const FilterFileParam& filterFile, bool countUn
 	if(!inF)
 		return false;
 	
-	int proteinsIndex = int(proteins.size());
-	int previousOccuranceIndex;
 	int numUniquePeptides = 0;
-	int uniquePeptidesIndex = -1;
+	long uniquePeptidesIndex = -1;
 	bool inProtein = false;
 	bool getNewLine = true;
-	Protein blank;
+	Protein blank, newProtein;
 	blank.initialize(colNames);
 	string line;
 	
@@ -264,25 +307,13 @@ bool Proteins::readIn(string wd, const FilterFileParam& filterFile, bool countUn
 		getNewLine = true;
 		if(strContains('%', line))  //find protein header lines by percent symbol for percent coverage
 		{
-			Protein newProtein;
 			newProtein.initialize(colNames);
 			if(newProtein.getProteinData(line, colIndex)) //if line is not column header line populate protein to Proteins
 			{
 				inProtein = true; //used to determine if whether it is valid to loop through peptide lines below protein
 								  //header line to extract unique peptide spectral counts
-				previousOccuranceIndex = previousOccurance(newProtein); //find index at which newProtein occures in Proteins
-				if (previousOccuranceIndex == -1) //if protein is not found, add to proteins dataset
-				{
-					proteins.push_back(blank);
-					proteins[proteinsIndex] = newProtein;
-					uniquePeptidesIndex = proteinsIndex;
-					proteinsIndex++;
-				}
-				else //if protein is found, add spectral counts to appropiate filterFile
-				{
-					proteins[previousOccuranceIndex].consolidate(newProtein, colIndex);
-					uniquePeptidesIndex = previousOccuranceIndex;
-				}
+				
+				uniquePeptidesIndex = insert(newProtein); //insert new protein into proteins list
 			}
 			//extract spectral counts for unique peptides
 			if(countUniquePeptides && inProtein)
@@ -316,6 +347,7 @@ bool Proteins::readIn(string wd, const FilterFileParams& filterFileParams)
 		}
 		cout << "Adding " << filterFileParams.file[i].colname << "..." << endl;
 	}
+	reverse(proteins.begin(), proteins.end()); //reverse proteins list so that reverse matches won't be in begining of dataset
 	return true;
 }
 
@@ -335,20 +367,6 @@ bool Proteins::readInLocDB(string fname)
 			locDB.insert(newDBProtein, newDBProtein.ID);
 	}
 	return true;
-}
-
-//itterate through all previous proteins and return index at which a previous occurance
-//of newProtein occures
-int Proteins::previousOccurance(const Protein& newProtein) const
-{
-	int len = int(proteins.size());
-	
-	for (int i = 0; i < len; i++)
-		if (proteins[i].ID == newProtein.ID && proteins[i].matchDirrection == newProtein.matchDirrection)
-			return i;
-	
-	//if newProtein is not found return -1
-	return -1;
 }
 
 //write out combined protein lists to ofname in wide format
@@ -434,10 +452,13 @@ bool Proteins::writeOut(string ofname, const FilterFileParams& filterFileParams)
 		proteins[i].MW << '\t';
 		
 		if(filterFileParams.calcMW)
-			outF << proteins[i].calcSequence << '\t' <<
-			proteins[i].avgMass << '\t' <<
+		{
+			if(INCLUDE_SEQUENCE)
+				outF << proteins[i].calcSequence << '\t';
+			outF << proteins[i].avgMass << '\t' <<
 			proteins[i].monoMass << '\t';
-			
+		}
+		
 		
 		if(filterFileParams.getSubCelluarLoc)
 			outF << proteins[i].loc << '\t';
@@ -515,9 +536,12 @@ bool Proteins::writeOutDB(string ofname, const FilterFileParams& filterFileParam
 			proteins[j].MW << '\t';
 			
 			if(filterFileParams.calcMW)
-				outF << proteins[j].calcSequence << '\t' <<
-				proteins[j].avgMass << '\t' <<
+			{
+				if(INCLUDE_SEQUENCE)
+					outF << proteins[j].calcSequence << '\t';
+				outF << proteins[j].avgMass << '\t' <<
 				proteins[j].monoMass << '\t';
+			}
 			
 			if(filterFileParams.getSubCelluarLoc)
 				outF << proteins[j].loc << '\t';

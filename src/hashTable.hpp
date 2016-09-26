@@ -56,7 +56,6 @@ public:
 	void insert(const T&);
 	//bool removeItem(string);
 	void destroyList();
-	void 
 	
 	//properties
 	int getLength();

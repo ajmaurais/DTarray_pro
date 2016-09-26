@@ -12,7 +12,7 @@ Peptide::Peptide() {}
 
 bool Peptide::operator == (string comp) const
 {
-	return strComp(comp, ID) == 0;
+	return comp == ID;
 }
 
 void Peptide::operator = (const Peptide& p)
@@ -65,17 +65,17 @@ AminoAcid::AminoAcid(string str, double num1)
 
 bool AminoAcid::operator < (const AminoAcid& compp) const
 {
-	return strComp(compp.symbol, symbol) < 0;
+	return symbol < compp.symbol;
 }
 
 bool AminoAcid::operator > (const AminoAcid& compp) const
 {
-	return strComp(compp.symbol, symbol) > 0;
+	return symbol > compp.symbol;
 }
 
 bool AminoAcid::operator == (const AminoAcid& compp) const
 {
-	return strComp(compp.symbol, symbol) == 0;
+	return symbol == compp.symbol;
 }
 
 void AminoAcid::operator += (const AminoAcid& mod)
@@ -200,7 +200,6 @@ bool MWDB::addStaticMod(const AminoAcid& mod)
 	
 	return true;
 }
-
 
 string MWDB::getSequence(string id) const
 {

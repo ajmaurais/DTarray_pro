@@ -28,7 +28,6 @@ using namespace std;
 /*****************************/
 
 /* dtafilter.cpp */
-string const OF_NAME = "DTarray_AJM.txt";
 bool const INCLUDE_FULL_DESCRIPTION = true;
 //string const DEFAULT_COL_NAMES [] = {"ID", "Description", "Mass (Da)"};
 string const DEFAULT_COL_NAMES [] = {"Protein","ID", "Description", "Mass(Da)", "subcellular_location"};
@@ -49,6 +48,7 @@ int const DEFAULT_COL_NAMES_DB_LOC_LENGTH = 9;
 string const UNIQUE_PEPTIDE_HEADERS[] = {"SC", "Unique_pep_SC"};
 string const MWCALC_HEADERS [] = {"sequence", "avg_mass", "monoisotopic_mass"};
 int const MWCALC_HEADERS_LENGTH = 3;
+bool const INCLUDE_SEQUENCE = true;
 
 /* utils.cpp */
 string const WHITESPACE = " \f\n\r\t\v";
@@ -124,7 +124,7 @@ public:
 	bool getSubCelluarLoc;
 	string locDBfname;
 	bool calcMW;
-	string aaDBfanme, peptideDBfname, staticModsFname;
+	string aaDBfanme, peptideDBfname, staticModsFname, ofname;
 	
 	//modifiers
 	bool readDTParams(string, string);
@@ -142,6 +142,12 @@ struct FilterFile{
 
 //stores data for each protein found in filter file
 class Protein{
+public:
+	//properties
+	bool operator == (const Protein&) const;
+	bool operator > (const Protein&) const;
+	bool operator < (const Protein&) const;
+
 private:
 	friend class Proteins;
 	vector <FilterFile> col;
@@ -167,9 +173,10 @@ class Proteins{
 	
 	//modifers
 	bool readIn(string, const FilterFileParam&, bool);
+	long insert(const Protein&);
 	
 	//properties
-	int previousOccurance(const Protein&) const;
+	//int previousOccurance(const Protein&) const;
 	
 public:
 	vector<string> colNames;
@@ -282,6 +289,8 @@ inline string trim(const string&);
 bool isCommentLine(string);
 bool isInteger(string);
 inline void getLineTrim(ifstream&, string&);
-inline int strComp(string, string);
 string removeSubstr(string, string);
 string toLower(string);
+template<class T> long binSearch(const vector<T>&, const T&, long, long);
+template<class T> typename vector<T>::iterator insertSorted(vector<T>& vec, const T& item);
+

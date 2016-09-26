@@ -8,7 +8,7 @@ locDBfname="$scriptWDdb/subCelluarLoc.txt"
 aaDBfanme="$scriptWDdb/aaMasses.txt"
 staticModificationsDB="$scriptWDdb/staticModifications.txt"
 binName="DTarray_AJM"
-helpFileFname="$scriptWDdb/helpFile.txt"
+helpFileFname="$scriptWDdb/helpFile.man"
 
 recompileMessage='DTarray_AJM source code recompiled.'
 invalidOptionMessage="is an invalid option! Exiting...\nUse DTarray -h for help."
@@ -21,6 +21,7 @@ paramsCommentSymbol="#" #if changed, COMMENT_SYMBOL must also be changed in src/
 paramsName=$defaultParamsName
 flistName=$defaultFlistName
 staticModificationsName=$defaultStaticModificationsName
+ofname="DTarray_AJM.txt"
 input="standard"
 output="standard"
 includeUnique="0"
@@ -36,6 +37,7 @@ calcMWStr="0"
 peptideDBfname=""
 rewriteSmod=false
 continueExc=true
+
 
 function usage {
 	cat $scriptWDdb/usage.txt
@@ -53,75 +55,84 @@ function isArg {
 while ! [[ -z "$1" ]] ; do
     case $1 in
 		"-h" | "--help")
-			less $helpFileFname
-			exit
-			;;
+			man $helpFileFname
+			exit;;
+		"-of" | "--ofname")
+			shift
+			isArg "$1"
+			ofname="$1";;
         "-i" | "--in")
             shift
 			isArg "$1"
-            input="$1"
-            ;;
+            input="$1";;
         "-o" | "--out")
             shift
 			isArg "$1"
-            output="$1"
-            ;;
+            output="$1";;
         "-u" | "--unique")
-            includeUnique="1"
-            ;;
-        "-d" | "--directory" )
+            includeUnique="1";;
+        "-d" | "--dir" )
 			shift
 			isArg "$1"
-            wd="$1"
-            ;;
+            wd="$1";;
 		"-r" | "--recompile")
 			recompile=true
-			continueExc=false
-			;;
+			continueExc=false;;
 		"-p" | "--prefix")
 			shift
 			isArg "$1"
-			sampleNamePrefix="$1"
-			;;
+			sampleNamePrefix="$1";;
 		"-rw")
 			shift
 			isArg "$1"
 			arg="$1"
 			case $arg in
 				"flist")
-					rewriteFlist=true
-				;;
+					rewriteFlist=true;;
 				"smod")
-					rewriteSmod=true
-				;;
+					rewriteSmod=true;;
+				*)
+					echo -e "$1" $invalidOptionMessage
+					exit;;
 			esac
 			;;
-		"-k" | "--keep")
-			keepParams=true
-			;;
+		"-k" | "--keepParams")
+			keepParams=true;;
 		"-par")
 			shift
 			isArg "$1"
 			flistName="$1"
-			keepParams=true
-			;;
+			keepParams=true;;
 		"-loc")
-			getSubCelluarLoc="1"
-			;;
+			getSubCelluarLoc="1";;
 		"-mw")
 			shift
 			isArg "$1"
 			peptideDBfname="$1"
 			calcMWStr="1"
-			calcMW=true
-			;;
+			calcMW=true;;
         *)
             echo -e "$1" $invalidOptionMessage
-			usage
-        ;;
+			usage;;
     esac
     shift
 done
+
+#compile source code if necissary
+cd $scriptWDbin
+if ! [[ -a $binName ]] ; then
+    recompileMessage='DTarray_AJM object file not found. Recompiling from source code...'
+    recompile=true
+	continueExc=true
+fi
+if $recompile ; then
+	cd $scriptWDsrc
+	g++ -o $scriptWDbin/$binName main.cpp
+    echo $recompileMessage
+	if ! $continueExc ; then
+		exit
+	fi
+fi
 
 #summarize params for user
 echo -e "\nThe folowing paramaters were used:"
@@ -139,22 +150,6 @@ echo "calcMW = "$calcMW
 echo "peptideDBfname = "$peptideDBfname
 echo "rewriteSmod = "$rewriteSmod
 echo
-
-#compile source code if necissary
-cd $scriptWDbin
-if ! [[ -a $binName ]] ; then
-    recompileMessage='DTarray_AJM object file not found. Recompiling from source code...'
-    recompile=true
-	continueExc=true
-fi
-if $recompile ; then
-	cd $scriptWDsrc
-	g++ -o $scriptWDbin/$binName main.cpp
-    echo $recompileMessage
-	if ! $continueExc ; then
-		exit
-	fi
-fi
 
 #create params file
 cd $wd
@@ -209,6 +204,7 @@ if ! $keepParams ; then
 	echo -e "$paramsCommentSymbol Params for DTarray_AJM\n$paramsCommentSymbol Params generated on: "$(date +"%y-%m-%d_%H:%M:%S")'\n' > ./$paramsName
 	echo -e '<paramsFile>\n' >> ./$paramsName
 	echo -e '<params>\n' >> ./$paramsName
+	echo 'ofname='$ofname >> ./$paramsName
 	echo 'outputFormat='$output >> ./$paramsName
 	echo 'includeUnique='$includeUnique >> ./$paramsName
 	echo 'sampleNamePrefix='$sampleNamePrefix >> ./$paramsName

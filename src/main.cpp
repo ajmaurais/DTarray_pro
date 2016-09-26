@@ -45,7 +45,6 @@ int main (int argc, char *argv[])
 	//read in subcellular locations database and add sub cell locations to proteins
 	if(filterFileParams.getSubCelluarLoc)
 	{
-		//BinTree proteinDBTree;
 		if(!proteins.readInLocDB(filterFileParams.locDBfname))
 		{
 			cout <<"Failed to read protein location DB file! Exiting..." << endl;
@@ -75,7 +74,7 @@ int main (int argc, char *argv[])
 	//write out combined data to OF_NAME
 	if (filterFileParams.outputFormat == "standard")
 	{
-		if(!proteins.writeOut(wd + OF_NAME, filterFileParams))
+		if(!proteins.writeOut(wd + filterFileParams.ofname, filterFileParams))
 		{
 			cout << "Could not write out file! Exiting..." << endl;
 			return 0;
@@ -83,7 +82,7 @@ int main (int argc, char *argv[])
 	}
 	else if (filterFileParams.outputFormat == "db")
 	{
-		if(!proteins.writeOutDB(wd + OF_NAME, filterFileParams))
+		if(!proteins.writeOutDB(wd + filterFileParams.ofname, filterFileParams))
 		{
 			cout << "Could not write out file! Exiting..." << endl;
 			return 0;
@@ -93,7 +92,7 @@ int main (int argc, char *argv[])
 	
 	//summarize results for user
 	cout << endl << proteins.colNames.size() << " files combined." << endl;
-	cout << "Results written to: " << OF_NAME << endl;
+	cout << "Results written to: " << filterFileParams.ofname << endl;
 	
 	return 0;
 }
