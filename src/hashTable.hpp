@@ -1,5 +1,5 @@
 //
-//  Header.hpp
+//  hashTable.hpp
 //  DTarray_AJM
 //
 //  Created by Aaron Maurais on 9/9/16.

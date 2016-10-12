@@ -15,7 +15,7 @@ invalidOptionMessage="is an invalid option! Exiting...\nUse DTarray -h for help.
 defaultParamsName="dtarray_ajm.params"
 defaultFlistName="dtarray_ajm_flist.txt"
 defaultStaticModificationsName="staticModifications.txt"
-paramsCommentSymbol="#" #if changed, COMMENT_SYMBOL must also be changed in src/utils.h
+paramsCommentSymbol="#" #if changed, COMMENT_SYMBOL must also be changed in src/DTarray_AJM.hpp
 
 #default paramaters
 paramsName=$defaultParamsName
@@ -37,7 +37,6 @@ calcMWStr="0"
 peptideDBfname=""
 rewriteSmod=false
 continueExc=true
-
 
 function usage {
 	cat $scriptWDdb/usage.txt
@@ -226,7 +225,6 @@ if $calcMW == "1" ; then
 		echo -e '\n\n</staticModifications>\n' >> ./$staticModificationsName
 	fi
 fi
-
 
 #run DTarray_AJM
 cd $scriptWDbin

@@ -37,7 +37,6 @@ int main (int argc, char *argv[])
 	}
 
 	//read in and combine files
-	cout << endl;
 	Proteins proteins(filterFileParams);
 	if(!proteins.readIn(wd, filterFileParams))
 		return 0;

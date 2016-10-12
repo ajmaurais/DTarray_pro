@@ -157,19 +157,16 @@ void Protein::initialize(const vector<string>& colNames)
 
 bool Protein::operator == (const Protein& comp) const
 {
-	//return strComp(comp.ID, ID) == 0;
 	return comp.ID == ID;
 }
 
 bool Protein::operator > (const Protein& comp) const
 {
-	//return strComp(comp.ID, ID) < 0;
 	return comp.ID > ID;
 }
 
 bool Protein::operator < (const Protein& comp) const
 {
-	//return strComp(comp.ID, ID) > 0;
 	return comp.ID < ID;
 }
 
@@ -203,14 +200,28 @@ bool Protein::getProteinData(string line, int colIndex)
 	//extract MW
 	MW = elems[5];
 	
-	//extract shortened protein description
+	//extract shortened protein name and description
 	size_t endOfDescription = elems[8].find(" [");
-	description = elems[8].substr(0, endOfDescription);
+	string descriptionTemp = elems[8].substr(0, endOfDescription);
+	getProteinAndDescr(descriptionTemp);
+	
 	
 	//add spectrum count for *this protein to colname
 	col[colIndex].count = elems[2];
 	
 	return true;
+}
+
+inline void Protein::getProteinAndDescr(string str)
+{
+	size_t firstSpace = str.find(" ");
+	
+	if(firstSpace == string::npos)
+		protein = str;
+	else{
+		protein = str.substr(0, firstSpace);
+		description = str.substr(firstSpace + 1);
+	}
 }
 
 void Protein::addLoc(string newLoc)
@@ -448,6 +459,7 @@ bool Proteins::writeOut(string ofname, const FilterFileParams& filterFileParams)
 			outF << proteins[i].fullDescription << '\t';
 		
 		outF << proteins[i].ID << '\t' <<
+		proteins[i].protein << '\t' <<
 		proteins[i].description << '\t' <<
 		proteins[i].MW << '\t';
 		
@@ -532,6 +544,7 @@ bool Proteins::writeOutDB(string ofname, const FilterFileParams& filterFileParam
 				outF << proteins[j].fullDescription << '\t';
 			
 			outF << proteins[j].ID << '\t' <<
+			proteins[j].protein << '\t' <<
 			proteins[j].description << '\t' <<
 			proteins[j].MW << '\t';
 			

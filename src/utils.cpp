@@ -55,6 +55,7 @@ inline bool strContains(char findTxt, string whithinTxt)
 //split str by delim and populate each split into elems
 void split (const string str, char delim, vector<string> & elems)
 {
+	elems.clear();
 	stringstream ss (str);
 	string item;
 	

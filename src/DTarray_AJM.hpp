@@ -6,6 +6,8 @@
 //  Copyright © 2016 Aaron Maurais. All rights reserved.
 //
 
+//#define nullptr NULL //to compile on pleiades this line must be included
+
 #include <iostream>
 #include <vector>
 #include <fstream>
@@ -19,8 +21,6 @@
 #include "BinTree.cpp"
 #include "hashTable.cpp"
 
-//#define nullptr NULL //to compile on pleiades this line must be included
-
 using namespace std;
 
 /******************************/
@@ -29,9 +29,8 @@ using namespace std;
 
 /* dtafilter.cpp */
 bool const INCLUDE_FULL_DESCRIPTION = true;
-//string const DEFAULT_COL_NAMES [] = {"ID", "Description", "Mass (Da)"};
-string const DEFAULT_COL_NAMES [] = {"Protein","ID", "Description", "Mass(Da)", "subcellular_location"};
-int const DEFAULT_COL_NAMES_LENGTH = 4;
+string const DEFAULT_COL_NAMES [] = {"Full_description", "ID", "Protein", "Description", "Mass(Da)", "subcellular_location"};
+int const DEFAULT_COL_NAMES_LENGTH = 5;
 string const COLUMN_HEADER_LINE_ELEMENTS[] = {"Unique", "FileName", "XCorr", "DeltCN", "Conf%", "M+H+",
 	"CalcM+H+", "TotalIntensity", "SpR", "ZScore", "IonProportion", "Redundancy", "Sequence"};
 int const COLUMN_HEADER_LINE_ELEMENTS_LENGTH = 13;
@@ -39,12 +38,12 @@ string const PARAM_ERROR_MESSAGE = " is an invalid arguement for: ";
 int const MAX_PARAM_ITTERATIONS = 100;
 
 //editable params for DB output format
-string const DEFAULT_COL_NAMES_DB [] = {"Protein","ID", "Description", "Mass(Da)", "Long_sample_name",
+string const DEFAULT_COL_NAMES_DB [] = {"Full_description", "ID", "Protein", "Description", "Mass(Da)", "Long_sample_name",
 	"Spectral_counts", "Sample", "Replicate"};
-int const DEFAULT_COL_NAMES_DB_LENGTH = 8;
-string const DEFAULT_COL_NAMES_DB_LOC [] = {"Protein","ID", "Description", "Mass(Da)", "subcellular_location", "Long_sample_name",
+int const DEFAULT_COL_NAMES_DB_LENGTH = 9;
+string const DEFAULT_COL_NAMES_DB_LOC [] = {"Protein","ID", "Protein", "Description", "Mass(Da)", "subcellular_location", "Long_sample_name",
 	"Spectral_counts", "Sample", "Replicate"};
-int const DEFAULT_COL_NAMES_DB_LOC_LENGTH = 9;
+int const DEFAULT_COL_NAMES_DB_LOC_LENGTH = 10;
 string const UNIQUE_PEPTIDE_HEADERS[] = {"SC", "Unique_pep_SC"};
 string const MWCALC_HEADERS [] = {"sequence", "avg_mass", "monoisotopic_mass"};
 int const MWCALC_HEADERS_LENGTH = 3;
@@ -155,12 +154,13 @@ private:
 	//modifier
 	void initialize(const vector<string>&);
 	bool getProteinData(string, int);
+	inline void getProteinAndDescr(string);
 	void consolidate(const Protein&, int);
 	DBProtein toDBprotein() const;
 	void calcMW(const MWDB&);
 	void addLoc(string);
 	
-	string fullDescription, matchDirrection, ID, description, MW, loc;
+	string fullDescription, matchDirrection, ID, protein, description, MW, loc;
 	double avgMass, monoMass;
 	string calcSequence;
 };
