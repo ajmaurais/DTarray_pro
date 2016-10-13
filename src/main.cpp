@@ -21,7 +21,7 @@ int main (int argc, char *argv[])
 	string wd = string(argv[1]);
 	string flistName = string(argv[2]);
 	string paramsName = string(argv[3]);
-	assert(dirExists(wd));
+	assert(util::dirExists(wd));
 	
 	//read in names of files to combine and output params
 	FilterFileParams filterFileParams;
@@ -62,9 +62,21 @@ int main (int argc, char *argv[])
 			cout << "Failed to read mwDB files! Exiting..." << endl;
 			return 0;
 		}
-		cout << "Calculating protein molecular weights from " << filterFileParams.peptideDBfname << endl;
-		
+		cout << "Calculating protein molecular weights from " << filterFileParams.mwDBFname << endl;
 		proteins.calcMW(mwDB);
+	}
+	
+	if((!filterFileParams.calcMW && filterFileParams.includeSeq ) ||
+	   (filterFileParams.seqDBfname != filterFileParams.mwDBFname))
+	{
+		SeqDB seqDB;
+		if(!seqDB.readIn(wd + filterFileParams.seqDBfname))
+		{
+			cout << "Failed to read seqDB file! Exiting..." << endl;
+			return 0;
+		}
+		cout << "Getting protein sequences from " << filterFileParams.seqDBfname << endl;
+		proteins.addSeq(seqDB);
 	}
 	
 	if(!filterFileParams.sampleNamePrefix.empty())

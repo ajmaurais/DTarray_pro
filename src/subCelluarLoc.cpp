@@ -22,7 +22,7 @@ DBProtein::DBProtein(string line)
 	else
 	{
 		vector<string>elems;
-		split(line, '\t', elems);
+		util::split(line, '\t', elems);
 		assert(elems.size() == 4);
 		
 		ID = elems[0];

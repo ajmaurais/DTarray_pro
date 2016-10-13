@@ -34,8 +34,10 @@ keepParams=false
 getSubCelluarLoc="0"
 calcMW=false
 calcMWStr="0"
-peptideDBfname=""
+mwDBFname=""
 rewriteSmod=false
+includeSeq="0"
+seqDBfname=""
 continueExc=true
 
 function usage {
@@ -107,9 +109,14 @@ while ! [[ -z "$1" ]] ; do
 		"-mw")
 			shift
 			isArg "$1"
-			peptideDBfname="$1"
+			mwDBFname="$1"
 			calcMWStr="1"
-			calcMW=true;;
+			calcMW=true ;;
+		"-seq")
+			shift
+			isArg "$1"
+			seqDBfname="$1"
+			includeSeq="1" ;;
         *)
             echo -e "$1" $invalidOptionMessage
 			usage;;
@@ -146,7 +153,9 @@ echo "flistName = "$flistName
 echo "paramsName = "$paramsName
 echo "getSubCelluarLoc = "$getSubCelluarLoc
 echo "calcMW = "$calcMW
-echo "peptideDBfname = "$peptideDBfname
+echo "mwDBFname = "$mwDBFname
+echo "includeSeq = "$includeSeq
+echo "seqDBfname = "$seqDBfname
 echo "rewriteSmod = "$rewriteSmod
 echo
 
@@ -210,14 +219,17 @@ if ! $keepParams ; then
 	echo 'getSubCelluarLoc='$getSubCelluarLoc >> ./$paramsName
 	echo 'locDBfname='$locDBfname >> ./$paramsName
 	echo 'calcMW='$calcMWStr >> ./$paramsName
-	echo 'peptideDBfname='$peptideDBfname >> ./$paramsName
+	echo 'mwDBFname='$mwDBFname >> ./$paramsName
 	echo 'aaDBfanme='$aaDBfanme >> ./$paramsName
+	echo 'includeSeq='$includeSeq >> ./$paramsName
+	echo 'seqDBfname='$seqDBfname >> ./$paramsName
 	echo 'staticModsFname='$staticModificationsName >> ./$paramsName
 	echo -e '\n</params>\n' >> ./$paramsName
 	echo -e '</paramsFile>' >> ./$paramsName
 fi
 
-if $calcMW == "1" ; then
+#if $calcMW == "1" ; then
+if $calcMW ; then
 	if ! [ -a $staticModificationsName ] || $rewriteSmod ; then
 		echo -e "$paramsCommentSymbol Static modifications for DTarray_AJM\n$paramsCommentSymbol file generated on: "$(date +"%y-%m-%d_%H:%M:%S")'\n' > $staticModificationsName
 		echo -e '<staticModifications>\n' >> ./$staticModificationsName

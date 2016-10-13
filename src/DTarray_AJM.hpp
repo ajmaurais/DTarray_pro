@@ -45,9 +45,8 @@ string const DEFAULT_COL_NAMES_DB_LOC [] = {"Protein","ID", "Protein", "Descript
 	"Spectral_counts", "Sample", "Replicate"};
 int const DEFAULT_COL_NAMES_DB_LOC_LENGTH = 10;
 string const UNIQUE_PEPTIDE_HEADERS[] = {"SC", "Unique_pep_SC"};
-string const MWCALC_HEADERS [] = {"sequence", "avg_mass", "monoisotopic_mass"};
-int const MWCALC_HEADERS_LENGTH = 3;
-bool const INCLUDE_SEQUENCE = true;
+string const MWCALC_HEADERS [] = {"avg_mass", "monoisotopic_mass", "sequence"};
+int const MWCALC_HEADERS_LENGTH = 2;
 
 /* utils.cpp */
 string const WHITESPACE = " \f\n\r\t\v";
@@ -72,6 +71,7 @@ class MWDB;
 class nwNode;
 class Peptide;
 class AATree;
+class SeqDB;
 
 /* #################### subCelluarLoc.cpp #################### */
 
@@ -123,7 +123,10 @@ public:
 	bool getSubCelluarLoc;
 	string locDBfname;
 	bool calcMW;
-	string aaDBfanme, peptideDBfname, staticModsFname, ofname;
+	string aaDBfanme, mwDBFname, staticModsFname;
+	string ofname;
+	bool includeSeq;
+	string seqDBfname;
 	
 	//modifiers
 	bool readDTParams(string, string);
@@ -167,9 +170,9 @@ private:
 
 //stores data for all proteins found in DTA filter files
 class Proteins{
-	vector <Protein> proteins;
+	vector <Protein>* proteins;
 	int colIndex;
-	HashTable<DBProtein> locDB;
+	HashTable<DBProtein>* locDB;
 	
 	//modifers
 	bool readIn(string, const FilterFileParam&, bool);
@@ -184,6 +187,7 @@ public:
 	//constructor
 	Proteins(const FilterFileParams&);
 	Proteins();
+	~Proteins();
 	
 	bool readInLocDB(string);
 	string locSearch(const DBProtein&) const;
@@ -196,12 +200,14 @@ public:
 	bool readIn(string, const FilterFileParams&);
 	void addSubcelluarLoc();
 	void calcMW(const MWDB&);
+	void addSeq(const SeqDB&);
 };
 
 /* #################### calcMW.cpp #################### */
 
 class Peptide{
 	friend class MWDB;
+	friend class SeqDB;
 private:
 	string ID, sequence;
 public:
@@ -240,8 +246,8 @@ public:
 
 class MWDB{
 public:
-	HashTable <Peptide> peptideLibrary;
-	BinTree <AminoAcid> aminoAcidsDB;
+	SeqDB* seqDB;
+	BinTree <AminoAcid>* aminoAcidsDB;
 	
 	//constructor
 	MWDB();
@@ -252,16 +258,26 @@ public:
 	
 	//properties
 	double calcMW(string, int) const;
-	string getSequence(string) const;
 	double getMW(string, int) const;
 	double getMW(char, int) const;
 	
 private:	
 	//modofers
 	bool readInAAs(string, string);
-	bool readInPeptides(string);
 	bool readInAADB(string);
 	bool addStaticMod(const AminoAcid&);
+};
+
+class SeqDB{
+	HashTable<Peptide>* seqLibrary;
+public:
+	SeqDB();
+	~SeqDB();
+	
+	//modifers
+	bool readIn(string);
+	
+	string getSequence(string) const;
 };
 
 /*************/
@@ -276,21 +292,23 @@ string parseReplicate(string);
 string getID(string);
 
 /* utils.cpp */
-bool dirExists (string);
-bool fileExists (string);
-string toString(int);
-int toInt(string);
-inline bool strContains(string, string);
-inline bool strContains(char, string);
-void split (const string, char, vector<string> &);
-inline string trimTraling(const string&);
-inline string trimLeading(const string&);
-inline string trim(const string&);
-bool isCommentLine(string);
-bool isInteger(string);
-inline void getLineTrim(ifstream&, string&);
-string removeSubstr(string, string);
-string toLower(string);
-template<class T> long binSearch(const vector<T>&, const T&, long, long);
-template<class T> typename vector<T>::iterator insertSorted(vector<T>& vec, const T& item);
+namespace util {
+	bool dirExists (string);
+	bool fileExists (string);
+	string toString(int);
+	int toInt(string);
+	inline bool strContains(string, string);
+	inline bool strContains(char, string);
+	void split (const string, char, vector<string> &);
+	inline string trimTraling(const string&);
+	inline string trimLeading(const string&);
+	inline string trim(const string&);
+	bool isCommentLine(string);
+	bool isInteger(string);
+	inline void getLineTrim(ifstream&, string&);
+	string removeSubstr(string, string);
+	string toLower(string);
+	template<class T> long binSearch(const vector<T>* const, const T&, long, long);
+	template<class T> typename vector<T>::iterator insertSorted(vector<T>* const vec, const T& item);
+}
 
