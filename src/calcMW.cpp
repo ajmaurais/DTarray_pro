@@ -45,8 +45,8 @@ AminoAcid::AminoAcid(string line)
 	util::split(line, '\t', elems);
 	
 	symbol = elems[0];
-	avgMass = stod(elems[1]);
-	monoMass = stod(elems[2]);
+	avgMass = util::toDouble(elems[1]);
+	monoMass = util::toDouble(elems[2]);
 }
 
 AminoAcid::AminoAcid(string str, double num1, double num2)
@@ -89,7 +89,7 @@ void AminoAcid::operator += (const AminoAcid& mod)
 MWDB::MWDB()
 {
 	seqDB = new SeqDB;
-	aminoAcidsDB = new BinTree <AminoAcid>;
+	aminoAcidsDB = new binTree::BinTree <AminoAcid>;
 }
 
 MWDB::~MWDB()
@@ -122,7 +122,7 @@ double MWDB::calcMW(string sequence, int avgMono) const
 double MWDB::getMW(string a, int avgMono) const
 {
 	AminoAcid temp (a, 0, 0);
-	Node<AminoAcid>* nTemp = aminoAcidsDB->search(temp);
+	binTree::Node<AminoAcid>* nTemp = aminoAcidsDB->search(temp);
 	
 	if(nTemp == nullptr)
 		return -1;
@@ -197,7 +197,7 @@ bool MWDB::readInAAs(string staticMods, string aaDB)
 
 bool MWDB::addStaticMod(const AminoAcid& mod)
 {
-	Node<AminoAcid>* nTemp = aminoAcidsDB->search(mod);
+	binTree::Node<AminoAcid>* nTemp = aminoAcidsDB->search(mod);
 	
 	if(nTemp == nullptr)
 		return false;
@@ -209,7 +209,7 @@ bool MWDB::addStaticMod(const AminoAcid& mod)
 
 SeqDB::SeqDB()
 {
-	seqLibrary = new HashTable<Peptide>;
+	seqLibrary = new hashTable::HashTable<Peptide>;
 }
 
 SeqDB::~SeqDB()
@@ -219,7 +219,7 @@ SeqDB::~SeqDB()
 
 string SeqDB::getSequence(string id) const
 {
-	LNode<Peptide>* temp = seqLibrary->getItem(id);
+	hashTable::Node<Peptide>* temp = seqLibrary->getItem(id);
 	if(temp == nullptr)
 		return SEQ_NOT_FOUND;
 	else return temp->val.getSequence();

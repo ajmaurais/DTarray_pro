@@ -275,7 +275,7 @@ void Protein::consolidate(const Protein& toAdd, int colIndex)
 Proteins::Proteins()
 {
 	colIndex = 0;
-	locDB = new HashTable<DBProtein>;
+	locDB = new hashTable::HashTable<DBProtein>;
 	proteins = new vector<Protein>;
 }
 
@@ -289,7 +289,7 @@ Proteins::~Proteins()
 Proteins::Proteins(const FilterFileParams& files)
 {
 	colIndex = 0;
-	locDB = new HashTable<DBProtein>;
+	locDB = new hashTable::HashTable<DBProtein>;
 	proteins = new vector<Protein>;
 	
 	for (int i = 0; i < files.numFiles; i++)
@@ -633,7 +633,7 @@ bool Proteins::writeOutDB(string ofname, const FilterFileParams& filterFileParam
 //to loc element for each Protein in Proteins
 void Proteins::addSubcelluarLoc()
 {
-	LNode<DBProtein>* nodeTemp;
+	hashTable::Node<DBProtein>* nodeTemp;
 	
 	int len = int(proteins->size());
 	for (int i = 0; i < len; i++)

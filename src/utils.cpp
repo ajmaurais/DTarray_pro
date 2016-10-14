@@ -109,6 +109,31 @@ namespace util{
 		return (*p == 0) ;
 	}
 	
+	bool isDouble(string str)
+	{
+		if(str.empty() || ((!isdigit(str[0])) && (str[0] != '-') && (str[0] != '+')))
+			return false ;
+		
+		char * p ;
+		strtod(str.c_str(), &p);
+		
+		return (*p != '\0' || p == str) ? false : true;
+	}
+	
+	//converts string to int because stod does not work with some c++ compilers
+	//Precondition: str must be a string with a valid double conversion
+	double toDouble(string str)
+	{
+		assert(isDouble(str));
+		double num;
+		stringstream convert;
+		
+		convert << str;
+		convert >> num;
+		
+		return num;
+	}
+	
 	//gets new line from inF and removes trailing and leading whitespace
 	inline void getLineTrim(ifstream& inF, string& line)
 	{

@@ -172,14 +172,11 @@ private:
 class Proteins{
 	vector <Protein>* proteins;
 	int colIndex;
-	HashTable<DBProtein>* locDB;
+	hashTable::HashTable<DBProtein>* locDB;
 	
 	//modifers
 	bool readIn(string, const FilterFileParam&, bool);
 	long insert(const Protein&);
-	
-	//properties
-	//int previousOccurance(const Protein&) const;
 	
 public:
 	vector<string> colNames;
@@ -247,7 +244,7 @@ public:
 class MWDB{
 public:
 	SeqDB* seqDB;
-	BinTree <AminoAcid>* aminoAcidsDB;
+	binTree::BinTree <AminoAcid>* aminoAcidsDB;
 	
 	//constructor
 	MWDB();
@@ -269,7 +266,7 @@ private:
 };
 
 class SeqDB{
-	HashTable<Peptide>* seqLibrary;
+	hashTable::HashTable<Peptide>* seqLibrary;
 public:
 	SeqDB();
 	~SeqDB();

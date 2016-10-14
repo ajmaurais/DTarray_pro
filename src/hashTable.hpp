@@ -11,80 +11,94 @@
 
 using namespace std;
 
-/******************************/
-/* globally scoped constants */
-/*****************************/
-
-int const HASH_TABLE_SIZE = 20000;
-
-/**********************/
-/* class definitions */
-/*********************/
-
-template <class T> class LNode;
-template <class T> class LinkedList;
-template <class T> class HashTable;
-
-template <class T>
-class LNode {
-	friend class LinkedList<T>;
-private:
-	LNode* next;
-
-public:
-	T val;
+namespace hashTable{
 	
-	LNode();
-};
-
-template<class T>
-class LinkedList {
-private:
-	typename LNode<T>::LNode* head;
-	int length;
+	/******************************/
+	/* globally scoped constants */
+	/*****************************/
 	
-	void destroyList(typename LNode<T>::LNode*);
-	void insert(const T&, typename LNode<T>::LNode*);
-	typename LNode<T>::LNode* getItem(string, typename LNode<T>::LNode*) const;
+	int const HASH_TABLE_SIZE = 20000;
+	int const A = 54059;
+	int const B = 76963;
+	int const C = 86969;
+	int const FIRSTH = 37;
 	
-public:
-	//constructor
-	LinkedList();
-	~LinkedList();
+	/**********************/
+	/* class definitions */
+	/*********************/
 	
-	//modifer
-	void insert(const T&);
-	//bool removeItem(string);
-	void destroyList();
+	template <class T> class Node;
+	template <class T> class LinkedList;
+	template <class T> class HashTable;
 	
-	//properties
-	int getLength();
-	typename LNode<T>::LNode* getItem(string) const;
-};
-
-template <class T>
-class HashTable{
-private:
-	int size;
-	typename LinkedList<T>::LinkedList* array;
-	hash<string> str_hash;
+	template <class T>
+	class Node {
+		friend class LinkedList<T>;
+	private:
+		Node* next;
+		
+	public:
+		T val;
+		
+		Node();
+	};
 	
-	int hash(string) const;
-	void destroyTable(typename LinkedList<T>::LinkedList*);
-public:
-	//constructor
-	HashTable(int s = HASH_TABLE_SIZE);
-	~HashTable();
+	template<class T>
+	class LinkedList {
+	private:
+		typename Node<T>::Node* head;
+		int length;
+		
+		void destroyList(typename Node<T>::Node*);
+		void insert(const T&, typename Node<T>::Node*);
+		typename Node<T>::Node* getItem(string, typename Node<T>::Node*) const;
+		
+	public:
+		//constructor
+		LinkedList();
+		~LinkedList();
+		
+		//modifer
+		void insert(const T&);
+		//bool removeItem(string);
+		void destroyList();
+		
+		//properties
+		int getLength();
+		typename Node<T>::Node* getItem(string) const;
+	};
 	
-	//modifers
-	//bool remove(string);
-	void destroyTable();
-	void insert(const T&, string);
+	template <class T>
+	class HashTable{
+	private:
+		int size;
+		typename LinkedList<T>::LinkedList* array;
+		
+		void destroyTable(typename LinkedList<T>::LinkedList*);
+		
+		size_t hash(const char*) const;
+		
+	public:
+		//constructor
+		HashTable(int s = HASH_TABLE_SIZE);
+		~HashTable();
+		
+		//modifers
+		//bool remove(string);
+		void destroyTable();
+		void insert(const T&, string);
+		
+		//properties
+		int getLength();
+		void printTable();
+		typename Node<T>::Node* getItem(string) const;
+		int getNumItems() const;
+		void printHistogram() const;
+	};
 	
-	//properties
-	int getLength();
-	void printTable();
-	typename LNode<T>::LNode* getItem(string) const;
-	int getNumItems() const;
-	void printHistogram() const;
-};
+	/**********************/
+	/*     functions     */
+	/*********************/
+	
+	inline int hash(string, int);
+}
