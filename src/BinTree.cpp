@@ -13,15 +13,14 @@ namespace binTree{
 	template <class T>
 	Node<T>::Node()
 	{
-		//val = new T;
 		left = nullptr;
 		right = nullptr;
 	}
 	
 	template <class T>
-	T Node<T>::getVal() const
+	T* Node<T>::getVal() const
 	{
-		return val;
+		return &val;
 	}
 	
 	template<class T> BinTree<T>::BinTree()

@@ -7,10 +7,11 @@
 //
 
 #include "DTarray_AJM.hpp"
+#include "FilterFile.cpp"
 #include "dtafilter.cpp"
-#include "subCelluarLoc.cpp"
 #include "utils.cpp"
 #include "calcMW.cpp"
+#include "subCelluarLoc.cpp"
 
 using namespace std;
 
@@ -56,7 +57,7 @@ int main (int argc, char *argv[])
 	//calculate mass of peptides or proteins from sequence and amino acid mass databases
 	if(filterFileParams.calcMW)
 	{
-		MWDB mwDB;
+		mwDB::MWDB mwDB;
 		if(!mwDB.readIn(wd, filterFileParams))
 		{
 			cout << "Failed to read mwDB files! Exiting..." << endl;
@@ -69,7 +70,7 @@ int main (int argc, char *argv[])
 	if((!filterFileParams.calcMW && filterFileParams.includeSeq ) ||
 	   (filterFileParams.seqDBfname != filterFileParams.mwDBFname))
 	{
-		SeqDB seqDB;
+		mwDB::SeqDB seqDB;
 		if(!seqDB.readIn(wd + filterFileParams.seqDBfname))
 		{
 			cout << "Failed to read seqDB file! Exiting..." << endl;

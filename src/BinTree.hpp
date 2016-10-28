@@ -27,7 +27,7 @@ namespace binTree{
 		
 		Node();
 		
-		T getVal() const;
+		T* getVal() const;
 	private:
 		Node *left;
 		Node *right;

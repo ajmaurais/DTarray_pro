@@ -6,258 +6,263 @@
 //  Copyright © 2016 Aaron Maurais. All rights reserved.
 //
 
-/* #################### Peptide #################### */
+#include "calcMW.hpp"
 
-Peptide::Peptide() {}
-
-bool Peptide::operator == (string comp) const
-{
-	return comp == ID;
-}
-
-void Peptide::operator = (const Peptide& p)
-{
-	ID = p.ID;
-	sequence = p.sequence;
-}
-
-string Peptide::getID() const
-{
-	return ID;
-}
-
-string Peptide::getSequence() const
-{
-	return sequence;
-}
-
-/* #################### AminoAcid #################### */
-
-AminoAcid::AminoAcid() {}
-
-AminoAcid::AminoAcid(string line)
-{
-	size_t endOfLine = line.find(";");
-	line = line.substr(0, endOfLine);
-	line = util::trim(line);
+namespace mwDB{
 	
-	vector<string> elems;
-	util::split(line, '\t', elems);
+	/* #################### Peptide #################### */
 	
-	symbol = elems[0];
-	avgMass = util::toDouble(elems[1]);
-	monoMass = util::toDouble(elems[2]);
-}
-
-AminoAcid::AminoAcid(string str, double num1, double num2)
-{
-	symbol = str;
-	avgMass = num1;
-	monoMass = num2;
-}
-
-AminoAcid::AminoAcid(string str, double num1)
-{
-	symbol = str;
-	avgMass = num1;
-	monoMass = num1;
-}
-
-bool AminoAcid::operator < (const AminoAcid& compp) const
-{
-	return symbol < compp.symbol;
-}
-
-bool AminoAcid::operator > (const AminoAcid& compp) const
-{
-	return symbol > compp.symbol;
-}
-
-bool AminoAcid::operator == (const AminoAcid& compp) const
-{
-	return symbol == compp.symbol;
-}
-
-void AminoAcid::operator += (const AminoAcid& mod)
-{
-	avgMass += mod.avgMass;
-	monoMass += mod.avgMass;
-}
-
-/* #################### MWDB #################### */
-
-MWDB::MWDB()
-{
-	seqDB = new SeqDB;
-	aminoAcidsDB = new binTree::BinTree <AminoAcid>;
-}
-
-MWDB::~MWDB()
-{
-	delete seqDB;
-	delete aminoAcidsDB;
-}
-
-double MWDB::calcMW(string sequence, int avgMono) const
-{
-	double mass = 0;
-	int len = int(sequence.length());
-	double temp;
+	Peptide::Peptide() {}
 	
-	mass += getMW("N_term", avgMono);
-	
-	for(int j = 0; j < len; j++)
+	bool Peptide::operator == (string comp) const
 	{
-		temp = getMW(sequence[j], avgMono);
-		if(temp == -1)
-			return -1;
-		else mass += temp;
+		return comp == ID;
 	}
 	
-	mass += getMW("C_term", avgMono);
+	void Peptide::operator = (const Peptide& p)
+	{
+		ID = p.ID;
+		sequence = p.sequence;
+	}
 	
-	return mass;
-}
-
-double MWDB::getMW(string a, int avgMono) const
-{
-	AminoAcid temp (a, 0, 0);
-	binTree::Node<AminoAcid>* nTemp = aminoAcidsDB->search(temp);
+	string Peptide::getID() const
+	{
+		return ID;
+	}
 	
-	if(nTemp == nullptr)
-		return -1;
+	string Peptide::getSequence() const
+	{
+		return sequence;
+	}
 	
-	if(avgMono == 0)
-		return nTemp->val.avgMass;
-	else if(avgMono == 1)
-		return nTemp->val.monoMass;
-	else return -1;
-}
-
-double MWDB::getMW(char a, int avgMono) const
-{
-	return getMW(string(1, a), avgMono);
-}
-
-bool MWDB::readInAADB(string aaDB)
-{
-	ifstream inF (aaDB.c_str());
+	/* #################### AminoAcid #################### */
 	
-	if(!inF)
-		return false;
+	AminoAcid::AminoAcid() {}
 	
-	string line;
-	
-	do{
-		util::getLineTrim(inF, line);
-		if(util::isCommentLine(line) || line.empty())
-			continue;
-		else aminoAcidsDB->insert(AminoAcid(line));
-	}while(!inF.eof());
-	
-	return true;
-}
-
-bool MWDB::readInAAs(string staticMods, string aaDB)
-{
-	ifstream inF (staticMods.c_str());
-	
-	if(!inF || !readInAADB(aaDB))
-		return false;
-	
-	string line;
-	int i = 0;
-	
-	do{
-		util::getLineTrim(inF, line);
-		if(util::isCommentLine(line) || line.empty())
-			continue;
+	AminoAcid::AminoAcid(string line)
+	{
+		size_t endOfLine = line.find(";");
+		line = line.substr(0, endOfLine);
+		line = util::trim(line);
 		
-		if(line == "<staticModifications>")
+		vector<string> elems;
+		util::split(line, '\t', elems);
+		
+		symbol = elems[0];
+		avgMass = util::toDouble(elems[1]);
+		monoMass = util::toDouble(elems[2]);
+	}
+	
+	AminoAcid::AminoAcid(string str, double num1, double num2)
+	{
+		symbol = str;
+		avgMass = num1;
+		monoMass = num2;
+	}
+	
+	AminoAcid::AminoAcid(string str, double num1)
+	{
+		symbol = str;
+		avgMass = num1;
+		monoMass = num1;
+	}
+	
+	bool AminoAcid::operator < (const AminoAcid& compp) const
+	{
+		return symbol < compp.symbol;
+	}
+	
+	bool AminoAcid::operator > (const AminoAcid& compp) const
+	{
+		return symbol > compp.symbol;
+	}
+	
+	bool AminoAcid::operator == (const AminoAcid& compp) const
+	{
+		return symbol == compp.symbol;
+	}
+	
+	void AminoAcid::operator += (const AminoAcid& mod)
+	{
+		avgMass += mod.avgMass;
+		monoMass += mod.avgMass;
+	}
+	
+	/* #################### MWDB #################### */
+	
+	MWDB::MWDB()
+	{
+		seqDB = new SeqDB;
+		aminoAcidsDB = new binTree::BinTree <AminoAcid>;
+	}
+	
+	MWDB::~MWDB()
+	{
+		delete seqDB;
+		delete aminoAcidsDB;
+	}
+	
+	double MWDB::calcMW(string sequence, int avgMono) const
+	{
+		double mass = 0;
+		int len = int(sequence.length());
+		double temp;
+		
+		mass += getMW("N_term", avgMono);
+		
+		for(int j = 0; j < len; j++)
 		{
-			do{
-				util::getLineTrim(inF, line);
-				if(util::isCommentLine(line) || line.empty())
-					continue;
-				if (line != "</staticModifications>")
-				{
-					AminoAcid temp (line);
-					if(!addStaticMod(temp))
-						cout << "Could not find " << temp.symbol << "in aaDB! Using default mass." << endl;
-				}
-				i++;
-				if(i > MAX_PARAM_ITTERATIONS)
-					return false;
-			} while(line != "</staticModifications>");
+			temp = getMW(sequence[j], avgMono);
+			if(temp == -1)
+				return -1;
+			else mass += temp;
 		}
-	} while(!inF.eof() && line != "</staticModifications>");
+		
+		mass += getMW("C_term", avgMono);
+		
+		return mass;
+	}
 	
-	return true;
-}
-
-bool MWDB::addStaticMod(const AminoAcid& mod)
-{
-	binTree::Node<AminoAcid>* nTemp = aminoAcidsDB->search(mod);
+	double MWDB::getMW(string a, int avgMono) const
+	{
+		AminoAcid temp (a, 0, 0);
+		binTree::Node<AminoAcid>* nTemp = aminoAcidsDB->search(temp);
+		
+		if(nTemp == nullptr)
+			return -1;
+		
+		if(avgMono == 0)
+			return nTemp->val.avgMass;
+		else if(avgMono == 1)
+			return nTemp->val.monoMass;
+		else return -1;
+	}
 	
-	if(nTemp == nullptr)
-		return false;
+	double MWDB::getMW(char a, int avgMono) const
+	{
+		return getMW(string(1, a), avgMono);
+	}
 	
-	nTemp->val += mod;
+	bool MWDB::readInAADB(string aaDB)
+	{
+		ifstream inF (aaDB.c_str());
+		
+		if(!inF)
+			return false;
+		
+		string line;
+		
+		do{
+			util::getLineTrim(inF, line);
+			if(util::isCommentLine(line) || line.empty())
+				continue;
+			else aminoAcidsDB->insert(AminoAcid(line));
+		}while(!inF.eof());
+		
+		return true;
+	}
 	
-	return true;
-}
-
-SeqDB::SeqDB()
-{
-	seqLibrary = new hashTable::HashTable<Peptide>;
-}
-
-SeqDB::~SeqDB()
-{
-	delete seqLibrary;
-}
-
-string SeqDB::getSequence(string id) const
-{
-	hashTable::Node<Peptide>* temp = seqLibrary->getItem(id);
-	if(temp == nullptr)
-		return SEQ_NOT_FOUND;
-	else return temp->val.getSequence();
-}
-
-bool SeqDB::readIn(string fname)
-{
-	ifstream inF (fname.c_str());
-	
-	if(!inF)
-		return false;
-	
-	string line;
-	Peptide temp;
-	
-	do{
-		util::getLineTrim(inF, line);
-		if(util::isCommentLine(line) || line.empty()) //skip line if is comment line
-			continue;
-		else
-		{
-			if(line[0] == '>')
+	bool MWDB::readInAAs(string staticMods, string aaDB)
+	{
+		ifstream inF (staticMods.c_str());
+		
+		if(!inF || !readInAADB(aaDB))
+			return false;
+		
+		string line;
+		int i = 0;
+		
+		do{
+			util::getLineTrim(inF, line);
+			if(util::isCommentLine(line) || line.empty())
+				continue;
+			
+			if(line == "<staticModifications>")
 			{
-				temp.ID = getID(line);
-				util::getLineTrim(inF, line);
-				temp.sequence = line;
-				seqLibrary->insert(temp, temp.getID());
+				do{
+					util::getLineTrim(inF, line);
+					if(util::isCommentLine(line) || line.empty())
+						continue;
+					if (line != "</staticModifications>")
+					{
+						AminoAcid temp (line);
+						if(!addStaticMod(temp))
+							cout << "Could not find " << temp.symbol << "in aaDB! Using default mass." << endl;
+					}
+					i++;
+					if(i > MAX_PARAM_ITTERATIONS)
+						return false;
+				} while(line != "</staticModifications>");
 			}
-		}
-	} while(!inF.eof());
-
-	return true;
-}
-
-bool MWDB::readIn(string wd, const FilterFileParams& params)
-{
-	bool val1 = seqDB->readIn(wd + params.mwDBFname);
-	bool val2 = readInAAs(wd + params.staticModsFname, params.aaDBfanme);
+		} while(!inF.eof() && line != "</staticModifications>");
+		
+		return true;
+	}
 	
-	return val1 && val2;
+	bool MWDB::addStaticMod(const AminoAcid& mod)
+	{
+		binTree::Node<AminoAcid>* nTemp = aminoAcidsDB->search(mod);
+		
+		if(nTemp == nullptr)
+			return false;
+		
+		nTemp->val += mod;
+		
+		return true;
+	}
+	
+	SeqDB::SeqDB()
+	{
+		seqLibrary = new hashTable::HashTable<Peptide>;
+	}
+	
+	SeqDB::~SeqDB()
+	{
+		delete seqLibrary;
+	}
+	
+	string SeqDB::getSequence(string id) const
+	{
+		hashTable::Node<Peptide>* temp = seqLibrary->getItem(id);
+		if(temp == nullptr)
+			return SEQ_NOT_FOUND;
+		else return temp->val.getSequence();
+	}
+	
+	bool SeqDB::readIn(string fname)
+	{
+		ifstream inF (fname.c_str());
+		
+		if(!inF)
+			return false;
+		
+		string line;
+		Peptide temp;
+		
+		do{
+			util::getLineTrim(inF, line);
+			if(util::isCommentLine(line) || line.empty()) //skip line if is comment line
+				continue;
+			else
+			{
+				if(line[0] == '>')
+				{
+					temp.ID = getID(line);
+					util::getLineTrim(inF, line);
+					temp.sequence = line;
+					seqLibrary->insert(temp, temp.getID());
+				}
+			}
+		} while(!inF.eof());
+		
+		return true;
+	}
+	
+	bool MWDB::readIn(string wd, const FilterFileParams& params)
+	{
+		bool val1 = seqDB->readIn(wd + params.mwDBFname);
+		bool val2 = readInAAs(wd + params.staticModsFname, params.aaDBfanme);
+		
+		return val1 && val2;
+	}
 }

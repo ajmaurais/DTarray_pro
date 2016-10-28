@@ -6,20 +6,22 @@
 //  Copyright © 2016 Aaron Maurais. All rights reserved.
 //
 
+#ifndef DTarray_AJM_hpp
+#define DTarray_AJM_hpp
+
 //#define nullptr NULL //to compile on pleiades this line must be included
 
 #include <iostream>
 #include <vector>
 #include <fstream>
 #include <cassert>
-#include <sstream>
-#include <sys/stat.h>
 #include <string>
-#include <cstring>
-#include <stdlib.h>
 #include <algorithm>
+#include "utils.hpp"
+#include "FilterFile.hpp"
 #include "BinTree.cpp"
 #include "hashTable.cpp"
+#include "calcMW.hpp"
 
 using namespace std;
 
@@ -36,6 +38,7 @@ string const COLUMN_HEADER_LINE_ELEMENTS[] = {"Unique", "FileName", "XCorr", "De
 int const COLUMN_HEADER_LINE_ELEMENTS_LENGTH = 13;
 string const PARAM_ERROR_MESSAGE = " is an invalid arguement for: ";
 int const MAX_PARAM_ITTERATIONS = 100;
+string const SEQ_NOT_FOUND = "SEQUENCE_NOT_FOUND_IN_DB";
 
 //editable params for DB output format
 string const DEFAULT_COL_NAMES_DB [] = {"Full_description", "ID", "Protein", "Description", "Mass(Da)", "Long_sample_name",
@@ -48,13 +51,6 @@ string const UNIQUE_PEPTIDE_HEADERS[] = {"SC", "Unique_pep_SC"};
 string const MWCALC_HEADERS [] = {"avg_mass", "monoisotopic_mass", "sequence"};
 int const MWCALC_HEADERS_LENGTH = 2;
 
-/* utils.cpp */
-string const WHITESPACE = " \f\n\r\t\v";
-string const COMMENT_SYMBOL = "#"; //if changed, paramsCommentSymbol must also be changed in DTarray_AJM.sh
-
-/* hashTable.cpp */
-string const SEQ_NOT_FOUND = "SEQUENCE_NOT_FOUND_IN_DB";
-
 /* subcelluarLoc.cpp */
 string const LOC_NOT_FOUND = "NOT_FOUND_IN_DB";
 
@@ -63,22 +59,81 @@ string const LOC_NOT_FOUND = "NOT_FOUND_IN_DB";
 /* class definitions */
 /*********************/
 
-class FilterFileParams;
 class Protein;
 class Proteins;
-class DBProtein;
-class MWDB;
-class nwNode;
-class Peptide;
-class AATree;
-class SeqDB;
+class ProteinTemplate;
+template <class T> class DBTemplate;
 
-/* #################### subCelluarLoc.cpp #################### */
 
-class DBProtein{
+/* ############ parent classes ############*/
+class ProteinTemplate{
+protected:
+	string ID, protein, description, loc;
+	
+public:
+	inline bool operator == (const ProteinTemplate&) const;
+	inline bool operator == (string) const;
+	inline bool operator > (const ProteinTemplate&) const;
+	inline bool operator < (const ProteinTemplate&) const;
+	
+	string get_ID(){
+		return ID;
+	}
+};
+
+class ProteinDataTemplate{
+public:
+	void consolidate(const ProteinDataTemplate&, int);
+	void calcMW(const mwDB::MWDB&, string);
+	
+protected:
+	vector <FilterFile> col;
+	
+	string MW;
+	double avgMass, monoMass;
+	string sequence;
+};
+
+template<class T>
+class DBTemplate{
+protected:
+	vector <T>* data;
+	int colIndex;
+	
+	//modifers
+	long insert(const T&);
+	
+public:
+	vector<string> colNames;
+	
+	//constructor
+	DBTemplate(){
+		colIndex = 0;
+		data = new vector<T>;
+	}
+	DBTemplate(const FilterFileParams& par){
+		colIndex = 0;
+		data = new vector<T>;
+		
+		for (int i = 0; i < par.numFiles; i++)
+			colNames.push_back(par.getFileColname(i));
+	}
+	~DBTemplate(){
+		delete data;
+	}
+	
+	//properities
+	virtual bool writeOut(string, const FilterFileParams&) const =0;
+	virtual bool writeOutDB(string, const FilterFileParams&) const =0;
+	
+	//modifiers
+	void calcMW(const mwDB::MWDB&);
+};
+
+/* #################### subcelluarLoc.cpp #################### */
+class DBProtein: public ProteinTemplate{
 	friend class Protein;
 	friend class Proteins;
-	string ID, gene, description, loc;
 	
 	//modifers
 	void clear();
@@ -90,101 +145,42 @@ public:
 	
 	//modifers
 	void operator = (const DBProtein&);
-	
-	//properties
-	bool operator == (string) const;
-};
-
-/* #################### dtafilter.cpp #################### */
-
-struct FilterFileParam{
-	string path;
-	string colname;
-};
-
-struct Param {
-	string param;
-	string value;
-	
-	//constructor
-	Param (string);
-};
-
-//stores names and locations for DTA filter files and output paramaters found in
-//params file.
-class FilterFileParams{
-	friend class Proteins;
-	vector<FilterFileParam> file;
-public:
-	int numFiles;
-	string outputFormat;
-	string sampleNamePrefix;
-	bool includeUnique;
-	bool getSubCelluarLoc;
-	string locDBfname;
-	bool calcMW;
-	string aaDBfanme, mwDBFname, staticModsFname;
-	string ofname;
-	bool includeSeq;
-	string seqDBfname;
-	
-	//modifiers
-	bool readDTParams(string, string);
-	bool readFlist(string, string);
-};
-
-//stores the data pertaining to a specific filter file (or MS run) for each protein
-struct FilterFile{
-	string colname, count;
-	string uniquePeptides;
-	
-	//constructor
-	FilterFile (string, string, string);
 };
 
 //stores data for each protein found in filter file
-class Protein{
-public:
-	//properties
-	bool operator == (const Protein&) const;
-	bool operator > (const Protein&) const;
-	bool operator < (const Protein&) const;
-
+class Protein : public ProteinTemplate , public ProteinDataTemplate {
+friend class Proteins;
 private:
-	friend class Proteins;
-	vector <FilterFile> col;
 	
 	//modifier
 	void initialize(const vector<string>&);
 	bool getProteinData(string, int);
 	inline void getProteinAndDescr(string);
-	void consolidate(const Protein&, int);
 	DBProtein toDBprotein() const;
-	void calcMW(const MWDB&);
 	void addLoc(string);
 	
-	string fullDescription, matchDirrection, ID, protein, description, MW, loc;
-	double avgMass, monoMass;
-	string calcSequence;
+	string fullDescription, matchDirrection;
 };
 
 //stores data for all proteins found in DTA filter files
-class Proteins{
-	vector <Protein>* proteins;
-	int colIndex;
+class Proteins : public DBTemplate<Protein>{
 	hashTable::HashTable<DBProtein>* locDB;
 	
 	//modifers
 	bool readIn(string, const FilterFileParam&, bool);
-	long insert(const Protein&);
+	//long insert(const Protein&);
 	
 public:
-	vector<string> colNames;
-	
 	//constructor
-	Proteins(const FilterFileParams&);
-	Proteins();
-	~Proteins();
+	Proteins(const FilterFileParams& pars) : DBTemplate<Protein>(pars){
+		locDB = new hashTable::HashTable<DBProtein>;
+	}
+	Proteins() : DBTemplate<Protein>(){
+		locDB = new hashTable::HashTable<DBProtein>;
+	}
+	~Proteins(){
+		delete locDB;
+	}
 	
 	bool readInLocDB(string);
 	string locSearch(const DBProtein&) const;
@@ -196,85 +192,7 @@ public:
 	//modifiers
 	bool readIn(string, const FilterFileParams&);
 	void addSubcelluarLoc();
-	void calcMW(const MWDB&);
-	void addSeq(const SeqDB&);
-};
-
-/* #################### calcMW.cpp #################### */
-
-class Peptide{
-	friend class MWDB;
-	friend class SeqDB;
-private:
-	string ID, sequence;
-public:
-	Peptide();
-	//Peptide(string);
-	
-	//modifers
-	void operator = (const Peptide&);
-	
-	//properties
-	bool operator == (string) const;
-	string getID() const;
-	string getSequence() const;
-};
-
-class AminoAcid{
-	friend class MWDB;
-private:
-	string symbol;
-	double avgMass, monoMass;
-public:
-	//constructor
-	AminoAcid(string);
-	AminoAcid(string, double, double);
-	AminoAcid(string, double);
-	AminoAcid();
-	
-	//modifer
-	void operator += (const AminoAcid&);
-	
-	//properities
-	bool operator < (const AminoAcid&) const;
-	bool operator > (const AminoAcid&) const;
-	bool operator == (const AminoAcid&) const;
-};
-
-class MWDB{
-public:
-	SeqDB* seqDB;
-	binTree::BinTree <AminoAcid>* aminoAcidsDB;
-	
-	//constructor
-	MWDB();
-	~MWDB();
-	
-	//modifers
-	bool readIn(string, const FilterFileParams&);
-	
-	//properties
-	double calcMW(string, int) const;
-	double getMW(string, int) const;
-	double getMW(char, int) const;
-	
-private:	
-	//modofers
-	bool readInAAs(string, string);
-	bool readInAADB(string);
-	bool addStaticMod(const AminoAcid&);
-};
-
-class SeqDB{
-	hashTable::HashTable<Peptide>* seqLibrary;
-public:
-	SeqDB();
-	~SeqDB();
-	
-	//modifers
-	bool readIn(string);
-	
-	string getSequence(string) const;
+	void addSeq(const mwDB::SeqDB&);
 };
 
 /*************/
@@ -285,27 +203,9 @@ public:
 bool isColumnHeaderLine(const vector<string>&);
 string parseSample(string, string, bool);
 int parsePeptideSC(string);
+//void parsePeptide(string);
 string parseReplicate(string);
 string getID(string);
 
-/* utils.cpp */
-namespace util {
-	bool dirExists (string);
-	bool fileExists (string);
-	string toString(int);
-	int toInt(string);
-	inline bool strContains(string, string);
-	inline bool strContains(char, string);
-	void split (const string, char, vector<string> &);
-	inline string trimTraling(const string&);
-	inline string trimLeading(const string&);
-	inline string trim(const string&);
-	bool isCommentLine(string);
-	bool isInteger(string);
-	inline void getLineTrim(ifstream&, string&);
-	string removeSubstr(string, string);
-	string toLower(string);
-	template<class T> long binSearch(const vector<T>* const, const T&, long, long);
-	template<class T> typename vector<T>::iterator insertSorted(vector<T>* const vec, const T& item);
-}
+#endif /* DTarray_AJM_hpp */
 

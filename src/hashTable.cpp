@@ -153,10 +153,8 @@ namespace hashTable{
 	size_t HashTable<T>::hash(const char* key) const
 	{
 		size_t h = FIRSTH;
-		while (*key) {
+		for(; *key; key++)
 			h = (h * A) ^ (key[0] * B);
-			key++;
-		}
 		return h % size;
 	}
 	

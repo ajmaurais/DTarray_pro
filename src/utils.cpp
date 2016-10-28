@@ -1,4 +1,6 @@
 
+#include "utils.hpp"
+
 namespace util{
 	
 	//returns true if folder at end of path exists and false if it does not

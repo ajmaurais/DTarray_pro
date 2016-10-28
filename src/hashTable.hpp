@@ -6,12 +6,14 @@
 //  Copyright © 2016 Aaron Maurais. All rights reserved.
 //
 
-#include <functional>
+#ifndef hashTable_hpp
+#define hashTable_hpp
+
 #include <iostream>
 
-using namespace std;
-
 namespace hashTable{
+	
+	using namespace std;
 	
 	/******************************/
 	/* globally scoped constants */
@@ -95,10 +97,6 @@ namespace hashTable{
 		int getNumItems() const;
 		void printHistogram() const;
 	};
-	
-	/**********************/
-	/*     functions     */
-	/*********************/
-	
-	inline int hash(string, int);
 }
+
+#endif

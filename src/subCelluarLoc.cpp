@@ -1,8 +1,15 @@
+//
+//  subCelluarLoc.hpp
+//  DTarray_AJM
+//
+//  Created by Aaron Maurais on 10/28/16.
+//  Copyright © 2016 Aaron Maurais. All rights reserved.
+//
 
 DBProtein::DBProtein()
 {
 	ID = "";
-	gene = "";
+	protein = "";
 	description = "";
 	loc = "";
 }
@@ -10,7 +17,7 @@ DBProtein::DBProtein()
 void DBProtein::clear()
 {
 	ID = "";
-	gene = "";
+	protein = "";
 	description = "";
 	loc = "";
 }
@@ -26,21 +33,16 @@ DBProtein::DBProtein(string line)
 		assert(elems.size() == 4);
 		
 		ID = elems[0];
-		gene = elems[1];
+		protein = elems[1];
 		description = elems[2];
 		loc = elems[3];
 	}
 }
 
-bool DBProtein::operator == (string comp) const
-{
-	return comp == ID;
-}
-
 void DBProtein::operator = (const DBProtein& pget)
 {
 	ID = pget.ID;
-	gene = pget.gene;
+	protein = pget.protein;
 	description = pget.description;
 	loc = pget.loc;
 }
