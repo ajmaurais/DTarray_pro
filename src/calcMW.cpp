@@ -92,13 +92,11 @@ namespace mwDB{
 	
 	MWDB::MWDB()
 	{
-		seqDB = new SeqDB;
 		aminoAcidsDB = new binTree::BinTree <AminoAcid>;
 	}
 	
 	MWDB::~MWDB()
 	{
-		delete seqDB;
 		delete aminoAcidsDB;
 	}
 	
@@ -162,7 +160,7 @@ namespace mwDB{
 		return true;
 	}
 	
-	bool MWDB::readInAAs(string staticMods, string aaDB)
+	bool MWDB::readIn(string staticMods, string aaDB)
 	{
 		ifstream inF (staticMods.c_str());
 		
@@ -258,10 +256,10 @@ namespace mwDB{
 		return true;
 	}
 	
-	bool MWDB::readIn(string wd, const FilterFileParams& params)
+	bool MWDB_Protein::readIn(string wd, const FilterFileParams& params)
 	{
 		bool val1 = seqDB->readIn(wd + params.mwDBFname);
-		bool val2 = readInAAs(wd + params.staticModsFname, params.aaDBfanme);
+		bool val2 = MWDB::readIn(wd + params.staticModsFname, params.aaDBfanme);
 		
 		return val1 && val2;
 	}

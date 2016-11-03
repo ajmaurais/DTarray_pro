@@ -81,6 +81,43 @@ namespace hashTable{
 		}
 	}
 	
+	template<class T>
+	typename Node<T>::Node* LinkedList<T>::consolidate(const T& newItem)
+	{
+		if(head != nullptr)
+			return consolidate(newItem, head);
+		else
+		{
+			head = new Node<T>;
+			head->val = newItem;
+			head->next = nullptr;
+			length++;
+			return head;
+		}
+	}
+	
+	template<class T>
+	typename Node<T>::Node* LinkedList<T>::consolidate(const T& newItem, typename Node<T>::Node* leaf)
+	{
+		if(leaf->val == newItem)
+		{
+			leaf->val.consolidate(newItem);
+			return leaf;
+		}
+		else if(leaf->next != nullptr)
+		{
+			return consolidate(newItem, leaf->next);
+		}
+		else
+		{
+			leaf->next = new Node<T>;
+			leaf->next->val = newItem;
+			leaf->next->next = nullptr;
+			length++;
+			return leaf->next;
+		}
+	}
+
 	/*bool LinkedList::removeItem(string key)
 	 {
 	 if (head->next == nullptr)
@@ -126,6 +163,81 @@ namespace hashTable{
 		return length;
 	}
 	
+	template<class T>
+	bool LinkedList<T>::empty()
+	{
+		return head == nullptr;
+	}
+	
+	template<class T>
+	void LinkedList<T>::write(ofstream& outF)
+	{
+		if(!outF)
+			throw runtime_error("Error writing file. Bad ofstream!");
+		
+		if(head == nullptr)
+			return;
+		
+		write(outF, head);
+	}
+	
+	template<class T>
+	void LinkedList<T>::write(ofstream& outF, typename Node<T>::Node* leaf)
+	{
+		if(!outF)
+			throw runtime_error("Error writing file. Bad ofstream!");
+		
+		if(leaf == nullptr)
+			return;
+		else
+		{
+			leaf->val.write(outF);
+			write(outF, leaf->next);
+		}
+	}
+	
+	template<class T>
+	void LinkedList<T>::apply(void (T::*fun)())
+	{
+		if(head == nullptr)
+			return;
+		
+		apply(fun, head);
+	}
+	
+	template<class T>
+	void LinkedList<T>::apply(void (T::*fun)(), typename Node<T>::Node* leaf)
+	{
+		if(leaf == nullptr)
+			return;
+		else
+		{
+			leaf->val.fun();
+			apply(fun, leaf->next);
+		}
+	}
+	
+	template<class T>
+	void LinkedList<T>::apply(void (T::*fun)(void*), void* p)
+	{
+		if(head == nullptr)
+			return;
+		
+		apply(fun, p, head);
+	}
+	
+	template<class T>
+	void LinkedList<T>::apply(void (T::*fun)(void*), void* p, typename Node<T>::Node* leaf)
+	{
+		if(leaf == nullptr)
+			return;
+		else
+		{
+			leaf->val.fun(p);
+			apply(fun, p, leaf->next);
+		}
+	}
+	
 	/**********************/
 	/*     HashTable     */
 	/*********************/
@@ -158,11 +270,24 @@ namespace hashTable{
 		return h % size;
 	}
 	
+	/*template<class T>
+	size_t HashTable<T>::hash(string key) const
+	{
+		return str_hash(key) % size;
+	}*/
+	
 	template<class T>
 	void HashTable<T>::insert(const T& newItem, string key)
 	{
 		size_t index = hash(key.c_str());
 		array[index].insert(newItem);
+	}
+	
+	template<class T>
+	typename Node<T>::Node* HashTable<T>::consolidate(const T& newItem, string key)
+	{
+		size_t index = hash(key.c_str());
+		return array[index].consolidate(newItem);
 	}
 	
 	/*bool HashTable::remove(string key)
@@ -193,6 +318,20 @@ namespace hashTable{
 	}
 	
 	template<class T>
+	void HashTable<T>::apply(void (T::*fun)())
+	{
+		for(int i = 0; i < size ; i++)
+			array[i].apply(fun);
+	}
+	
+	template<class T>
+	void HashTable<T>::apply(void (T::*fun)(void*), void* p)
+	{
+		for(int i = 0; i < size ; i++)
+			array[i].apply(fun, p);
+	}
+	
+	template<class T>
 	int HashTable<T>::getNumItems() const
 	{
 		int itemCount = 0;
@@ -200,6 +339,16 @@ namespace hashTable{
 			itemCount += array[i].getLength();
 		
 		return itemCount;
+	}
+	
+	template<class T>
+	void HashTable<T>::write(ofstream& outF)
+	{
+		if(!outF)
+			throw runtime_error("Error writing file. Bad ofstream!");
+		
+		for(int i = 0; i < size; i++)
+			array[i].write(outF);
 	}
 }
 

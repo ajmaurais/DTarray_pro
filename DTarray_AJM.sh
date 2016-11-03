@@ -22,8 +22,11 @@ paramsName=$defaultParamsName
 flistName=$defaultFlistName
 staticModificationsName=$defaultStaticModificationsName
 ofname="DTarray_AJM.txt"
+dbOfname="DTarray_AJM_long.txt"
+peptideOfFname="peptideList.txt"
+dbPeptideOfFname="peptideList_long.txt"
 input="standard"
-output="standard"
+output="1"
 includeUnique="0"
 wd=$(pwd)'/'
 recompile=false
@@ -39,6 +42,9 @@ rewriteSmod=false
 includeSeq="0"
 seqDBfname=""
 continueExc=true
+includePeptides="0"
+peptideOutput="0"
+includeCoverage="0"
 
 function usage {
 	cat $scriptWDdb/usage.txt
@@ -117,6 +123,13 @@ while ! [[ -z "$1" ]] ; do
 			isArg "$1"
 			seqDBfname="$1"
 			includeSeq="1" ;;
+		"-f" | "--peptides")
+			shift
+			isArg "$1"
+			peptideOutput="$1"
+			includePeptides=true ;;
+		"-c" | "--coverage")
+			includeCoverage="1" ;;
         *)
             echo -e "$1" $invalidOptionMessage
 			usage;;
@@ -157,6 +170,8 @@ echo "mwDBFname = "$mwDBFname
 echo "includeSeq = "$includeSeq
 echo "seqDBfname = "$seqDBfname
 echo "rewriteSmod = "$rewriteSmod
+echo "peptideOutput = "$peptideOutput
+echo "includeCoverage = "$includeCoverage
 echo
 
 #create params file
@@ -213,6 +228,9 @@ if ! $keepParams ; then
 	echo -e '<paramsFile>\n' >> ./$paramsName
 	echo -e '<params>\n' >> ./$paramsName
 	echo 'ofname='$ofname >> ./$paramsName
+	echo 'dbOfname='$dbOfname >> ./$paramsName
+	echo 'peptideOfFname='$peptideOfFname >> ./$paramsName
+	echo 'dbPeptideOfFname='$dbPeptideOfFname >> ./$paramsName
 	echo 'outputFormat='$output >> ./$paramsName
 	echo 'includeUnique='$includeUnique >> ./$paramsName
 	echo 'sampleNamePrefix='$sampleNamePrefix >> ./$paramsName
@@ -224,11 +242,12 @@ if ! $keepParams ; then
 	echo 'includeSeq='$includeSeq >> ./$paramsName
 	echo 'seqDBfname='$seqDBfname >> ./$paramsName
 	echo 'staticModsFname='$staticModificationsName >> ./$paramsName
+	echo 'includePeptides='$peptideOutput >> ./$paramsName
+	echo 'includeCoverage='$includeCoverage >> ./$paramsName
 	echo -e '\n</params>\n' >> ./$paramsName
 	echo -e '</paramsFile>' >> ./$paramsName
 fi
 
-#if $calcMW == "1" ; then
 if $calcMW ; then
 	if ! [ -a $staticModificationsName ] || $rewriteSmod ; then
 		echo -e "$paramsCommentSymbol Static modifications for DTarray_AJM\n$paramsCommentSymbol file generated on: "$(date +"%y-%m-%d_%H:%M:%S")'\n' > $staticModificationsName

@@ -44,11 +44,13 @@ bool FilterFileParams::readDTParams(string fname, string path)
 					}
 					if(param.param == "outputFormat")
 					{
-						if(param.param != "standard" && param.param == "db") {
-							cout << param.param << PARAM_ERROR_MESSAGE << "outputFormat" << endl;
+						if(!(param.value == "0" || param.value == "1" || param.value == "2" || param.value == "3"))
+						{
+							cout << param.value << PARAM_ERROR_MESSAGE << "outputFormat" << endl;
 							return false;
 						}
-						outputFormat = util::toLower(param.value);
+						outputFormat = util::toInt(param.value);
+						includeProteins = (outputFormat == 1 || outputFormat == 2 || outputFormat == 3);
 						continue;
 					}
 					if(param.param == "locDBfname")
@@ -94,6 +96,21 @@ bool FilterFileParams::readDTParams(string fname, string path)
 						ofname = param.value;
 						continue;
 					}
+					if(param.param == "dbOfname")
+					{
+						dbOfname = param.value;
+						continue;
+					}
+					if(param.param == "peptideOfFname")
+					{
+						peptideOfFname = param.value;
+						continue;
+					}
+					if(param.param == "dbPeptideOfFname")
+					{
+						dbPeptideOfFname = param.value;
+						continue;
+					}
 					if(param.param == "seqDBfname")
 					{
 						seqDBfname = param.value;
@@ -103,6 +120,23 @@ bool FilterFileParams::readDTParams(string fname, string path)
 					{
 						assert(param.value == "0" || param.value == "1");
 						includeSeq = util::toInt(param.value);
+						continue;
+					}
+					if(param.param == "includeCoverage")
+					{
+						assert(param.value == "0" || param.value == "1");
+						includeCoverage = util::toInt(param.value);
+						continue;
+					}
+					if(param.param == "includePeptides")
+					{
+						if(!(param.value == "0" || param.value == "1" || param.value == "2" || param.value == "3"))
+						{
+							cout << param.value << PARAM_ERROR_MESSAGE << "includePeptides" << endl;
+							return false;
+						}
+						peptideOutput = util::toInt(param.value);
+						includePeptides = (peptideOutput == 1 || peptideOutput == 2 || peptideOutput == 3);
 						continue;
 					}
 					else return false;
@@ -152,6 +186,12 @@ bool FilterFileParams::readFlist(string fname, string path)
 		}
 	}
 	
+	if(numFiles > MAX_NUM_FILES)
+		throw runtime_error("\n\nMaxium number of filter files is " + util::toString(MAX_NUM_FILES) + "!\n"
+							"You can change the max number of files this program can read by changeing \n"+
+							"the value of MAX_NUM_FILES in DTarray_AJM.hpp and recompiling the program\n" +
+							"with DTarray --recompile.\n");
+	
 	return true;
 }
 
@@ -160,9 +200,9 @@ inline string FilterFileParams::getFileColname(int index) const
 	return file[index].colname;
 }
 
-FilterFile::FilterFile(string arg1, string arg2, string arg3)
+FilterFileData::FilterFileData(string _colName)
 {
-	colname = arg1;
-	count = arg2;
-	uniquePeptides = arg3;
+	colname = _colName;
+	count = "0";
+	uniquePeptides = "0";
 }

@@ -53,7 +53,11 @@ namespace hashTable{
 		
 		void destroyList(typename Node<T>::Node*);
 		void insert(const T&, typename Node<T>::Node*);
+		typename Node<T>::Node* consolidate(const T&, typename Node<T>::Node*);
 		typename Node<T>::Node* getItem(string, typename Node<T>::Node*) const;
+		void write(ofstream&, typename Node<T>::Node*);
+		void apply(void (T::*fun)(), typename Node<T>::Node*);
+		void apply(void (T::*fun)(void*), void*, typename Node<T>::Node*);
 		
 	public:
 		//constructor
@@ -62,23 +66,30 @@ namespace hashTable{
 		
 		//modifer
 		void insert(const T&);
+		typename Node<T>::Node* consolidate(const T&);
 		//bool removeItem(string);
 		void destroyList();
+		void apply(void (T::*fun)());
+		void apply(void (T::*fun)(void*), void*);
 		
 		//properties
 		int getLength();
 		typename Node<T>::Node* getItem(string) const;
+		void write(ofstream&);
+		bool empty();
 	};
 	
 	template <class T>
 	class HashTable{
 	private:
 		int size;
+		//hash<string> str_hash;
 		typename LinkedList<T>::LinkedList* array;
 		
 		void destroyTable(typename LinkedList<T>::LinkedList*);
 		
 		size_t hash(const char*) const;
+		//size_t hash(string) const;
 		
 	public:
 		//constructor
@@ -89,6 +100,9 @@ namespace hashTable{
 		//bool remove(string);
 		void destroyTable();
 		void insert(const T&, string);
+		typename Node<T>::Node* consolidate(const T&, string);
+		void apply(void (T::*fun)());
+		void apply(void (T::*fun)(void*), void*);
 		
 		//properties
 		int getLength();
@@ -96,6 +110,7 @@ namespace hashTable{
 		typename Node<T>::Node* getItem(string) const;
 		int getNumItems() const;
 		void printHistogram() const;
+		void write(ofstream&);
 	};
 }
 

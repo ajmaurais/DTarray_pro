@@ -14,20 +14,62 @@
 
 using namespace std;
 
+string const BLANK_STR = "null";
+string const BLANK_VAL = "-1";
+
 /**********************/
 /* class definitions */
 /*********************/
 
 class FilterFileParams;
 class FilterFileParam;
+class FilterFileData;
 
 //stores the data pertaining to a specific filter file (or MS run) for each protein
-struct FilterFile{
+class FilterFileData{
+public:
 	string colname, count;
 	string uniquePeptides;
 	
 	//constructor
-	FilterFile (string, string, string);
+	FilterFileData (string);
+	FilterFileData(){
+		colname = BLANK_STR;
+		count = "0";
+		uniquePeptides = "0";
+	}
+	~FilterFileData() {}
+};
+
+class FilterFileData_peptide : public FilterFileData {
+public:
+	string parentFile, scan, obsMH;
+	
+	FilterFileData_peptide(string colName) : FilterFileData(colName)
+	{
+		parentFile = BLANK_STR;
+		scan = BLANK_VAL;
+		obsMH = BLANK_VAL;
+	}
+	FilterFileData_peptide() : FilterFileData() {
+		parentFile = BLANK_STR;
+		scan = BLANK_VAL;
+		obsMH = BLANK_VAL;
+	}
+	~FilterFileData_peptide() {}
+};
+
+class FilterFileData_protein : public FilterFileData {
+public:
+	string coverage;
+	
+	FilterFileData_protein(string colName) : FilterFileData(colName){
+		coverage = "0";
+	}
+	FilterFileData_protein() : FilterFileData(){
+		coverage = "0";
+	}
+	~FilterFileData_protein() {}
 };
 
 struct FilterFileParam{
@@ -50,16 +92,42 @@ class FilterFileParams{
 	vector<FilterFileParam> file;
 public:
 	int numFiles;
-	string outputFormat;
+	static int outputFormat;
 	string sampleNamePrefix;
 	bool includeUnique;
 	bool getSubCelluarLoc;
 	string locDBfname;
 	bool calcMW;
 	string aaDBfanme, mwDBFname, staticModsFname;
-	string ofname;
+	string ofname, dbOfname, dbPeptideOfFname, peptideOfFname;
 	bool includeSeq;
 	string seqDBfname;
+	bool includeCoverage;
+	bool includePeptides;
+	bool includeProteins;
+	static int peptideOutput;
+	
+	FilterFileParams ()
+	{
+		numFiles = 0;
+		sampleNamePrefix = "";
+		includeUnique = false;
+		getSubCelluarLoc = false;
+		locDBfname = "";
+		calcMW = false;
+		aaDBfanme = "";
+		mwDBFname = "";
+		staticModsFname = "";
+		ofname = "";
+		dbOfname = "";
+		dbPeptideOfFname = "";
+		peptideOfFname = "";
+		includeSeq = false;
+		seqDBfname = "";
+		includeCoverage = false;
+		includePeptides = false;
+		includeProteins = false;
+	}
 	
 	//modifiers
 	bool readDTParams(string, string);
@@ -69,5 +137,7 @@ public:
 	inline string getFileColname(int) const;
 };
 
+int FilterFileParams::outputFormat = 0;
+int FilterFileParams::peptideOutput = 0;
 
 #endif /* FilterFile_hpp */

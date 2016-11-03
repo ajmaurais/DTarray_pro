@@ -71,7 +71,6 @@ namespace mwDB{
 	
 	class MWDB{
 	public:
-		SeqDB* seqDB;
 		binTree::BinTree <AminoAcid>* aminoAcidsDB;
 		
 		//constructor
@@ -79,19 +78,34 @@ namespace mwDB{
 		~MWDB();
 		
 		//modifers
-		bool readIn(string, const FilterFileParams&);
+		//bool readIn(string, const FilterFileParams&);
+		bool readIn(string, string);
 		
 		//properties
 		double calcMW(string, int) const;
 		double getMW(string, int) const;
 		double getMW(char, int) const;
 		
-	private:
+	protected:
 		//modofers
-		bool readInAAs(string, string);
 		bool readInAADB(string);
 		bool addStaticMod(const AminoAcid&);
 	};
+	
+	class MWDB_Protein : public MWDB{
+	public:
+		SeqDB* seqDB;
+		
+		MWDB_Protein() : MWDB(){
+			seqDB = new SeqDB;
+		}
+		~MWDB_Protein(){
+			delete seqDB;
+		}
+		
+		bool readIn(string, const FilterFileParams&);
+	};
+	
 }
 
 #endif /* calcMW_h */

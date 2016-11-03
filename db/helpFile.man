@@ -4,7 +4,7 @@ DTarray_AJM - Combine DTASelect-filter files.
 .SH SYNOPSIS
 \fBDTarray	[-i, --in \fI<mode>\fP]
 .in +1i
-[-o, --out \fI<format>\fP]
+[-o, --out \fI<output_files>\fP]
 .br
 [-of, --ofname \fI<file_name>\fP]
 .br
@@ -26,8 +26,11 @@ DTarray_AJM - Combine DTASelect-filter files.
 .br
 [-mw \fI<fasfa_file>\fP]
 .br
-.br
 [-seq \fI<fasfa_file>\fP]
+.br
+[-c, --coverage]
+.br
+[-f, --peptides \fI<output_files>\fP]
 .br
 [-h, --help]
 .in
@@ -55,35 +58,77 @@ Read in DTASelect-filter files stored in a common directory with the name \fI<sa
 .in +0.75i
 \fBsubdir\fR
 .in +0.75i
-Read in DTASelect-filter files stored in subdirrectories where the sample name is the dirrectory name and the filter file is named \fIDTASelect-filter.txt\fP. In subdir mode, DTarray will search all dirrectories one level below working	directory for valid DTASelect-filter files.
+Read in DTASelect-filter files stored in subdirrectories where the sample name is the dirrectory name and the filter file is named \fIDTASelect-filter.txt\fP. In subdir mode, DTarray will search all dirrectories one level below the current working directory for valid DTASelect-filter files.
 .in
 .TP
-\fB-o, --out\fI <format>\fP
-Specify the output file format. \fBstandard\fR is the default.
+\fB-o, --out\fI <output_files>\fP
+Specify the output file format. \fB1\fR is the default.
 .TP
 .in +0.75i
-\fBstandard\fR
+\fB0\fR
+.in +0.75i
+Do not include protein output files.
+.in
+.TP
+.in +0.75i
+\fB1\fR
 .in +0.75i
 Use wide output format.
 .in
 .TP
 .in +0.75i
-\fBdb\fR
+\fB2\fR
 .in +0.75i
 Use long output format.
+.in
+.TP
+.in +0.75i
+\fB3\fR
+.in +0.75i
+Generate both wide and long output files.
+.in
+.TP
+\fB-f, --peptides\fI <output_files>\fP
+Generate output file containing spectral counts for each peptide. \fB0\fR is the default.
+.TP
+.in +0.75i
+\fB0\fR
+.in +0.75i
+Do not include peptide output files.
+.in
+.TP
+.in +0.75i
+\fB1\fR
+.in +0.75i
+Use wide output format.
+.in
+.TP
+.in +0.75i
+\fB2\fR
+.in +0.75i
+Use long output format.
+.in
+.TP
+.in +0.75i
+\fB3\fR
+.in +0.75i
+Generate both wide and long output files.
 .in
 .TP
 \fB-u, --unique\fP
 Include spectral counts for unique peptides in output file.
 .TP
+\fB-c, --coverage\fP
+Include sequence coverage for proteins in output file.
+.TP
 \fB-d, --dir\fI <file>\fP
 Specify parent directory from which to run program. \fI<file>\fR must be the full path of the desired parent directory. Relative file paths are not supported.  By default, the current working directory is used.
 .TP
-\fB -r, --recompile\fP
-Recompile all c++ source code before running DTarray. g++ must be installed to use this option.
+\fB-r, --recompile\fP
+Recompile all c++ source code before running DTarray. g++ must be installed to use this option.  c++ code is compatible with STL 98 or later.  
 .TP
 \fB-p \fI<prefix>\fP
-Remove \fI<prefix>\fR from all sample names. If \fI<prefix>\fR is not found in sample name, name is unchanged. In db output format, columns will be included for long sample name, short sample name and replicate number. The value for replicate number is taken as: <number> where the sample name is in the format \fI<sample name>_<number>\fR.
+Remove \fI<prefix>\fR from all sample names. If \fI<prefix>\fR is not found in sample name, name is unchanged. In long output format, columns will be included for long sample name, short sample name and replicate number. The value for replicate number is taken as: <number> where the sample name is in the format \fI<sample name>_<number>\fR.
 .TP
 \fB-rw \fI<arg>\fP
 Rewrite existing param files in working directory.
@@ -119,7 +164,7 @@ Use sequence information in a user supplied \fI<fasfa_file>\fR, to include prote
 \fBDTarray\fP
 Run \fRDTarray\fR using default parameters.
 .TP
-\fBDTarray -f \fRsubdir\fP
+\fBDTarray -i \fRsubdir\fP
 Run \fBDTarray\fR in working directory reading DTASelect-filter files in subdir format.
 .TP
 \fBDTarray -mw \fI<file>\fP
