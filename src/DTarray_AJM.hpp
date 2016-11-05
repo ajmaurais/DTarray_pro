@@ -23,6 +23,8 @@
 #include <cassert>
 #include <string>
 #include <algorithm>
+#include "baseClasses.hpp"
+#include "dbase.hpp"
 #include "utils.hpp"
 #include "FilterFile.hpp"
 #include "BinTree.cpp"
@@ -45,7 +47,6 @@ size_t const COLUMN_HEADER_LINE_ELEMENTS_LENGTH = 13;
 string const PARAM_ERROR_MESSAGE = " is an invalid arguement for: ";
 size_t const MAX_PARAM_ITTERATIONS = 100;
 string const SEQ_NOT_FOUND = "SEQUENCE_NOT_FOUND_IN_DB";
-size_t const MAX_NUM_FILES = 50;
 
 //editable params for DB output format
 string const DEFAULT_COL_NAMES_DB [] = {"Full_description", "ID", "Protein", "Description", "Mass(Da)", "Long_sample_name",
@@ -62,118 +63,29 @@ size_t const DEFALUT_PEPTIDE_COLNAMES_LEN = 7;
 string const DEFALUT_PEPTIDE_DB_COLNAMES [] = {"protein_ID", "parent_protein", "protein_description", "sequence", "charge", "unique", "calcMH", "obsMH", "scan", "parent_file", "Long_sample_name", "Spectral_counts", "Sample", "Replicate"};
 size_t const DEFALUT_PEPTIDE_DB_COLNAMES_LEN = 12;
 
-/* subcelluarLoc.cpp */
-string const LOC_NOT_FOUND = "NOT_FOUND_IN_DB";
-
 /**********************/
 /* class definitions */
 /*********************/
 
 class Protein;
 class Proteins;
-class ProteinTemplate;
 class Peptide;
-class ProteinDataTemplate;
-template <class T> class DBTemplate;
-
-/* ############ parent classes ############*/
-class ProteinTemplate{
-protected:
-	string ID, protein, description, loc;
-	
-public:
-	inline bool operator == (const ProteinTemplate&) const;
-	inline bool operator == (string) const;
-	inline bool operator > (const ProteinTemplate&) const;
-	inline bool operator < (const ProteinTemplate&) const;
-	
-	string get_ID(){
-		return ID;
-	}
-};
-
-class ProteinDataTemplate{
-public:
-	ProteinDataTemplate(FilterFileParams* const _par) {
-		par = _par;
-	}
-	ProteinDataTemplate(){}
-	~ProteinDataTemplate(){
-		//free(
-	}
-	
-protected:
-	static size_t colSize;
-	static FilterFileParams* par;
-	
-	double avgMass, monoMass;
-	string sequence;
-	static size_t* colIndex;
-};
-
-size_t* ProteinDataTemplate::colIndex = nullptr;
-size_t ProteinDataTemplate::colSize = 0;
-FilterFileParams* ProteinDataTemplate::par = nullptr;
-
-template<class T>
-class DBTemplate{
-protected:
-	size_t colIndex;
-	hashTable::HashTable <T>* data;
-	
-public:
-	string colNames[MAX_NUM_FILES];
-	
-	//constructor
-	DBTemplate(){
-		colIndex = 0;
-		data = new hashTable::HashTable <T>;
-	}
-	DBTemplate(const FilterFileParams& par){
-		colIndex = 0;
-		data = new hashTable::HashTable <T>;
-		
-		for (int i = 0; i < par.numFiles; i++)
-			colNames[i] = par.getFileColname(i);
-	}
-	~DBTemplate(){
-		delete data;
-	}
-	
-	//modifiers
-	void calcMW(const mwDB::MWDB&);
-};
 
 /* #################### subcelluarLoc.cpp #################### */
-class DBProtein: public ProteinTemplate{
-	friend class Protein;
-	friend class Proteins;
-	
-	//modifers
-	void clear();
-	
-public:
-	//constructor
-	DBProtein(string);
-	DBProtein();
-	
-	//modifers
-	void operator = (const DBProtein&);
-};
 
 class Peptide : public ProteinDataTemplate {
 	friend class Proteins;
 	friend class Peptides;
 public:
-	Peptide (FilterFileParams * par) : ProteinDataTemplate(par) {}
-	Peptide () : ProteinDataTemplate() {}
-	~Peptide() {
-		//delete col;
+	Peptide (FilterFileParams * par, mwDB::MWDB* const _mwdb) : ProteinDataTemplate(par) {
+		mwdb = _mwdb;
 	}
+	Peptide () : ProteinDataTemplate() {}
+	~Peptide() {}
 	
 	//modifers
 	inline void clear();
-	void calcMW(mwDB::MWDB* const, string);
+	void calcMW();
 	
 	//properities
 	bool operator == (const Peptide& comp) const {
@@ -189,19 +101,22 @@ public:
 		return key < comp.key;
 	}
 	void consolidate(const Peptide&);
-	void calcMW(mwDB::MWDB* const);
-	void write(ofstream&) const;
+	void write(ofstream&);
 	
 private:
-	string key;
+	string key, calcSequence;
 	string proteinID, calcMH, scan, protein, description, charge;
 	bool unique;
 	FilterFileData_peptide* col;
+	
+	static mwDB::MWDB* mwdb;
 	
 	void initialize(FilterFileData_peptide* const, size_t, size_t*);
 	void parsePeptide(const string&);
 	void addSupData(mwDB::MWDB_Protein* const);
 };
+
+mwDB::MWDB* Peptide::mwdb = nullptr;
 
 class Peptides : public DBTemplate<Peptide> {
 	friend class Proteins;
@@ -213,45 +128,61 @@ public:
 	~Peptides(){}
 	
 	//properities
-	bool writeOut(string, const FilterFileParams&) const;
+	bool writeOut(string, const FilterFileParams&);
 	bool writeOutDB(string, const FilterFileParams&);
 };
 
 //stores data for each protein found in filter file
 class Protein : public ProteinTemplate , public ProteinDataTemplate {
-friend class Proteins;
+	friend class Proteins;
+	friend class hashTable::HashTable<Protein>;
+	friend class hashTable::LinkedList<Protein>;
 private:
-	string MW;
+	string MW, loc, fxn;
 	string fullDescription, matchDirrection;
 	int sequenceCount;
 	FilterFileData_protein* col;
+	
+	//pointers to Proteins data
+	static Dbase* locDB;
+	static mwDB::MWDB_Protein* mwdb;
+	static mwDB::SeqDB* seqDB;
+	static Dbase* fxnDB;
 	
 	//modifier
 	bool getProteinData(string, size_t);
 	inline void getProteinAndDescr(string);
 	DBProtein toDBprotein() const;
 	void initialize(FilterFileData_protein* const, size_t, size_t*);
-	
-	void addSupData(hashTable::HashTable<DBProtein>* const, mwDB::MWDB_Protein* const, mwDB::SeqDB* const);
 	inline void clear();
 	
 public:
-	Protein(FilterFileParams* const pars) : ProteinDataTemplate(pars){}
-	Protein() : ProteinDataTemplate() {}
-	~Protein(){
-		//delete col;
+	Protein(FilterFileParams* const pars, Dbase* const _locDB, Dbase* const _fxnDB, mwDB::MWDB_Protein* const _mwdb, mwDB::SeqDB* const _seqDB) : ProteinDataTemplate(pars) {
+		locDB = _locDB;
+		mwdb = _mwdb;
+		seqDB = _seqDB;
+		fxnDB = _fxnDB;
 	}
+	Protein() : ProteinDataTemplate() {}
+	~Protein(){}
 	
 	void consolidate(const Protein&);
-	void calcMW(mwDB::MWDB_Protein* const);
-	void addSeq(mwDB::SeqDB* const);
-	void addLoc(hashTable::HashTable<DBProtein>* const);
-	void write(ofstream&) const;
+	void calcMW();
+	void addSeq();
+	void addLoc();
+	void addFxn();
+	void write(ofstream&);
 };
+
+Dbase* Protein::locDB = nullptr;
+Dbase* Protein::fxnDB = nullptr;
+mwDB::MWDB_Protein* Protein::mwdb = nullptr;
+mwDB::SeqDB* Protein::seqDB = nullptr;
 
 //stores data for all proteins found in DTA filter files
 class Proteins : public DBTemplate<Protein>{
-	hashTable::HashTable<DBProtein>* locDB;
+	Dbase* locDB;
+	Dbase* fxnDB;
 	mwDB::MWDB_Protein* mwdb;
 	mwDB::SeqDB* seqDB;
 	
@@ -263,29 +194,32 @@ public:
 		locDB = nullptr;
 		seqDB = nullptr;
 		mwdb = nullptr;
+		fxnDB = nullptr;
 	}
 	Proteins() : DBTemplate<Protein>(){
 		locDB = nullptr;
 		seqDB = nullptr;
 		mwdb = nullptr;
+		fxnDB = nullptr;
 	}
 	~Proteins(){
 		delete locDB;
+		delete mwdb;
+		delete seqDB;
+		delete fxnDB;
 	}
 	
 	bool readInLocDB(string);
 	bool readInMWdb(string, const FilterFileParams&);
 	bool readInSeqDB(string);
-	
-	//string locSearch(const DBProtein&) const;
+	bool readInFxnDB(string);
 	
 	//properities
-	bool writeOut(string, const FilterFileParams&) const;
+	bool writeOut(string, const FilterFileParams&);
 	bool writeOutDB(string, const FilterFileParams&);
 	
 	//modifiers
 	bool readIn(string, FilterFileParams&, Peptides* const);
-	void addSubcelluarLoc();
 };
 
 /*************/
@@ -298,6 +232,7 @@ string parseSample(string, string, bool);
 int parsePeptideSC(string);
 string parseReplicate(string);
 string getID(string);
+inline string parseSequence(string);
 
 #endif /* DTarray_AJM_hpp */
 

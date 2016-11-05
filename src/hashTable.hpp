@@ -19,7 +19,7 @@ namespace hashTable{
 	/* globally scoped constants */
 	/*****************************/
 	
-	int const HASH_TABLE_SIZE = 20000;
+	int const DEFAULT_HASH_TABLE_SIZE = 20000;
 	int const A = 54059;
 	int const B = 76963;
 	int const C = 86969;
@@ -56,8 +56,6 @@ namespace hashTable{
 		typename Node<T>::Node* consolidate(const T&, typename Node<T>::Node*);
 		typename Node<T>::Node* getItem(string, typename Node<T>::Node*) const;
 		void write(ofstream&, typename Node<T>::Node*);
-		void apply(void (T::*fun)(), typename Node<T>::Node*);
-		void apply(void (T::*fun)(void*), void*, typename Node<T>::Node*);
 		
 	public:
 		//constructor
@@ -69,8 +67,6 @@ namespace hashTable{
 		typename Node<T>::Node* consolidate(const T&);
 		//bool removeItem(string);
 		void destroyList();
-		void apply(void (T::*fun)());
-		void apply(void (T::*fun)(void*), void*);
 		
 		//properties
 		int getLength();
@@ -93,7 +89,7 @@ namespace hashTable{
 		
 	public:
 		//constructor
-		HashTable(int s = HASH_TABLE_SIZE);
+		HashTable(int s = DEFAULT_HASH_TABLE_SIZE);
 		~HashTable();
 		
 		//modifers
@@ -101,8 +97,6 @@ namespace hashTable{
 		void destroyTable();
 		void insert(const T&, string);
 		typename Node<T>::Node* consolidate(const T&, string);
-		void apply(void (T::*fun)());
-		void apply(void (T::*fun)(void*), void*);
 		
 		//properties
 		int getLength();

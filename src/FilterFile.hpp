@@ -100,12 +100,14 @@ public:
 	bool calcMW;
 	string aaDBfanme, mwDBFname, staticModsFname;
 	string ofname, dbOfname, dbPeptideOfFname, peptideOfFname;
-	bool includeSeq;
+	bool getSeq;
 	string seqDBfname;
 	bool includeCoverage;
 	bool includePeptides;
 	bool includeProteins;
 	static int peptideOutput;
+	bool getFxn;
+	string fxnDBfname;
 	
 	FilterFileParams ()
 	{
@@ -122,11 +124,13 @@ public:
 		dbOfname = "";
 		dbPeptideOfFname = "";
 		peptideOfFname = "";
-		includeSeq = false;
+		getSeq = false;
 		seqDBfname = "";
 		includeCoverage = false;
 		includePeptides = false;
 		includeProteins = false;
+		getFxn = false;
+		fxnDBfname = "";
 	}
 	
 	//modifiers

@@ -1,19 +1,20 @@
 
 #editable paramaters
-scriptWDHome="$HOME/scripts/DTarray_AJM"
+scriptWDHome="$HOME/scripts/DTarray_pro"
 scriptWDbin="$scriptWDHome/bin"
 scriptWDsrc="$scriptWDHome/src"
 scriptWDdb="$scriptWDHome/db"
 locDBfname="$scriptWDdb/subCelluarLoc.txt"
 aaDBfanme="$scriptWDdb/aaMasses.txt"
+fxnDBfname="$scriptWDdb/humanFxn.txt"
 staticModificationsDB="$scriptWDdb/staticModifications.txt"
-binName="DTarray_AJM"
+binName="DTarray_pro"
 helpFileFname="$scriptWDdb/helpFile.man"
 
-recompileMessage='DTarray_AJM source code recompiled.'
+recompileMessage='DTarray_pro source code recompiled.'
 invalidOptionMessage="is an invalid option! Exiting...\nUse DTarray -h for help."
-defaultParamsName="dtarray_ajm.params"
-defaultFlistName="dtarray_ajm_flist.txt"
+defaultParamsName="dtarray_pro.params"
+defaultFlistName="dtarray_pro_flist.txt"
 defaultStaticModificationsName="staticModifications.txt"
 paramsCommentSymbol="#" #if changed, COMMENT_SYMBOL must also be changed in src/DTarray_AJM.hpp
 
@@ -21,8 +22,8 @@ paramsCommentSymbol="#" #if changed, COMMENT_SYMBOL must also be changed in src/
 paramsName=$defaultParamsName
 flistName=$defaultFlistName
 staticModificationsName=$defaultStaticModificationsName
-ofname="DTarray_AJM.txt"
-dbOfname="DTarray_AJM_long.txt"
+ofname="DTarray.txt"
+dbOfname="DTarray_long.txt"
 peptideOfFname="peptideList.txt"
 dbPeptideOfFname="peptideList_long.txt"
 input="standard"
@@ -39,12 +40,13 @@ calcMW=false
 calcMWStr="0"
 mwDBFname=""
 rewriteSmod=false
-includeSeq="0"
+getSeq="0"
 seqDBfname=""
 continueExc=true
 includePeptides="0"
 peptideOutput="0"
 includeCoverage="0"
+getFxn="0"
 
 function usage {
 	cat $scriptWDdb/usage.txt
@@ -122,7 +124,7 @@ while ! [[ -z "$1" ]] ; do
 			shift
 			isArg "$1"
 			seqDBfname="$1"
-			includeSeq="1" ;;
+			getSeq="1" ;;
 		"-f" | "--peptides")
 			shift
 			isArg "$1"
@@ -130,6 +132,17 @@ while ! [[ -z "$1" ]] ; do
 			includePeptides=true ;;
 		"-c" | "--coverage")
 			includeCoverage="1" ;;
+		"-pswd")
+			echo $scriptWDHome
+			exit ;;
+		"-cdswd")
+			cd $scriptWDHome
+			exit ;;
+		"-oswd")
+			open $scriptWDHome
+			exit ;;
+		"-fxn")
+			getFxn="1";;
         *)
             echo -e "$1" $invalidOptionMessage
 			usage;;
@@ -167,7 +180,8 @@ echo "paramsName = "$paramsName
 echo "getSubCelluarLoc = "$getSubCelluarLoc
 echo "calcMW = "$calcMW
 echo "mwDBFname = "$mwDBFname
-echo "includeSeq = "$includeSeq
+echo "getSeq = "$getSeq
+echo "getFxn = "$getFxn
 echo "seqDBfname = "$seqDBfname
 echo "rewriteSmod = "$rewriteSmod
 echo "peptideOutput = "$peptideOutput
@@ -239,8 +253,10 @@ if ! $keepParams ; then
 	echo 'calcMW='$calcMWStr >> ./$paramsName
 	echo 'mwDBFname='$mwDBFname >> ./$paramsName
 	echo 'aaDBfanme='$aaDBfanme >> ./$paramsName
-	echo 'includeSeq='$includeSeq >> ./$paramsName
+	echo 'getSeq='$getSeq >> ./$paramsName
 	echo 'seqDBfname='$seqDBfname >> ./$paramsName
+	echo 'getFxn='$getFxn >> ./$paramsName
+	echo 'fxnDBfname='$fxnDBfname >> ./$paramsName
 	echo 'staticModsFname='$staticModificationsName >> ./$paramsName
 	echo 'includePeptides='$peptideOutput >> ./$paramsName
 	echo 'includeCoverage='$includeCoverage >> ./$paramsName

@@ -116,10 +116,10 @@ bool FilterFileParams::readDTParams(string fname, string path)
 						seqDBfname = param.value;
 						continue;
 					}
-					if(param.param == "includeSeq")
+					if(param.param == "getSeq")
 					{
 						assert(param.value == "0" || param.value == "1");
-						includeSeq = util::toInt(param.value);
+						getSeq = util::toInt(param.value);
 						continue;
 					}
 					if(param.param == "includeCoverage")
@@ -139,6 +139,17 @@ bool FilterFileParams::readDTParams(string fname, string path)
 						includePeptides = (peptideOutput == 1 || peptideOutput == 2 || peptideOutput == 3);
 						continue;
 					}
+					if(param.param == "getFxn")
+					{
+						assert(param.value == "0" || param.value == "1");
+						getFxn = util::toInt(param.value);
+						continue;
+					}
+					if(param.param == "fxnDBfname")
+					{
+						fxnDBfname = param.value;
+						continue;
+					}
 					else return false;
 				}
 				else if(util::isCommentLine(line) || line.empty())
@@ -148,6 +159,10 @@ bool FilterFileParams::readDTParams(string fname, string path)
 			} while(line != "</params>");
 		
 	} while(!inF.eof() && line != "</paramsFile>");
+	
+	if(calcMW && !getSeq)
+		seqDBfname = mwDBFname;
+	
 	return true;
 }
 

@@ -11,7 +11,7 @@
 #include "dtafilter.cpp"
 #include "utils.cpp"
 #include "calcMW.cpp"
-#include "subCelluarLoc.cpp"
+#include "dbase.cpp"
 
 using namespace std;
 
@@ -23,6 +23,7 @@ int main (int argc, char *argv[])
 	string flistName = string(argv[2]);
 	string paramsName = string(argv[3]);
 	assert(util::dirExists(wd));
+	
 	
 	//read in names of files to combine and output params
 	FilterFileParams filterFileParams;
@@ -44,12 +45,24 @@ int main (int argc, char *argv[])
 	//read in subcellular locations database and add sub cell locations to proteins
 	if(filterFileParams.getSubCelluarLoc)
 	{
+		cout << endl << "Reading subcellular locations database..." << endl;
 		if(!proteins.readInLocDB(filterFileParams.locDBfname))
 		{
 			cout <<"Failed to read protein location DB file! Exiting..." << endl;
 			return 0;
 		}
-		cout << endl << "Reading subcellular locations database..." << endl;
+	}
+	
+	//read in subcellular locations database and add sub cell locations to proteins
+	//filterFileParams.getFxn = true;
+	if(filterFileParams.getFxn)
+	{
+		cout << endl << "Reading protein function database..." << endl;
+		if(!proteins.readInFxnDB(filterFileParams.fxnDBfname))
+		{
+			cout <<"Failed to read protein function DB file! Exiting..." << endl;
+			return 0;
+		}
 	}
 	
 	//calculate mass of peptides or proteins from sequence and amino acid mass databases
@@ -60,10 +73,10 @@ int main (int argc, char *argv[])
 			cout << "Failed to read mwDB files! Exiting..." << endl;
 			return 0;
 		}
-		cout << "Calculating protein molecular weights from " << filterFileParams.mwDBFname << endl;
+		cout << "Calculating protein molecular weights from: " << filterFileParams.mwDBFname << endl;
 	}
 	
-	if((!filterFileParams.calcMW && filterFileParams.includeSeq ) ||
+	if((!filterFileParams.calcMW && filterFileParams.getSeq ) ||
 	   (filterFileParams.seqDBfname != filterFileParams.mwDBFname))
 	{
 		if(!proteins.readInSeqDB(wd + filterFileParams.seqDBfname))
@@ -86,7 +99,7 @@ int main (int argc, char *argv[])
 	//write out combined protein data
 	if(filterFileParams.includeProteins)
 	{
-		assert(filterFileParams.includeProteins != 0);
+		assert(filterFileParams.includeProteins != 0);		
 		if (filterFileParams.outputFormat == 1 || filterFileParams.outputFormat == 3)
 		{
 			if(!proteins.writeOut(wd + filterFileParams.ofname, filterFileParams))
@@ -94,8 +107,8 @@ int main (int argc, char *argv[])
 				cout << "Could not write out file! Exiting..." << endl;
 				return 0;
 			}
+		cout << endl << "Protein data written in wide format to: " << filterFileParams.ofname << endl;
 		}
-		cout << endl << "Protein data written in long format to: " << filterFileParams.ofname << endl;
 		
 		if(filterFileParams.outputFormat == 2 || filterFileParams.outputFormat == 3)
 		{

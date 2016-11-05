@@ -196,48 +196,6 @@ namespace hashTable{
 		}
 	}
 	
-	template<class T>
-	void LinkedList<T>::apply(void (T::*fun)())
-	{
-		if(head == nullptr)
-			return;
-		
-		apply(fun, head);
-	}
-	
-	template<class T>
-	void LinkedList<T>::apply(void (T::*fun)(), typename Node<T>::Node* leaf)
-	{
-		if(leaf == nullptr)
-			return;
-		else
-		{
-			leaf->val.fun();
-			apply(fun, leaf->next);
-		}
-	}
-	
-	template<class T>
-	void LinkedList<T>::apply(void (T::*fun)(void*), void* p)
-	{
-		if(head == nullptr)
-			return;
-		
-		apply(fun, p, head);
-	}
-	
-	template<class T>
-	void LinkedList<T>::apply(void (T::*fun)(void*), void* p, typename Node<T>::Node* leaf)
-	{
-		if(leaf == nullptr)
-			return;
-		else
-		{
-			leaf->val.fun(p);
-			apply(fun, p, leaf->next);
-		}
-	}
-	
 	/**********************/
 	/*     HashTable     */
 	/*********************/
@@ -246,7 +204,7 @@ namespace hashTable{
 	HashTable<T>::HashTable(int s)
 	{
 		size = s;
-		array = new LinkedList<T>[HASH_TABLE_SIZE];
+		array = new LinkedList<T>[DEFAULT_HASH_TABLE_SIZE];
 	}
 	
 	template<class T>
@@ -315,20 +273,6 @@ namespace hashTable{
 				cout << " X";
 			cout << "\n";
 		}
-	}
-	
-	template<class T>
-	void HashTable<T>::apply(void (T::*fun)())
-	{
-		for(int i = 0; i < size ; i++)
-			array[i].apply(fun);
-	}
-	
-	template<class T>
-	void HashTable<T>::apply(void (T::*fun)(void*), void* p)
-	{
-		for(int i = 0; i < size ; i++)
-			array[i].apply(fun, p);
 	}
 	
 	template<class T>
