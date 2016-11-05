@@ -1,5 +1,5 @@
 //
-//  linkedList.cpp
+//  hashTable.cpp
 //  DTarray_AJM
 //
 //  Created by Aaron Maurais on 9/7/16.
@@ -201,16 +201,23 @@ namespace hashTable{
 	/*********************/
 	
 	template<class T>
-	HashTable<T>::HashTable(int s)
+	HashTable<T>::HashTable(int _size)
 	{
-		size = s;
-		array = new LinkedList<T>[DEFAULT_HASH_TABLE_SIZE];
+		size = _size;
+		array = (LinkedList<T>*) calloc(_size, sizeof(LinkedList<T>));
+	}
+	
+	template<class T>
+	HashTable<T>::HashTable()
+	{
+		size = DEFAULT_HASH_TABLE_SIZE;
+		array = (LinkedList<T>*) calloc(DEFAULT_HASH_TABLE_SIZE, sizeof(LinkedList<T>));
 	}
 	
 	template<class T>
 	void HashTable<T>::destroyTable()
 	{
-		delete [] array;
+		delete array;
 	}
 	
 	template<class T>

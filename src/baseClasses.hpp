@@ -13,6 +13,7 @@
 #include "hashTable.hpp"
 
 size_t const MAX_NUM_FILES = 50;
+size_t const DATA_SIZE = 500;
 
 using namespace std;
 
@@ -80,11 +81,11 @@ public:
 	//constructor
 	DBTemplate(){
 		colIndex = 0;
-		data = new hashTable::HashTable <T>;
+		data = new hashTable::HashTable <T>(DATA_SIZE);
 	}
 	DBTemplate(const FilterFileParams& par){
 		colIndex = 0;
-		data = new hashTable::HashTable <T>;
+		data = new hashTable::HashTable <T>(DATA_SIZE);
 		
 		for (int i = 0; i < par.numFiles; i++)
 			colNames[i] = par.getFileColname(i);

@@ -211,7 +211,7 @@ namespace mwDB{
 	
 	SeqDB::SeqDB()
 	{
-		seqLibrary = new hashTable::HashTable<Peptide>;
+		seqLibrary = new hashTable::HashTable<mwDB::Peptide>;
 	}
 	
 	SeqDB::~SeqDB()

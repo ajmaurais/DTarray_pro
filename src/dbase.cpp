@@ -51,7 +51,6 @@ void DBProtein::operator = (const DBProtein& pget)
 
 bool Dbase::readIn(string fname)
 {
-	db = new hashTable::HashTable<DBProtein>;
 	ifstream inF (fname.c_str());
 	
 	if(!inF)

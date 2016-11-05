@@ -27,7 +27,6 @@
 #include "dbase.hpp"
 #include "utils.hpp"
 #include "FilterFile.hpp"
-#include "BinTree.cpp"
 #include "hashTable.cpp"
 #include "calcMW.hpp"
 

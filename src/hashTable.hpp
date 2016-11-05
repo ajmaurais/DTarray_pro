@@ -10,6 +10,7 @@
 #define hashTable_hpp
 
 #include <iostream>
+#include <fstream>
 
 namespace hashTable{
 	
@@ -19,7 +20,7 @@ namespace hashTable{
 	/* globally scoped constants */
 	/*****************************/
 	
-	int const DEFAULT_HASH_TABLE_SIZE = 20000;
+	int const DEFAULT_HASH_TABLE_SIZE = 10000;
 	int const A = 54059;
 	int const B = 76963;
 	int const C = 86969;
@@ -89,7 +90,8 @@ namespace hashTable{
 		
 	public:
 		//constructor
-		HashTable(int s = DEFAULT_HASH_TABLE_SIZE);
+		HashTable(int s);
+		HashTable();
 		~HashTable();
 		
 		//modifers

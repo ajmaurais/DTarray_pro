@@ -10,7 +10,7 @@
 #define calcMW_h
 
 #include "hashTable.hpp"
-//#include "DTarray_AJM.hpp"
+#include "binTree.cpp"
 
 class MWDB;
 class nwNode;
@@ -78,7 +78,6 @@ namespace mwDB{
 		~MWDB();
 		
 		//modifers
-		//bool readIn(string, const FilterFileParams&);
 		bool readIn(string, string);
 		
 		//properties
