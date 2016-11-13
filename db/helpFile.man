@@ -1,6 +1,6 @@
-.TH "DTarray_AJM v1.0" 1 "9 September 2016" "DTarray_AJM"
+.TH "DTarray_pro v1.0" 1 "9 September 2016" "DTarray_pro"
 .SH NAME
-DTarray_AJM - Combine DTASelect-filter files.
+DTarray_pro - Combine DTASelect-filter files.
 .SH SYNOPSIS
 \fBDTarray	[-i, --in \fI<mode>\fP]
 .in +1i
@@ -35,7 +35,7 @@ DTarray_AJM - Combine DTASelect-filter files.
 [-h, --help]
 .in
 .SH DESCRIPTION
-DTarray_AJM extracts Uniprot ID numbers, molecular weights, and spectral counts from .dtafilter files stored in the working directory. Protein data is combined into one dataset, written to the working directory as a tab delimitated text file. At execution, a params file named \fIdtarray_ajm.params\fR containing the parameters specified by the user, and a file list named \fIdtarray_ajm_flist.txt\fR, containing all the valid DTAfilter files found in the working directory, are generated. If a params file already exists, it is overwritten with the current chosen parameters.  If a file list already exists, the existing file list is used. Various options are available to, modify how files are treated in the working directory, extract additional data from the DTAfilter files, and to change the output file format.
+DTarray_pro extracts Uniprot ID numbers, molecular weights, and spectral counts from .dtafilter files stored in the working directory. Protein data is combined into one dataset, written to the working directory as a tab delimitated text file. At execution, a params file named \fIdtarray_pro.params\fR containing the parameters specified by the user, and a file list named \fIdtarray_pro_flist.txt\fR, containing all the valid DTAfilter files found in the working directory, are generated. If a params file already exists, it is overwritten with the current chosen parameters.  If a file list already exists, the existing file list is used. Various options are available to, modify how files are treated in the working directory, extract additional data from the DTAfilter files, and to change the output file format.
 .SH OPTIONS
 .TP
 Command line options are processed from left to right. Options can be specified more than once. If conflicting options are specified, later specifications override earlier ones.
@@ -44,7 +44,7 @@ Command line options are processed from left to right. Options can be specified 
 Display this help file.
 .TP
 \fB-of, --ofname \fI<file_name>\fR
-Specify output file name. By default, the output file name is \fIDTarray_AJM.txt\fR.
+Specify output file name. By default, the output file name is \fIDTarray.txt\fR.
 .TP
 \fB-i, --in\fI <mode>\fP
 Specify which input mode is used. \fBstandard\fR is the default.\fP
@@ -146,10 +146,10 @@ Rewrite static modifications file. See \fB-mw\fR for details on smod file.
 .in
 .TP
 \fB-par \fR<arg>\fP
-Specify params file. By default, \fIdtarray_ajm.params\fR is used.
+Specify params file. By default, \fIdtarray_pro.params\fR is used.
 .TP
 \fB-k, --keepParams\fP
-Do not overwrite params file. The parameters currently specified in \fIdtarray_ajm.params\fR will be used.
+Do not overwrite params file. The parameters currently specified in \fIdtarray_pro.params\fR will be used.
 .TP
 \fB-loc\fP
 Use \fIsubCelluarLoc.txt\fR in \fI$PROGRAM_HOME_DIR/db/\fR to included subcelluar localization information for proteins in output file.

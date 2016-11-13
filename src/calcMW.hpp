@@ -10,7 +10,7 @@
 #define calcMW_h
 
 #include "hashTable.hpp"
-#include "binTree.cpp"
+#include "BinTree.cpp"
 
 class MWDB;
 class nwNode;

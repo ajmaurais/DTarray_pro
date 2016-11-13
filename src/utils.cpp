@@ -1,7 +1,123 @@
 
 #include "utils.hpp"
 
-namespace util{
+namespace utils{
+	
+	/*############# File ###############*/
+	
+	bool File::read(string _fname)
+	{
+		fname = _fname;
+		ifstream inF(fname.c_str());
+		
+		if(!inF)
+			return false;
+		
+		delimType = detectLineEnding(inF);
+		if(delimType == unknown)
+			throw runtime_error("Invalid delimiter in file: " + fname + "!");
+		delim = utils::getDelim(delimType);
+		
+		inF.seekg(0, inF.end);
+		const long size = inF.tellg();
+		inF.seekg(0, inF.beg);
+		buffer = (char*) calloc(size, sizeof(char));
+		
+		if(inF.read(buffer, size))
+		{
+			ss << buffer;
+			if(delimType == crlf)
+				beginLine = 1;
+			else beginLine = 0;
+			free(buffer);
+			return true;
+		}
+		else {
+			free(buffer);
+			return false;
+		}
+	}
+	
+	inline string File::getLine()
+	{
+		string ret;
+		utils::getLine(ss, ret, delim, beginLine);
+		return ret;
+	}
+	
+	inline string File::getLine_skip()
+	{
+		string ret;
+		do{
+			utils::getLine(ss, ret, delim, beginLine);
+		} while ((isCommentLine(ret) || ret.empty()) && ss);
+		return ret;
+	}
+	
+	inline string File::getLine_trim()
+	{
+		string ret;
+		utils::getLineTrim(ss, ret, delim, beginLine);
+		return ret;
+	}
+	
+	inline string File::getLine_skip_trim()
+	{
+		string ret;
+		do{
+			utils::getLineTrim(ss, ret, delim, beginLine);
+		} while ((isCommentLine(ret) || ret.empty()) && ss);
+		return ret;
+	}
+	
+	inline string File::getLine_trim_skip()
+	{
+		return getLine_skip_trim();
+	}
+	
+	/*############# functions ###############*/
+	
+	inline newline_type detectLineEnding_killStream(ifstream& inF) {
+		char tmp;
+		while(inF){
+			inF.get(tmp);
+			if(tmp == inF.widen('\r')) {	// old Mac or Windows
+				inF.get(tmp);
+				if(tmp == inF.widen('\n'))	// Windows
+					return crlf;
+				return cr;	// old Macs
+			}
+			if(tmp == inF.widen('\n'))	// Unix and modern Macs
+				return lf;
+		}
+		return unknown;
+	}
+	
+	inline newline_type detectLineEnding(ifstream& inF)
+	{
+		if(!inF)
+			throw runtime_error("Bad file stream!");
+		const streampos p = inF.tellg();
+		const newline_type ret = detectLineEnding_killStream(inF);
+		inF.seekg(p);
+		return ret;
+	}
+	
+	inline char getDelim(newline_type type)
+	{
+		switch(type){
+			case lf : return '\n';
+				break;
+			case crlf : return '\r';
+				break;
+			case cr : return '\r';
+				break;
+			case unknown : return '\n';
+				break;
+			default : throw runtime_error("Invalid type!");
+				break;
+		}
+	}
 	
 	//returns true if folder at end of path exists and false if it does not
 	bool dirExists (string path)
@@ -136,11 +252,19 @@ namespace util{
 		return num;
 	}
 	
-	//gets new line from inF and removes trailing and leading whitespace
-	inline void getLineTrim(ifstream& inF, string& line)
+	//gets new line from is and removes trailing and leading whitespace
+	inline void getLineTrim(istream& is, string& line, char delim, size_t beginLine)
 	{
-		getline(inF, line);
+		utils::getLine(is, line, delim, beginLine);
 		line = trim(line);
+	}
+	
+	//gets new line from is and handels non zero start to line
+	inline void getLine(istream& is, string& line, char delim, size_t beginLine)
+	{
+		getline(is, line, delim);
+		if(beginLine > 0)
+			line = line.substr(beginLine);
 	}
 	
 	//removes findStr from whithinStr and returns whithinStr

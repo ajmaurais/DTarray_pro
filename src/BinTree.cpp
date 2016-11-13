@@ -10,32 +10,32 @@
 
 namespace binTree{
 	
-	template <class T>
-	Node<T>::Node()
+	template <class _Tp>
+	Node<_Tp>::Node()
 	{
 		left = nullptr;
 		right = nullptr;
 	}
 	
-	template <class T>
-	T* Node<T>::getVal() const
+	template <class _Tp>
+	_Tp* Node<_Tp>::getVal() const
 	{
 		return &val;
 	}
 	
-	template<class T> BinTree<T>::BinTree()
+	template<class _Tp> BinTree<_Tp>::BinTree()
 	{
 		root = nullptr;
 	}
 	
-	template<class T>
-	BinTree<T>::~BinTree()
+	template<class _Tp>
+	BinTree<_Tp>::~BinTree()
 	{
 		destroyTree();
 	}
 	
-	template <class T>
-	void BinTree<T>::destroyTree(typename Node<T>::Node *leaf)
+	template <class _Tp>
+	void BinTree<_Tp>::destroyTree(typename Node<_Tp>::Node *leaf)
 	{
 		if(leaf != nullptr)
 		{
@@ -45,14 +45,14 @@ namespace binTree{
 		}
 	}
 	
-	template<class T>
-	void BinTree<T>::destroyTree()
+	template<class _Tp>
+	void BinTree<_Tp>::destroyTree()
 	{
 		destroyTree(root);
 	}
 	
-	template<class T>
-	void BinTree<T>::insert(const T& arg, typename Node<T>::Node* leaf)
+	template<class _Tp>
+	void BinTree<_Tp>::insert(const _Tp& arg, typename Node<_Tp>::Node* leaf)
 	{
 		if(arg < leaf->val)
 		{
@@ -60,7 +60,7 @@ namespace binTree{
 				insert(arg, leaf->left);
 			else
 			{
-				leaf->left = new Node<T>;
+				leaf->left = new Node<_Tp>;
 				leaf->left->val = arg;
 				leaf->left->left=nullptr;
 				leaf->left->right=nullptr;
@@ -72,7 +72,7 @@ namespace binTree{
 				insert(arg, leaf->right);
 			else
 			{
-				leaf->right = new Node<T>;
+				leaf->right = new Node<_Tp>;
 				leaf->right->val = arg;
 				leaf->right->left=nullptr;
 				leaf->right->right=nullptr;
@@ -80,8 +80,8 @@ namespace binTree{
 		}
 	}
 	
-	template <class T>
-	typename Node<T>::Node* BinTree<T>::search(const T& arg, typename Node<T>::Node* leaf) const
+	template <class _Tp>
+	typename Node<_Tp>::Node* BinTree<_Tp>::search(const _Tp& arg, typename Node<_Tp>::Node* leaf) const
 	{
 		if(leaf!=nullptr)
 		{
@@ -95,22 +95,22 @@ namespace binTree{
 		else return nullptr;
 	}
 	
-	template<class T>
-	void BinTree<T>::insert(const T& arg)
+	template<class _Tp>
+	void BinTree<_Tp>::insert(const _Tp& arg)
 	{
 		if(root!=nullptr)
 			insert(arg, root);
 		else
 		{
-			root = new Node<T>;
+			root = new Node<_Tp>;
 			root->val = arg;
 			root->left = nullptr;
 			root->right = nullptr;
 		}
 	}
 	
-	template<class T>
-	typename Node<T>::Node* BinTree<T>::search(const T& arg) const
+	template<class _Tp>
+	typename Node<_Tp>::Node* BinTree<_Tp>::search(const _Tp& arg) const
 	{
 		return search(arg, root);
 	}

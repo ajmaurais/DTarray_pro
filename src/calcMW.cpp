@@ -43,14 +43,14 @@ namespace mwDB{
 	{
 		size_t endOfLine = line.find(";");
 		line = line.substr(0, endOfLine);
-		line = util::trim(line);
+		line = utils::trim(line);
 		
 		vector<string> elems;
-		util::split(line, '\t', elems);
+		utils::split(line, '\t', elems);
 		
 		symbol = elems[0];
-		avgMass = util::toDouble(elems[1]);
-		monoMass = util::toDouble(elems[2]);
+		avgMass = utils::toDouble(elems[1]);
+		monoMass = utils::toDouble(elems[2]);
 	}
 	
 	AminoAcid::AminoAcid(string str, double num1, double num2)
@@ -143,44 +143,35 @@ namespace mwDB{
 	
 	bool MWDB::readInAADB(string aaDB)
 	{
-		ifstream inF (aaDB.c_str());
-		
-		if(!inF)
+		utils::File file;
+		if(!file.read(aaDB))
 			return false;
-		
 		string line;
 		
 		do{
-			util::getLineTrim(inF, line);
-			if(util::isCommentLine(line) || line.empty())
-				continue;
-			else aminoAcidsDB->insert(AminoAcid(line));
-		}while(!inF.eof());
+			line = file.getLine_skip_trim();
+			aminoAcidsDB->insert(AminoAcid(line));
+		}while(!file.end());
 		
 		return true;
 	}
 	
 	bool MWDB::readIn(string staticMods, string aaDB)
 	{
-		ifstream inF (staticMods.c_str());
+		utils::File file;
 		
-		if(!inF || !readInAADB(aaDB))
+		if(!file.read(staticMods) || !readInAADB(aaDB))
 			return false;
 		
 		string line;
 		int i = 0;
 		
 		do{
-			util::getLineTrim(inF, line);
-			if(util::isCommentLine(line) || line.empty())
-				continue;
-			
+			line = file.getLine_skip_trim();
 			if(line == "<staticModifications>")
 			{
 				do{
-					util::getLineTrim(inF, line);
-					if(util::isCommentLine(line) || line.empty())
-						continue;
+					line = file.getLine_skip_trim();
 					if (line != "</staticModifications>")
 					{
 						AminoAcid temp (line);
@@ -192,7 +183,7 @@ namespace mwDB{
 						return false;
 				} while(line != "</staticModifications>");
 			}
-		} while(!inF.eof() && line != "</staticModifications>");
+		} while(!file.end() && line != "</staticModifications>");
 		
 		return true;
 	}
@@ -211,7 +202,7 @@ namespace mwDB{
 	
 	SeqDB::SeqDB()
 	{
-		seqLibrary = new hashTable::HashTable<mwDB::Peptide>;
+		seqLibrary = new hashTable::HashTable<mwDB::Peptide>(10000);
 	}
 	
 	SeqDB::~SeqDB()
@@ -229,37 +220,34 @@ namespace mwDB{
 	
 	bool SeqDB::readIn(string fname)
 	{
-		ifstream inF (fname.c_str());
+		utils::File data(fname);
 		
-		if(!inF)
+		if(!data.read(fname))
 			return false;
 		
 		string line;
 		Peptide temp;
 		
 		do{
-			util::getLineTrim(inF, line);
-			if(util::isCommentLine(line) || line.empty()) //skip line if is comment line
-				continue;
-			else
+			line = data.getLine_skip_trim();
+			if(line[0] == '>')
 			{
-				if(line[0] == '>')
-				{
-					temp.ID = getID(line);
-					util::getLineTrim(inF, line);
-					temp.sequence = line;
-					seqLibrary->insert(temp, temp.getID());
-				}
+				temp.ID = getID(line);
+				line = data.getLine_skip_trim();
+				temp.sequence = line;
+				seqLibrary->insert(temp, temp.getID());
 			}
-		} while(!inF.eof());
+		} while(!data.end());
 		
 		return true;
 	}
 	
-	bool MWDB_Protein::readIn(string wd, const FilterFileParams& params)
+	bool MWDB_Protein::readIn(string _wd, const FilterFileParams& params)
 	{
+		string wd;
+		params.useDefaultSeqDB ? wd = _wd : wd = "";
 		bool val1 = seqDB->readIn(wd + params.mwDBFname);
-		bool val2 = MWDB::readIn(wd + params.staticModsFname, params.aaDBfanme);
+		bool val2 = MWDB::readIn(_wd + params.staticModsFname, params.aaDBfanme);
 		
 		return val1 && val2;
 	}

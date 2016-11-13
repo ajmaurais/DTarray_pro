@@ -16,24 +16,24 @@ namespace binTree{
 	/* class definitions */
 	/*********************/
 	
-	template <class T> class BinTree;
-	template <class T> class Node;
+	template <class _Tp> class BinTree;
+	template <class _Tp> class Node;
 	
-	template <class T>
+	template <class _Tp>
 	class Node{
-		friend class BinTree<T>;
+		friend class BinTree<_Tp>;
 	public:
-		T val;
+		_Tp val;
 		
 		Node();
 		
-		T* getVal() const;
+		_Tp* getVal() const;
 	private:
 		Node *left;
 		Node *right;
 	};
 	
-	template <class T>
+	template <class _Tp>
 	class BinTree{
 	public:
 		//constructor
@@ -41,20 +41,20 @@ namespace binTree{
 		~BinTree();
 		
 		//modifers
-		void insert(const T&);
+		void insert(const _Tp&);
 		void destroyTree();
 		
 		//properties
-		typename Node<T>::Node* search(const T&) const;
+		typename Node<_Tp>::Node* search(const _Tp&) const;
 		
 	private:
-		typename Node<T>::Node* root;
+		typename Node<_Tp>::Node* root;
 		
 		//modifers
-		void insert(const T&, typename Node<T>::Node*);
-		void destroyTree(typename Node<T>::Node*);
+		void insert(const _Tp&, typename Node<_Tp>::Node*);
+		void destroyTree(typename Node<_Tp>::Node*);
 		
 		//properties
-		typename Node<T>::Node* search(const T&, typename Node<T>::Node*) const;
+		typename Node<_Tp>::Node* search(const _Tp&, typename Node<_Tp>::Node*) const;
 	};
 }

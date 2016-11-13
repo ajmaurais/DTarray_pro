@@ -18,7 +18,7 @@ size_t const DATA_SIZE = 500;
 using namespace std;
 
 class ProteinTemplate;
-class ProteinDataTemplate;
+template <class _Tp> class ProteinDataTemplate;
 template <class T> class DBTemplate;
 
 class ProteinTemplate{
@@ -26,6 +26,9 @@ protected:
 	string ID, protein, description;
 	
 public:
+	ProteinTemplate() {}
+	~ProteinTemplate() {}
+	
 	inline bool operator == (const ProteinTemplate& comp) const{
 		return comp.ID == ID;
 	}
@@ -44,30 +47,31 @@ public:
 	}
 };
 
+template <class _Tp>
 class ProteinDataTemplate{
 public:
 	ProteinDataTemplate(FilterFileParams* const _par) {
 		par = _par;
 		supDataAdded = false;
 	}
+	void initialize(const vector<_Tp>&, size_t, size_t*);
 	ProteinDataTemplate(){}
-	~ProteinDataTemplate(){
-		//free(
-	}
+	~ProteinDataTemplate(){}
 	
 protected:
 	static size_t colSize;
 	static FilterFileParams* par;
 	
+	vector<_Tp> col;
 	double avgMass, monoMass;
 	string sequence;
 	static size_t* colIndex;
 	bool supDataAdded;
 };
 
-size_t* ProteinDataTemplate::colIndex = nullptr;
-size_t ProteinDataTemplate::colSize = 0;
-FilterFileParams* ProteinDataTemplate::par = nullptr;
+template <class _Tp> size_t* ProteinDataTemplate<_Tp>::colIndex = nullptr;
+template <class _Tp> size_t ProteinDataTemplate<_Tp>::colSize = 0;
+template <class _Tp> FilterFileParams* ProteinDataTemplate<_Tp>::par = nullptr;
 
 template<class T>
 class DBTemplate{
@@ -79,13 +83,11 @@ public:
 	string colNames[MAX_NUM_FILES];
 	
 	//constructor
-	DBTemplate(){
-		colIndex = 0;
+	DBTemplate() : colIndex(0) {
 		data = new hashTable::HashTable <T>(DATA_SIZE);
 	}
-	DBTemplate(const FilterFileParams& par){
-		colIndex = 0;
-		data = new hashTable::HashTable <T>(DATA_SIZE);
+	DBTemplate(const FilterFileParams& par, size_t dataSize) : colIndex(0){
+		data = new hashTable::HashTable <T>(dataSize);
 		
 		for (int i = 0; i < par.numFiles; i++)
 			colNames[i] = par.getFileColname(i);

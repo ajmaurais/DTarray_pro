@@ -11,6 +11,7 @@
 
 #include <iostream>
 #include <fstream>
+#include <stdexcept>
 
 namespace hashTable{
 	
@@ -20,7 +21,7 @@ namespace hashTable{
 	/* globally scoped constants */
 	/*****************************/
 	
-	int const DEFAULT_HASH_TABLE_SIZE = 10000;
+	int const DEFAULT_HASH_TABLE_SIZE = 1000;
 	int const A = 54059;
 	int const B = 76963;
 	int const C = 86969;
@@ -30,33 +31,33 @@ namespace hashTable{
 	/* class definitions */
 	/*********************/
 	
-	template <class T> class Node;
-	template <class T> class LinkedList;
-	template <class T> class HashTable;
+	template<class _Tp> class Node;
+	template<class _Tp> class LinkedList;
+	template<class _Tp> class HashTable;
 	
-	template <class T>
+	template<class _Tp>
 	class Node {
-		friend class LinkedList<T>;
+		friend class LinkedList<_Tp>;
 	private:
 		Node* next;
 		
 	public:
-		T val;
+		_Tp val;
 		
 		Node();
 	};
 	
-	template<class T>
+	template<class _Tp>
 	class LinkedList {
 	private:
-		typename Node<T>::Node* head;
+		typename Node<_Tp>::Node* head;
 		int length;
 		
-		void destroyList(typename Node<T>::Node*);
-		void insert(const T&, typename Node<T>::Node*);
-		typename Node<T>::Node* consolidate(const T&, typename Node<T>::Node*);
-		typename Node<T>::Node* getItem(string, typename Node<T>::Node*) const;
-		void write(ofstream&, typename Node<T>::Node*);
+		void destroyList(typename Node<_Tp>::Node*);
+		void insert(const _Tp&, typename Node<_Tp>::Node*);
+		typename Node<_Tp>::Node* consolidate(const _Tp&, typename Node<_Tp>::Node*);
+		typename Node<_Tp>::Node* getItem(string, typename Node<_Tp>::Node*) const;
+		void write(ofstream&, typename Node<_Tp>::Node*);
 		
 	public:
 		//constructor
@@ -64,46 +65,47 @@ namespace hashTable{
 		~LinkedList();
 		
 		//modifer
-		void insert(const T&);
-		typename Node<T>::Node* consolidate(const T&);
+		void insert(const _Tp&);
+		typename Node<_Tp>::Node* consolidate(const _Tp&);
 		//bool removeItem(string);
 		void destroyList();
 		
 		//properties
 		int getLength();
-		typename Node<T>::Node* getItem(string) const;
+		typename Node<_Tp>::Node* getItem(string) const;
 		void write(ofstream&);
 		bool empty();
 	};
 	
-	template <class T>
+	template<class _Tp>
 	class HashTable{
 	private:
-		int size;
+		const size_t size;
 		//hash<string> str_hash;
-		typename LinkedList<T>::LinkedList* array;
+		typename LinkedList<_Tp>::LinkedList* array;
 		
-		void destroyTable(typename LinkedList<T>::LinkedList*);
+		void destroyTable(typename LinkedList<_Tp>::LinkedList*);
 		
 		size_t hash(const char*) const;
 		//size_t hash(string) const;
 		
 	public:
 		//constructor
-		HashTable(int s);
-		HashTable();
+		HashTable(size_t s = DEFAULT_HASH_TABLE_SIZE) : size(s){
+			array = new LinkedList<_Tp> [size];
+		}
 		~HashTable();
 		
 		//modifers
 		//bool remove(string);
 		void destroyTable();
-		void insert(const T&, string);
-		typename Node<T>::Node* consolidate(const T&, string);
+		void insert(const _Tp&, string);
+		typename Node<_Tp>::Node* consolidate(const _Tp&, string);
 		
 		//properties
 		int getLength();
 		void printTable();
-		typename Node<T>::Node* getItem(string) const;
+		typename Node<_Tp>::Node* getItem(string) const;
 		int getNumItems() const;
 		void printHistogram() const;
 		void write(ofstream&);

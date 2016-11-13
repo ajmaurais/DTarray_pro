@@ -31,7 +31,7 @@ DBProtein::DBProtein(string line)
 	else
 	{
 		vector<string>elems;
-		util::split(line, '\t', elems);
+		utils::split(line, '\t', elems);
 		assert(elems.size() == 4);
 		
 		ID = elems[0];
@@ -51,15 +51,14 @@ void DBProtein::operator = (const DBProtein& pget)
 
 bool Dbase::readIn(string fname)
 {
-	ifstream inF (fname.c_str());
-	
-	if(!inF)
+	utils::File file(fname);
+	if(!file.read(fname))
 		return false;
 	
 	string line;
 	
-	while(!inF.eof()){
-		getline(inF, line);
+	while(!file.end()){
+		line = file.getLine_skip_trim();
 		DBProtein newDBProtein(line);
 		if (newDBProtein.ID != "ID") //skip line if it is header line
 			db->insert(newDBProtein, newDBProtein.ID);
@@ -75,5 +74,3 @@ string Dbase::getDat(string key) const
 	else return tempNode->val.dat;
 }
 
-
-//bool readDB(string fname)

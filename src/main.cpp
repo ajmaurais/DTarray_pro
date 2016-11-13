@@ -22,8 +22,7 @@ int main (int argc, char *argv[])
 	string wd = string(argv[1]);
 	string flistName = string(argv[2]);
 	string paramsName = string(argv[3]);
-	assert(util::dirExists(wd));
-	
+	assert(utils::dirExists(wd));
 	
 	//read in names of files to combine and output params
 	FilterFileParams filterFileParams;

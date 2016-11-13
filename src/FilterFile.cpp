@@ -19,22 +19,17 @@ Param::Param(string line)
 //read in files to combine and output paramaters from params file
 bool FilterFileParams::readDTParams(string fname, string path)
 {
-	ifstream inF ((path + fname).c_str());
-	
-	if (!inF)
+	utils::File file(path + fname);
+	if(!file.read(path + fname))
 		return false;
-	
 	string line;
 	
 	do{
-		util::getLineTrim(inF, line);
-		if(util::isCommentLine(line) || line.empty()) //skip line if is comment line
-			continue;
-		
+		line = file.getLine_skip_trim();
 		if(line == "<params>")
 			do{
-				util::getLineTrim(inF, line);
-				if(util::strContains('=', line)) //find lines containing params by = symbol
+				line = file.getLine_skip_trim();
+				if(utils::strContains('=', line)) //find lines containing params by = symbol
 				{
 					Param param (line);
 					if(param.param == "sampleNamePrefix")
@@ -49,7 +44,7 @@ bool FilterFileParams::readDTParams(string fname, string path)
 							cout << param.value << PARAM_ERROR_MESSAGE << "outputFormat" << endl;
 							return false;
 						}
-						outputFormat = util::toInt(param.value);
+						outputFormat = utils::toInt(param.value);
 						includeProteins = (outputFormat == 1 || outputFormat == 2 || outputFormat == 3);
 						continue;
 					}
@@ -61,19 +56,19 @@ bool FilterFileParams::readDTParams(string fname, string path)
 					if(param.param == "includeUnique")
 					{
 						assert(param.value == "0" || param.value == "1");
-						includeUnique = util::toInt(param.value);
+						includeUnique = utils::toInt(param.value);
 						continue;
 					}
 					if(param.param == "getSubCelluarLoc")
 					{
 						assert(param.value == "0" || param.value == "1");
-						getSubCelluarLoc = util::toInt(param.value);
+						getSubCelluarLoc = utils::toInt(param.value);
 						continue;
 					}
 					if(param.param == "calcMW")
 					{
 						assert(param.value == "0" || param.value == "1");
-						calcMW = util::toInt(param.value);
+						calcMW = utils::toInt(param.value);
 						continue;
 					}
 					if(param.param == "mwDBFname")
@@ -119,13 +114,13 @@ bool FilterFileParams::readDTParams(string fname, string path)
 					if(param.param == "getSeq")
 					{
 						assert(param.value == "0" || param.value == "1");
-						getSeq = util::toInt(param.value);
+						getSeq = utils::toInt(param.value);
 						continue;
 					}
 					if(param.param == "includeCoverage")
 					{
 						assert(param.value == "0" || param.value == "1");
-						includeCoverage = util::toInt(param.value);
+						includeCoverage = utils::toInt(param.value);
 						continue;
 					}
 					if(param.param == "includePeptides")
@@ -135,14 +130,14 @@ bool FilterFileParams::readDTParams(string fname, string path)
 							cout << param.value << PARAM_ERROR_MESSAGE << "includePeptides" << endl;
 							return false;
 						}
-						peptideOutput = util::toInt(param.value);
+						peptideOutput = utils::toInt(param.value);
 						includePeptides = (peptideOutput == 1 || peptideOutput == 2 || peptideOutput == 3);
 						continue;
 					}
 					if(param.param == "getFxn")
 					{
 						assert(param.value == "0" || param.value == "1");
-						getFxn = util::toInt(param.value);
+						getFxn = utils::toInt(param.value);
 						continue;
 					}
 					if(param.param == "fxnDBfname")
@@ -150,15 +145,19 @@ bool FilterFileParams::readDTParams(string fname, string path)
 						fxnDBfname = param.value;
 						continue;
 					}
+					if(param.param == "useDefaultSeqDB")
+					{
+						assert(param.value == "0" || param.value == "1");
+						useDefaultSeqDB = utils::toInt(param.value);
+						continue;
+					}
 					else return false;
 				}
-				else if(util::isCommentLine(line) || line.empty())
-					continue;
 				else if(line != "</params>")
 					return false;
 			} while(line != "</params>");
 		
-	} while(!inF.eof() && line != "</paramsFile>");
+	} while(!file.end() && line != "</paramsFile>");
 	
 	if(calcMW && !getSeq)
 		seqDBfname = mwDBFname;
@@ -168,41 +167,34 @@ bool FilterFileParams::readDTParams(string fname, string path)
 
 bool FilterFileParams::readFlist(string fname, string path)
 {
-	ifstream inF ((path + fname).c_str());
-	
-	if (!inF)
+	utils::File data;
+	if(!data.read(path + fname))
 		return false;
 	
 	int i = 0;
 	numFiles = 0;
 	string line;
 	
-	while(!inF.eof())
+	while(!data.end())
 	{
-		getline(inF, line);
-		line = util::trim(line);
-		if(util::isCommentLine(line) || line.empty()) //skip line if is comment line
-			continue;
-		else //else line contains data for filter file
+		line = data.getLine_skip_trim();
+		vector<string>elems;
+		utils::split(line, '\t', elems);
+		if(elems.size() == 2)
 		{
-			vector<string>elems;
-			util::split(line, '\t', elems);
-			if(elems.size() == 2)
-			{
-				FilterFileParam blank;
-				file.push_back(blank);
-				file[i].colname = elems[0];
-				file[i].path = elems[1];
-				numFiles++;
-				i++;
-			}
-			else if (elems.size() != 0)
-				return false;
+			FilterFileParam blank;
+			file.push_back(blank);
+			file[i].colname = elems[0];
+			file[i].path = elems[1];
+			numFiles++;
+			i++;
 		}
+		else if (elems.size() != 0)
+			return false;
 	}
 	
 	if(numFiles > MAX_NUM_FILES)
-		throw runtime_error("\n\nMaxium number of filter files is " + util::toString(MAX_NUM_FILES) + "!\n"
+		throw runtime_error("\n\nMaxium number of filter files is " + utils::toString(MAX_NUM_FILES) + "!\n"
 							"You can change the max number of files this program can read by changeing \n"+
 							"the value of MAX_NUM_FILES in DTarray_AJM.hpp and recompiling the program\n" +
 							"with DTarray --recompile.\n");

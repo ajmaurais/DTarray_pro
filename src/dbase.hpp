@@ -11,6 +11,7 @@
 
 #include "baseClasses.hpp"
 #include "hashTable.hpp"
+#include "utils.hpp"
 
 using namespace std;
 

@@ -9,7 +9,7 @@
 #ifndef FilterFile_hpp
 #define FilterFile_hpp
 
-#include <fstream>
+#include "utils.hpp"
 #include <cassert>
 
 using namespace std;
@@ -38,7 +38,7 @@ public:
 		count = "0";
 		uniquePeptides = "0";
 	}
-	~FilterFileData() {}
+	//~FilterFileData() {}
 };
 
 class FilterFileData_peptide : public FilterFileData {
@@ -56,7 +56,7 @@ public:
 		scan = BLANK_VAL;
 		obsMH = BLANK_VAL;
 	}
-	~FilterFileData_peptide() {}
+	//~FilterFileData_peptide() {}
 };
 
 class FilterFileData_protein : public FilterFileData {
@@ -69,7 +69,7 @@ public:
 	FilterFileData_protein() : FilterFileData(){
 		coverage = "0";
 	}
-	~FilterFileData_protein() {}
+	//~FilterFileData_protein() {}
 };
 
 struct FilterFileParam{
@@ -108,6 +108,7 @@ public:
 	static int peptideOutput;
 	bool getFxn;
 	string fxnDBfname;
+	bool useDefaultSeqDB;
 	
 	FilterFileParams ()
 	{
@@ -131,6 +132,7 @@ public:
 		includeProteins = false;
 		getFxn = false;
 		fxnDBfname = "";
+		useDefaultSeqDB=false;
 	}
 	
 	//modifiers
