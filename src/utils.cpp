@@ -284,24 +284,30 @@ namespace utils{
 		return str;
 	}
 	
-	template<class T>
-	typename vector<T>::iterator insertSorted(vector<T> * const vec, T const& item)
+	template<class _Tp>
+	typename vector<_Tp>::iterator insertSorted(const vector<_Tp>& vec, const _Tp& item)
 	{
-		return vec->insert(upper_bound(vec->begin(), vec->end(), item), item);
+		return vec.insert(upper_bound(vec.begin(), vec.end(), item), item);
 	}
 	
-	template <class T>
-	long binSearch(const vector<T>* const vec, const T& findItem, long begin, long end)
+	/**
+	 Template binary search. 
+	 Pre: vec must be sorted, _Tp must have == , < , and > operator members.
+	 Post: returns iterator to positon at which findItem is found. If findItem is 
+	 not found, returns vec.end().
+	 */
+	template <class _Tp>
+	typename vector<_Tp>::iterator binSearch(const vector<_Tp>& vec, const _Tp& findItem, long begin, long end)
 	{
 		if (begin > end)
-			return -1;
+			return vec.end();
 		
 		long mid = (begin + end)/2;
 		
-		if (vec->at(mid) == findItem)
-			return mid;
+		if (vec[mid] == findItem)
+			return vector<_Tp>::iterator (vec.begin() + mid);
 		
-		if (vec->at(mid) < findItem)
+		if (vec[mid] < findItem)
 			return binSearch(vec, findItem, mid + 1, end);
 		else
 			return binSearch(vec, findItem, begin, mid - 1);

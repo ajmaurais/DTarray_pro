@@ -19,7 +19,7 @@ using namespace std;
 
 class ProteinTemplate;
 template <class _Tp> class ProteinDataTemplate;
-template <class T> class DBTemplate;
+template <class _Tp> class DBTemplate;
 
 class ProteinTemplate{
 protected:
@@ -73,21 +73,21 @@ template <class _Tp> size_t* ProteinDataTemplate<_Tp>::colIndex = nullptr;
 template <class _Tp> size_t ProteinDataTemplate<_Tp>::colSize = 0;
 template <class _Tp> FilterFileParams* ProteinDataTemplate<_Tp>::par = nullptr;
 
-template<class T>
+template<class _Tp>
 class DBTemplate{
 protected:
 	size_t colIndex;
-	hashTable::HashTable <T>* data;
+	hashTable::HashTable <_Tp>* data;
 	
 public:
 	string colNames[MAX_NUM_FILES];
 	
 	//constructor
 	DBTemplate() : colIndex(0) {
-		data = new hashTable::HashTable <T>(DATA_SIZE);
+		data = new hashTable::HashTable <_Tp>(DATA_SIZE);
 	}
 	DBTemplate(const FilterFileParams& par, size_t dataSize) : colIndex(0){
-		data = new hashTable::HashTable <T>(dataSize);
+		data = new hashTable::HashTable <_Tp>(dataSize);
 		
 		for (int i = 0; i < par.numFiles; i++)
 			colNames[i] = par.getFileColname(i);

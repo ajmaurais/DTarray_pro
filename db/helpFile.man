@@ -44,7 +44,7 @@ Command line options are processed from left to right. Options can be specified 
 Display this help file.
 .TP
 \fB-of, --ofname \fI<file_name>\fR
-Specify output file name. By default, the output file name is \fIDTarray.txt\fR.
+Specify output file name. By default, the output file name is \fIDTarray_pro.txt\fR.
 .TP
 \fB-i, --in\fI <mode>\fP
 Specify which input mode is used. \fBstandard\fR is the default.\fP

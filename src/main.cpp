@@ -6,7 +6,7 @@
 //  Copyright © 2016 Aaron Maurais. All rights reserved.
 //
 
-#include "DTarray_AJM.hpp"
+#include "dtafilter.hpp"
 #include "FilterFile.cpp"
 #include "dtafilter.cpp"
 #include "utils.cpp"

@@ -117,23 +117,28 @@ while ! [[ -z "$1" ]] ; do
 		"-loc")
 			getSubCelluarLoc="1";;
 		"-mw")
-			shift
-			if [[ $1 == -* ]] || [[ -z "$1" ]] ; then
+			if [[ $2 == -* ]] || [[ -z "$2" ]] ; then
 				mwDBFname=$seqDBfname
 				calcMWStr="1"
 				calcMW=true
 				useDefaultSeqDB="0"
 			else
+				shift
 				mwDBFname="$1"
 				calcMWStr="1"
 				calcMW=true
 				useDefaultSeqDB="1"
 			fi;;
 		"-seq")
-			shift
-			isArg "$1"
-			seqDBFnameTr="$1"
-			getSeq="1" ;;
+				if [[ $2 == -* ]] || [[ -z "$2" ]] ; then
+					seqDBFnameTr=$seqDBfname
+					getSeq="1"
+				else
+					shift
+					isArg "$1"
+					seqDBFnameTr="$1"
+					getSeq="1"
+				fi;;
 		"-f" | "--peptides")
 			shift
 			isArg "$1"

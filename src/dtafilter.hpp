@@ -6,8 +6,8 @@
 //  Copyright © 2016 Aaron Maurais. All rights reserved.
 //
 
-#ifndef DTarray_AJM_hpp
-#define DTarray_AJM_hpp
+#ifndef dtafilter_hpp
+#define dtafilter_hpp
 
 //deal with older c++ compilers
 #if (__cplusplus == 199711L || __cplusplus == 1)
@@ -23,13 +23,13 @@
 #include <cassert>
 #include <string>
 #include <algorithm>
+#include <stdexcept>
 #include "baseClasses.hpp"
 #include "dbase.hpp"
 #include "utils.hpp"
 #include "FilterFile.hpp"
 #include "hashTable.cpp"
 #include "calcMW.hpp"
-#include <stdexcept>
 
 using namespace std;
 
@@ -37,7 +37,6 @@ using namespace std;
 /* globally scoped constants */
 /*****************************/
 
-/* dtafilter.cpp */
 bool const INCLUDE_FULL_DESCRIPTION = true;
 string const DEFAULT_COL_NAMES [] = {"Full_description", "ID", "Protein", "Description", "Mass(Da)", "subcellular_location"};
 size_t const DEFAULT_COL_NAMES_LENGTH = 5;
@@ -62,7 +61,8 @@ string const MWCALC_HEADERS [] = {"avg_mass", "monoisotopic_mass", "sequence"};
 size_t const MWCALC_HEADERS_LENGTH = 2;
 string const DEFALUT_PEPTIDE_COLNAMES [] = {"protein_ID", "parent_protein", "protein_description", "sequence", "charge", "unique", "calcMH"};
 size_t const DEFALUT_PEPTIDE_COLNAMES_LEN = 7;
-string const DEFALUT_PEPTIDE_DB_COLNAMES [] = {"protein_ID", "parent_protein", "protein_description", "sequence", "charge", "unique", "calcMH", "obsMH", "scan", "parent_file", "Long_sample_name", "Spectral_counts", "Sample", "Replicate"};
+string const DEFALUT_PEPTIDE_DB_COLNAMES [] = {"protein_ID", "parent_protein", "protein_description", "sequence", "charge", "unique",
+	"calcMH", "obsMH", "scan", "parent_file", "Long_sample_name", "Spectral_counts", "Sample", "Replicate"};
 size_t const DEFALUT_PEPTIDE_DB_COLNAMES_LEN = 12;
 
 /**********************/
@@ -72,8 +72,6 @@ size_t const DEFALUT_PEPTIDE_DB_COLNAMES_LEN = 12;
 class Protein;
 class Proteins;
 class Peptide;
-
-/* #################### subcelluarLoc.cpp #################### */
 
 class Peptide : public ProteinDataTemplate<FilterFileData_peptide> {
 	friend class Proteins;
@@ -156,7 +154,8 @@ private:
 	inline void clear();
 	
 public:
-	Protein(FilterFileParams* const pars, Dbase* const _locDB, Dbase* const _fxnDB, mwDB::MWDB_Protein* const _mwdb, mwDB::SeqDB* const _seqDB) : ProteinDataTemplate<FilterFileData_protein>(pars) {
+	Protein(FilterFileParams* const pars, Dbase* const _locDB, Dbase* const _fxnDB, mwDB::MWDB_Protein* const _mwdb, mwDB::SeqDB* const _seqDB)
+		: ProteinDataTemplate<FilterFileData_protein>(pars) {
 		locDB = _locDB;
 		mwdb = _mwdb;
 		seqDB = _seqDB;
@@ -229,7 +228,6 @@ public:
 /* functions */
 /*************/
 
-/* dtafilter.cpp */
 bool isColumnHeaderLine(const vector<string>&);
 string parseSample(string, string, bool);
 int parsePeptideSC(string);
@@ -237,5 +235,5 @@ string parseReplicate(string);
 string getID(string);
 inline string parseSequence(string);
 
-#endif /* DTarray_AJM_hpp */
+#endif /* dtafilter_hpp */
 

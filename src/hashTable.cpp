@@ -11,23 +11,13 @@
 namespace hashTable{
 	
 	/**********************/
-	/*        Node        */
-	/*********************/
-	
-	template <class _Tp>
-	Node<_Tp>::Node()
-	{
-		next = nullptr;
-	}
-	
-	/**********************/
 	/*     LinkedList     */
 	/*********************/
 	
 	template<class _Tp>
 	LinkedList<_Tp>::LinkedList()
 	{
-		head = nullptr;
+		front = nullptr;
 		length = 0;
 	}
 	
@@ -40,7 +30,7 @@ namespace hashTable{
 	template<class _Tp>
 	void LinkedList<_Tp>::destroyList()
 	{
-		destroyList(head);
+		destroyList(front);
 	}
 	
 	template<class _Tp>
@@ -54,24 +44,42 @@ namespace hashTable{
 	}
 	
 	template<class _Tp>
-	void LinkedList<_Tp>::insert(const _Tp& newItem)
+	void LinkedList<_Tp>::pop_back(const _Tp& newItem)
 	{
-		if(head != nullptr)
-			insert(newItem, head);
+		/*if(front == nullptr)
+		{
+			front = new Node<_Tp>;
+			front->val = newItem;
+			back = front;
+			back->prev = front;
+			front->next = back;
+			front->prev = nullptr;
+		}
+		else{
+			typename Node<_Tp>::Node* temp = new Node<_Tp>;
+			temp->val = newItem;
+			temp->prev = back;
+			temp->next = nullptr;
+			back = temp;
+			back->prev->next = back;
+		}*/
+		
+		if(front != nullptr)
+			pop_back(newItem, front);
 		else
 		{
-			head = new Node<_Tp>;
-			head->val = newItem;
-			head->next = nullptr;
+			front = new Node<_Tp>;
+			front->val = newItem;
+			front->next = nullptr;
 			length++;
 		}
 	}
 	
 	template<class _Tp>
-	void LinkedList<_Tp>::insert(const _Tp& newItem, typename Node<_Tp>::Node* leaf)
+	void LinkedList<_Tp>::pop_back(const _Tp& newItem, typename Node<_Tp>::Node* leaf)
 	{
 		if(leaf->next != nullptr)
-			insert(newItem, leaf->next);
+			pop_back(newItem, leaf->next);
 		else
 		{
 			leaf->next = new Node<_Tp>;
@@ -84,15 +92,15 @@ namespace hashTable{
 	template<class _Tp>
 	typename Node<_Tp>::Node* LinkedList<_Tp>::consolidate(const _Tp& newItem)
 	{
-		if(head != nullptr)
-			return consolidate(newItem, head);
+		if(front != nullptr)
+			return consolidate(newItem, front);
 		else
 		{
-			head = new Node<_Tp>;
-			head->val = newItem;
-			head->next = nullptr;
+			front = new Node<_Tp>;
+			front->val = newItem;
+			front->next = nullptr;
 			length++;
-			return head;
+			return front;
 		}
 	}
 	
@@ -120,10 +128,10 @@ namespace hashTable{
 
 	/*bool LinkedList::removeItem(string key)
 	 {
-	 if (head->next == nullptr)
+	 if (front->next == nullptr)
 		return false;
-	 Item * p = head;
-	 Item * q = head;
+	 Item * p = front;
+	 Item * q = front;
 	 while (q != nullptr)
 	 {
 		if (q->val == key)
@@ -154,7 +162,7 @@ namespace hashTable{
 	template<class _Tp>
 	typename Node<_Tp>::Node* LinkedList<_Tp>::getItem(string key) const
 	{
-		return getItem(key, head);
+		return getItem(key, front);
 	}
 	
 	template<class _Tp>
@@ -166,7 +174,7 @@ namespace hashTable{
 	template<class _Tp>
 	bool LinkedList<_Tp>::empty()
 	{
-		return head == nullptr;
+		return front == nullptr;
 	}
 	
 	template<class _Tp>
@@ -175,10 +183,10 @@ namespace hashTable{
 		if(!outF)
 			throw runtime_error("Error writing file. Bad ofstream!");
 		
-		if(head == nullptr)
+		if(front == nullptr)
 			return;
 		
-		write(outF, head);
+		write(outF, front);
 	}
 	
 	template<class _Tp>
@@ -231,7 +239,7 @@ namespace hashTable{
 	void HashTable<_Tp>::insert(const _Tp& newItem, string key)
 	{
 		size_t index = hash(key.c_str());
-		array[index].insert(newItem);
+		array[index].pop_back(newItem);
 	}
 	
 	template<class _Tp>

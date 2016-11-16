@@ -22,7 +22,7 @@ namespace utils {
 	using namespace std;
 	
 	/******************************/
-	/* globally scoped constants */
+	/* namespace scoped constants */
 	/*****************************/
 	
 	string const WHITESPACE = " \f\n\r\t\v";
@@ -102,8 +102,8 @@ namespace utils {
 	inline void getLine(istream& is, string& line, char delim = DEFAULT_LINE_DELIM, size_t beginLine = DEFAULT_BEGIN_LINE);
 	string removeSubstr(string, string);
 	string toLower(string);
-	template<class T> long binSearch(const vector<T>* const, const T&, long, long);
-	template<class T> typename vector<T>::iterator insertSorted(vector<T>* const, const T&);
+	template<class _Tp> long binSearch(const vector<_Tp>* const, const _Tp&, long, long);
+	template<class _Tp> typename vector<_Tp>::iterator insertSorted(vector<_Tp>* const, const _Tp&);
 }
 
 #endif /* utils_hpp */

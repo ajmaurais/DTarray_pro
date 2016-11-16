@@ -1,5 +1,5 @@
 
-#include "DTarray_AJM.hpp"
+#include "dtafilter.hpp"
 
 void Protein::consolidate(const Protein& toAdd)
 {
@@ -302,11 +302,6 @@ inline void Peptide::clear()
 bool Proteins::readIn(string wd, FilterFileParams& filterFileParams, Peptides * const peptides)
 {
 	size_t colNamesLen = filterFileParams.numFiles;
-	//FilterFileData_protein* colNamesTemp = (FilterFileData_protein*) calloc(colNamesLen, sizeof(FilterFileData_protein));
-	//FilterFileData_peptide* pColNamesTemp = (FilterFileData_peptide*) calloc(colNamesLen, sizeof(FilterFileData_peptide));
-	
-	//FilterFileData_protein colNamesTemp [MAX_NUM_FILES];
-	//FilterFileData_peptide pColNamesTemp [MAX_NUM_FILES];
 	
 	vector<FilterFileData_protein> colNamesTemp;
 	vector<FilterFileData_peptide> pColNamesTemp;
@@ -314,10 +309,8 @@ bool Proteins::readIn(string wd, FilterFileParams& filterFileParams, Peptides * 
 	for(int i = 0; i < colNamesLen; i++)
 	{
 		FilterFileData_protein temp (colNames[i]);
-		//*(colNamesTemp + i) = temp;
 		colNamesTemp.push_back(temp);
 		FilterFileData_peptide pTemp (colNames[i]);
-		//*(pColNamesTemp + i) = pTemp;
 		pColNamesTemp.push_back(pTemp);
 	}
 	

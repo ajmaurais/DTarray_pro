@@ -12,14 +12,15 @@
 #include <iostream>
 #include <fstream>
 #include <stdexcept>
+#include <list>
 
 namespace hashTable{
 	
 	using namespace std;
 	
 	/******************************/
-	/* globally scoped constants */
-	/*****************************/
+	/* namespace scoped constants */
+	/******************************/
 	
 	int const DEFAULT_HASH_TABLE_SIZE = 1000;
 	int const A = 54059;
@@ -40,21 +41,27 @@ namespace hashTable{
 		friend class LinkedList<_Tp>;
 	private:
 		Node* next;
+		Node* prev;
 		
 	public:
 		_Tp val;
 		
-		Node();
+		Node(){
+			next = nullptr;
+			prev = nullptr;
+		}
 	};
 	
 	template<class _Tp>
 	class LinkedList {
 	private:
-		typename Node<_Tp>::Node* head;
+		typename Node<_Tp>::Node* front;
+		//typename Node<_Tp>::Node* back;
 		int length;
 		
 		void destroyList(typename Node<_Tp>::Node*);
-		void insert(const _Tp&, typename Node<_Tp>::Node*);
+		void pop_back(const _Tp&, typename Node<_Tp>::Node*);
+		//void pop_front(const _Tp&, typename Node<_Tp>::Node*);
 		typename Node<_Tp>::Node* consolidate(const _Tp&, typename Node<_Tp>::Node*);
 		typename Node<_Tp>::Node* getItem(string, typename Node<_Tp>::Node*) const;
 		void write(ofstream&, typename Node<_Tp>::Node*);
@@ -64,8 +71,17 @@ namespace hashTable{
 		LinkedList();
 		~LinkedList();
 		
+		/*class iterator{
+		private:
+			typename Node<_Tp>::Node* it;
+		public:
+			void operator ++ ();
+			
+		};*/
+		
 		//modifer
-		void insert(const _Tp&);
+		void pop_back(const _Tp&);
+		void pop_front(const _Tp&);
 		typename Node<_Tp>::Node* consolidate(const _Tp&);
 		//bool removeItem(string);
 		void destroyList();
