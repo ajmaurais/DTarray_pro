@@ -176,11 +176,11 @@ bool Proteins::readIn(string wd, FilterFileParams* const pars, const FilterFileP
 		return false;
 	
 	int numUniquePeptides = 0;
-	hashTable::Node<Protein>* uniquePeptidesIndex = nullptr;
+	Protein* uniquePeptidesIndex = nullptr;
 	bool inProtein = false;
 	bool getNewLine = true;
 	string line;
-	hashTable::Node<Peptide>* peptidesIndex = nullptr;
+	Peptide* peptidesIndex = nullptr;
 	int end = 0;
 	size_t colNamesLen = pars->numFiles;
 	
@@ -231,7 +231,7 @@ bool Proteins::readIn(string wd, FilterFileParams* const pars, const FilterFileP
 							numUniquePeptides += parsePeptideSC(line);
 					}
 				}
-				uniquePeptidesIndex->val.col[colIndex].uniquePeptides = utils::toString(numUniquePeptides);
+				uniquePeptidesIndex->col[colIndex].uniquePeptides = utils::toString(numUniquePeptides);
 				numUniquePeptides = 0;
 				getNewLine = false;
 				inProtein = false;

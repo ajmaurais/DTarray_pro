@@ -212,10 +212,10 @@ namespace mwDB{
 	
 	string SeqDB::getSequence(string id) const
 	{
-		hashTable::Node<Peptide>* temp = seqLibrary->getItem(id);
+		Peptide* const temp = seqLibrary->getItem(id);
 		if(temp == nullptr)
 			return SEQ_NOT_FOUND;
-		else return temp->val.getSequence();
+		else return temp->getSequence();
 	}
 	
 	bool SeqDB::readIn(string fname)

@@ -173,7 +173,7 @@ namespace utils{
 	}
 	
 	//split str by delim and populate each split into elems
-	void split (const string str, char delim, vector<string> & elems)
+	inline void split (const string str, char delim, vector<string> & elems)
 	{
 		elems.clear();
 		stringstream ss (str);

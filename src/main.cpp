@@ -132,7 +132,7 @@ int main (int argc, char *argv[])
 				return 0;
 			}
 		}
-		cout << endl << "peptide data written in long format to: " << filterFileParams.peptideOfFname << endl;
+		cout << endl << "peptide data written in wide format to: " << filterFileParams.peptideOfFname << endl;
 		
 		if(filterFileParams.peptideOutput == 2 || filterFileParams.peptideOutput == 3)
 		{

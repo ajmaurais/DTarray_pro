@@ -68,9 +68,9 @@ bool Dbase::readIn(string fname)
 
 string Dbase::getDat(string key) const
 {
-	hashTable::Node<DBProtein>* const tempNode = db->getItem(key);
+	DBProtein* const tempNode = db->getItem(key);
 	if(tempNode == nullptr)
 		return DAT_NOT_FOUND;
-	else return tempNode->val.dat;
+	else return tempNode->dat;
 }
 

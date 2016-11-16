@@ -92,7 +92,7 @@ namespace utils {
 	int toInt(string);
 	inline bool strContains(string, string);
 	inline bool strContains(char, string);
-	void split (const string, char, vector<string> &);
+	inline void split (const string, char, vector<string> &);
 	inline string trimTraling(const string&);
 	inline string trimLeading(const string&);
 	inline string trim(const string&);

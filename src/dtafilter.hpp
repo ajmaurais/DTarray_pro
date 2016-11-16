@@ -89,10 +89,10 @@ public:
 	inline void operator = (const Peptide&);
 	
 	//properities
-	bool operator == (const Peptide& comp) const {
+	inline bool operator == (const Peptide& comp) const {
 		return comp.key == key;
 	}
-	string makeKey() const {
+	inline string makeKey() const {
 		return proteinID + "_" + sequence + "_" + charge;
 	}
 	inline bool operator > (const Peptide& comp) const{

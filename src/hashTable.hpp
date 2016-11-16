@@ -32,96 +32,68 @@ namespace hashTable{
 	/* class definitions */
 	/*********************/
 	
-	template<class _Tp> class Node;
 	template<class _Tp> class LinkedList;
 	template<class _Tp> class HashTable;
 	
 	template<class _Tp>
-	class Node {
-		friend class LinkedList<_Tp>;
-	private:
-		Node* next;
-		Node* prev;
-		
-	public:
-		_Tp val;
-		
-		Node(){
-			next = nullptr;
-			prev = nullptr;
-		}
-	};
-	
-	template<class _Tp>
 	class LinkedList {
 	private:
-		typename Node<_Tp>::Node* front;
-		//typename Node<_Tp>::Node* back;
-		int length;
-		
-		void destroyList(typename Node<_Tp>::Node*);
-		void pop_back(const _Tp&, typename Node<_Tp>::Node*);
-		//void pop_front(const _Tp&, typename Node<_Tp>::Node*);
-		typename Node<_Tp>::Node* consolidate(const _Tp&, typename Node<_Tp>::Node*);
-		typename Node<_Tp>::Node* getItem(string, typename Node<_Tp>::Node*) const;
-		void write(ofstream&, typename Node<_Tp>::Node*);
-		
+		list<_Tp> dat;
+	
 	public:
 		//constructor
-		LinkedList();
-		~LinkedList();
-		
-		/*class iterator{
-		private:
-			typename Node<_Tp>::Node* it;
-		public:
-			void operator ++ ();
-			
-		};*/
+		LinkedList() {}
+		~LinkedList() {}
 		
 		//modifer
-		void pop_back(const _Tp&);
-		void pop_front(const _Tp&);
-		typename Node<_Tp>::Node* consolidate(const _Tp&);
-		//bool removeItem(string);
-		void destroyList();
+		inline void push_back(const _Tp& newItem){
+			dat.push_back(newItem);
+		}
+		inline void push_front(const _Tp& newItem){
+			dat.push_front(newItem);
+		}
+		_Tp* consolidate(const _Tp&);
 		
 		//properties
-		int getLength();
-		typename Node<_Tp>::Node* getItem(string) const;
+		_Tp* getItem(string);
 		void write(ofstream&);
-		bool empty();
+		
+		inline size_t getLength() const{
+			return dat.size();
+		}
+		inline bool empty() const{
+			return dat.empty();
+		}
 	};
 	
 	template<class _Tp>
 	class HashTable{
 	private:
 		const size_t size;
-		//hash<string> str_hash;
 		typename LinkedList<_Tp>::LinkedList* array;
 		
-		void destroyTable(typename LinkedList<_Tp>::LinkedList*);
+		void destroyTable(){
+			delete [] array;
+		}
 		
-		size_t hash(const char*) const;
-		//size_t hash(string) const;
+		inline size_t hash(const char*) const;
 		
 	public:
 		//constructor
 		HashTable(size_t s = DEFAULT_HASH_TABLE_SIZE) : size(s){
 			array = new LinkedList<_Tp> [size];
 		}
-		~HashTable();
+		~HashTable(){
+			destroyTable();
+		}
 		
 		//modifers
-		//bool remove(string);
-		void destroyTable();
 		void insert(const _Tp&, string);
-		typename Node<_Tp>::Node* consolidate(const _Tp&, string);
+		_Tp* consolidate(const _Tp&, string);
 		
 		//properties
 		int getLength();
-		void printTable();
-		typename Node<_Tp>::Node* getItem(string) const;
+		_Tp* getItem(string) const;
 		int getNumItems() const;
 		void printHistogram() const;
 		void write(ofstream&);
