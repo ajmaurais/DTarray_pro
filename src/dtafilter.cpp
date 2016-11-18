@@ -776,7 +776,7 @@ bool Peptides::writeOut(string ofname, const FilterFileParams& pars)
 				break;
 			}
 	}
-	headers.insert(headers.end(), colNames, colNames + (pars.numFiles));
+	headers.insert(headers.end(), colNames.begin(), colNames.end());
 	
 	//print headers
 	for(it = headers.begin(); it != headers.end(); it++)

@@ -12,7 +12,6 @@
 #include "FilterFile.hpp"
 #include "hashTable.hpp"
 
-size_t const MAX_NUM_FILES = 50;
 size_t const DATA_SIZE = 500;
 
 using namespace std;
@@ -80,7 +79,7 @@ protected:
 	hashTable::HashTable <_Tp>* data;
 	
 public:
-	string colNames[MAX_NUM_FILES];
+	vector<string> colNames;
 	
 	//constructor
 	DBTemplate() : colIndex(0) {
@@ -90,7 +89,7 @@ public:
 		data = new hashTable::HashTable <_Tp>(dataSize);
 		
 		for (int i = 0; i < par.numFiles; i++)
-			colNames[i] = par.getFileColname(i);
+			colNames.push_back(par.getFileColname(i));
 	}
 	~DBTemplate(){
 		delete data;

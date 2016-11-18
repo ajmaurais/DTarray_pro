@@ -8,14 +8,6 @@
 
 #include "FilterFile.hpp"
 
-Param::Param(string line)
-{
-	size_t posStart = line.find("=");
-	
-	param = line.substr(0, posStart);
-	value = line.substr(posStart + 1);
-}
-
 //read in files to combine and output paramaters from params file
 bool FilterFileParams::readDTParams(string fname, string path)
 {
@@ -192,12 +184,6 @@ bool FilterFileParams::readFlist(string fname, string path)
 		else if (elems.size() != 0)
 			return false;
 	}
-	
-	if(numFiles > MAX_NUM_FILES)
-		throw runtime_error("\n\nMaxium number of filter files is " + utils::toString(MAX_NUM_FILES) + "!\n"
-							"You can change the max number of files this program can read by changeing \n"+
-							"the value of MAX_NUM_FILES in DTarray_AJM.hpp and recompiling the program\n" +
-							"with DTarray --recompile.\n");
 	
 	return true;
 }

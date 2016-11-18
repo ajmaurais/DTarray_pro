@@ -1,6 +1,6 @@
 
 #editable paramaters
-scriptWDHome="$HOME/scripts/DTarray_AJM"
+scriptWDHome="$HOME/scripts/DTarray_pro"
 scriptWDbin="$scriptWDHome/bin"
 scriptWDsrc="$scriptWDHome/src"
 scriptWDdb="$scriptWDHome/db"

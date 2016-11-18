@@ -9,8 +9,10 @@
 #ifndef FilterFile_hpp
 #define FilterFile_hpp
 
-#include "utils.hpp"
 #include <cassert>
+#include <vector>
+#include <stdexcept>
+#include "utils.hpp"
 
 using namespace std;
 
@@ -82,7 +84,12 @@ struct Param {
 	string value;
 	
 	//constructor
-	Param (string);
+	Param (string line){
+		size_t posStart = line.find("=");
+		
+		param = line.substr(0, posStart);
+		value = line.substr(posStart + 1);
+	}
 };
 
 //stores names and locations for DTA filter files and output paramaters found in
@@ -133,6 +140,7 @@ public:
 		getFxn = false;
 		fxnDBfname = "";
 		useDefaultSeqDB=false;
+		
 	}
 	
 	//modifiers
