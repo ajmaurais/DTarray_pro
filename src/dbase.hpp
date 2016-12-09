@@ -10,8 +10,8 @@
 #define dbase_hpp
 
 #include "baseClasses.hpp"
-#include "hashTable.hpp"
-#include "utils.hpp"
+#include "../lib/hashTable.hpp"
+#include "../lib/utils.hpp"
 
 using namespace std;
 

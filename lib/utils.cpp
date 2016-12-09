@@ -1,5 +1,5 @@
 
-#include "utils.hpp"
+#include "../lib/utils.hpp"
 
 namespace utils{
 	
@@ -134,7 +134,7 @@ namespace utils{
 	}
 	
 	//converts int to string because to_string does not work with some c++ compilers
-	string toString(int num)
+	inline string toString(int num)
 	{
 		string str;
 		stringstream convert;
@@ -147,7 +147,7 @@ namespace utils{
 	
 	//converts string to int because atoi does not work with some c++ compilers
 	//Precondition: str must be a string with a valid interger conversion
-	int toInt(string str)
+	inline int toInt(string str)
 	{
 		assert(isInteger(str));
 		
@@ -268,7 +268,7 @@ namespace utils{
 	}
 	
 	//removes findStr from whithinStr and returns whithinStr
-	string removeSubstr(string findStr, string whithinStr)
+	inline string removeSubstr(string findStr, string whithinStr)
 	{
 		string::size_type i = whithinStr.find(findStr);
 		
@@ -282,6 +282,15 @@ namespace utils{
 	{
 		transform(str.begin(), str.end(), str.begin(), ::tolower);
 		return str;
+	}
+	
+	string repeat(string str, size_t numTimes)
+	{
+		string ret = "";
+		assert(!str.empty());
+		for(int i = 0; i < numTimes; i++)
+			ret += str;
+		return ret;
 	}
 	
 	template<class _Tp>

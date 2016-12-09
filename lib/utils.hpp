@@ -88,8 +88,8 @@ namespace utils {
 	inline newline_type detectLineEnding(ifstream&);
 	bool dirExists (string);
 	bool fileExists (string);
-	string toString(int);
-	int toInt(string);
+	inline string toString(int);
+	inline int toInt(string);
 	inline bool strContains(string, string);
 	inline bool strContains(char, string);
 	inline void split (const string, char, vector<string> &);
@@ -100,10 +100,11 @@ namespace utils {
 	bool isInteger(string);
 	inline void getLineTrim(istream& is, string& line, char delim = DEFAULT_LINE_DELIM, size_t beginLine = DEFAULT_BEGIN_LINE);
 	inline void getLine(istream& is, string& line, char delim = DEFAULT_LINE_DELIM, size_t beginLine = DEFAULT_BEGIN_LINE);
-	string removeSubstr(string, string);
+	inline string removeSubstr(string, string);
 	string toLower(string);
 	template<class _Tp> long binSearch(const vector<_Tp>* const, const _Tp&, long, long);
 	template<class _Tp> typename vector<_Tp>::iterator insertSorted(vector<_Tp>* const, const _Tp&);
+	string repeat(string, size_t);
 }
 
 #endif /* utils_hpp */

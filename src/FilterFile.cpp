@@ -37,7 +37,7 @@ bool FilterFileParams::readDTParams(string fname, string path)
 							return false;
 						}
 						outputFormat = utils::toInt(param.value);
-						includeProteins = (outputFormat == 1 || outputFormat == 2 || outputFormat == 3);
+						includeProteins = (outputFormat != 0);
 						continue;
 					}
 					if(param.param == "locDBfname")
@@ -123,7 +123,7 @@ bool FilterFileParams::readDTParams(string fname, string path)
 							return false;
 						}
 						peptideOutput = utils::toInt(param.value);
-						includePeptides = (peptideOutput == 1 || peptideOutput == 2 || peptideOutput == 3);
+						includePeptides = (peptideOutput != 0);
 						continue;
 					}
 					if(param.param == "getFxn")
@@ -141,6 +141,22 @@ bool FilterFileParams::readDTParams(string fname, string path)
 					{
 						assert(param.value == "0" || param.value == "1");
 						useDefaultSeqDB = utils::toInt(param.value);
+						continue;
+					}
+					if(param.param == "includeNullPeptides")
+					{
+						assert(param.value == "0" || param.value == "1");
+						includeNullPeptides = utils::toInt(param.value);
+						continue;
+					}
+					if(param.param == "supInfoOutput")
+					{
+						if(!(param.value == "0" || param.value == "1"))
+						{
+							cout << param.value << PARAM_ERROR_MESSAGE << "supInfoOutput" << endl;
+							return false;
+						}
+						supInfoOutput = utils::toInt(param.value);
 						continue;
 					}
 					else return false;

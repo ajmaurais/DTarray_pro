@@ -26,9 +26,9 @@
 #include <stdexcept>
 #include "baseClasses.hpp"
 #include "dbase.hpp"
-#include "utils.hpp"
+#include "../lib/utils.hpp"
 #include "FilterFile.hpp"
-#include "hashTable.cpp"
+#include "../lib/hashTable.cpp"
 #include "calcMW.hpp"
 
 using namespace std;
@@ -38,8 +38,8 @@ using namespace std;
 /*****************************/
 
 bool const INCLUDE_FULL_DESCRIPTION = true;
-string const DEFAULT_COL_NAMES [] = {"Full_description", "ID", "Protein", "Description", "Mass(Da)", "subcellular_location"};
-size_t const DEFAULT_COL_NAMES_LENGTH = 5;
+string const DEFAULT_COL_NAMES [] = {"Full_description", "ID", "Protein", "Description", "pI", "Mass(Da)"};
+size_t const DEFAULT_COL_NAMES_LENGTH = 6;
 string const COLUMN_HEADER_LINE_ELEMENTS[] = {"Unique", "FileName", "XCorr", "DeltCN", "Conf%", "M+H+",
 	"CalcM+H+", "TotalIntensity", "SpR", "ZScore", "IonProportion", "Redundancy", "Sequence"};
 size_t const COLUMN_HEADER_LINE_ELEMENTS_LENGTH = 13;
@@ -50,12 +50,10 @@ size_t const PROTEINS_DATA_SIZE = 500;
 size_t const PEPTIDES_DATA_SIZE = 2500;
 
 //editable params for DB output format
-string const DEFAULT_COL_NAMES_DB [] = {"Full_description", "ID", "Protein", "Description", "Mass(Da)", "Long_sample_name",
-	"Spectral_counts", "Sample", "Replicate"};
-size_t const DEFAULT_COL_NAMES_DB_LENGTH = 9;
-string const DEFAULT_COL_NAMES_DB_LOC [] = {"Protein","ID", "Protein", "Description", "Mass(Da)", "subcellular_location", "Long_sample_name",
-	"Spectral_counts", "Sample", "Replicate"};
-size_t const DEFAULT_COL_NAMES_DB_LOC_LENGTH = 10;
+string const DEFAULT_COL_NAMES_DB [] = {"Full_description", "ID", "Protein", "Description", "pI", "Mass(Da)", "Long_sample_name", "Spectral_counts"};
+size_t const DEFAULT_COL_NAMES_DB_LENGTH = 8;
+string const PARSE_SAMPLE_NAME_HEADERS [] = {"Sample", "Replicate"};
+size_t const PARSE_SAMPLE_NAME_HEADERS_LEN = 2;
 string const SUP_INFO_HEADERS[] = {"SC", "Unique_pep_SC", "coverage"};
 string const MWCALC_HEADERS [] = {"avg_mass", "monoisotopic_mass", "sequence"};
 size_t const MWCALC_HEADERS_LENGTH = 2;
@@ -138,7 +136,7 @@ class Protein : public ProteinTemplate , public ProteinDataTemplate<FilterFileDa
 	friend class hashTable::LinkedList<Protein>;
 private:
 	string MW, loc, fxn;
-	string fullDescription, matchDirrection;
+	string fullDescription, matchDirrection, pI;
 	int sequenceCount;
 	
 	//pointers to Proteins data
@@ -149,7 +147,7 @@ private:
 	
 	//modifier
 	bool getProteinData(string, size_t);
-	inline void getProteinAndDescr(string);
+	inline void getProtein(string);
 	DBProtein toDBprotein() const;
 	inline void clear();
 	

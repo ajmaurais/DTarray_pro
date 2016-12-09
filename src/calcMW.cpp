@@ -151,7 +151,7 @@ namespace mwDB{
 		do{
 			line = file.getLine_skip_trim();
 			aminoAcidsDB->insert(AminoAcid(line));
-		}while(!file.end());
+		} while(!file.end());
 		
 		return true;
 	}

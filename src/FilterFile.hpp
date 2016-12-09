@@ -12,7 +12,7 @@
 #include <cassert>
 #include <vector>
 #include <stdexcept>
-#include "utils.hpp"
+#include "../lib/utils.hpp"
 
 using namespace std;
 
@@ -41,6 +41,10 @@ public:
 		uniquePeptides = "0";
 	}
 	~FilterFileData() {}
+	
+	inline bool isNull() const{
+		return count == "0";
+	}
 };
 
 class FilterFileData_peptide : public FilterFileData {
@@ -116,6 +120,8 @@ public:
 	bool getFxn;
 	string fxnDBfname;
 	bool useDefaultSeqDB;
+	bool includeNullPeptides;
+	int supInfoOutput;
 	
 	FilterFileParams ()
 	{
@@ -140,7 +146,8 @@ public:
 		getFxn = false;
 		fxnDBfname = "";
 		useDefaultSeqDB=false;
-		
+		includeNullPeptides = false;
+		supInfoOutput = 0;
 	}
 	
 	//modifiers

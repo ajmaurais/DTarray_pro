@@ -49,6 +49,8 @@ peptideOutput="0"
 includeCoverage="0"
 getFxn="0"
 useDefaultSeqDB="1"
+includeNullPeptides="0"
+supInfoOutput="0"
 
 function usage {
 	cat $scriptWDdb/usage.txt
@@ -146,6 +148,10 @@ while ! [[ -z "$1" ]] ; do
 			includePeptides=true ;;
 		"-c" | "--coverage")
 			includeCoverage="1" ;;
+		"-s")
+			shift
+			isArg "$1"
+			supInfoOutput="$1" ;;
 		"-pswd")
 			echo $scriptWDHome
 			exit ;;
@@ -275,6 +281,8 @@ if ! $keepParams ; then
 	echo 'includePeptides='$peptideOutput >> ./$paramsName
 	echo 'includeCoverage='$includeCoverage >> ./$paramsName
 	echo 'useDefaultSeqDB='$useDefaultSeqDB >> ./$paramsName
+	echo 'includeNullPeptides='$includeNullPeptides >> ./$paramsName
+	echo 'supInfoOutput='$supInfoOutput >> ./$paramsName
 	echo -e '\n</params>\n' >> ./$paramsName
 	echo -e '</paramsFile>' >> ./$paramsName
 fi

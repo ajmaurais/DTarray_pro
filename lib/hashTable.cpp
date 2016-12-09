@@ -33,7 +33,7 @@ namespace hashTable{
 	template<class _Tp>
 	_Tp* LinkedList<_Tp>::getItem(string key)
 	{
-		typename std::list<_Tp>::iterator it = dat.begin();
+		typename list<_Tp>::iterator it = dat.begin();
 		for(;it != dat.end(); it++)
 			if(*it == key)
 				return &(*it);
@@ -51,7 +51,7 @@ namespace hashTable{
 		if(!outF)
 			throw runtime_error("Error writing file. Bad ofstream!");
 		
-		typename std::list<_Tp>::iterator it = dat.begin();
+		typename list<_Tp>::iterator it = dat.begin();
 		for(;it != dat.end(); it++)
 			(*it).write(outF);
 			
@@ -74,7 +74,7 @@ namespace hashTable{
 	void HashTable<_Tp>::insert(const _Tp& newItem, string key)
 	{
 		size_t index = hash(key.c_str());
-		array[index].push_back(newItem);
+		array[index].push_front(newItem);
 	}
 	
 	template<class _Tp>

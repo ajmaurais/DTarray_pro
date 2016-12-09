@@ -10,7 +10,7 @@
 #define parentClasses_hpp
 
 #include "FilterFile.hpp"
-#include "hashTable.hpp"
+#include "../lib/hashTable.hpp"
 
 size_t const DATA_SIZE = 500;
 
@@ -60,6 +60,7 @@ public:
 protected:
 	static size_t colSize;
 	static FilterFileParams* par;
+	static size_t supInfoNum;
 	
 	vector<_Tp> col;
 	double avgMass, monoMass;
@@ -71,6 +72,7 @@ protected:
 template <class _Tp> size_t* ProteinDataTemplate<_Tp>::colIndex = nullptr;
 template <class _Tp> size_t ProteinDataTemplate<_Tp>::colSize = 0;
 template <class _Tp> FilterFileParams* ProteinDataTemplate<_Tp>::par = nullptr;
+template <class _Tp> size_t ProteinDataTemplate<_Tp>::supInfoNum = 0;
 
 template<class _Tp>
 class DBTemplate{

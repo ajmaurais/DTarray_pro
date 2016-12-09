@@ -9,7 +9,7 @@
 #include "dtafilter.hpp"
 #include "FilterFile.cpp"
 #include "dtafilter.cpp"
-#include "utils.cpp"
+#include "../lib/utils.cpp"
 #include "calcMW.cpp"
 #include "dbase.cpp"
 
@@ -39,7 +39,7 @@ int main (int argc, char *argv[])
 	
 	Proteins proteins(filterFileParams);
 	Peptides peptides(filterFileParams);
-	Peptides * peptidesPtr = new Peptides(peptides);
+	//Peptides * peptidesPtr = new Peptides(peptides);
 
 	//read in subcellular locations database and add sub cell locations to proteins
 	if(filterFileParams.getSubCelluarLoc)
@@ -78,7 +78,7 @@ int main (int argc, char *argv[])
 	if((!filterFileParams.calcMW && filterFileParams.getSeq ) ||
 	   (filterFileParams.seqDBfname != filterFileParams.mwDBFname))
 	{
-		if(!proteins.readInSeqDB(wd + filterFileParams.seqDBfname))
+		if(!proteins.readInSeqDB(filterFileParams.seqDBfname))
 		{
 			cout << "Failed to read seqDB file! Exiting..." << endl;
 			return 0;
@@ -87,7 +87,7 @@ int main (int argc, char *argv[])
 	}
 	
 	//read in and combine files
-	if(!proteins.readIn(wd, filterFileParams, peptidesPtr))
+	if(!proteins.readIn(wd, filterFileParams, &peptides))
 		return 0;
 	
 	cout << endl << filterFileParams.numFiles << " files combined." << endl;
