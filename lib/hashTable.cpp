@@ -45,11 +45,11 @@ namespace hashTable{
 	template<class _Tp>
 	void LinkedList<_Tp>::write(ofstream& outF)
 	{
-		if(dat.empty())
-			return;
-		
 		if(!outF)
 			throw runtime_error("Error writing file. Bad ofstream!");
+		
+		if(dat.empty())
+			return;
 		
 		typename list<_Tp>::iterator it = dat.begin();
 		for(;it != dat.end(); it++)

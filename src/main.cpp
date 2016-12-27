@@ -25,7 +25,7 @@ int main (int argc, char *argv[])
 	assert(utils::dirExists(wd));
 	
 	//read in names of files to combine and output params
-	FilterFileParams filterFileParams;
+	filterFile::FilterFileParams filterFileParams;
 	if (!filterFileParams.readFlist(flistName, wd))
 	{
 		cout << "Failed to read file list! Exiting..." << endl;
@@ -106,9 +106,8 @@ int main (int argc, char *argv[])
 				cout << "Could not write out file! Exiting..." << endl;
 				return 0;
 			}
-		cout << endl << "Protein data written in wide format to: " << filterFileParams.ofname << endl;
+			cout << endl << "Protein data written in wide format to: " << filterFileParams.ofname << endl;
 		}
-		
 		if(filterFileParams.outputFormat == 2 || filterFileParams.outputFormat == 3)
 		{
 			if(!proteins.writeOutDB(wd + filterFileParams.dbOfname, filterFileParams))
@@ -131,8 +130,8 @@ int main (int argc, char *argv[])
 				cout << "Could not write out file! Exiting..." << endl;
 				return 0;
 			}
+			cout << endl << "peptide data written in wide format to: " << filterFileParams.peptideOfFname << endl;
 		}
-		cout << endl << "peptide data written in wide format to: " << filterFileParams.peptideOfFname << endl;
 		
 		if(filterFileParams.peptideOutput == 2 || filterFileParams.peptideOutput == 3)
 		{

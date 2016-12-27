@@ -23,7 +23,8 @@ namespace binTree{
 		return &val;
 	}
 	
-	template<class _Tp> BinTree<_Tp>::BinTree()
+	template<class _Tp>
+	BinTree<_Tp>::BinTree()
 	{
 		root = nullptr;
 	}

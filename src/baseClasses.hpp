@@ -49,7 +49,7 @@ public:
 template <class _Tp>
 class ProteinDataTemplate{
 public:
-	ProteinDataTemplate(FilterFileParams* const _par) {
+	ProteinDataTemplate(filterFile::FilterFileParams* const _par) {
 		par = _par;
 		supDataAdded = false;
 	}
@@ -59,7 +59,7 @@ public:
 	
 protected:
 	static size_t colSize;
-	static FilterFileParams* par;
+	static filterFile::FilterFileParams* par;
 	static size_t supInfoNum;
 	
 	vector<_Tp> col;
@@ -71,7 +71,7 @@ protected:
 
 template <class _Tp> size_t* ProteinDataTemplate<_Tp>::colIndex = nullptr;
 template <class _Tp> size_t ProteinDataTemplate<_Tp>::colSize = 0;
-template <class _Tp> FilterFileParams* ProteinDataTemplate<_Tp>::par = nullptr;
+template <class _Tp> filterFile::FilterFileParams* ProteinDataTemplate<_Tp>::par = nullptr;
 template <class _Tp> size_t ProteinDataTemplate<_Tp>::supInfoNum = 0;
 
 template<class _Tp>
@@ -87,7 +87,7 @@ public:
 	DBTemplate() : colIndex(0) {
 		data = new hashTable::HashTable <_Tp>(DATA_SIZE);
 	}
-	DBTemplate(const FilterFileParams& par, size_t dataSize) : colIndex(0){
+	DBTemplate(const filterFile::FilterFileParams& par, size_t dataSize) : colIndex(0){
 		data = new hashTable::HashTable <_Tp>(dataSize);
 		
 		for (int i = 0; i < par.numFiles; i++)

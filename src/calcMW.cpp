@@ -230,10 +230,12 @@ namespace mwDB{
 		
 		do{
 			line = data.getLine_skip_trim();
-			if(line[0] == '>')
+			if(line[0] == '>' && !utils::strContains("Reverse", line))
 			{
 				temp.ID = getID(line);
 				line = data.getLine_skip_trim();
+				if(line[0] == '>')
+					return false;
 				temp.sequence = line;
 				seqLibrary->insert(temp, temp.getID());
 			}
@@ -242,7 +244,7 @@ namespace mwDB{
 		return true;
 	}
 	
-	bool MWDB_Protein::readIn(string _wd, const FilterFileParams& params)
+	bool MWDB_Protein::readIn(string _wd, const filterFile::FilterFileParams& params)
 	{
 		string wd;
 		params.useDefaultSeqDB ? wd = _wd : wd = "";

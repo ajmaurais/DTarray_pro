@@ -71,14 +71,14 @@ class Protein;
 class Proteins;
 class Peptide;
 
-class Peptide : public ProteinDataTemplate<FilterFileData_peptide> {
+class Peptide : public ProteinDataTemplate<filterFile::FilterFileData_peptide> {
 	friend class Proteins;
 	friend class Peptides;
 public:
-	Peptide (FilterFileParams * par, mwDB::MWDB* const _mwdb) : ProteinDataTemplate <FilterFileData_peptide> (par) {
+	Peptide (filterFile::FilterFileParams * par, mwDB::MWDB* const _mwdb) : ProteinDataTemplate <filterFile::FilterFileData_peptide> (par) {
 		mwdb = _mwdb;
 	}
-	Peptide () : ProteinDataTemplate <FilterFileData_peptide> () {}
+	Peptide () : ProteinDataTemplate <filterFile::FilterFileData_peptide> () {}
 	~Peptide() {}
 	
 	//modifers
@@ -90,21 +90,19 @@ public:
 	inline bool operator == (const Peptide& comp) const {
 		return comp.key == key;
 	}
-	inline string makeKey() const {
-		return proteinID + "_" + sequence + "_" + charge;
-	}
 	inline bool operator > (const Peptide& comp) const{
 		return key > comp.key;
 	}
 	inline bool operator < (const Peptide& comp) const{
 		return key < comp.key;
 	}
+	inline string makeKey() const;
 	void consolidate(const Peptide&);
 	void write(ofstream&);
 	
 private:
 	string key, calcSequence;
-	string proteinID, calcMH, scan, protein, description, charge;
+	string proteinID, calcMH, fileName, protein, description, charge;
 	bool unique;
 	
 	static mwDB::MWDB* mwdb;
@@ -120,17 +118,17 @@ class Peptides : public DBTemplate<Peptide> {
 private:
 	mwDB::MWDB* mwdb;
 public:
-	Peptides(const FilterFileParams& pars) : DBTemplate<Peptide>(pars, PEPTIDES_DATA_SIZE) {}
+	Peptides(const filterFile::FilterFileParams& pars) : DBTemplate<Peptide>(pars, PEPTIDES_DATA_SIZE) {}
 	Peptides() : DBTemplate<Peptide>(){}
 	~Peptides(){}
 	
 	//properities
-	bool writeOut(string, const FilterFileParams&);
-	bool writeOutDB(string, const FilterFileParams&);
+	bool writeOut(string, const filterFile::FilterFileParams&);
+	bool writeOutDB(string, const filterFile::FilterFileParams&);
 };
 
 //stores data for each protein found in filter file
-class Protein : public ProteinTemplate , public ProteinDataTemplate<FilterFileData_protein> {
+class Protein : public ProteinTemplate , public ProteinDataTemplate<filterFile::FilterFileData_protein> {
 	friend class Proteins;
 	friend class hashTable::HashTable<Protein>;
 	friend class hashTable::LinkedList<Protein>;
@@ -152,14 +150,14 @@ private:
 	inline void clear();
 	
 public:
-	Protein(FilterFileParams* const pars, Dbase* const _locDB, Dbase* const _fxnDB, mwDB::MWDB_Protein* const _mwdb, mwDB::SeqDB* const _seqDB)
-		: ProteinDataTemplate<FilterFileData_protein>(pars) {
+	Protein(filterFile::FilterFileParams* const pars, Dbase* const _locDB, Dbase* const _fxnDB, mwDB::MWDB_Protein* const _mwdb, mwDB::SeqDB* const _seqDB)
+		: ProteinDataTemplate<filterFile::FilterFileData_protein>(pars) {
 		locDB = _locDB;
 		mwdb = _mwdb;
 		seqDB = _seqDB;
 		fxnDB = _fxnDB;
 	}
-	Protein() : ProteinDataTemplate<FilterFileData_protein>() {}
+	Protein() : ProteinDataTemplate<filterFile::FilterFileData_protein>() {}
 	~Protein(){}
 	
 	inline void operator = (const Protein&);
@@ -185,12 +183,13 @@ class Proteins : public DBTemplate<Protein>{
 	mwDB::SeqDB* seqDB;
 	
 	//modifers
-	bool readIn(string, FilterFileParams* const, const FilterFileParam&,
-				const vector <FilterFileData_protein>&, const vector<FilterFileData_peptide>&,
+	bool readIn(string, filterFile::FilterFileParams* const,
+				const vector <filterFile::FilterFileData_protein>&,
+				const vector<filterFile::FilterFileData_peptide>&,
 				Peptides* const);
 public:
 	//constructor
-	Proteins(const FilterFileParams& pars) : DBTemplate<Protein>(pars, PROTEINS_DATA_SIZE){
+	Proteins(const filterFile::FilterFileParams& pars) : DBTemplate<Protein>(pars, PROTEINS_DATA_SIZE){
 		locDB = nullptr;
 		seqDB = nullptr;
 		mwdb = nullptr;
@@ -210,16 +209,16 @@ public:
 	}
 	
 	bool readInLocDB(string);
-	bool readInMWdb(string, const FilterFileParams&);
+	bool readInMWdb(string, const filterFile::FilterFileParams&);
 	bool readInSeqDB(string);
 	bool readInFxnDB(string);
 	
 	//properities
-	bool writeOut(string, const FilterFileParams&);
-	bool writeOutDB(string, const FilterFileParams&);
+	bool writeOut(string, const filterFile::FilterFileParams&);
+	bool writeOutDB(string, const filterFile::FilterFileParams&);
 	
 	//modifiers
-	bool readIn(string, FilterFileParams&, Peptides* const);
+	bool readIn(string, filterFile::FilterFileParams&, Peptides* const);
 };
 
 /*************/

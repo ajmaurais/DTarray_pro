@@ -23,10 +23,10 @@ paramsCommentSymbol="#" #if changed, COMMENT_SYMBOL must also be changed in src/
 paramsName=$defaultParamsName
 flistName=$defaultFlistName
 staticModificationsName=$defaultStaticModificationsName
-ofname="DTarray_pro.txt"
-dbOfname="DTarray_long.txt"
-peptideOfFname="peptideList.txt"
-dbPeptideOfFname="peptideList_long.txt"
+ofname="DTarray_pro.tsv"
+dbOfname="DTarray_long.tsv"
+peptideOfFname="peptideList.tsv"
+dbPeptideOfFname="peptideList_long.tsv"
 input="standard"
 output="1"
 includeUnique="0"
@@ -51,6 +51,7 @@ getFxn="0"
 useDefaultSeqDB="1"
 includeNullPeptides="0"
 supInfoOutput="0"
+groupPeptides="0"
 
 function usage {
 	cat $scriptWDdb/usage.txt
@@ -87,11 +88,11 @@ while ! [[ -z "$1" ]] ; do
         "-d" | "--dir" )
 			shift
 			isArg "$1"
-            wd="$1";;
+            wd="$1" ;;
 		"-r" | "--recompile")
 			recompile=true
 			continueExc=false;;
-		"-p" | "--prefix")
+		"-f" | "--prefix")
 			shift
 			isArg "$1"
 			sampleNamePrefix="$1";;
@@ -141,7 +142,7 @@ while ! [[ -z "$1" ]] ; do
 					seqDBFnameTr="$1"
 					getSeq="1"
 				fi;;
-		"-f" | "--peptides")
+		"-p" | "--peptides")
 			shift
 			isArg "$1"
 			peptideOutput="$1"
@@ -162,7 +163,11 @@ while ! [[ -z "$1" ]] ; do
 			open $scriptWDHome
 			exit ;;
 		"-fxn")
-			getFxn="1";;
+			getFxn="1" ;;
+		"-g" | "--group")
+			shift
+			isArg "$1"
+			groupPeptides="$1" ;;
         *)
             echo -e "$1" $invalidOptionMessage
 			usage;;
@@ -283,6 +288,7 @@ if ! $keepParams ; then
 	echo 'useDefaultSeqDB='$useDefaultSeqDB >> ./$paramsName
 	echo 'includeNullPeptides='$includeNullPeptides >> ./$paramsName
 	echo 'supInfoOutput='$supInfoOutput >> ./$paramsName
+	echo 'groupPeptides='$groupPeptides >> ./$paramsName
 	echo -e '\n</params>\n' >> ./$paramsName
 	echo -e '</paramsFile>' >> ./$paramsName
 fi
