@@ -10,6 +10,8 @@ DTarray_pro - Combine DTASelect-filter files.
 .br
 [-p, --peptides \fI<output_files>\fP]
 .br
+[-g 0 | -g 1 | -g 2]
+.br
 [-u, --unique]
 .br
 [-c, --coverage]
@@ -118,6 +120,27 @@ Use long output format.
 .in +0.75i
 Generate both wide and long output files.
 .in
+.TP
+\fB-g, --group\fP
+Specify how peptides are grouped in peptide output files. \fB1\fR is the default.
+.TP
+.in +0.75i
+\fB0\fR
+.in +0.75i
+Do not group peptides. In this format, each peptide will be output on a separate line in a long formatted peptide output file. Only long format is supported for this group method.  
+.in
+.TP
+.in +0.75i
+\fB1\fR
+.in +0.75i
+Group peptides by parent protein. A separate entry for each charge state of a given peptide will be included in peptide output files.
+.in
+\fB2\fR
+.in +0.75i
+Group peptides by parent protein and charge. Peptides found in multiple charge states will be grouped in output files. Information specific to each scan, i.e. obsMH, parent file, and scan, are not available with this group method. 
+.in
+
+\fITechnical_note:\fR Information about each peptide found is stored in a string keyed, custom implementation, hash table. Changing the grouping method modifies the hash key value used for each peptide. 
 .TP
 \fB-u, --unique\fP
 Include spectral counts for unique peptides in output file.

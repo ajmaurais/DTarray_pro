@@ -63,7 +63,7 @@
       </BuildableProductRunnable>
       <CommandLineArguments>
          <CommandLineArgument
-            argument = "/Users/Aaron/Documents/School_Work/Mass_spec_data/Thompson_lab_samples/Human_RA_and_Healthy_SF/data/"
+            argument = "/Users/Aaron/Documents/School_Work/Mass_spec_data/KL_peptide_library/library_test_1/analysAutomation_test/filterFiles/"
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument

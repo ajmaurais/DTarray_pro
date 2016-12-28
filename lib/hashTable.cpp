@@ -41,7 +41,6 @@ namespace hashTable{
 		return nullptr;
 	}
 	
-	
 	template<class _Tp>
 	void LinkedList<_Tp>::write(ofstream& outF)
 	{

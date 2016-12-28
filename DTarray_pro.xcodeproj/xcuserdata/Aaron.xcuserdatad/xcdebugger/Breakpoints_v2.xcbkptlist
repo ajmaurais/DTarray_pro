@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/main.cpp"
-            timestampString = "500488123.004685"
+            timestampString = "504551983.975849"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "83"
-            endingLineNumber = "83"
+            startingLineNumber = "89"
+            endingLineNumber = "89"
             landmarkName = "main (int argc, char *argv[])"
             landmarkType = "9">
          </BreakpointContent>
@@ -58,12 +58,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/dtafilter.cpp"
-            timestampString = "502910726.729102"
+            timestampString = "504557087.962043"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "139"
-            endingLineNumber = "139"
-            landmarkName = "Protein::getProtein(string str)"
+            startingLineNumber = "134"
+            endingLineNumber = "134"
+            landmarkName = "Protein::getProteinData(string line, size_t colIndex)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -74,12 +74,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/dtafilter.cpp"
-            timestampString = "504541436.165656"
+            timestampString = "504558505.671252"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "352"
-            endingLineNumber = "352"
-            landmarkName = "Proteins::readInMWdb(string wd, const filterFile::FilterFileParams&amp; par)"
+            startingLineNumber = "349"
+            endingLineNumber = "349"
+            landmarkName = "Proteins::readIn(string wd, filterFile::FilterFileParams&amp; filterFileParams, Peptides * const peptides)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -90,11 +90,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/dtafilter.cpp"
-            timestampString = "504541436.165656"
+            timestampString = "504558505.671252"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "486"
-            endingLineNumber = "486"
+            startingLineNumber = "483"
+            endingLineNumber = "483"
             landmarkName = "Proteins::writeOut(string ofname, const filterFile::FilterFileParams&amp; filterFileParams)"
             landmarkType = "7">
          </BreakpointContent>
@@ -106,11 +106,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/dtafilter.cpp"
-            timestampString = "504541436.165656"
+            timestampString = "504558505.671252"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "688"
-            endingLineNumber = "688"
+            startingLineNumber = "685"
+            endingLineNumber = "685"
             landmarkName = "Proteins::writeOutDB(string ofname, const filterFile::FilterFileParams&amp; filterFileParams)"
             landmarkType = "7">
          </BreakpointContent>
@@ -122,11 +122,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/dtafilter.cpp"
-            timestampString = "502910726.729102"
+            timestampString = "504558505.671252"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "242"
-            endingLineNumber = "242"
+            startingLineNumber = "240"
+            endingLineNumber = "240"
             landmarkName = "Proteins::readIn(string wd, filterFile::FilterFileParams* const pars, const vector &lt;filterFile::FilterFileData_protein&gt;&amp; colNamesTemp, const vector&lt;filterFile::FilterFileData_peptide&gt;&amp; pColNamesTemp, Peptides * const peptides)"
             landmarkType = "7">
          </BreakpointContent>
@@ -138,11 +138,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/dtafilter.cpp"
-            timestampString = "502910726.729102"
+            timestampString = "504558505.671252"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "245"
-            endingLineNumber = "245"
+            startingLineNumber = "244"
+            endingLineNumber = "244"
             landmarkName = "Proteins::readIn(string wd, filterFile::FilterFileParams* const pars, const vector &lt;filterFile::FilterFileData_protein&gt;&amp; colNamesTemp, const vector&lt;filterFile::FilterFileData_peptide&gt;&amp; pColNamesTemp, Peptides * const peptides)"
             landmarkType = "7">
          </BreakpointContent>
@@ -154,11 +154,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/dtafilter.cpp"
-            timestampString = "502910726.729102"
+            timestampString = "504557087.962043"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "181"
-            endingLineNumber = "181"
+            startingLineNumber = "176"
+            endingLineNumber = "176"
             landmarkName = "Proteins::readIn(string wd, filterFile::FilterFileParams* const pars, const vector &lt;filterFile::FilterFileData_protein&gt;&amp; colNamesTemp, const vector&lt;filterFile::FilterFileData_peptide&gt;&amp; pColNamesTemp, Peptides * const peptides)"
             landmarkType = "7">
          </BreakpointContent>
@@ -170,11 +170,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/dtafilter.cpp"
-            timestampString = "502910726.729102"
+            timestampString = "504558505.671252"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "241"
-            endingLineNumber = "241"
+            startingLineNumber = "239"
+            endingLineNumber = "239"
             landmarkName = "Proteins::readIn(string wd, filterFile::FilterFileParams* const pars, const vector &lt;filterFile::FilterFileData_protein&gt;&amp; colNamesTemp, const vector&lt;filterFile::FilterFileData_peptide&gt;&amp; pColNamesTemp, Peptides * const peptides)"
             landmarkType = "7">
          </BreakpointContent>
@@ -186,11 +186,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/dtafilter.cpp"
-            timestampString = "502910726.729102"
+            timestampString = "504557087.962043"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "200"
-            endingLineNumber = "200"
+            startingLineNumber = "196"
+            endingLineNumber = "196"
             landmarkName = "Proteins::readIn(string wd, filterFile::FilterFileParams* const pars, const vector &lt;filterFile::FilterFileData_protein&gt;&amp; colNamesTemp, const vector&lt;filterFile::FilterFileData_peptide&gt;&amp; pColNamesTemp, Peptides * const peptides)"
             landmarkType = "7">
          </BreakpointContent>
@@ -202,11 +202,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/dtafilter.cpp"
-            timestampString = "502910726.729102"
+            timestampString = "504557087.962043"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "212"
-            endingLineNumber = "212"
+            startingLineNumber = "207"
+            endingLineNumber = "207"
             landmarkName = "Proteins::readIn(string wd, filterFile::FilterFileParams* const pars, const vector &lt;filterFile::FilterFileData_protein&gt;&amp; colNamesTemp, const vector&lt;filterFile::FilterFileData_peptide&gt;&amp; pColNamesTemp, Peptides * const peptides)"
             landmarkType = "7">
          </BreakpointContent>
@@ -218,11 +218,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/main.cpp"
-            timestampString = "500488123.004685"
+            timestampString = "504551983.975849"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "79"
-            endingLineNumber = "79"
+            startingLineNumber = "85"
+            endingLineNumber = "85"
             landmarkName = "main (int argc, char *argv[])"
             landmarkType = "9">
          </BreakpointContent>
@@ -234,27 +234,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/dtafilter.cpp"
-            timestampString = "502910726.729102"
+            timestampString = "504558505.671252"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "218"
-            endingLineNumber = "218"
-            landmarkName = "Proteins::readIn(string wd, filterFile::FilterFileParams* const pars, const vector &lt;filterFile::FilterFileData_protein&gt;&amp; colNamesTemp, const vector&lt;filterFile::FilterFileData_peptide&gt;&amp; pColNamesTemp, Peptides * const peptides)"
+            startingLineNumber = "317"
+            endingLineNumber = "317"
+            landmarkName = "Peptide::clear()"
             landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "src/dtafilter.cpp"
-            timestampString = "504541436.165656"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "320"
-            endingLineNumber = "320">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -264,13 +250,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/FilterFile.cpp"
-            timestampString = "504543742.022292"
+            timestampString = "504551748.098171"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "250"
-            endingLineNumber = "250"
-            landmarkName = "FilterFileData::FilterFileData(string _colName)"
-            landmarkType = "7">
+            startingLineNumber = "289"
+            endingLineNumber = "289">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -328,11 +312,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/dtafilter.cpp"
-            timestampString = "502910726.729102"
+            timestampString = "504557388.716489"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "228"
-            endingLineNumber = "228"
+            startingLineNumber = "223"
+            endingLineNumber = "223"
             landmarkName = "Proteins::readIn(string wd, filterFile::FilterFileParams* const pars, const vector &lt;filterFile::FilterFileData_protein&gt;&amp; colNamesTemp, const vector&lt;filterFile::FilterFileData_peptide&gt;&amp; pColNamesTemp, Peptides * const peptides)"
             landmarkType = "7">
          </BreakpointContent>
@@ -360,11 +344,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/dtafilter.cpp"
-            timestampString = "504541436.165656"
+            timestampString = "504558505.671252"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "334"
-            endingLineNumber = "334"
+            startingLineNumber = "331"
+            endingLineNumber = "331"
             landmarkName = "Proteins::readIn(string wd, filterFile::FilterFileParams&amp; filterFileParams, Peptides * const peptides)"
             landmarkType = "7">
          </BreakpointContent>
@@ -376,11 +360,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/dtafilter.cpp"
-            timestampString = "502910726.729102"
+            timestampString = "504558505.671252"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "261"
-            endingLineNumber = "261"
+            startingLineNumber = "262"
+            endingLineNumber = "262"
             landmarkName = "Peptide::parsePeptide(const string&amp; line)"
             landmarkType = "7">
          </BreakpointContent>
@@ -392,11 +376,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/dtafilter.cpp"
-            timestampString = "502910726.729102"
+            timestampString = "504558505.671252"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "249"
-            endingLineNumber = "249"
+            startingLineNumber = "248"
+            endingLineNumber = "248"
             landmarkName = "Proteins::readIn(string wd, filterFile::FilterFileParams* const pars, const vector &lt;filterFile::FilterFileData_protein&gt;&amp; colNamesTemp, const vector&lt;filterFile::FilterFileData_peptide&gt;&amp; pColNamesTemp, Peptides * const peptides)"
             landmarkType = "7">
          </BreakpointContent>
@@ -408,11 +392,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/dtafilter.cpp"
-            timestampString = "504541436.165656"
+            timestampString = "504558505.671252"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "321"
-            endingLineNumber = "321">
+            startingLineNumber = "318"
+            endingLineNumber = "318"
+            landmarkName = "Peptide::clear()"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -422,11 +408,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/dtafilter.cpp"
-            timestampString = "504541436.165656"
+            timestampString = "504558505.671252"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "858"
-            endingLineNumber = "858"
+            startingLineNumber = "856"
+            endingLineNumber = "856"
             landmarkName = "Peptide::write(ofstream&amp; outF)"
             landmarkType = "7">
          </BreakpointContent>
@@ -438,11 +424,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/dtafilter.cpp"
-            timestampString = "502910726.729102"
+            timestampString = "504557087.962043"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "186"
-            endingLineNumber = "186"
+            startingLineNumber = "181"
+            endingLineNumber = "181"
             landmarkName = "Proteins::readIn(string wd, filterFile::FilterFileParams* const pars, const vector &lt;filterFile::FilterFileData_protein&gt;&amp; colNamesTemp, const vector&lt;filterFile::FilterFileData_peptide&gt;&amp; pColNamesTemp, Peptides * const peptides)"
             landmarkType = "7">
          </BreakpointContent>
@@ -454,11 +440,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/dtafilter.cpp"
-            timestampString = "502910726.729102"
+            timestampString = "504557388.716489"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "220"
-            endingLineNumber = "220"
+            startingLineNumber = "215"
+            endingLineNumber = "215"
             landmarkName = "Proteins::readIn(string wd, filterFile::FilterFileParams* const pars, const vector &lt;filterFile::FilterFileData_protein&gt;&amp; colNamesTemp, const vector&lt;filterFile::FilterFileData_peptide&gt;&amp; pColNamesTemp, Peptides * const peptides)"
             landmarkType = "7">
          </BreakpointContent>
@@ -470,11 +456,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/dtafilter.cpp"
-            timestampString = "502910726.729102"
+            timestampString = "504557388.716489"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "227"
-            endingLineNumber = "227"
+            startingLineNumber = "222"
+            endingLineNumber = "222"
             landmarkName = "Proteins::readIn(string wd, filterFile::FilterFileParams* const pars, const vector &lt;filterFile::FilterFileData_protein&gt;&amp; colNamesTemp, const vector&lt;filterFile::FilterFileData_peptide&gt;&amp; pColNamesTemp, Peptides * const peptides)"
             landmarkType = "7">
          </BreakpointContent>
@@ -580,11 +566,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/dtafilter.cpp"
-            timestampString = "502910726.729102"
+            timestampString = "504558505.671252"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "237"
-            endingLineNumber = "237"
+            startingLineNumber = "235"
+            endingLineNumber = "235"
             landmarkName = "Proteins::readIn(string wd, filterFile::FilterFileParams* const pars, const vector &lt;filterFile::FilterFileData_protein&gt;&amp; colNamesTemp, const vector&lt;filterFile::FilterFileData_peptide&gt;&amp; pColNamesTemp, Peptides * const peptides)"
             landmarkType = "7">
          </BreakpointContent>
@@ -596,11 +582,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/dtafilter.cpp"
-            timestampString = "504541436.165656"
+            timestampString = "504558505.671252"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "341"
-            endingLineNumber = "341"
+            startingLineNumber = "338"
+            endingLineNumber = "338"
             landmarkName = "Proteins::readIn(string wd, filterFile::FilterFileParams&amp; filterFileParams, Peptides * const peptides)"
             landmarkType = "7">
          </BreakpointContent>
@@ -612,11 +598,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/dtafilter.cpp"
-            timestampString = "504541436.165656"
+            timestampString = "504558505.671252"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "867"
-            endingLineNumber = "867"
+            startingLineNumber = "865"
+            endingLineNumber = "865"
             landmarkName = "Peptides::writeOut(string ofname, const filterFile::FilterFileParams&amp; pars)"
             landmarkType = "7">
          </BreakpointContent>
@@ -628,11 +614,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/dtafilter.cpp"
-            timestampString = "504541436.165656"
+            timestampString = "504558505.671252"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "845"
-            endingLineNumber = "845"
+            startingLineNumber = "841"
+            endingLineNumber = "841"
             landmarkName = "Peptide::write(ofstream&amp; outF)"
             landmarkType = "7">
          </BreakpointContent>
@@ -644,11 +630,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/dtafilter.cpp"
-            timestampString = "504541436.165656"
+            timestampString = "504558505.671252"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "849"
-            endingLineNumber = "849"
+            startingLineNumber = "847"
+            endingLineNumber = "847"
             landmarkName = "Peptide::write(ofstream&amp; outF)"
             landmarkType = "7">
          </BreakpointContent>
@@ -660,11 +646,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/main.cpp"
-            timestampString = "500488123.004685"
+            timestampString = "504551983.975849"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "105"
-            endingLineNumber = "105"
+            startingLineNumber = "111"
+            endingLineNumber = "111"
             landmarkName = "main (int argc, char *argv[])"
             landmarkType = "9">
          </BreakpointContent>
@@ -676,11 +662,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/dtafilter.cpp"
-            timestampString = "504541436.165656"
+            timestampString = "504558505.671252"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "888"
-            endingLineNumber = "888"
+            startingLineNumber = "895"
+            endingLineNumber = "895"
             landmarkName = "Peptides::writeOut(string ofname, const filterFile::FilterFileParams&amp; pars)"
             landmarkType = "7">
          </BreakpointContent>
@@ -692,12 +678,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/dtafilter.cpp"
-            timestampString = "504541436.165656"
+            timestampString = "504558505.671252"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "906"
-            endingLineNumber = "906"
-            landmarkName = "Peptides::writeOutDB(string ofname, const filterFile::FilterFileParams&amp; pars)"
+            startingLineNumber = "913"
+            endingLineNumber = "913"
+            landmarkName = "Peptides::writeOut(string ofname, const filterFile::FilterFileParams&amp; pars)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -708,11 +694,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/dtafilter.cpp"
-            timestampString = "504541436.165656"
+            timestampString = "504558505.671252"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "814"
-            endingLineNumber = "814"
+            startingLineNumber = "807"
+            endingLineNumber = "807"
             landmarkName = "Peptide::write(ofstream&amp; outF)"
             landmarkType = "7">
          </BreakpointContent>
@@ -729,7 +715,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "14"
             endingLineNumber = "14"
-            landmarkName = "Peptide::consolidate(const Peptide&amp; toAdd)"
+            landmarkName = "Protein::consolidate(const Protein&amp; toAdd)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -740,11 +726,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/dtafilter.cpp"
-            timestampString = "502910726.729102"
+            timestampString = "504557087.962043"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "197"
-            endingLineNumber = "197"
+            startingLineNumber = "192"
+            endingLineNumber = "192"
             landmarkName = "Proteins::readIn(string wd, filterFile::FilterFileParams* const pars, const vector &lt;filterFile::FilterFileData_protein&gt;&amp; colNamesTemp, const vector&lt;filterFile::FilterFileData_peptide&gt;&amp; pColNamesTemp, Peptides * const peptides)"
             landmarkType = "7">
          </BreakpointContent>
@@ -756,11 +742,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/dtafilter.cpp"
-            timestampString = "502910726.729102"
+            timestampString = "504557087.962043"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "115"
-            endingLineNumber = "115"
+            startingLineNumber = "112"
+            endingLineNumber = "112"
             landmarkName = "Protein::getProteinData(string line, size_t colIndex)"
             landmarkType = "7">
          </BreakpointContent>
@@ -772,11 +758,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/dtafilter.cpp"
-            timestampString = "502910726.729102"
+            timestampString = "504557087.962043"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "117"
-            endingLineNumber = "117"
+            startingLineNumber = "114"
+            endingLineNumber = "114"
             landmarkName = "Protein::getProteinData(string line, size_t colIndex)"
             landmarkType = "7">
          </BreakpointContent>
@@ -788,13 +774,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/dtafilter.cpp"
-            timestampString = "502910726.729102"
+            timestampString = "504557087.962043"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "177"
-            endingLineNumber = "177"
-            landmarkName = "Proteins::readIn(string wd, filterFile::FilterFileParams* const pars, const vector &lt;filterFile::FilterFileData_protein&gt;&amp; colNamesTemp, const vector&lt;filterFile::FilterFileData_peptide&gt;&amp; pColNamesTemp, Peptides * const peptides)"
-            landmarkType = "7">
+            startingLineNumber = "172"
+            endingLineNumber = "172">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -809,7 +793,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "91"
             endingLineNumber = "91"
-            landmarkName = "Protein::getProteinData(string line, size_t colIndex)"
+            landmarkName = "Peptide::operator = (const Peptide&amp; _p)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -820,11 +804,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/main.cpp"
-            timestampString = "503096166.796106"
+            timestampString = "504551983.975849"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "114"
-            endingLineNumber = "114"
+            startingLineNumber = "120"
+            endingLineNumber = "120"
             landmarkName = "main (int argc, char *argv[])"
             landmarkType = "9">
          </BreakpointContent>
@@ -836,11 +820,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/main.cpp"
-            timestampString = "500488123.004685"
+            timestampString = "504551983.975849"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "90"
-            endingLineNumber = "90"
+            startingLineNumber = "96"
+            endingLineNumber = "96"
             landmarkName = "main (int argc, char *argv[])"
             landmarkType = "9">
          </BreakpointContent>
@@ -852,11 +836,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/FilterFile.cpp"
-            timestampString = "504543742.022292"
+            timestampString = "504551748.098171"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "148"
-            endingLineNumber = "148"
+            startingLineNumber = "164"
+            endingLineNumber = "164"
             landmarkName = "FilterFileParams::readDTParams(string fname, string path)"
             landmarkType = "7">
          </BreakpointContent>
@@ -868,23 +852,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/dtafilter.cpp"
-            timestampString = "504541436.165656"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "554"
-            endingLineNumber = "554"
-            landmarkName = "Proteins::writeOut(string ofname, const filterFile::FilterFileParams&amp; filterFileParams)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "src/dtafilter.cpp"
-            timestampString = "504541436.165656"
+            timestampString = "504558505.671252"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "551"
@@ -899,12 +867,28 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "src/FilterFile.hpp"
-            timestampString = "504543742.022292"
+            filePath = "src/dtafilter.cpp"
+            timestampString = "504558505.671252"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "79"
-            endingLineNumber = "79"
+            startingLineNumber = "548"
+            endingLineNumber = "548"
+            landmarkName = "Proteins::writeOut(string ofname, const filterFile::FilterFileParams&amp; filterFileParams)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/FilterFile.hpp"
+            timestampString = "504547476.177671"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "81"
+            endingLineNumber = "81"
             landmarkName = "FilterFileData_protein()"
             landmarkType = "7">
             <Locations>
@@ -948,11 +932,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/FilterFile.hpp"
-            timestampString = "504543742.022292"
+            timestampString = "504547476.177671"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "78"
-            endingLineNumber = "78"
+            startingLineNumber = "80"
+            endingLineNumber = "80"
             landmarkName = "FilterFileData_protein(string colName)"
             landmarkType = "7">
             <Locations>
@@ -996,11 +980,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/FilterFile.hpp"
-            timestampString = "504543742.022292"
+            timestampString = "504547476.177671"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "80"
-            endingLineNumber = "80"
+            startingLineNumber = "82"
+            endingLineNumber = "82"
             landmarkName = "FilterFileData_protein()"
             landmarkType = "7">
          </BreakpointContent>
@@ -1012,11 +996,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/dtafilter.cpp"
-            timestampString = "504541436.165656"
+            timestampString = "504558505.671252"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "705"
-            endingLineNumber = "705"
+            startingLineNumber = "702"
+            endingLineNumber = "702"
             landmarkName = "Proteins::writeOutDB(string ofname, const filterFile::FilterFileParams&amp; filterFileParams)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1028,11 +1012,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/dtafilter.cpp"
-            timestampString = "504541436.165656"
+            timestampString = "504558505.671252"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "708"
-            endingLineNumber = "708"
+            startingLineNumber = "705"
+            endingLineNumber = "705"
             landmarkName = "Proteins::writeOutDB(string ofname, const filterFile::FilterFileParams&amp; filterFileParams)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1092,11 +1076,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/dtafilter.cpp"
-            timestampString = "502910726.729102"
+            timestampString = "504557087.962043"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "187"
-            endingLineNumber = "187"
+            startingLineNumber = "182"
+            endingLineNumber = "182"
             landmarkName = "Proteins::readIn(string wd, filterFile::FilterFileParams* const pars, const vector &lt;filterFile::FilterFileData_protein&gt;&amp; colNamesTemp, const vector&lt;filterFile::FilterFileData_peptide&gt;&amp; pColNamesTemp, Peptides * const peptides)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1108,11 +1092,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/dtafilter.cpp"
-            timestampString = "502910726.729102"
+            timestampString = "504558505.671252"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "234"
-            endingLineNumber = "234"
+            startingLineNumber = "232"
+            endingLineNumber = "232"
             landmarkName = "Proteins::readIn(string wd, filterFile::FilterFileParams* const pars, const vector &lt;filterFile::FilterFileData_protein&gt;&amp; colNamesTemp, const vector&lt;filterFile::FilterFileData_peptide&gt;&amp; pColNamesTemp, Peptides * const peptides)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1124,11 +1108,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/dtafilter.cpp"
-            timestampString = "502910726.729102"
+            timestampString = "504557388.716489"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "219"
-            endingLineNumber = "219"
+            startingLineNumber = "214"
+            endingLineNumber = "214"
             landmarkName = "Proteins::readIn(string wd, filterFile::FilterFileParams* const pars, const vector &lt;filterFile::FilterFileData_protein&gt;&amp; colNamesTemp, const vector&lt;filterFile::FilterFileData_peptide&gt;&amp; pColNamesTemp, Peptides * const peptides)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1161,12 +1145,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/dtafilter.cpp"
-            timestampString = "504541436.165656"
+            timestampString = "504558505.671252"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "364"
-            endingLineNumber = "364"
-            landmarkName = "Proteins::readInFxnDB(string fname)"
+            startingLineNumber = "361"
+            endingLineNumber = "361"
+            landmarkName = "Proteins::readInSeqDB(string fname)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1177,11 +1161,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/dtafilter.cpp"
-            timestampString = "504541436.165656"
+            timestampString = "504558505.671252"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "643"
-            endingLineNumber = "643"
+            startingLineNumber = "640"
+            endingLineNumber = "640"
             landmarkName = "Proteins::writeOutDB(string ofname, const filterFile::FilterFileParams&amp; filterFileParams)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1193,11 +1177,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/dtafilter.cpp"
-            timestampString = "504541436.165656"
+            timestampString = "504558505.671252"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "708"
-            endingLineNumber = "708"
+            startingLineNumber = "705"
+            endingLineNumber = "705"
             landmarkName = "Proteins::writeOutDB(string ofname, const filterFile::FilterFileParams&amp; filterFileParams)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1209,7 +1193,39 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/dtafilter.cpp"
-            timestampString = "504541436.165656"
+            timestampString = "504558505.671252"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "711"
+            endingLineNumber = "711"
+            landmarkName = "Proteins::writeOutDB(string ofname, const filterFile::FilterFileParams&amp; filterFileParams)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/dtafilter.cpp"
+            timestampString = "504558505.671252"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "713"
+            endingLineNumber = "713"
+            landmarkName = "Proteins::writeOutDB(string ofname, const filterFile::FilterFileParams&amp; filterFileParams)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/dtafilter.cpp"
+            timestampString = "504558505.671252"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "714"
@@ -1225,12 +1241,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/dtafilter.cpp"
-            timestampString = "504541436.165656"
+            timestampString = "504557087.962043"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "716"
-            endingLineNumber = "716"
-            landmarkName = "Proteins::writeOutDB(string ofname, const filterFile::FilterFileParams&amp; filterFileParams)"
+            startingLineNumber = "161"
+            endingLineNumber = "161"
+            landmarkName = "Protein::calcMW()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1241,43 +1257,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/dtafilter.cpp"
-            timestampString = "504541436.165656"
+            timestampString = "504558505.671252"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "717"
-            endingLineNumber = "717"
-            landmarkName = "Proteins::writeOutDB(string ofname, const filterFile::FilterFileParams&amp; filterFileParams)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "src/dtafilter.cpp"
-            timestampString = "502910726.729102"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "166"
-            endingLineNumber = "166"
-            landmarkName = "Peptide::calcMW()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "src/dtafilter.cpp"
-            timestampString = "504541436.165656"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "787"
-            endingLineNumber = "787"
+            startingLineNumber = "780"
+            endingLineNumber = "780"
             landmarkName = "parsePeptideSC(string line)"
             landmarkType = "9">
          </BreakpointContent>
@@ -1289,13 +1273,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/dtafilter.cpp"
-            timestampString = "504541436.165656"
+            timestampString = "504558505.671252"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "866"
-            endingLineNumber = "866"
-            landmarkName = "Peptides::writeOut(string ofname, const filterFile::FilterFileParams&amp; pars)"
-            landmarkType = "7">
+            startingLineNumber = "864"
+            endingLineNumber = "864">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1305,11 +1287,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/dtafilter.cpp"
-            timestampString = "504541436.165656"
+            timestampString = "504558505.671252"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "929"
-            endingLineNumber = "929"
+            startingLineNumber = "957"
+            endingLineNumber = "957"
             landmarkName = "Peptides::writeOutDB(string ofname, const filterFile::FilterFileParams&amp; pars)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1321,12 +1303,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/dtafilter.cpp"
-            timestampString = "504541436.165656"
+            timestampString = "504558505.671252"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "377"
-            endingLineNumber = "377"
-            landmarkName = "Protein::write(ofstream&amp; outF)"
+            startingLineNumber = "374"
+            endingLineNumber = "374"
+            landmarkName = "Proteins::readInLocDB(string fname)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1337,11 +1319,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/dtafilter.cpp"
-            timestampString = "502910726.729102"
+            timestampString = "504557087.962043"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "182"
-            endingLineNumber = "182"
+            startingLineNumber = "177"
+            endingLineNumber = "177"
             landmarkName = "Proteins::readIn(string wd, filterFile::FilterFileParams* const pars, const vector &lt;filterFile::FilterFileData_protein&gt;&amp; colNamesTemp, const vector&lt;filterFile::FilterFileData_peptide&gt;&amp; pColNamesTemp, Peptides * const peptides)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1369,11 +1351,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/main.cpp"
-            timestampString = "500488123.004685"
+            timestampString = "504551983.975849"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "50"
-            endingLineNumber = "50"
+            startingLineNumber = "56"
+            endingLineNumber = "56"
             landmarkName = "main (int argc, char *argv[])"
             landmarkType = "9">
             <Locations>
@@ -1465,11 +1447,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/FilterFile.cpp"
-            timestampString = "504543742.022292"
+            timestampString = "504551748.098171"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "44"
-            endingLineNumber = "44"
+            startingLineNumber = "60"
+            endingLineNumber = "60"
             landmarkName = "FilterFileParams::readDTParams(string fname, string path)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1481,11 +1463,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/FilterFile.cpp"
-            timestampString = "504543742.022292"
+            timestampString = "504551748.098171"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "50"
-            endingLineNumber = "50"
+            startingLineNumber = "66"
+            endingLineNumber = "66"
             landmarkName = "FilterFileParams::readDTParams(string fname, string path)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1561,11 +1543,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/dtafilter.cpp"
-            timestampString = "502910726.729102"
+            timestampString = "504557087.962043"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "193"
-            endingLineNumber = "193"
+            startingLineNumber = "187"
+            endingLineNumber = "187"
             landmarkName = "Proteins::readIn(string wd, filterFile::FilterFileParams* const pars, const vector &lt;filterFile::FilterFileData_protein&gt;&amp; colNamesTemp, const vector&lt;filterFile::FilterFileData_peptide&gt;&amp; pColNamesTemp, Peptides * const peptides)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1577,11 +1559,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/dtafilter.cpp"
-            timestampString = "502910726.729102"
+            timestampString = "504557087.962043"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "214"
-            endingLineNumber = "214"
+            startingLineNumber = "209"
+            endingLineNumber = "209"
             landmarkName = "Proteins::readIn(string wd, filterFile::FilterFileParams* const pars, const vector &lt;filterFile::FilterFileData_protein&gt;&amp; colNamesTemp, const vector&lt;filterFile::FilterFileData_peptide&gt;&amp; pColNamesTemp, Peptides * const peptides)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1593,11 +1575,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/dtafilter.cpp"
-            timestampString = "502910726.729102"
+            timestampString = "504557087.962043"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "216"
-            endingLineNumber = "216"
+            startingLineNumber = "211"
+            endingLineNumber = "211"
             landmarkName = "Proteins::readIn(string wd, filterFile::FilterFileParams* const pars, const vector &lt;filterFile::FilterFileData_protein&gt;&amp; colNamesTemp, const vector&lt;filterFile::FilterFileData_peptide&gt;&amp; pColNamesTemp, Peptides * const peptides)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1609,11 +1591,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/main.cpp"
-            timestampString = "500488123.004685"
+            timestampString = "504551983.975849"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "60"
-            endingLineNumber = "60"
+            startingLineNumber = "66"
+            endingLineNumber = "66"
             landmarkName = "main (int argc, char *argv[])"
             landmarkType = "9">
          </BreakpointContent>
@@ -1625,11 +1607,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/main.cpp"
-            timestampString = "500488123.004685"
+            timestampString = "504551983.975849"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "62"
-            endingLineNumber = "62"
+            startingLineNumber = "68"
+            endingLineNumber = "68"
             landmarkName = "main (int argc, char *argv[])"
             landmarkType = "9">
          </BreakpointContent>
@@ -1646,7 +1628,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "251"
             endingLineNumber = "251"
-            landmarkName = "MWDB_Protein::readIn(string _wd, const FilterFileParams&amp; params)"
+            landmarkName = "MWDB_Protein::readIn(string _wd, const filterFile::FilterFileParams&amp; params)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1662,7 +1644,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "252"
             endingLineNumber = "252"
-            landmarkName = "MWDB_Protein::readIn(string _wd, const FilterFileParams&amp; params)"
+            landmarkName = "MWDB_Protein::readIn(string _wd, const filterFile::FilterFileParams&amp; params)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1678,7 +1660,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "255"
             endingLineNumber = "255"
-            landmarkName = "MWDB_Protein::readIn(string _wd, const FilterFileParams&amp; params)"
+            landmarkName = "MWDB_Protein::readIn(string _wd, const filterFile::FilterFileParams&amp; params)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1694,7 +1676,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "254"
             endingLineNumber = "254"
-            landmarkName = "MWDB_Protein::readIn(string _wd, const FilterFileParams&amp; params)"
+            landmarkName = "MWDB_Protein::readIn(string _wd, const filterFile::FilterFileParams&amp; params)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1753,11 +1735,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/FilterFile.cpp"
-            timestampString = "504543742.022292"
+            timestampString = "504551748.098171"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "228"
-            endingLineNumber = "228"
+            startingLineNumber = "244"
+            endingLineNumber = "244"
             landmarkName = "FilterFileParams::readFlist(string fname, string path)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1769,11 +1751,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/dtafilter.cpp"
-            timestampString = "504541436.165656"
+            timestampString = "504558505.671252"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "485"
-            endingLineNumber = "485"
+            startingLineNumber = "482"
+            endingLineNumber = "482"
             landmarkName = "Proteins::writeOut(string ofname, const filterFile::FilterFileParams&amp; filterFileParams)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1785,11 +1767,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/dtafilter.cpp"
-            timestampString = "504541436.165656"
+            timestampString = "504558505.671252"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "484"
-            endingLineNumber = "484"
+            startingLineNumber = "481"
+            endingLineNumber = "481"
             landmarkName = "Proteins::writeOut(string ofname, const filterFile::FilterFileParams&amp; filterFileParams)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1838,7 +1820,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "51"
             endingLineNumber = "51"
-            landmarkName = "Protein::operator = (const Protein&amp; _p)"
+            landmarkName = "Protein::addFxn()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1959,11 +1941,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/dtafilter.cpp"
-            timestampString = "504541436.165656"
+            timestampString = "504558505.671252"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "384"
-            endingLineNumber = "384"
+            startingLineNumber = "381"
+            endingLineNumber = "381"
             landmarkName = "Protein::write(ofstream&amp; outF)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1975,13 +1957,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/dtafilter.cpp"
-            timestampString = "504541436.165656"
+            timestampString = "504558505.671252"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "752"
-            endingLineNumber = "752"
-            landmarkName = "isColumnHeaderLine(const vector&lt;string&gt;&amp; elems)"
-            landmarkType = "9">
+            startingLineNumber = "749"
+            endingLineNumber = "749"
+            landmarkName = "Proteins::writeOutDB(string ofname, const filterFile::FilterFileParams&amp; filterFileParams)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1991,11 +1973,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/dtafilter.cpp"
-            timestampString = "504541436.165656"
+            timestampString = "504558505.671252"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "748"
-            endingLineNumber = "748"
+            startingLineNumber = "745"
+            endingLineNumber = "745"
             landmarkName = "Proteins::writeOutDB(string ofname, const filterFile::FilterFileParams&amp; filterFileParams)"
             landmarkType = "7">
          </BreakpointContent>
@@ -2012,8 +1994,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "25"
             endingLineNumber = "25"
-            landmarkName = "initialize(const vector&lt;_Tp&gt;&amp; tempColNames, size_t colNamesLen, size_t* _colIndex)"
-            landmarkType = "9">
+            landmarkName = "Peptide::consolidate(const Peptide&amp; toAdd)"
+            landmarkType = "7">
             <Locations>
                <Location
                   shouldBeEnabled = "No"
@@ -2055,11 +2037,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/dtafilter.cpp"
-            timestampString = "502910726.729102"
+            timestampString = "504557087.962043"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "198"
-            endingLineNumber = "198"
+            startingLineNumber = "195"
+            endingLineNumber = "195"
             landmarkName = "Proteins::readIn(string wd, filterFile::FilterFileParams* const pars, const vector &lt;filterFile::FilterFileData_protein&gt;&amp; colNamesTemp, const vector&lt;filterFile::FilterFileData_peptide&gt;&amp; pColNamesTemp, Peptides * const peptides)"
             landmarkType = "7">
          </BreakpointContent>
@@ -2071,11 +2053,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/dtafilter.cpp"
-            timestampString = "502910726.729102"
+            timestampString = "504557087.962043"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "106"
-            endingLineNumber = "106"
+            startingLineNumber = "103"
+            endingLineNumber = "103"
             landmarkName = "Protein::getProteinData(string line, size_t colIndex)"
             landmarkType = "7">
          </BreakpointContent>
@@ -2195,11 +2177,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/FilterFile.cpp"
-            timestampString = "504543742.022292"
+            timestampString = "504551748.098171"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "178"
-            endingLineNumber = "178"
+            startingLineNumber = "194"
+            endingLineNumber = "194"
             landmarkName = "FilterFileParams::readDTParams(string fname, string path)"
             landmarkType = "7">
          </BreakpointContent>
@@ -2211,11 +2193,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/dtafilter.cpp"
-            timestampString = "504541436.165656"
+            timestampString = "504558505.671252"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "620"
-            endingLineNumber = "620"
+            startingLineNumber = "617"
+            endingLineNumber = "617"
             landmarkName = "Proteins::writeOut(string ofname, const filterFile::FilterFileParams&amp; filterFileParams)"
             landmarkType = "7">
          </BreakpointContent>
@@ -2227,11 +2209,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/dtafilter.cpp"
-            timestampString = "504541436.165656"
+            timestampString = "504558505.671252"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "624"
-            endingLineNumber = "624"
+            startingLineNumber = "621"
+            endingLineNumber = "621"
             landmarkName = "Proteins::writeOut(string ofname, const filterFile::FilterFileParams&amp; filterFileParams)"
             landmarkType = "7">
          </BreakpointContent>
@@ -2243,11 +2225,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/dtafilter.cpp"
-            timestampString = "504541436.165656"
+            timestampString = "504558505.671252"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "434"
-            endingLineNumber = "434"
+            startingLineNumber = "431"
+            endingLineNumber = "431"
             landmarkName = "Protein::write(ofstream&amp; outF)"
             landmarkType = "7">
          </BreakpointContent>
@@ -2259,11 +2241,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/dtafilter.cpp"
-            timestampString = "504541436.165656"
+            timestampString = "504558505.671252"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "549"
-            endingLineNumber = "549"
+            startingLineNumber = "546"
+            endingLineNumber = "546"
             landmarkName = "Proteins::writeOut(string ofname, const filterFile::FilterFileParams&amp; filterFileParams)"
             landmarkType = "7">
          </BreakpointContent>
@@ -2275,11 +2257,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/dtafilter.cpp"
-            timestampString = "504541436.165656"
+            timestampString = "504558505.671252"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "538"
-            endingLineNumber = "538"
+            startingLineNumber = "535"
+            endingLineNumber = "535"
             landmarkName = "Proteins::writeOut(string ofname, const filterFile::FilterFileParams&amp; filterFileParams)"
             landmarkType = "7">
          </BreakpointContent>
@@ -2323,11 +2305,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/dtafilter.cpp"
-            timestampString = "504541436.165656"
+            timestampString = "504558505.671252"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "818"
-            endingLineNumber = "818"
+            startingLineNumber = "811"
+            endingLineNumber = "811"
             landmarkName = "Peptide::write(ofstream&amp; outF)"
             landmarkType = "7">
          </BreakpointContent>
@@ -2339,11 +2321,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/dtafilter.cpp"
-            timestampString = "504541436.165656"
+            timestampString = "504558505.671252"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "412"
-            endingLineNumber = "412"
+            startingLineNumber = "409"
+            endingLineNumber = "409"
             landmarkName = "Protein::write(ofstream&amp; outF)"
             landmarkType = "7">
          </BreakpointContent>
@@ -2355,11 +2337,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/dtafilter.cpp"
-            timestampString = "504541436.165656"
+            timestampString = "504558505.671252"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "526"
-            endingLineNumber = "526"
+            startingLineNumber = "523"
+            endingLineNumber = "523"
             landmarkName = "Proteins::writeOut(string ofname, const filterFile::FilterFileParams&amp; filterFileParams)"
             landmarkType = "7">
          </BreakpointContent>
@@ -2371,11 +2353,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/dtafilter.cpp"
-            timestampString = "504541436.165656"
+            timestampString = "504558505.671252"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "511"
-            endingLineNumber = "511"
+            startingLineNumber = "508"
+            endingLineNumber = "508"
             landmarkName = "Proteins::writeOut(string ofname, const filterFile::FilterFileParams&amp; filterFileParams)"
             landmarkType = "7">
          </BreakpointContent>
@@ -2387,11 +2369,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/dtafilter.cpp"
-            timestampString = "504541436.165656"
+            timestampString = "504558505.671252"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "658"
-            endingLineNumber = "658"
+            startingLineNumber = "655"
+            endingLineNumber = "655"
             landmarkName = "Proteins::writeOutDB(string ofname, const filterFile::FilterFileParams&amp; filterFileParams)"
             landmarkType = "7">
          </BreakpointContent>
@@ -2481,11 +2463,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/dtafilter.cpp"
-            timestampString = "502910726.729102"
+            timestampString = "504557087.962043"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "108"
-            endingLineNumber = "108"
+            startingLineNumber = "105"
+            endingLineNumber = "105"
             landmarkName = "Protein::getProteinData(string line, size_t colIndex)"
             landmarkType = "7">
          </BreakpointContent>
@@ -2497,11 +2479,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "lib/hashTable.cpp"
-            timestampString = "502930362.350351"
+            timestampString = "504555646.549499"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "54"
-            endingLineNumber = "54"
+            startingLineNumber = "53"
+            endingLineNumber = "53"
             landmarkName = "write(ofstream&amp; outF)"
             landmarkType = "9">
          </BreakpointContent>
@@ -2513,11 +2495,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/main.cpp"
-            timestampString = "502995435.442926"
+            timestampString = "504551983.975849"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "81"
-            endingLineNumber = "81"
+            startingLineNumber = "87"
+            endingLineNumber = "87"
             landmarkName = "main (int argc, char *argv[])"
             landmarkType = "9">
          </BreakpointContent>
@@ -2559,11 +2541,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/dtafilter.cpp"
-            timestampString = "504505553.025161"
+            timestampString = "504558505.671252"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "269"
-            endingLineNumber = "269"
+            startingLineNumber = "270"
+            endingLineNumber = "270"
             landmarkName = "Peptide::parsePeptide(const string&amp; line)"
             landmarkType = "7">
          </BreakpointContent>
@@ -2575,13 +2557,236 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/dtafilter.cpp"
-            timestampString = "504505635.578807"
+            timestampString = "504558505.671252"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "266"
+            endingLineNumber = "266"
+            landmarkName = "Peptide::parsePeptide(const string&amp; line)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/FilterFile.cpp"
+            timestampString = "504551748.098171"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "265"
             endingLineNumber = "265"
-            landmarkName = "Peptide::parsePeptide(const string&amp; line)"
+            landmarkName = "FilterFileParams::optionsCompatable()"
             landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/dtafilter.cpp"
+            timestampString = "504558505.671252"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "936"
+            endingLineNumber = "936"
+            landmarkName = "Peptides::writeOutDB(string ofname, const filterFile::FilterFileParams&amp; pars)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/dtafilter.hpp"
+            timestampString = "504556770.779005"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "90"
+            endingLineNumber = "90"
+            landmarkName = "operator == (const Peptide&amp; comp)"
+            landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/dtafilter.cpp"
+            timestampString = "504557388.716489"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "227"
+            endingLineNumber = "227"
+            landmarkName = "Proteins::readIn(string wd, filterFile::FilterFileParams* const pars, const vector &lt;filterFile::FilterFileData_protein&gt;&amp; colNamesTemp, const vector&lt;filterFile::FilterFileData_peptide&gt;&amp; pColNamesTemp, Peptides * const peptides)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "lib/hashTable.cpp"
+            timestampString = "504555646.549499"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "75"
+            endingLineNumber = "75"
+            landmarkName = "insert(const _Tp&amp; newItem, string key)"
+            landmarkType = "9">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "hashTable::HashTable&lt;Peptide&gt;::insert(Peptide const&amp;, std::__1::basic_string&lt;char, std::__1::char_traits&lt;char&gt;, std::__1::allocator&lt;char&gt; &gt;)"
+                  moduleName = "DTarray_pro"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/Aaron/scripts/DTarray_pro/src/../lib/hashTable.cpp"
+                  timestampString = "504555560.129603"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "76"
+                  endingLineNumber = "76"
+                  offsetFromSymbolStart = "26">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "hashTable::HashTable&lt;mwDB::Peptide&gt;::insert(mwDB::Peptide const&amp;, std::__1::basic_string&lt;char, std::__1::char_traits&lt;char&gt;, std::__1::allocator&lt;char&gt; &gt;)"
+                  moduleName = "DTarray_pro"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/Aaron/scripts/DTarray_pro/src/../lib/hashTable.cpp"
+                  timestampString = "504555560.131286"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "76"
+                  endingLineNumber = "76"
+                  offsetFromSymbolStart = "26">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "hashTable::HashTable&lt;DBProtein&gt;::insert(DBProtein const&amp;, std::__1::basic_string&lt;char, std::__1::char_traits&lt;char&gt;, std::__1::allocator&lt;char&gt; &gt;)"
+                  moduleName = "DTarray_pro"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/Aaron/scripts/DTarray_pro/src/../lib/hashTable.cpp"
+                  timestampString = "504555560.132932"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "76"
+                  endingLineNumber = "76"
+                  offsetFromSymbolStart = "26">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/dtafilter.cpp"
+            timestampString = "504558505.671252"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "252"
+            endingLineNumber = "252"
+            landmarkName = "Proteins::readIn(string wd, filterFile::FilterFileParams* const pars, const vector &lt;filterFile::FilterFileData_protein&gt;&amp; colNamesTemp, const vector&lt;filterFile::FilterFileData_peptide&gt;&amp; pColNamesTemp, Peptides * const peptides)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/dtafilter.cpp"
+            timestampString = "504557087.962043"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "204"
+            endingLineNumber = "204"
+            landmarkName = "Proteins::readIn(string wd, filterFile::FilterFileParams* const pars, const vector &lt;filterFile::FilterFileData_protein&gt;&amp; colNamesTemp, const vector&lt;filterFile::FilterFileData_peptide&gt;&amp; pColNamesTemp, Peptides * const peptides)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/dtafilter.cpp"
+            timestampString = "504557087.962043"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "190"
+            endingLineNumber = "190"
+            landmarkName = "Proteins::readIn(string wd, filterFile::FilterFileParams* const pars, const vector &lt;filterFile::FilterFileData_protein&gt;&amp; colNamesTemp, const vector&lt;filterFile::FilterFileData_peptide&gt;&amp; pColNamesTemp, Peptides * const peptides)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/dtafilter.cpp"
+            timestampString = "504557087.962043"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "191"
+            endingLineNumber = "191"
+            landmarkName = "Proteins::readIn(string wd, filterFile::FilterFileParams* const pars, const vector &lt;filterFile::FilterFileData_protein&gt;&amp; colNamesTemp, const vector&lt;filterFile::FilterFileData_peptide&gt;&amp; pColNamesTemp, Peptides * const peptides)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/dtafilter.cpp"
+            timestampString = "504557178.576259"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "202"
+            endingLineNumber = "202"
+            landmarkName = "Proteins::readIn(string wd, filterFile::FilterFileParams* const pars, const vector &lt;filterFile::FilterFileData_protein&gt;&amp; colNamesTemp, const vector&lt;filterFile::FilterFileData_peptide&gt;&amp; pColNamesTemp, Peptides * const peptides)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "lib/utils.cpp"
+            timestampString = "504651735.557167"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "290"
+            endingLineNumber = "290"
+            landmarkName = "repeat(string str, size_t numTimes)"
+            landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

@@ -28,18 +28,23 @@ int main (int argc, char *argv[])
 	filterFile::FilterFileParams filterFileParams;
 	if (!filterFileParams.readFlist(flistName, wd))
 	{
-		cout << "Failed to read file list! Exiting..." << endl;
+		cout << "\nFailed to read file list! Exiting..." << endl;
 		return 0;
 	}
 	if (!filterFileParams.readDTParams(paramsName, wd))
 	{
-		cout << "Failed to read params file! Exiting..." << endl;
+		cout << "\nFailed to read params file! Exiting..." << endl;
 		return 0;
 	}
+	if(!filterFileParams.optionsCompatable())
+		return 0;
+	
+	if(filterFileParams.peptideOutput != filterFile::none)
+		cout << endl << "Grouping peptides " <<
+		filterFile::groupFormatString(filterFileParams.peptideGroupMethod) << endl << endl;
 	
 	Proteins proteins(filterFileParams);
 	Peptides peptides(filterFileParams);
-	//Peptides * peptidesPtr = new Peptides(peptides);
 
 	//read in subcellular locations database and add sub cell locations to proteins
 	if(filterFileParams.getSubCelluarLoc)
@@ -98,7 +103,7 @@ int main (int argc, char *argv[])
 	//write out combined protein data
 	if(filterFileParams.includeProteins)
 	{
-		assert(filterFileParams.includeProteins != 0);		
+		assert(filterFileParams.outputFormat != 0);
 		if (filterFileParams.outputFormat == 1 || filterFileParams.outputFormat == 3)
 		{
 			if(!proteins.writeOut(wd + filterFileParams.ofname, filterFileParams))
@@ -130,7 +135,7 @@ int main (int argc, char *argv[])
 				cout << "Could not write out file! Exiting..." << endl;
 				return 0;
 			}
-			cout << endl << "peptide data written in wide format to: " << filterFileParams.peptideOfFname << endl;
+			cout << endl << "Peptide data written in wide format to: " << filterFileParams.peptideOfFname << endl;
 		}
 		
 		if(filterFileParams.peptideOutput == 2 || filterFileParams.peptideOutput == 3)

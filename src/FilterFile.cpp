@@ -28,7 +28,9 @@ namespace filterFile{
 	PeptideGroupFormat intToGroupFormat(int val)
 	{
 		switch(val){
-			case 0 : return longOnly;
+			case -1 : return NA;
+				break;
+			case 0 : return byScan;
 				break;
 			case 1 : return byProtein;
 				break;
@@ -38,6 +40,20 @@ namespace filterFile{
 		}
 	}
 	
+	string groupFormatString(PeptideGroupFormat format)
+	{
+		switch(format){
+			case NA : return "NA";
+				break;
+			case byScan : return "by scan";
+				break;
+			case byProtein : return "by protein";
+				break;
+			case byCharge : return "by protein and charge";
+				break;
+		}
+	}
+
 	//read in files to combine and output paramaters from params file
 	bool FilterFileParams::readDTParams(string fname, string path)
 	{
@@ -191,12 +207,12 @@ namespace filterFile{
 						}
 						if(param.param == "groupPeptides")
 						{
-							if(!(param.value == "0" || param.value == "1" || param.value == "2"))
+							if(!(param.value == "-1" || param.value == "0" || param.value == "1" || param.value == "2"))
 							{
 								cout << param.value << PARAM_ERROR_MESSAGE << "groupPeptides" << endl;
 								return false;
 							}
-							groupPeptides = utils::toInt(param.value);
+							peptideGroupMethod = intToGroupFormat(utils::toInt(param.value));
 							continue;
 						}
 						else return false;
@@ -244,10 +260,27 @@ namespace filterFile{
 		return true;
 	}
 	
+	bool FilterFileParams::optionsCompatable() const
+	{
+		if(peptideGroupMethod == byScan && ((peptideOutput == wideFormat) || (peptideOutput == both)))
+		{
+			cout << "groupPeptides and peptideOutput options are incompatable!" << endl
+				<< "Use DTarray -h for more info." << endl << endl;
+			return false;
+		}
+		if(peptideGroupMethod != NA && peptideOutput == none)
+		{
+			cout << "groupPeptides and peptideOutput options are incompatable!" << endl
+				<< "Use DTarray -h for more info." << endl << endl;
+			return false;
+		}
+		return true;
+	}
+	
 	FilterFileData::FilterFileData(string _colName)
 	{
 		colname = _colName;
-		count = "0";
+		count = 0;
 		uniquePeptides = "0";
 	}
 }

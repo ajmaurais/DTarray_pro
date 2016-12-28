@@ -189,7 +189,7 @@ namespace utils{
 	{
 		if (str.empty())
 			return "";
-		return str.substr( 0, str.find_last_not_of(WHITESPACE) + 1 );
+		return str.substr(0, str.find_last_not_of(WHITESPACE) + 1 );
 	}
 	
 	//remove leading WHITESPACE
@@ -227,6 +227,7 @@ namespace utils{
 		return (*p == 0) ;
 	}
 	
+	//return true if str can be converted to a double
 	bool isDouble(string str)
 	{
 		if(str.empty() || ((!isdigit(str[0])) && (str[0] != '-') && (str[0] != '+')))
@@ -291,35 +292,6 @@ namespace utils{
 		for(int i = 0; i < numTimes; i++)
 			ret += str;
 		return ret;
-	}
-	
-	template<class _Tp>
-	typename vector<_Tp>::iterator insertSorted(const vector<_Tp>& vec, const _Tp& item)
-	{
-		return vec.insert(upper_bound(vec.begin(), vec.end(), item), item);
-	}
-	
-	/**
-	 Template binary search. 
-	 Pre: vec must be sorted, _Tp must have == , < , and > operator members.
-	 Post: returns iterator to positon at which findItem is found. If findItem is 
-	 not found, returns vec.end().
-	 */
-	template <class _Tp>
-	typename vector<_Tp>::iterator binSearch(const vector<_Tp>& vec, const _Tp& findItem, long begin, long end)
-	{
-		if (begin > end)
-			return vec.end();
-		
-		long mid = (begin + end)/2;
-		
-		if (vec[mid] == findItem)
-			return vector<_Tp>::iterator (vec.begin() + mid);
-		
-		if (vec[mid] < findItem)
-			return binSearch(vec, findItem, mid + 1, end);
-		else
-			return binSearch(vec, findItem, begin, mid - 1);
 	}
 }
 

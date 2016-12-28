@@ -1,5 +1,5 @@
 //
-//  DTarray_AJM.hpp
+//  dtafilter.hpp
 //  DTarray_AJM
 //
 //  Created by Aaron Maurais on 3/25/16.
@@ -40,28 +40,27 @@ using namespace std;
 bool const INCLUDE_FULL_DESCRIPTION = true;
 string const DEFAULT_COL_NAMES [] = {"Full_description", "ID", "Protein", "Description", "pI", "Mass(Da)"};
 size_t const DEFAULT_COL_NAMES_LENGTH = 6;
-string const COLUMN_HEADER_LINE_ELEMENTS[] = {"Unique", "FileName", "XCorr", "DeltCN", "Conf%", "M+H+",
-	"CalcM+H+", "TotalIntensity", "SpR", "ZScore", "IonProportion", "Redundancy", "Sequence"};
 size_t const COLUMN_HEADER_LINE_ELEMENTS_LENGTH = 13;
-string const PARAM_ERROR_MESSAGE = " is an invalid arguement for: ";
 size_t const MAX_PARAM_ITTERATIONS = 100;
 string const SEQ_NOT_FOUND = "SEQUENCE_NOT_FOUND_IN_DB";
 size_t const PROTEINS_DATA_SIZE = 500;
 size_t const PEPTIDES_DATA_SIZE = 2500;
 
 //editable params for DB output format
-string const DEFAULT_COL_NAMES_DB [] = {"Full_description", "ID", "Protein", "Description", "pI", "Mass(Da)", "Long_sample_name", "Spectral_counts"};
+string const DEFAULT_COL_NAMES_DB [] = {"Full_description", "ID", "Protein", "Description", "pI", "Mass(Da)",
+	"Long_sample_name", "Spectral_counts"};
 size_t const DEFAULT_COL_NAMES_DB_LENGTH = 8;
 string const PARSE_SAMPLE_NAME_HEADERS [] = {"Sample", "Replicate"};
 size_t const PARSE_SAMPLE_NAME_HEADERS_LEN = 2;
 string const SUP_INFO_HEADERS[] = {"SC", "Unique_pep_SC", "coverage"};
 string const MWCALC_HEADERS [] = {"avg_mass", "monoisotopic_mass", "sequence"};
 size_t const MWCALC_HEADERS_LENGTH = 2;
-string const DEFALUT_PEPTIDE_COLNAMES [] = {"protein_ID", "parent_protein", "protein_description", "sequence", "charge", "unique", "calcMH"};
-size_t const DEFALUT_PEPTIDE_COLNAMES_LEN = 7;
-string const DEFALUT_PEPTIDE_DB_COLNAMES [] = {"protein_ID", "parent_protein", "protein_description", "sequence", "charge", "unique",
-	"calcMH", "obsMH", "scan", "parent_file", "Long_sample_name", "Spectral_counts", "Sample", "Replicate"};
-size_t const DEFALUT_PEPTIDE_DB_COLNAMES_LEN = 12;
+string const DEFALUT_PEPTIDE_COLNAMES [] = {"protein_ID", "parent_protein", "protein_description",
+	"sequence", "unique", "calcMH"};
+size_t const DEFALUT_PEPTIDE_COLNAMES_LEN = 6;
+string const DEFALUT_PEPTIDE_DB_COLNAMES [] = {"protein_ID", "parent_protein", "protein_description", "sequence", "unique",
+	"calcMH", "Long_sample_name", "Spectral_counts", "Sample", "Replicate"};
+size_t const DEFALUT_PEPTIDE_DB_COLNAMES_LEN = 8;
 
 /**********************/
 /* class definitions */
@@ -144,7 +143,7 @@ private:
 	static Dbase* fxnDB;
 	
 	//modifier
-	bool getProteinData(string, size_t);
+	void getProteinData(string, size_t);
 	inline void getProtein(string);
 	DBProtein toDBprotein() const;
 	inline void clear();
@@ -225,7 +224,7 @@ public:
 /* functions */
 /*************/
 
-bool isColumnHeaderLine(const vector<string>&);
+inline bool isColumnHeaderLine(const string&);
 string parseSample(string, string, bool);
 int parsePeptideSC(string);
 string parseReplicate(string);

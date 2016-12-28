@@ -20,8 +20,9 @@ namespace filterFile{
 	
 	string const BLANK_STR = "null";
 	string const BLANK_VAL = "-1";
+	string const PARAM_ERROR_MESSAGE = " is an invalid arguement for: ";
 	enum OutputFormat {none, wideFormat, longFormat, both};
-	enum PeptideGroupFormat {longOnly, byProtein, byCharge};
+	enum PeptideGroupFormat {NA, byScan, byProtein, byCharge};
 	
 	/**********************/
 	/* class definitions */
@@ -34,20 +35,21 @@ namespace filterFile{
 	//stores the data pertaining to a specific filter file (or MS run) for each protein
 	class FilterFileData{
 	public:
-		string colname, count;
+		string colname;
+		unsigned int count;
 		string uniquePeptides;
 		
 		//constructor
 		FilterFileData (string);
 		FilterFileData(){
 			colname = BLANK_STR;
-			count = "0";
+			count = 0;
 			uniquePeptides = "0";
 		}
 		~FilterFileData() {}
 		
 		inline bool isNull() const{
-			return count == "0";
+			return count == 0;
 		}
 	};
 	
@@ -126,7 +128,7 @@ namespace filterFile{
 		bool useDefaultSeqDB;
 		bool includeNullPeptides;
 		int supInfoOutput;
-		int groupPeptides;
+		PeptideGroupFormat peptideGroupMethod;
 		
 		FilterFileParams ()
 		{
@@ -153,7 +155,7 @@ namespace filterFile{
 			useDefaultSeqDB=false;
 			includeNullPeptides = false;
 			supInfoOutput = 0;
-			groupPeptides = false;
+			peptideGroupMethod = byProtein;
 		}
 		
 		//modifiers
@@ -169,6 +171,7 @@ namespace filterFile{
 		{
 			return file[index].colname;
 		}
+		bool optionsCompatable() const;
 	};
 	
 	OutputFormat FilterFileParams::outputFormat = none;
@@ -176,6 +179,7 @@ namespace filterFile{
 	
 	OutputFormat intToOutputFormat(int);
 	PeptideGroupFormat intToGroupFormat(int);
+	string groupFormatString(PeptideGroupFormat);
 }
 
 #endif /* FilterFile_hpp */

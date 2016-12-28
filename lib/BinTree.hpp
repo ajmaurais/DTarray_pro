@@ -6,6 +6,9 @@
 //  Copyright © 2016 Aaron Maurais. All rights reserved.
 //
 
+#ifndef BinTree_hpp
+#define BinTree_hpp
+
 #include<iostream>
 
 using namespace std;
@@ -58,3 +61,5 @@ namespace binTree{
 		typename Node<_Tp>::Node* search(const _Tp&, typename Node<_Tp>::Node*) const;
 	};
 }
+
+#endif

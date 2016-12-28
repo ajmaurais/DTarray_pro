@@ -51,7 +51,7 @@ getFxn="0"
 useDefaultSeqDB="1"
 includeNullPeptides="0"
 supInfoOutput="0"
-groupPeptides="0"
+groupPeptides="-1"
 
 function usage {
 	cat $scriptWDdb/usage.txt
@@ -146,7 +146,11 @@ while ! [[ -z "$1" ]] ; do
 			shift
 			isArg "$1"
 			peptideOutput="$1"
-			includePeptides=true ;;
+			includePeptides=true
+			if ! [ groupPeptides == "-1" ] ; then
+				groupPeptides = "1"
+			fi
+			;;
 		"-c" | "--coverage")
 			includeCoverage="1" ;;
 		"-s")
@@ -191,12 +195,13 @@ if $recompile ; then
 	fi
 fi
 
+echo -e '\nDTarray_pro v1.0'
+
 #summarize params for user
 echo -e "\nThe folowing paramaters were used:"
 echo "input = "$input
 echo "output = "$output
 echo "includeUnique = "$includeUnique
-echo "wd = "$wd
 echo "recompile = "$recompile
 echo "sampleNamePrefix = "$sampleNamePrefix
 echo "keepParams = "$keepParams
