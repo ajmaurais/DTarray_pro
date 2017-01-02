@@ -244,12 +244,10 @@ namespace mwDB{
 		return true;
 	}
 	
-	bool MWDB_Protein::readIn(string _wd, const filterFile::FilterFileParams& params)
+	bool MWDB_Protein::readIn(string wd, const filterFile::FilterFileParams& params)
 	{
-		string wd;
-		params.useDefaultSeqDB ? wd = _wd : wd = "";
-		bool val1 = seqDB->readIn(wd + params.mwDBFname);
-		bool val2 = MWDB::readIn(_wd + params.staticModsFname, params.aaDBfanme);
+		bool val1 = seqDB->readIn(params.mwDBFname);
+		bool val2 = MWDB::readIn(wd + params.staticModsFname, params.aaDBfanme);
 		
 		return val1 && val2;
 	}

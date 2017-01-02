@@ -102,7 +102,7 @@ namespace mwDB{
 			delete seqDB;
 		}
 		
-		bool readIn(string, const filterFile::FilterFileParams&);
+		bool readIn(string wd, const filterFile::FilterFileParams&);
 	};
 	
 }

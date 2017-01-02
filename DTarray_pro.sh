@@ -65,6 +65,14 @@ function isArg {
 	fi
 }
 
+function absPath {
+	if [ -d "$1" ]; then
+		( cd "$1"; dirs -l +0 )
+	else
+		( cd "$(dirname "$1")"; d=$(dirs -l +0); echo "${d%/}/${1##*/}" )
+	fi
+}
+
 #get arguements
 while ! [[ -z "$1" ]] ; do
     case $1 in
@@ -88,7 +96,8 @@ while ! [[ -z "$1" ]] ; do
         "-d" | "--dir" )
 			shift
 			isArg "$1"
-            wd="$1" ;;
+            wd=$(absPath "$1")
+			echo $wd;;
 		"-r" | "--recompile")
 			recompile=true
 			continueExc=false;;
@@ -127,7 +136,8 @@ while ! [[ -z "$1" ]] ; do
 				useDefaultSeqDB="0"
 			else
 				shift
-				mwDBFname="$1"
+				isArg '$1'
+				mwDBFname=$(absPath "$1")
 				calcMWStr="1"
 				calcMW=true
 				useDefaultSeqDB="1"
@@ -139,7 +149,7 @@ while ! [[ -z "$1" ]] ; do
 				else
 					shift
 					isArg "$1"
-					seqDBFnameTr="$1"
+					seqDBFnameTr=$(absPath "$1")
 					getSeq="1"
 				fi;;
 		"-p" | "--peptides")
@@ -309,6 +319,6 @@ fi
 
 #run DTarray_pro
 cd $scriptWDbin
-./$binName $wd $flistName $paramsName
+./$binName $wd'/' $flistName $paramsName
 
 echo "Done"
