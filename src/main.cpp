@@ -6,12 +6,7 @@
 //  Copyright © 2016 Aaron Maurais. All rights reserved.
 //
 
-#include "dtafilter.hpp"
-#include "FilterFile.cpp"
-#include "dtafilter.cpp"
-#include "../lib/utils.cpp"
-#include "calcMW.cpp"
-#include "dbase.cpp"
+#include "DTarray_pro.hpp"
 
 using namespace std;
 

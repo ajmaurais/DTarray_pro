@@ -31,6 +31,7 @@
 		935749821D833F2D00ED60BF /* BinTree.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = BinTree.hpp; path = lib/BinTree.hpp; sourceTree = "<group>"; };
 		935749831D83521B00ED60BF /* hashTable.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = hashTable.hpp; path = lib/hashTable.hpp; sourceTree = "<group>"; };
 		935D3A0C1D5954F000171E6A /* dtafilter.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = dtafilter.hpp; path = src/dtafilter.hpp; sourceTree = "<group>"; };
+		938468E51E1ABE6200B96854 /* DTarray_pro.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = DTarray_pro.hpp; path = src/DTarray_pro.hpp; sourceTree = "<group>"; };
 		93C94ECE1CF3A8580003D4E5 /* DTarray_pro */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = DTarray_pro; sourceTree = BUILT_PRODUCTS_DIR; };
 		93C94ED11CF3A8580003D4E5 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = src/main.cpp; sourceTree = "<group>"; };
 		93CAE46F1D3EE60700BDE765 /* utils.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = utils.cpp; path = lib/utils.cpp; sourceTree = "<group>"; };
@@ -73,6 +74,7 @@
 			isa = PBXGroup;
 			children = (
 				93C94ED11CF3A8580003D4E5 /* main.cpp */,
+				938468E51E1ABE6200B96854 /* DTarray_pro.hpp */,
 				935D3A0C1D5954F000171E6A /* dtafilter.hpp */,
 				930E31C61DCD3AC50001BB21 /* baseClasses.hpp */,
 				93CAE4701D3EEC9800BDE765 /* dtafilter.cpp */,

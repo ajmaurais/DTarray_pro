@@ -11,6 +11,7 @@ fxnDBfname="$scriptWDdb/humanFxn.txt"
 staticModificationsDB="$scriptWDdb/staticModifications.txt"
 binName="DTarray_pro"
 helpFileFname="$scriptWDdb/helpFile.man"
+versionNum='1.2'
 
 recompileMessage='DTarray_pro source code recompiled.'
 invalidOptionMessage="is an invalid option! Exiting...\nUse DTarray -h for help."
@@ -205,28 +206,29 @@ if $recompile ; then
 	fi
 fi
 
-echo -e '\nDTarray_pro v1.0'
+echo -e '\nDTarray_pro v'$versionNum
+echo
 
 #summarize params for user
-echo -e "\nThe folowing paramaters were used:"
-echo "input = "$input
-echo "output = "$output
-echo "includeUnique = "$includeUnique
-echo "recompile = "$recompile
-echo "sampleNamePrefix = "$sampleNamePrefix
-echo "keepParams = "$keepParams
-echo "flistName = "$flistName
-echo "paramsName = "$paramsName
-echo "getSubCelluarLoc = "$getSubCelluarLoc
-echo "calcMW = "$calcMW
-echo "mwDBFname = "$mwDBFname
-echo "getSeq = "$getSeq
-echo "getFxn = "$getFxn
-echo "seqDBfname = "$seqDBFnameTr
-echo "rewriteSmod = "$rewriteSmod
-echo "peptideOutput = "$peptideOutput
-echo "includeCoverage = "$includeCoverage
-echo
+#echo -e "\nThe folowing paramaters were used:"
+#echo "input = "$input
+#echo "output = "$output
+#echo "includeUnique = "$includeUnique
+#echo "recompile = "$recompile
+#echo "sampleNamePrefix = "$sampleNamePrefix
+#echo "keepParams = "$keepParams
+#echo "flistName = "$flistName
+#echo "paramsName = "$paramsName
+#echo "getSubCelluarLoc = "$getSubCelluarLoc
+#echo "calcMW = "$calcMW
+#echo "mwDBFname = "$mwDBFname
+#echo "getSeq = "$getSeq
+#echo "getFxn = "$getFxn
+#echo "seqDBfname = "$seqDBFnameTr
+#echo "rewriteSmod = "$rewriteSmod
+#echo "peptideOutput = "$peptideOutput
+#echo "includeCoverage = "$includeCoverage
+#echo
 
 #create params file
 cd $wd
@@ -236,6 +238,7 @@ fi
 if ! [[ -a $flistName ]] ; then
 	echo "Generating $flistName using $input input format."
 	echo -e "$paramsCommentSymbol File list for DTarray_pro\n$paramsCommentSymbol File list generated on: "$(date +"%y-%m-%d_%H:%M:%S")'\n' > ./$flistName
+	echo -e "\n<versionNum>"$versionNum"</versionNum>\n<flist>\n" >> ./$flistName
 	case $input in
 		"standard")
 			#check if wd contains .dtafilter files
@@ -273,6 +276,7 @@ if ! [[ -a $flistName ]] ; then
 			exit
 		;;
 	esac
+	echo -e "\n</flist>\n" >> ./$flistName
 fi
 
 #write output paramaters to params file
@@ -281,6 +285,7 @@ if ! $keepParams ; then
 	echo -e "$paramsCommentSymbol Params for DTarray_pro\n$paramsCommentSymbol Params generated on: "$(date +"%y-%m-%d_%H:%M:%S")'\n' > ./$paramsName
 	echo -e '<paramsFile>\n' >> ./$paramsName
 	echo -e '<params>\n' >> ./$paramsName
+	echo 'versionNum'=$versionNum >> ./$paramsName
 	echo 'ofname='$ofname >> ./$paramsName
 	echo 'dbOfname='$dbOfname >> ./$paramsName
 	echo 'peptideOfFname='$peptideOfFname >> ./$paramsName

@@ -90,6 +90,7 @@ namespace utils {
 	bool fileExists (string);
 	inline string toString(int);
 	inline int toInt(string);
+	inline double toDouble(string);
 	inline bool strContains(string, string);
 	inline bool strContains(char, string);
 	inline void split (const string, char, vector<string> &);

@@ -107,7 +107,10 @@ namespace filterFile{
 	class FilterFileParams{
 		friend class Proteins;
 		vector<FilterFileParam> file;
+		
+		string parseVersionNum(string) const;
 	public:
+		string versionNum;
 		int numFiles;
 		static OutputFormat outputFormat;
 		string sampleNamePrefix;
@@ -132,6 +135,7 @@ namespace filterFile{
 		
 		FilterFileParams ()
 		{
+			versionNum = "";
 			numFiles = 0;
 			sampleNamePrefix = "";
 			includeUnique = false;

@@ -70,6 +70,12 @@ namespace filterFile{
 					if(utils::strContains('=', line)) //find lines containing params by = symbol
 					{
 						Param param (line);
+						if(param.param == "versionNum")
+						{
+							versionNum = param.value;
+							assert(MIN_BIN_VERSION_NUM <= utils::toDouble(versionNum));
+							continue;
+						}
 						if(param.param == "sampleNamePrefix")
 						{
 							sampleNamePrefix = param.value;
@@ -238,30 +244,67 @@ namespace filterFile{
 		int i = 0;
 		numFiles = 0;
 		string line;
+		string versionNumStr = "<versionNum>";
 		
-		while(!data.end())
-		{
+		do{
 			line = data.getLine_skip_trim();
-			vector<string>elems;
-			utils::split(line, '\t', elems);
-			if(elems.size() == 2)
+			if(line.substr(0, versionNumStr.length()) == versionNumStr)
 			{
-				FilterFileParam blank;
-				file.push_back(blank);
-				file[i].colname = elems[0];
-				file[i].path = elems[1];
-				numFiles++;
-				i++;
+				assert(MIN_BIN_VERSION_NUM <= utils::toDouble(parseVersionNum(line)));
+				continue;
 			}
-			else if (elems.size() != 0)
-				return false;
-		}
+			if(line == "<flist>")
+			{
+				do{
+					line = data.getLine_skip_trim();
+					if(line == "</flist>")
+						continue;
+					vector<string>elems;
+					utils::split(line, '\t', elems);
+					if(elems.size() == 2)
+					{
+						FilterFileParam blank;
+						file.push_back(blank);
+						file[i].colname = elems[0];
+						file[i].path = elems[1];
+						numFiles++;
+						i++;
+					}
+					else if (elems.size() != 0 || data.end())
+						return false;
+				} while(line != "</flist>");
+				continue;
+			}
+		} while(!data.end());
 		
 		return true;
 	}
 	
+	string FilterFileParams::parseVersionNum(string line) const
+	{
+		string versionNumStr = "<versionNum>";
+		string endVersionNumStr = "</versionNum>";
+		
+		size_t before = line.find(versionNumStr);
+		size_t end = line.find(endVersionNumStr);
+		if(end == string::npos || before != 0)
+			return "-1";
+		
+		size_t len = line.length() - (versionNumStr.length() + endVersionNumStr.length());
+		string mid = line.substr(before + versionNumStr.length(), len);
+		
+		return mid;
+	}
+	
 	bool FilterFileParams::optionsCompatable() const
 	{
+		assert(MIN_BIN_VERSION_NUM <= utils::toDouble(versionNum));
+		if(BIN_VERSION_NUM != versionNum)
+		{
+			cout << "DTarray_pro cpp binary file was compiled from version: " << BIN_VERSION_NUM << endl;
+			cout << "DTarray_pro.sh is version: " << versionNum << endl;
+			cout << "Version incompatability may cause unpredictable behavior." << endl;
+		}
 		if(peptideGroupMethod == byScan && ((peptideOutput == wideFormat) || (peptideOutput == both)))
 		{
 			cout << "groupPeptides and peptideOutput options are incompatable!" << endl
