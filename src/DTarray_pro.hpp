@@ -9,13 +9,15 @@
 #ifndef DTarray_pro_hpp
 #define DTarray_pro_hpp
 
-#define BIN_VERSION_NUM "1.2"
-#define MIN_BIN_VERSION_NUM 1.2
+#define BIN_VERSION_NUM "1.3"
+#define MIN_BIN_VERSION_NUM 1.3
 
 #include "dtafilter.hpp"
+#include "../lib/BinTree.cpp"
+#include "../lib/hashTable.cpp"
+#include "../lib/utils.cpp"
 #include "FilterFile.cpp"
 #include "dtafilter.cpp"
-#include "../lib/utils.cpp"
 #include "calcMW.cpp"
 #include "dbase.cpp"
 

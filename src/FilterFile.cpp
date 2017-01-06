@@ -28,8 +28,6 @@ namespace filterFile{
 	PeptideGroupFormat intToGroupFormat(int val)
 	{
 		switch(val){
-			case -1 : return NA;
-				break;
 			case 0 : return byScan;
 				break;
 			case 1 : return byProtein;
@@ -43,8 +41,6 @@ namespace filterFile{
 	string groupFormatString(PeptideGroupFormat format)
 	{
 		switch(format){
-			case NA : return "NA";
-				break;
 			case byScan : return "by scan";
 				break;
 			case byProtein : return "by protein";
@@ -213,7 +209,7 @@ namespace filterFile{
 						}
 						if(param.param == "groupPeptides")
 						{
-							if(!(param.value == "-1" || param.value == "0" || param.value == "1" || param.value == "2"))
+							if(!(param.value == "0" || param.value == "1" || param.value == "2"))
 							{
 								cout << param.value << PARAM_ERROR_MESSAGE << "groupPeptides" << endl;
 								return false;
@@ -303,15 +299,9 @@ namespace filterFile{
 		{
 			cout << "DTarray_pro cpp binary file was compiled from version: " << BIN_VERSION_NUM << endl;
 			cout << "DTarray_pro.sh is version: " << versionNum << endl;
-			cout << "Version incompatability may cause unpredictable behavior." << endl;
+			cout << "Version incompatability may cause unpredictable behavior.\n\n";
 		}
 		if(peptideGroupMethod == byScan && ((peptideOutput == wideFormat) || (peptideOutput == both)))
-		{
-			cout << "groupPeptides and peptideOutput options are incompatable!" << endl
-				<< "Use DTarray -h for more info." << endl << endl;
-			return false;
-		}
-		if(peptideGroupMethod != NA && peptideOutput == none)
 		{
 			cout << "groupPeptides and peptideOutput options are incompatable!" << endl
 				<< "Use DTarray -h for more info." << endl << endl;

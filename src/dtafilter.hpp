@@ -28,7 +28,6 @@
 #include "dbase.hpp"
 #include "../lib/utils.hpp"
 #include "FilterFile.hpp"
-#include "../lib/hashTable.cpp"
 #include "calcMW.hpp"
 
 using namespace std;

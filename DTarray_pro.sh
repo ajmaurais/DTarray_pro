@@ -11,7 +11,7 @@ fxnDBfname="$scriptWDdb/humanFxn.txt"
 staticModificationsDB="$scriptWDdb/staticModifications.txt"
 binName="DTarray_pro"
 helpFileFname="$scriptWDdb/helpFile.man"
-versionNum='1.2'
+versionNum='1.3'
 
 recompileMessage='DTarray_pro source code recompiled.'
 invalidOptionMessage="is an invalid option! Exiting...\nUse DTarray -h for help."
@@ -52,7 +52,7 @@ getFxn="0"
 useDefaultSeqDB="1"
 includeNullPeptides="0"
 supInfoOutput="0"
-groupPeptides="-1"
+groupPeptides="1"
 
 function usage {
 	cat $scriptWDdb/usage.txt
@@ -158,9 +158,6 @@ while ! [[ -z "$1" ]] ; do
 			isArg "$1"
 			peptideOutput="$1"
 			includePeptides=true
-			if ! [ groupPeptides == "-1" ] ; then
-				groupPeptides = "1"
-			fi
 			;;
 		"-c" | "--coverage")
 			includeCoverage="1" ;;

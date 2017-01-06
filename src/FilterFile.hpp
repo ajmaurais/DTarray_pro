@@ -22,7 +22,7 @@ namespace filterFile{
 	string const BLANK_VAL = "-1";
 	string const PARAM_ERROR_MESSAGE = " is an invalid arguement for: ";
 	enum OutputFormat {none, wideFormat, longFormat, both};
-	enum PeptideGroupFormat {NA, byScan, byProtein, byCharge};
+	enum PeptideGroupFormat {byScan, byProtein, byCharge};
 	
 	/**********************/
 	/* class definitions */
