@@ -63,6 +63,8 @@ namespace filterFile{
 			if(line == "<params>")
 				do{
 					line = file.getLine_skip_trim();
+					if(file.end())
+						return false;
 					if(utils::strContains('=', line)) //find lines containing params by = symbol
 					{
 						Param param (line);
@@ -231,13 +233,21 @@ namespace filterFile{
 		return true;
 	}
 	
+	FilterFileParam::FilterFileParam(string line)
+	{
+		vector<string>elems;
+		utils::split(line, '\t', elems);
+		assert(elems.size() == 2);
+		colname = elems[0];
+		path = elems[1];
+	}
+	
 	bool FilterFileParams::readFlist(string fname, string path)
 	{
 		utils::File data;
 		if(!data.read(path + fname))
 			return false;
-		
-		int i = 0;
+
 		numFiles = 0;
 		string line;
 		string versionNumStr = "<versionNum>";
@@ -252,22 +262,13 @@ namespace filterFile{
 			if(line == "<flist>")
 			{
 				do{
+					if(data.end())
+						return false;
 					line = data.getLine_skip_trim();
 					if(line == "</flist>")
 						continue;
-					vector<string>elems;
-					utils::split(line, '\t', elems);
-					if(elems.size() == 2)
-					{
-						FilterFileParam blank;
-						file.push_back(blank);
-						file[i].colname = elems[0];
-						file[i].path = elems[1];
-						numFiles++;
-						i++;
-					}
-					else if (elems.size() != 0 || data.end())
-						return false;
+					file.push_back(FilterFileParam(line));
+					numFiles++;
 				} while(line != "</flist>");
 				continue;
 			}

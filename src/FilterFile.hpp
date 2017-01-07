@@ -84,9 +84,22 @@ namespace filterFile{
 		~FilterFileData_protein() {}
 	};
 	
-	struct FilterFileParam{
+	class FilterFileParam{
+	private:
 		string path;
 		string colname;
+	public:
+		//constructor
+		FilterFileParam(string);
+		~FilterFileParam() {}
+		
+		//properities
+		string getPath() const{
+			return path;
+		}
+		string getColname() const{
+			return colname;
+		}
 	};
 	
 	struct Param {
@@ -167,13 +180,11 @@ namespace filterFile{
 		bool readFlist(string, string);
 		
 		//properties
-		string getFilePath(size_t index) const
-		{
-			return file[index].path;
+		string getFilePath(size_t index) const {
+			return file[index].getPath();
 		}
-		string getFileColname(size_t index) const
-		{
-			return file[index].colname;
+		string getFileColname(size_t index) const {
+			return file[index].getColname();
 		}
 		bool optionsCompatable() const;
 	};
