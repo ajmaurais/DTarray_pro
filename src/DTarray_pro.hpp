@@ -21,4 +21,4 @@
 #include "calcMW.cpp"
 #include "dbase.cpp"
 
-#endif /* Header_h */
+#endif /* DTarray_pro.hpp */
