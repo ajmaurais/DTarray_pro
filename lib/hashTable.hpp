@@ -56,6 +56,7 @@ namespace hashTable{
 		
 		//properties
 		_Tp* getItem(string);
+		bool itemExists(string) const;
 		void write(ofstream&);
 		
 		inline size_t getLength() const{
@@ -88,13 +89,21 @@ namespace hashTable{
 		}
 		
 		//modifers
-		void insert(const _Tp&, string);
-		_Tp* consolidate(const _Tp&, string);
+		void insert(const _Tp& newItem, string key){
+			array[hash(key.c_str())].push_front(newItem);
+		}
+		_Tp* consolidate(const _Tp& newItem, string key){
+			return array[hash(key.c_str())].consolidate(newItem);
+		}
 		
 		//properties
-		int getLength();
-		_Tp* getItem(string) const;
-		int getNumItems() const;
+		bool itemExists(string key) const{
+			return array[hash(key.c_str())].itemExists(key);
+		}
+		_Tp* getItem(string key) const {
+			return array[hash(key.c_str())].getItem(key);
+		}
+		unsigned long getLength() const;
 		void printHistogram() const;
 		void write(ofstream&);
 	};

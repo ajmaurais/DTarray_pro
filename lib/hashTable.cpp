@@ -37,8 +37,17 @@ namespace hashTable{
 		for(;it != dat.end(); it++)
 			if(*it == key)
 				return &(*it);
-
 		return nullptr;
+	}
+	
+	template<class _Tp>
+	bool LinkedList<_Tp>::itemExists(string key) const
+	{
+		typename list<_Tp>::iterator it = dat.begin();
+		for(; it != dat.end(); it++)
+			if(*it == key)
+				return true;
+		return false;
 	}
 	
 	template<class _Tp>
@@ -65,36 +74,15 @@ namespace hashTable{
 	{
 		size_t h = FIRSTH;
 		for(; *key; key++)
-			h = (h * A) ^ (key[0] * B);
+			h = (h * A)^(key[0] * B);
 		return h % size;
-	}
-	
-	template<class _Tp>
-	void HashTable<_Tp>::insert(const _Tp& newItem, string key)
-	{
-		size_t index = hash(key.c_str());
-		array[index].push_front(newItem);
-	}
-	
-	template<class _Tp>
-	_Tp* HashTable<_Tp>::consolidate(const _Tp& newItem, string key)
-	{
-		size_t index = hash(key.c_str());
-		return array[index].consolidate(newItem);
-	}
-	
-	template<class _Tp>
-	_Tp* HashTable<_Tp>::getItem(string key) const
-	{
-		size_t index = hash(key.c_str());
-		return array[index].getItem(key);
 	}
 	
 	template<class _Tp>
 	void HashTable<_Tp>::printHistogram() const
 	{
 		cout << endl << "Hash Table Contains ";
-		cout << getNumItems() << " Items total" << endl;
+		cout << getLength() << " Items total" << endl;
 		for (int i = 0; i < size; i++)
 		{
 			cout << i + 1 << ":\t";
@@ -105,10 +93,10 @@ namespace hashTable{
 	}
 	
 	template<class _Tp>
-	int HashTable<_Tp>::getNumItems() const
+	unsigned long HashTable<_Tp>::getLength() const
 	{
-		int c = 0;
-		for (int i = 0; i < size; i++)
+		unsigned long c = 0;
+		for (size_t i = 0; i < size; i++)
 			c += array[i].getLength();
 		
 		return c;
@@ -120,7 +108,7 @@ namespace hashTable{
 		if(!outF)
 			throw runtime_error("Error writing file. Bad ofstream!");
 		
-		for(int i = 0; i < size; i++)
+		for(size_t i = 0; i < size; i++)
 			array[i].write(outF);
 	}
 }

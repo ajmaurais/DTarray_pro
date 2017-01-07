@@ -200,8 +200,7 @@ namespace mwDB{
 		return true;
 	}
 	
-	SeqDB::SeqDB()
-	{
+	SeqDB::SeqDB() {
 		seqLibrary = new hashTable::HashTable<mwDB::Peptide>(10000);
 	}
 	
