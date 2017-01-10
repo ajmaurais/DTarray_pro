@@ -46,7 +46,7 @@ private:
 public:
 	
 	Dbase() {
-		db = new hashTable::HashTable<DBProtein>;
+		db = new hashTable::HashTable<DBProtein> (10000);
 	}
 	~Dbase() {
 		delete db;
