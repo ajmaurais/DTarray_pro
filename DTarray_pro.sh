@@ -11,7 +11,7 @@ fxnDBfname="$scriptWDdb/humanFxn.txt"
 staticModificationsDB="$scriptWDdb/staticModifications.txt"
 binName="DTarray_pro"
 helpFileFname="$scriptWDdb/helpFile.man"
-versionNum='1.3'
+versionNum='1.4'
 
 recompileMessage='DTarray_pro source code recompiled.'
 invalidOptionMessage="is an invalid option! Exiting...\nUse DTarray -h for help."
@@ -72,6 +72,16 @@ function absPath {
 	else
 		( cd "$(dirname "$1")"; d=$(dirs -l +0); echo "${d%/}/${1##*/}" )
 	fi
+}
+
+function purgeDir {
+	rm -v ./$defaultParamsName
+	rm -v ./$defaultFlistName
+	rm -v ./$staticModificationsName
+	rm -v ./$ofname
+	rm -v ./$dbOfname
+	rm -v ./$peptideOfFname
+	rm -v ./$dbPeptideOfFname
 }
 
 #get arguements
@@ -165,6 +175,9 @@ while ! [[ -z "$1" ]] ; do
 			shift
 			isArg "$1"
 			supInfoOutput="$1" ;;
+		"--purge")
+			purgeDir
+			exit ;;
 		"-pswd")
 			echo $scriptWDHome
 			exit ;;
@@ -205,27 +218,6 @@ fi
 
 echo -e '\nDTarray_pro v'$versionNum
 echo
-
-#summarize params for user
-#echo -e "\nThe folowing paramaters were used:"
-#echo "input = "$input
-#echo "output = "$output
-#echo "includeUnique = "$includeUnique
-#echo "recompile = "$recompile
-#echo "sampleNamePrefix = "$sampleNamePrefix
-#echo "keepParams = "$keepParams
-#echo "flistName = "$flistName
-#echo "paramsName = "$paramsName
-#echo "getSubCelluarLoc = "$getSubCelluarLoc
-#echo "calcMW = "$calcMW
-#echo "mwDBFname = "$mwDBFname
-#echo "getSeq = "$getSeq
-#echo "getFxn = "$getFxn
-#echo "seqDBfname = "$seqDBFnameTr
-#echo "rewriteSmod = "$rewriteSmod
-#echo "peptideOutput = "$peptideOutput
-#echo "includeCoverage = "$includeCoverage
-#echo
 
 #create params file
 cd $wd

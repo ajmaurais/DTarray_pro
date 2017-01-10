@@ -36,6 +36,8 @@ DTarray_pro - Combine DTASelect-filter files.
 .br
 [-k, --keepParams]
 .br
+[--purge]
+.br
 [-r, --recompile]
 .br
 [-h, --help]
@@ -149,7 +151,7 @@ Include spectral counts for unique peptides in output file.
 Include sequence coverage for proteins in output file.
 .TP
 \fB-s\fP
-Specify how to format unique and coverage columns in output file. \fB0\fR is the default.
+Specify how to format unique and coverage columns in output file. \fB0\fR is the default. Either \fB-c\fR and/or \fB-u\fR options must be specified to use this option.
 .TP
 .in +0.75i
 \fB0\fR
@@ -188,7 +190,7 @@ The user can optionally specify a fafsa formatted file to lookup protein sequenc
 .in
 .TP
 \fB-d, --dir\fI <file>\fP
-Specify parent directory from which to run program. \fI<file>\fR must be the full path of the desired parent directory. Relative file paths are not supported.  By default, the current working directory is used.
+Specify parent directory from which to run program. By default, the current working directory is used.
 .TP
 \fB-r, --recompile\fP
 Recompile all c++ source code before running DTarray. g++ must be installed to use this option.  c++ code is compatible with STL 98 or later.  
@@ -216,6 +218,9 @@ Specify params file. By default, \fIdtarray_pro.params\fR is used.
 .TP
 \fB-k, --keepParams\fP
 Do not overwrite params file. The parameters currently specified in \fIdtarray_pro.params\fR will be used.
+.TP
+\fB--purge\fP
+Remove file list, params file, static modifications file, and all DTarray output files from current working directory and exit program. Only files with default names will be removed. 
 .SH EXAMPLES
 .TP
 \fBDTarray\fP
