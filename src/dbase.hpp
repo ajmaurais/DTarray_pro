@@ -20,16 +20,12 @@ string const DAT_NOT_FOUND = "NOT_FOUND_IN_DB";
 class DBProtein;
 class Dbase;
 
-class DBProtein: public ProteinTemplate{
-	friend class Protein;
-	friend class Proteins;
-	friend class Dbase;
-	
+class DBProtein : public ProteinTemplate {
+private:
 	string dat;
 	
 	//modifers
 	void clear();
-	
 public:
 	//constructor
 	DBProtein(string);
@@ -37,6 +33,11 @@ public:
 	
 	//modifers
 	void operator = (const DBProtein&);
+	
+	//properties
+	string getDat() const{
+		return dat;
+	}
 };
 
 class Dbase{

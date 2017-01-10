@@ -41,7 +41,7 @@ public:
 		return comp.ID < ID;
 	}
 	
-	string get_ID(){
+	string getID(){
 		return ID;
 	}
 };

@@ -60,8 +60,8 @@ bool Dbase::readIn(string fname)
 	while(!file.end()){
 		line = file.getLine_skip_trim();
 		DBProtein newDBProtein(line);
-		if (newDBProtein.ID != "ID") //skip line if it is header line
-			db->insert(newDBProtein, newDBProtein.ID);
+		if (newDBProtein.getID() != "ID") //skip line if it is header line
+			db->insert(newDBProtein, newDBProtein.getID());
 	}
 	return true;
 }
@@ -71,6 +71,6 @@ string Dbase::getDat(string key) const
 	DBProtein* const tempNode = db->getItem(key);
 	if(tempNode == nullptr)
 		return DAT_NOT_FOUND;
-	else return tempNode->dat;
+	else return tempNode->getDat();
 }
 

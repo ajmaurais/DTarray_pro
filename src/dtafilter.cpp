@@ -116,7 +116,7 @@ void Protein::getProteinData(string line, size_t colIndex)
 	matchDirrection = line.substr(0, firstBar);
 	
 	//Extract uniprotID
-	ID = getID(elems[0]);
+	ID = ::getID(elems[0]);
 	if(matchDirrection == "Reverse_sp")
 		ID = "reverse_" + ID;
 	
@@ -249,9 +249,6 @@ bool Proteins::readIn(string wd, filterFile::FilterFileParams* const pars,
 			}
 		}
 	}
-	/*colIndex++;
-	if(pars->includePeptides)
-		peptides->colIndex++;*/
 	return true;
 }
 
@@ -290,7 +287,7 @@ inline string Peptide::makeKey() const {
 			break;
 		case filterFile::byCharge : return proteinID + "_" + sequence;
 			break;
-		default: throw runtime_error("Invalid type");
+		default : throw runtime_error("Invalid type");
 	}
 }
 
