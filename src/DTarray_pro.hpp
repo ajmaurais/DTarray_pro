@@ -9,7 +9,12 @@
 #ifndef DTarray_pro_hpp
 #define DTarray_pro_hpp
 
-#define BIN_VERSION_NUM "1.3"
+//deal with older c++ compilers
+#if (__cplusplus == 199711L || __cplusplus == 1)
+	#define nullptr NULL
+#endif
+
+#define BIN_VERSION_NUM "1.4"
 #define MIN_BIN_VERSION_NUM 1.3
 
 #include "dtafilter.hpp"

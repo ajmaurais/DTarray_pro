@@ -249,9 +249,9 @@ bool Proteins::readIn(string wd, filterFile::FilterFileParams* const pars,
 			}
 		}
 	}
-	colIndex++;
+	/*colIndex++;
 	if(pars->includePeptides)
-		peptides->colIndex++;
+		peptides->colIndex++;*/
 	return true;
 }
 
@@ -339,14 +339,15 @@ bool Proteins::readIn(string wd, filterFile::FilterFileParams& par, Peptides * c
 		pColNamesTemp.push_back(pTemp);
 	}
 	
-	for (size_t i = 0; i < par.numFiles; i++)
+	for(DBTemplate::colIndex = 0; DBTemplate::colIndex < par.numFiles; DBTemplate::colIndex++)
 	{
+		Peptides::colIndex = Proteins::colIndex;
 		if(!readIn(wd, &par, colNamesTemp, pColNamesTemp, peptides))
 		{
-			cout <<"Failed to read in " << par.getFilePath(i) <<"!" << endl << "Exiting..." << endl;
+			cout <<"Failed to read in " << par.getFilePath(DBTemplate::colIndex) <<"!" << endl << "Exiting..." << endl;
 			return false;
 		}
-		cout << "Adding " << par.getFileColname(i) << "..." << endl;
+		cout << "Adding " << par.getFileColname(DBTemplate::colIndex) << "..." << endl;
 	}
 	return true;
 }
@@ -431,7 +432,8 @@ void Protein::write(ofstream& outF)
 		}
 		else if(par->supInfoOutput == 1)
 		{
-			if(supInfoNum == 1)
+			assert(par->supInfoNum > 0);
+			if(par->supInfoNum == 1)
 			{
 				for(int i = 0; i < colSize; i++)
 					outF << OUT_DELIM << col[i].count;
@@ -442,7 +444,7 @@ void Protein::write(ofstream& outF)
 					for(int i = 0; i < colSize; i++)
 						outF << OUT_DELIM << col[i].uniquePeptides;
 			}
-			if(supInfoNum == 2)
+			if(par->supInfoNum == 2)
 			{
 				for(int i = 0; i < colSize; i++)
 					outF << OUT_DELIM << col[i].count;
@@ -585,6 +587,7 @@ bool Proteins::writeOut(string ofname, const filterFile::FilterFileParams& par)
 		int len = int(headers.size());
 		if(par.supInfoOutput == 1)
 		{
+			assert(supInfoNum > 0);
 			string preBuffer = utils::repeat(string(1, OUT_DELIM), len);
 			string postBuffer = utils::repeat(string(1, OUT_DELIM), colNames.size());
 			
@@ -624,7 +627,6 @@ bool Proteins::writeOut(string ofname, const filterFile::FilterFileParams& par)
 	}
 	
 	//print proteins and spectral counts
-	Protein::supInfoNum = supInfoNum;
 	data->write(outF);
 	
 	par.outputFormat = outputFormat;

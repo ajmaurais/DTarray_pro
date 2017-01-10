@@ -60,7 +60,6 @@ public:
 protected:
 	static size_t colSize;
 	static filterFile::FilterFileParams* par;
-	static size_t supInfoNum;
 	
 	vector<_Tp> col;
 	double avgMass, monoMass;
@@ -72,30 +71,31 @@ protected:
 template <class _Tp> size_t* ProteinDataTemplate<_Tp>::colIndex = nullptr;
 template <class _Tp> size_t ProteinDataTemplate<_Tp>::colSize = 0;
 template <class _Tp> filterFile::FilterFileParams* ProteinDataTemplate<_Tp>::par = nullptr;
-template <class _Tp> size_t ProteinDataTemplate<_Tp>::supInfoNum = 0;
 
 template<class _Tp>
 class DBTemplate{
 protected:
-	size_t colIndex;
+	static size_t colIndex;
 	hashTable::HashTable <_Tp>* data;
 	
 public:
 	vector<string> colNames;
 	
 	//constructor
-	DBTemplate() : colIndex(0) {
+	DBTemplate(){
 		data = new hashTable::HashTable <_Tp>(DATA_SIZE);
 	}
-	DBTemplate(const filterFile::FilterFileParams& par, size_t dataSize) : colIndex(0){
+	DBTemplate(const filterFile::FilterFileParams& par, size_t dataSize){
 		data = new hashTable::HashTable <_Tp>(dataSize);
 		
-		for (int i = 0; i < par.numFiles; i++)
+		for(int i = 0; i < par.numFiles; i++)
 			colNames.push_back(par.getFileColname(i));
 	}
 	~DBTemplate(){
 		delete data;
 	}
 };
+
+template <class _Tp> size_t DBTemplate<_Tp>::colIndex = 0;
 
 #endif /* parentClasses_hpp */

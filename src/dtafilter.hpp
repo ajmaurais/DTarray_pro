@@ -9,11 +9,6 @@
 #ifndef dtafilter_hpp
 #define dtafilter_hpp
 
-//deal with older c++ compilers
-#if (__cplusplus == 199711L || __cplusplus == 1)
-	#define nullptr NULL
-#endif
-
 #define OUT_DELIM '\t'
 #define IN_DELIM '\t'
 
@@ -106,7 +101,6 @@ private:
 	static mwDB::MWDB* mwdb;
 
 	void parsePeptide(const string&);
-	void addSupData(mwDB::MWDB_Protein* const);
 };
 
 mwDB::MWDB* Peptide::mwdb = nullptr;

@@ -99,6 +99,7 @@ namespace filterFile{
 						{
 							assert(param.value == "0" || param.value == "1");
 							includeUnique = utils::toInt(param.value);
+							supInfoNum++;
 							continue;
 						}
 						if(param.param == "getSubCelluarLoc")
@@ -163,6 +164,7 @@ namespace filterFile{
 						{
 							assert(param.value == "0" || param.value == "1");
 							includeCoverage = utils::toInt(param.value);
+							supInfoNum++;
 							continue;
 						}
 						if(param.param == "includePeptides")
@@ -305,6 +307,12 @@ namespace filterFile{
 		if(peptideGroupMethod == byScan && ((peptideOutput == wideFormat) || (peptideOutput == both)))
 		{
 			cout << "groupPeptides and peptideOutput options are incompatable!" << endl
+				<< "Use DTarray -h for more info." << endl << endl;
+			return false;
+		}
+		if(supInfoOutput == 1 && supInfoNum > 0)
+		{
+			cout << "Non zero supInfoOutput with zero supInfoNum." << endl
 				<< "Use DTarray -h for more info." << endl << endl;
 			return false;
 		}

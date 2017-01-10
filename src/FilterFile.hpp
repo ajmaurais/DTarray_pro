@@ -144,6 +144,7 @@ namespace filterFile{
 		bool useDefaultSeqDB;
 		bool includeNullPeptides;
 		int supInfoOutput;
+		unsigned int supInfoNum;
 		PeptideGroupFormat peptideGroupMethod;
 		
 		FilterFileParams ()
@@ -173,6 +174,7 @@ namespace filterFile{
 			includeNullPeptides = false;
 			supInfoOutput = 0;
 			peptideGroupMethod = byProtein;
+			supInfoNum = 0;
 		}
 		
 		//modifiers
