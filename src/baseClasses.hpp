@@ -63,6 +63,7 @@ protected:
 	
 	vector<_Tp> col;
 	double avgMass, monoMass;
+	string length;
 	string sequence;
 	static size_t* colIndex;
 	bool supDataAdded;

@@ -11,7 +11,8 @@ fxnDBfname="$scriptWDdb/humanFxn.txt"
 staticModificationsDB="$scriptWDdb/staticModifications.txt"
 binName="DTarray_pro"
 helpFileFname="$scriptWDdb/helpFile.man"
-versionNum='1.4'
+versionNum='1.50'
+versionNumStr='1.5.0'
 
 recompileMessage='DTarray_pro source code recompiled.'
 invalidOptionMessage="is an invalid option! Exiting...\nUse DTarray -h for help."
@@ -48,6 +49,7 @@ continueExc=true
 includePeptides="0"
 peptideOutput="0"
 includeCoverage="0"
+includeSequenceCount="0"
 getFxn="0"
 useDefaultSeqDB="1"
 includeNullPeptides="0"
@@ -90,7 +92,7 @@ while ! [[ -z "$1" ]] ; do
 		"-h" | "--help")
 			man $helpFileFname
 			exit;;
-		"-of" | "--ofname")
+		"--of" | "--ofname")
 			shift
 			isArg "$1"
 			ofname="$1";;
@@ -116,7 +118,7 @@ while ! [[ -z "$1" ]] ; do
 			shift
 			isArg "$1"
 			sampleNamePrefix="$1";;
-		"-rw")
+		"--rw")
 			shift
 			isArg "$1"
 			arg="$1"
@@ -132,14 +134,14 @@ while ! [[ -z "$1" ]] ; do
 			;;
 		"-k" | "--keepParams")
 			keepParams=true;;
-		"-par")
+		"--par")
 			shift
 			isArg "$1"
 			flistName="$1"
 			keepParams=true;;
-		"-loc")
+		"--loc")
 			getSubCelluarLoc="1";;
-		"-mw")
+		"--mw")
 			if [[ $2 == -* ]] || [[ -z "$2" ]] ; then
 				mwDBFname=$seqDBfname
 				calcMWStr="1"
@@ -153,7 +155,7 @@ while ! [[ -z "$1" ]] ; do
 				calcMW=true
 				useDefaultSeqDB="1"
 			fi;;
-		"-seq")
+		"--seq")
 				if [[ $2 == -* ]] || [[ -z "$2" ]] ; then
 					seqDBFnameTr=$seqDBfname
 					getSeq="1"
@@ -171,6 +173,8 @@ while ! [[ -z "$1" ]] ; do
 			;;
 		"-c" | "--coverage")
 			includeCoverage="1" ;;
+		"--seqC")
+			includeSequenceCount="1" ;;
 		"-s")
 			shift
 			isArg "$1"
@@ -178,16 +182,13 @@ while ! [[ -z "$1" ]] ; do
 		"--purge")
 			purgeDir
 			exit ;;
-		"-pswd")
+		"--pswd")
 			echo $scriptWDHome
 			exit ;;
-		"-cdswd")
-			cd $scriptWDHome
-			exit ;;
-		"-oswd")
+		"--oswd")
 			open $scriptWDHome
 			exit ;;
-		"-fxn")
+		"--fxn")
 			getFxn="1" ;;
 		"-g" | "--group")
 			shift
@@ -216,7 +217,7 @@ if $recompile ; then
 	fi
 fi
 
-echo -e '\nDTarray_pro v'$versionNum
+echo -e '\nDTarray_pro v'$versionNumStr
 echo
 
 #create params file
@@ -294,6 +295,7 @@ if ! $keepParams ; then
 	echo 'staticModsFname='$staticModificationsName >> ./$paramsName
 	echo 'includePeptides='$peptideOutput >> ./$paramsName
 	echo 'includeCoverage='$includeCoverage >> ./$paramsName
+	echo 'includeSequenceCount='$includeSequenceCount >> ./$paramsName
 	echo 'useDefaultSeqDB='$useDefaultSeqDB >> ./$paramsName
 	echo 'includeNullPeptides='$includeNullPeptides >> ./$paramsName
 	echo 'supInfoOutput='$supInfoOutput >> ./$paramsName

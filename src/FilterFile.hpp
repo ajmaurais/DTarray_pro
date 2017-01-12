@@ -73,13 +73,15 @@ namespace filterFile{
 	
 	class FilterFileData_protein : public FilterFileData {
 	public:
-		string coverage;
+		string coverage, sequenceCount;
 		
 		FilterFileData_protein(string colName) : FilterFileData(colName){
 			coverage = "0";
+			sequenceCount = "0";
 		}
 		FilterFileData_protein() : FilterFileData(){
 			coverage = "0";
+			sequenceCount = "0";
 		}
 		~FilterFileData_protein() {}
 	};
@@ -136,6 +138,7 @@ namespace filterFile{
 		bool getSeq;
 		string seqDBfname;
 		bool includeCoverage;
+		bool includeSequenceCount;
 		bool includePeptides;
 		bool includeProteins;
 		static OutputFormat peptideOutput;
@@ -166,6 +169,7 @@ namespace filterFile{
 			getSeq = false;
 			seqDBfname = "";
 			includeCoverage = false;
+			includeSequenceCount = false;
 			includePeptides = false;
 			includeProteins = false;
 			getFxn = false;

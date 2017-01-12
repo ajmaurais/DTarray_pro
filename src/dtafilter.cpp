@@ -13,7 +13,7 @@ void Protein::consolidate(const Protein& toAdd)
 	col[*toAdd.colIndex].colname = toAdd.col[*toAdd.colIndex].colname;
 	col[*toAdd.colIndex].count = toAdd.col[*toAdd.colIndex].count;
 	col[*toAdd.colIndex].coverage = toAdd.col[*toAdd.colIndex].coverage;
-	colIndex = toAdd.colIndex;
+	col[*toAdd.colIndex].sequenceCount = toAdd.col[*toAdd.colIndex].sequenceCount;
 }
 
 void Peptide::consolidate(const Peptide& toAdd)
@@ -23,7 +23,6 @@ void Peptide::consolidate(const Peptide& toAdd)
 	col[*toAdd.colIndex].scan = toAdd.col[*toAdd.colIndex].scan;
 	col[*toAdd.colIndex].parentFile = toAdd.col[*toAdd.colIndex].parentFile;
 	col[*toAdd.colIndex].obsMH = toAdd.col[*toAdd.colIndex].obsMH;
-	colIndex = toAdd.colIndex;
 }
 
 template <class _Tp>
@@ -64,13 +63,11 @@ inline void Protein::operator = (const Protein& _p)
 	fxn = _p.fxn;
 	fullDescription = _p.fullDescription;
 	matchDirrection = _p.matchDirrection;
-	sequenceCount = _p.sequenceCount;
 	col.insert(col.begin(), _p.col.begin(), _p.col.end());
 	avgMass = _p.avgMass;
 	monoMass = _p.monoMass;
 	sequence = _p.sequence;
 	supDataAdded = _p.supDataAdded;
-	sequenceCount = _p.sequenceCount;
 }
 
 inline void Peptide::operator = (const Peptide& _p)
@@ -92,7 +89,7 @@ inline void Peptide::operator = (const Peptide& _p)
 }
 
 //parse proten header line and extract desired data
-void Protein::getProteinData(string line, size_t colIndex)
+void Protein::getProteinData(string line)
 {
 	//split line by tabs
 	vector<string> elems;
@@ -105,11 +102,11 @@ void Protein::getProteinData(string line, size_t colIndex)
 	for (int i = 1; i < len; i++)
 		fullDescription += (" " + elems[i]);
 	
-	//extract sequence count
-	sequenceCount = utils::toInt(elems[1]);
-	
 	//extract pI
 	pI = elems[6];
+	
+	//extract protein length
+	length = elems[4];
 	
 	//extract matchDirrection
 	size_t firstBar = elems[0].find("|");
@@ -128,11 +125,12 @@ void Protein::getProteinData(string line, size_t colIndex)
 	description = elems[8].substr(0, endOfDescription);
 	getProtein(description);
 	
-	//add spectrum count and coverage for *this protein to colname
-	col[colIndex].count = utils::toInt(elems[2]);
+	//add spectrum count, coverage and sequence count for *this protein to colname
+	col[*colIndex].count = utils::toInt(elems[2]);
 	string coverageTemp = elems[3];
 	coverageTemp = coverageTemp.substr(0, coverageTemp.find("%"));
-	col[colIndex].coverage = coverageTemp;
+	col[*colIndex].coverage = coverageTemp;
+	col[*colIndex].sequenceCount = elems[1];
 }
 
 inline void Protein::getProtein(string str)
@@ -200,7 +198,7 @@ bool Proteins::readIn(string wd, filterFile::FilterFileParams* const pars,
 			else{
 				Protein newProtein(pars, locDB, fxnDB, mwdb, seqDB);
 				newProtein.initialize(colNamesTemp, colNamesLen, &colIndex);
-				newProtein.getProteinData(line, colIndex);
+				newProtein.getProteinData(line);
 				inProtein = true; //used to determine if it is valid to loop through peptide lines below protein
 								  //header line to extract unique peptide spectral counts
 					
@@ -263,6 +261,7 @@ void Peptide::parsePeptide(const string& line)
 	calcMH = elems[5];
 	
 	calcSequence = parseSequence(elems[12]);
+	length = utils::toString(calcSequence.length());
 	sequence = elems[12];
 	col[*colIndex].count = utils::toInt(elems[11]);
 	col[*colIndex].obsMH = elems[5];
@@ -297,7 +296,6 @@ inline void Protein::clear()
 	MW.clear();
 	fullDescription.clear();
 	matchDirrection.clear();
-	sequenceCount = 0;
 	ID.clear();
 	protein.clear();
 	description.clear();
@@ -398,6 +396,7 @@ void Protein::write(ofstream& outF)
 	OUT_DELIM << protein <<
 	OUT_DELIM << description <<
 	OUT_DELIM << pI <<
+	OUT_DELIM << length <<
 	OUT_DELIM << MW;
 	
 	if(par->calcMW)
@@ -425,6 +424,9 @@ void Protein::write(ofstream& outF)
 				
 				if(par->includeCoverage)
 					outF << OUT_DELIM << col[i].coverage;
+				
+				if(par->includeSequenceCount)
+					outF << OUT_DELIM << col[i].sequenceCount;
 			}
 		}
 		else if(par->supInfoOutput == 1)
@@ -432,23 +434,41 @@ void Protein::write(ofstream& outF)
 			assert(par->supInfoNum > 0);
 			if(par->supInfoNum == 1)
 			{
-				for(int i = 0; i < colSize; i++)
-					outF << OUT_DELIM << col[i].count;
+				writeCount(outF);
 				if(par->includeCoverage)
-					for(int i = 0; i < colSize; i++)
-						outF << OUT_DELIM << col[i].coverage;
+					writeCoverage(outF);
 				else if(par->includeUnique)
-					for(int i = 0; i < colSize; i++)
-						outF << OUT_DELIM << col[i].uniquePeptides;
+					writeUnique(outF);
+				else if(par->includeSequenceCount)
+					writeSequenceCount(outF);
+				else throw runtime_error("Bad pars!");
 			}
 			if(par->supInfoNum == 2)
 			{
-				for(int i = 0; i < colSize; i++)
-					outF << OUT_DELIM << col[i].count;
-				for(int i = 0; i < colSize; i++)
-					outF << OUT_DELIM << col[i].uniquePeptides;
-				for(int i = 0; i < colSize; i++)
-					outF << OUT_DELIM << col[i].coverage;
+				writeCount(outF);
+				if(par->includeUnique && par->includeCoverage)
+				{
+					writeUnique(outF);
+					writeCoverage(outF);
+				}
+				else if(par->includeUnique && par->includeSequenceCount)
+				{
+					writeUnique(outF);
+					writeSequenceCount(outF);
+				}
+				else if(par->includeCoverage && par->includeSequenceCount)
+				{
+					writeCoverage(outF);
+					writeSequenceCount(outF);
+				}
+				else throw runtime_error("Bad pars!");
+			}
+			if(par->supInfoNum == 3)
+			{
+				writeCount(outF);
+				writeUnique(outF);
+				writeCoverage(outF);
+				writeSequenceCount(outF);
 			}
 		}
 	}
@@ -469,8 +489,36 @@ void Protein::write(ofstream& outF)
 		
 		if(par->includeCoverage)
 			outF << OUT_DELIM << col[*colIndex].coverage;
+		
+		if(par->includeSequenceCount)
+			outF << OUT_DELIM << col[*colIndex].sequenceCount;
 	}
 	outF << endl;
+}
+
+void Protein::writeCount(ofstream& outF) const
+{
+	assert(outF);
+	for(int i = 0; i < colSize; i++)
+		outF << OUT_DELIM << col[i].count;
+}
+void Protein::writeUnique(ofstream& outF) const
+{
+	assert(outF);
+	for(int i = 0; i < colSize; i++)
+		outF << OUT_DELIM << col[i].uniquePeptides;
+}
+void Protein::writeCoverage(ofstream& outF) const
+{
+	assert(outF);
+	for(int i = 0; i < colSize; i++)
+		outF << OUT_DELIM << col[i].coverage;
+}
+void Protein::writeSequenceCount(ofstream& outF) const
+{
+	assert(outF);
+	for(int i = 0; i < colSize; i++)
+		outF << OUT_DELIM << col[i].sequenceCount;
 }
 
 //write out combined protein lists to ofname in wide format
@@ -489,7 +537,6 @@ bool Proteins::writeOut(string ofname, const filterFile::FilterFileParams& par)
 	vector<string> headers;
 	vector<string>::iterator it = headers.begin();
 	headers.insert(it, DEFAULT_COL_NAMES, DEFAULT_COL_NAMES + colNamesLength);
-	int supInfoNum = par.includeUnique + par.includeCoverage;
 	
 	//print column headers
 	if(par.getSubCelluarLoc)
@@ -539,7 +586,7 @@ bool Proteins::writeOut(string ofname, const filterFile::FilterFileParams& par)
 	{
 		string delim;
 		if(par.supInfoOutput == 0)
-			 delim = utils::repeat(string(1, OUT_DELIM), supInfoNum + 1);
+			 delim = utils::repeat(string(1, OUT_DELIM), par.supInfoNum + 1);
 		else delim = string(1, OUT_DELIM);
 		for (int i = 0; i < colNamesLength; i++)
 			outF << OUT_DELIM;
@@ -547,9 +594,9 @@ bool Proteins::writeOut(string ofname, const filterFile::FilterFileParams& par)
 			outF << colNames[i] << delim;
 		outF << endl;
 	}
-	if((par.includeUnique || par.includeCoverage) && (par.supInfoOutput == 0))
+	if((par.includeUnique || par.includeCoverage || par.includeSequenceCount) && (par.supInfoOutput == 0))
 	{
-		string tabs = utils::repeat(string(1, OUT_DELIM), supInfoNum + 1);
+		string tabs = utils::repeat(string(1, OUT_DELIM), par.supInfoNum + 1);
 		
 		for (int i = 0; i < colNamesLength; i++)
 			outF << OUT_DELIM;
@@ -563,13 +610,33 @@ bool Proteins::writeOut(string ofname, const filterFile::FilterFileParams& par)
 		for (int i = 0; i < colNamesLength; i++)
 			outF << headers[i] << OUT_DELIM;
 		
-		string repeatedHeaders = "";
-		if(par.includeUnique)
-			repeatedHeaders += (SUP_INFO_HEADERS[0] + OUT_DELIM + SUP_INFO_HEADERS[1]);
-		if(par.includeCoverage && par.includeUnique)
-			repeatedHeaders += (OUT_DELIM + SUP_INFO_HEADERS[2]);
-		else if(par.includeCoverage)
-			repeatedHeaders += (SUP_INFO_HEADERS[0] + OUT_DELIM + SUP_INFO_HEADERS[2]);
+		string repeatedHeaders = SUP_INFO_HEADERS[0];
+		if(par.supInfoNum == 1)
+		{
+			if(par.includeUnique)
+				repeatedHeaders += (OUT_DELIM + SUP_INFO_HEADERS[1]);
+			else if(par.includeCoverage)
+				repeatedHeaders += (OUT_DELIM + SUP_INFO_HEADERS[2]);
+			else if(par.includeSequenceCount)
+				repeatedHeaders += ( OUT_DELIM + SUP_INFO_HEADERS[3]);
+			else return false;
+		}
+		else if(par.supInfoNum == 2)
+		{
+			if(par.includeUnique && par.includeCoverage)
+				repeatedHeaders += (OUT_DELIM + SUP_INFO_HEADERS[1] + OUT_DELIM + SUP_INFO_HEADERS[2]);
+			else if(par.includeUnique && par.includeSequenceCount)
+				repeatedHeaders += (OUT_DELIM + SUP_INFO_HEADERS[1] + OUT_DELIM + SUP_INFO_HEADERS[3]);
+			else if(par.includeCoverage && par.includeSequenceCount)
+				repeatedHeaders += (OUT_DELIM + SUP_INFO_HEADERS[2] + OUT_DELIM + SUP_INFO_HEADERS[3]);
+			else return false;
+		}
+		else if(par.supInfoNum == 3)
+		{
+			if(par.includeUnique && par.includeCoverage && par.includeSequenceCount)
+				repeatedHeaders += (OUT_DELIM + SUP_INFO_HEADERS[1] + OUT_DELIM + SUP_INFO_HEADERS[2] + OUT_DELIM + SUP_INFO_HEADERS[3]);
+			else return false;
+		}
 		
 		for (int i = 0; i < par.numFiles; i++)
 		{
@@ -579,36 +646,54 @@ bool Proteins::writeOut(string ofname, const filterFile::FilterFileParams& par)
 		}
 		outF << endl;
 	}
-	else
-	{
+	else {
 		int len = int(headers.size());
 		if(par.supInfoOutput == 1)
 		{
-			assert(supInfoNum > 0);
+			assert(par.supInfoNum > 0);
 			string preBuffer = utils::repeat(string(1, OUT_DELIM), len);
 			string postBuffer = utils::repeat(string(1, OUT_DELIM), colNames.size());
 			
 			outF << preBuffer << "Spectral counts";
 			
-			if(supInfoNum == 1)
+			if(par.supInfoNum == 1)
 			{
 				if(par.includeCoverage)
-					outF << postBuffer << "Percent coverage" << postBuffer;
+					outF << postBuffer << "Percent_coverage" << postBuffer;
 				else if(par.includeUnique)
-					outF << postBuffer << "Unique peptide spectral counts" << postBuffer;
+					outF << postBuffer << "Unique_peptide_SC" << postBuffer;
+				else if(par.includeSequenceCount)
+					outF << preBuffer << "Sequence_count" << postBuffer;
+				else return false;
 			}
-			if(supInfoNum == 2)
+			else if(par.supInfoNum == 2)
 			{
-				outF << postBuffer << "Unique peptide spectral counts" <<
-				postBuffer << "Percent coverage" << postBuffer;
+				if(par.includeCoverage && par.includeUnique)
+					outF << postBuffer << "Unique_peptide_SC" <<
+					postBuffer << "Percent_coverage"; // << postBuffer;
+				else if(par.includeCoverage && par.includeSequenceCount)
+					outF << postBuffer << "Percent_coverage" <<
+					postBuffer << "Sequence_count"; // << postBuffer;
+				else if(par.includeSequenceCount && par.includeCoverage)
+					outF << postBuffer << "Unique_peptide_SC" <<
+					postBuffer << "Sequence_count"; // << postBuffer;
+				else return false;
 			}
+			else if(par.supInfoNum == 3)
+			{
+				outF << postBuffer << "Unique_peptide_SC" <<
+				postBuffer << "Percent_coverage" <<
+				postBuffer << "Sequence_count";
+				
+			}
+			else return false;
 			outF << endl;
 		}
 
 		vector<string> ofColNames;
 		for (int i = 0; i < len; i ++)
 			ofColNames.push_back(headers[i]);
-		for(int i = 0; i <= supInfoNum; i++)
+		for(int i = 0; i <= par.supInfoNum; i++)
 		{
 			for (int i = 0; i < par.numFiles; i ++)
 				ofColNames.push_back(parseSample(colNames[i], par.sampleNamePrefix, 0));
@@ -708,6 +793,18 @@ bool Proteins::writeOutDB(string ofname, const filterFile::FilterFileParams& par
 				break;
 			}
 	}
+	if(par.includeSequenceCount)
+	{
+		for(it = headers.begin(); it != headers.end(); it++)
+		{
+			if(*it == "Spectral_counts")
+			{
+				headers.insert(it + 1, "sequence_count");
+				len = int(headers.size());
+				break;
+			}
+		}
+	}
 	if(par.includeCoverage)
 	{
 		for(it = headers.begin(); it != headers.end(); it++)
@@ -799,7 +896,8 @@ inline string parseSequence(string str)
 	size_t firstP = str.find(".");
 	size_t secP = str.find_last_of(".");
 
-	return (firstP == string::npos || secP == string::npos) ? str : str.substr(firstP + 1, secP - (str.length() - secP));
+	return (firstP == string::npos || secP == string::npos) ?
+		str : str.substr(firstP + 1, secP - (str.length() - secP));
 }
 
 void Peptide::write(ofstream& outF)
@@ -821,7 +919,8 @@ void Peptide::write(ofstream& outF)
 	outF << proteinID << OUT_DELIM <<
 	protein << OUT_DELIM <<
 	description << OUT_DELIM <<
-	sequence << OUT_DELIM;
+	sequence << OUT_DELIM <<
+	length << OUT_DELIM;
 	
 	if(par->peptideGroupMethod != filterFile::byCharge)
 		outF << charge << OUT_DELIM;
@@ -880,7 +979,7 @@ bool Peptides::writeOut(string ofname, const filterFile::FilterFileParams& pars)
 	if(pars.peptideGroupMethod != filterFile::byCharge)
 	{
 		for(it = headers.begin(); it != headers.end(); it++)
-			if(*it == "sequence")
+			if(*it == "length(aa)")
 			{
 				headers.insert(it + 1, "charge");
 				break;
@@ -941,7 +1040,7 @@ bool Peptides::writeOutDB(string ofname, const filterFile::FilterFileParams& par
 		string add [] = {"obsMH", "Scan", "parent_file"};
 		for(it = headers.begin(); it != headers.end(); it++)
 		{
-			if(*it == "sequence")
+			if(*it == "length(aa)")
 			{
 				headers.insert(it + 1, "charge");
 				break;

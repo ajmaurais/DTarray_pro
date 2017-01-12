@@ -89,6 +89,7 @@ namespace utils {
 	bool dirExists (string);
 	bool fileExists (string);
 	inline string toString(int);
+	inline string toString(size_t);
 	inline int toInt(string);
 	inline double toDouble(string);
 	inline bool strContains(string, string);

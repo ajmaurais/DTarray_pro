@@ -133,8 +133,13 @@ namespace utils{
 		return stat(path.c_str(), &buffer) == 0;
 	}
 	
-	//converts int to string because to_string does not work with some c++ compilers
 	inline string toString(int num)
+	{
+		return toString(size_t(num));
+	}
+	
+	//converts int to string because to_string does not work with some c++ compilers
+	inline string toString(size_t num)
 	{
 		string str;
 		stringstream convert;

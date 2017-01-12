@@ -6,7 +6,7 @@ DTarray_pro - Combine DTASelect-filter files.
 .in +1i
 [-o, --out \fI<output_files>\fP]
 .br
-[-of, --ofname \fI<file_name>\fP]
+[--of, --ofname \fI<file_name>\fP]
 .br
 [-p, --peptides \fI<output_files>\fP]
 .br
@@ -16,15 +16,17 @@ DTarray_pro - Combine DTASelect-filter files.
 .br
 [-c, --coverage]
 .br
+[--seqC]
+.br
 [-s 0 | -s 1]
 .br
-[-loc]
+[--loc]
 .br
-[-fxn]
+[--fxn]
 .br
-[-mw | -mw \fI<fasfa_file>\fP]
+[--mw | --mw \fI<fasfa_file>\fP]
 .br
-[-seq | -seq \fI<fasfa_file>\fP]
+[--seq | --seq \fI<fasfa_file>\fP]
 .br
 [-f, --prefix \fI<prefix>\fP]
 .br
@@ -32,7 +34,7 @@ DTarray_pro - Combine DTASelect-filter files.
 .br
 [-rw \fI<arg>\fP]
 .br
-[-par \fI<file>\fP]
+[--par \fI<file>\fP]
 .br
 [-k, --keepParams]
 .br
@@ -51,7 +53,7 @@ Command line options are processed from left to right. Options can be specified 
 \fB-h, --help\fR
 Display this help file.
 .TP
-\fB-of, --ofname \fI<file_name>\fR
+\fB--of, --ofname \fI<file_name>\fR
 Specify output file name. By default, the output file name is \fIDTarray_pro.txt\fR.
 .TP
 \fB-i, --in\fI <mode>\fP
@@ -150,8 +152,11 @@ Include spectral counts for unique peptides in output file.
 \fB-c, --coverage\fP
 Include sequence coverage for proteins in output file.
 .TP
+\fB--seqC\fP
+Include sequence count for proteins in output file.
+.TP
 \fB-s\fP
-Specify how to format unique and coverage columns in output file. \fB0\fR is the default. Either \fB-c\fR and/or \fB-u\fR options must be specified to use this option.
+Specify how to format unique and coverage columns in output file. \fB0\fR is the default. Either \fB-c\fR and/or \fB-u\fR and/or \fB--seqC\fR options must be specified to use this option.
 .TP
 .in +0.75i
 \fB0\fR
@@ -165,13 +170,13 @@ Group columns by sample.
 Group columns by observation.
 .in
 .TP
-\fB-loc\fP
+\fB--loc\fP
 Use \fIsubCelluarLoc.txt\fR in \fI$PROGRAM_HOME_DIR/db/\fR to include subcelluar localization information for proteins in output file.
 .TP
-\fB-fxn\fP
+\fB--fxn\fP
 Use \fIhumanFxn.txt\fR in \fI$PROGRAM_HOME_DIR/db/\fR to include panther category for proteins in output file.
 .TP
-\fB-mw
+\fB--mw
 Calculate protein molecular weights taking into account static modifications. Static modification information is specified in \fIstaticModifications.txt\fR file in working directory. A blank \fIstaticModifications.txt\fR file will be generated on runtime and can then be edited by the user. Protein sequence information is stored in a fasfa formatted file. The default sequence file is \fIhumanProteome.fasta\fP and is stored in \fI$PROGRAM_HOME_DIR/db/\fR.  
 .TP
 .in +0.75i
@@ -180,8 +185,8 @@ Calculate protein molecular weights taking into account static modifications. St
 The user can optionally specify a fafsa formatted file to lookup protein sequences.
 .in
 .TP
-\fB-seq\fR
-Use sequence information in \fI$PROGRAM_HOME_DIR/db/humanProteome.fasta\fR, to include protein sequences in output file. 
+\fB--seq\fR
+Use sequence information in \fI$PROGRAM_HOME_DIR/db/humanProteome.fasta\fR, to include protein sequences in output file.
 .TP
 .in +0.75i
 \fI<fafsa_file>
@@ -193,12 +198,12 @@ The user can optionally specify a fafsa formatted file to lookup protein sequenc
 Specify parent directory from which to run program. By default, the current working directory is used.
 .TP
 \fB-r, --recompile\fP
-Recompile all c++ source code before running DTarray. g++ must be installed to use this option.  c++ code is compatible with STL 98 or later.  
+Recompile all c++ source code then exit program. g++ must be installed to use this option.  c++ code is compatible with STL 98 or later.
 .TP
 \fB-f \fI<prefix>\fP
 Remove \fI<prefix>\fR from all sample names. If \fI<prefix>\fR is not found in sample name, name is unchanged. In long output format, columns will be included for long sample name, short sample name and replicate number. The value for replicate number is taken as: <number> where the sample name is in the format \fI<sample name>_<number>\fR.
 .TP
-\fB-rw \fI<arg>\fP
+\fB--rw \fI<arg>\fP
 Rewrite existing param files in working directory.
 .TP
 .in +0.75i
@@ -213,7 +218,7 @@ Rewrite input file list.
 Rewrite static modifications file. See \fB-mw\fR for details on smod file.
 .in
 .TP
-\fB-par \fR<arg>\fP
+\fB--par \fR<arg>\fP
 Specify params file. By default, \fIdtarray_pro.params\fR is used.
 .TP
 \fB-k, --keepParams\fP

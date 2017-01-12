@@ -14,7 +14,7 @@
 	#define nullptr NULL
 #endif
 
-#define BIN_VERSION_NUM "1.4"
+#define BIN_VERSION_NUM "1.50"
 #define MIN_BIN_VERSION_NUM 1.3
 
 #include "dtafilter.hpp"

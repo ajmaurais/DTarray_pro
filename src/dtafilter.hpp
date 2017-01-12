@@ -32,8 +32,8 @@ using namespace std;
 /*****************************/
 
 bool const INCLUDE_FULL_DESCRIPTION = true;
-string const DEFAULT_COL_NAMES [] = {"Full_description", "ID", "Protein", "Description", "pI", "Mass(Da)"};
-size_t const DEFAULT_COL_NAMES_LENGTH = 6;
+string const DEFAULT_COL_NAMES [] = {"Full_description", "ID", "Protein", "Description", "pI", "length(aa)", "Mass(Da)"};
+size_t const DEFAULT_COL_NAMES_LENGTH = 7;
 size_t const COLUMN_HEADER_LINE_ELEMENTS_LENGTH = 13;
 size_t const MAX_PARAM_ITTERATIONS = 100;
 string const SEQ_NOT_FOUND = "SEQUENCE_NOT_FOUND_IN_DB";
@@ -41,20 +41,19 @@ size_t const PROTEINS_DATA_SIZE = 500;
 size_t const PEPTIDES_DATA_SIZE = 2500;
 
 //editable params for DB output format
-string const DEFAULT_COL_NAMES_DB [] = {"Full_description", "ID", "Protein", "Description", "pI", "Mass(Da)",
+string const DEFAULT_COL_NAMES_DB [] = {"Full_description", "ID", "Protein", "Description", "pI", "length(aa)", "Mass(Da)",
 	"Long_sample_name", "Spectral_counts"};
-size_t const DEFAULT_COL_NAMES_DB_LENGTH = 8;
+size_t const DEFAULT_COL_NAMES_DB_LENGTH = 9;
 string const PARSE_SAMPLE_NAME_HEADERS [] = {"Sample", "Replicate"};
 size_t const PARSE_SAMPLE_NAME_HEADERS_LEN = 2;
-string const SUP_INFO_HEADERS[] = {"SC", "Unique_pep_SC", "coverage"};
+string const SUP_INFO_HEADERS[] = {"SC", "Unique_pep_SC", "coverage", "sequence_count"};
 string const MWCALC_HEADERS [] = {"avg_mass", "monoisotopic_mass", "sequence"};
 size_t const MWCALC_HEADERS_LENGTH = 2;
-string const DEFALUT_PEPTIDE_COLNAMES [] = {"protein_ID", "parent_protein", "protein_description",
-	"sequence", "unique", "calcMH"};
-size_t const DEFALUT_PEPTIDE_COLNAMES_LEN = 6;
-string const DEFALUT_PEPTIDE_DB_COLNAMES [] = {"protein_ID", "parent_protein", "protein_description", "sequence", "unique",
+string const DEFALUT_PEPTIDE_COLNAMES [] = {"protein_ID", "parent_protein", "protein_description", "sequence", "length(aa)", "unique", "calcMH"};
+size_t const DEFALUT_PEPTIDE_COLNAMES_LEN = 7;
+string const DEFALUT_PEPTIDE_DB_COLNAMES [] = {"protein_ID", "parent_protein", "protein_description", "sequence", "length(aa)", "unique",
 	"calcMH", "Long_sample_name", "Spectral_counts", "Sample", "Replicate"};
-size_t const DEFALUT_PEPTIDE_DB_COLNAMES_LEN = 8;
+size_t const DEFALUT_PEPTIDE_DB_COLNAMES_LEN = 9;
 
 /**********************/
 /* class definitions */
@@ -127,7 +126,6 @@ class Protein : public ProteinTemplate , public ProteinDataTemplate<filterFile::
 private:
 	string MW, loc, fxn;
 	string fullDescription, matchDirrection, pI;
-	int sequenceCount;
 	
 	//pointers to Proteins data
 	static Dbase* locDB;
@@ -136,13 +134,26 @@ private:
 	static Dbase* fxnDB;
 	
 	//modifier
-	void getProteinData(string, size_t);
+	void getProteinData(string);
 	inline void getProtein(string);
 	DBProtein toDBprotein() const;
 	inline void clear();
+	void calcMW();
+	void addSeq();
+	void addLoc();
+	void addFxn();
+	
+	void writeCount(ofstream&) const;
+	void writeUnique(ofstream&) const;
+	void writeCoverage(ofstream&) const;
+	void writeSequenceCount(ofstream&) const;
 	
 public:
-	Protein(filterFile::FilterFileParams* const pars, Dbase* const _locDB, Dbase* const _fxnDB, mwDB::MWDB_Protein* const _mwdb, mwDB::SeqDB* const _seqDB)
+	Protein(filterFile::FilterFileParams* const pars,
+			Dbase* const _locDB,
+			Dbase* const _fxnDB,
+			mwDB::MWDB_Protein* const _mwdb,
+			mwDB::SeqDB* const _seqDB)
 		: ProteinDataTemplate<filterFile::FilterFileData_protein>(pars) {
 		locDB = _locDB;
 		mwdb = _mwdb;
@@ -155,10 +166,6 @@ public:
 	inline void operator = (const Protein&);
 	
 	void consolidate(const Protein&);
-	void calcMW();
-	void addSeq();
-	void addLoc();
-	void addFxn();
 	void write(ofstream&);
 };
 

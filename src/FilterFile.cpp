@@ -99,7 +99,8 @@ namespace filterFile{
 						{
 							assert(param.value == "0" || param.value == "1");
 							includeUnique = utils::toInt(param.value);
-							supInfoNum++;
+							if(includeUnique)
+								supInfoNum++;
 							continue;
 						}
 						if(param.param == "getSubCelluarLoc")
@@ -164,7 +165,16 @@ namespace filterFile{
 						{
 							assert(param.value == "0" || param.value == "1");
 							includeCoverage = utils::toInt(param.value);
-							supInfoNum++;
+							if(includeCoverage)
+								supInfoNum++;
+							continue;
+						}
+						if(param.param == "includeSequenceCount")
+						{
+							assert(param.value == "0" || param.value == "1");
+							includeSequenceCount = utils::toInt(param.value);
+							if(includeSequenceCount)
+								supInfoNum++;
 							continue;
 						}
 						if(param.param == "includePeptides")
@@ -310,7 +320,7 @@ namespace filterFile{
 				<< "Use DTarray -h for more info." << endl << endl;
 			return false;
 		}
-		if(supInfoOutput == 1 && supInfoNum > 0)
+		if(supInfoOutput == 1 && supInfoNum <= 0)
 		{
 			cout << "Non zero supInfoOutput with zero supInfoNum." << endl
 				<< "Use DTarray -h for more info." << endl << endl;
