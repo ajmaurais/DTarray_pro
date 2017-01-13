@@ -149,6 +149,9 @@ namespace filterFile{
 		int supInfoOutput;
 		unsigned int supInfoNum;
 		PeptideGroupFormat peptideGroupMethod;
+		bool includeSaint;
+		string saintBaitFile, saintPreyFname, saintInteractionFname;
+		bool includeReverse;
 		
 		FilterFileParams ()
 		{
@@ -179,6 +182,11 @@ namespace filterFile{
 			supInfoOutput = 0;
 			peptideGroupMethod = byProtein;
 			supInfoNum = 0;
+			saintBaitFile = "";
+			saintPreyFname = "";
+			saintInteractionFname = "";
+			includeSaint = false;
+			includeReverse = false;
 		}
 		
 		//modifiers

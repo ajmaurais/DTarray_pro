@@ -51,7 +51,7 @@ namespace hashTable{
 	}
 	
 	template<class _Tp>
-	void LinkedList<_Tp>::write(ofstream& outF)
+	void LinkedList<_Tp>::write(ofstream& outF, int fxnNum)
 	{
 		if(!outF)
 			throw runtime_error("Error writing file. Bad ofstream!");
@@ -61,7 +61,7 @@ namespace hashTable{
 		
 		typename list<_Tp>::iterator it = dat.begin();
 		for(;it != dat.end(); it++)
-			(*it).write(outF);
+			(*it).write(outF, fxnNum);
 			
 	}
 	
@@ -103,13 +103,13 @@ namespace hashTable{
 	}
 	
 	template<class _Tp>
-	void HashTable<_Tp>::write(ofstream& outF)
+	void HashTable<_Tp>::write(ofstream& outF, int fxnNum)
 	{
 		if(!outF)
 			throw runtime_error("Error writing file. Bad ofstream!");
 		
 		for(size_t i = 0; i < size; i++)
-			array[i].write(outF);
+			array[i].write(outF, fxnNum);
 	}
 }
 

@@ -10,7 +10,7 @@
 
 using namespace std;
 
-int main (int argc, char *argv[])
+int main (int argc, char* argv[])
 {
 	//check arguements
 	assert(argc == 4);
@@ -20,129 +20,169 @@ int main (int argc, char *argv[])
 	assert(utils::dirExists(wd));
 	
 	//read in names of files to combine and output params
-	filterFile::FilterFileParams filterFileParams;
-	if (!filterFileParams.readFlist(flistName, wd))
+	filterFile::FilterFileParams par;
+	if (!par.readFlist(flistName, wd))
 	{
 		cout << "\nFailed to read file list! Exiting..." << endl;
 		return 0;
 	}
-	if (!filterFileParams.readDTParams(paramsName, wd))
+	if (!par.readDTParams(paramsName, wd))
 	{
 		cout << "\nFailed to read params file! Exiting..." << endl;
 		return 0;
 	}
-	if(!filterFileParams.optionsCompatable())
+	if(!par.optionsCompatable())
 		return 0;
 	
-	if(filterFileParams.peptideOutput != filterFile::none)
-		cout << endl << "Grouping peptides " <<
-		filterFile::groupFormatString(filterFileParams.peptideGroupMethod) << endl << endl;
+	if(par.peptideOutput != filterFile::none)
+		cout << "Grouping peptides " <<
+		filterFile::groupFormatString(par.peptideGroupMethod) << endl;
 	
-	Proteins proteins(filterFileParams);
-	Peptides peptides(filterFileParams);
-
-	//read in subcellular locations database and add sub cell locations to proteins
-	if(filterFileParams.getSubCelluarLoc)
+	Proteins proteins(par);
+	Peptides peptides(par);
+	
+	//read saint bait file
+	if(par.includeSaint)
 	{
-		cout << endl << "Reading subcellular locations database..." << endl;
-		if(!proteins.readInLocDB(filterFileParams.locDBfname))
+		if(!proteins.readBaitFile(par.saintBaitFile))
+		{
+			cout << "Could not read bait file!" << endl;
+			return 0;
+		}
+	}
+	//read in subcellular locations database and add sub cell locations to proteins
+	if(par.getSubCelluarLoc)
+	{
+		cout << endl << "Reading subcellular locations database...";
+		if(!proteins.readInLocDB(par.locDBfname))
 		{
 			cout <<"Failed to read protein location DB file! Exiting..." << endl;
 			return 0;
 		}
+		cout << " done!" << endl;
 	}
 	
 	//read in subcellular locations database and add sub cell locations to proteins
 	//filterFileParams.getFxn = true;
-	if(filterFileParams.getFxn)
+	if(par.getFxn)
 	{
-		cout << endl << "Reading protein function database..." << endl;
-		if(!proteins.readInFxnDB(filterFileParams.fxnDBfname))
+		cout << endl << "Reading protein function database...";
+		if(!proteins.readInFxnDB(par.fxnDBfname))
 		{
 			cout <<"Failed to read protein function DB file! Exiting..." << endl;
 			return 0;
 		}
+		cout << " done!" << endl;
 	}
 	
 	//calculate mass of peptides or proteins from sequence and amino acid mass databases
-	if(filterFileParams.calcMW)
+	if(par.calcMW)
 	{
-		if(!proteins.readInMWdb(wd, filterFileParams))
+		cout << endl << "Calculating protein molecular weights from: " << par.mwDBFname;
+		if(!proteins.readInMWdb(wd, par))
 		{
 			cout << "Failed to read mwDB files! Exiting..." << endl;
 			return 0;
 		}
-		cout << "Calculating protein molecular weights from: " << filterFileParams.mwDBFname << endl;
+		cout << " done!" << endl;
 	}
 	
-	if((!filterFileParams.calcMW && filterFileParams.getSeq ) ||
-	   (filterFileParams.seqDBfname != filterFileParams.mwDBFname))
+	if((!par.calcMW && par.getSeq ) || (par.seqDBfname != par.mwDBFname))
 	{
-		if(!proteins.readInSeqDB(filterFileParams.seqDBfname))
+		cout << endl << "Getting protein sequences from " << par.seqDBfname;
+		if(!proteins.readInSeqDB(par.seqDBfname))
 		{
 			cout << "Failed to read seqDB file! Exiting..." << endl;
 			return 0;
 		}
-		cout << "Getting protein sequences from " << filterFileParams.seqDBfname << endl;
+		cout << " done!" << endl;
 	}
+	
+	if(!par.includeReverse)
+		cout << endl << "Skipping reverse matches..." << endl;
 	
 	//read in and combine files
-	if(!proteins.readIn(wd, filterFileParams, &peptides))
+	cout << endl;
+	if(!proteins.readIn(wd, par, &peptides))
 		return 0;
 	
-	cout << endl << filterFileParams.numFiles << " files combined." << endl;
+	cout << endl << par.numFiles << " files combined." << endl;
 	
-	if(!filterFileParams.sampleNamePrefix.empty())
-		cout << "Parsing colnames by prefix: " << filterFileParams.sampleNamePrefix << endl;
+	if(!par.sampleNamePrefix.empty())
+		cout << endl << "Parsing colnames by prefix: " << par.sampleNamePrefix << endl;
 	
 	//write out combined protein data
-	if(filterFileParams.includeProteins)
+	if(par.includeProteins)
 	{
-		assert(filterFileParams.outputFormat != 0);
-		if (filterFileParams.outputFormat == 1 || filterFileParams.outputFormat == 3)
+		assert(par.outputFormat != 0);
+		if (par.outputFormat == 1 || par.outputFormat == 3)
 		{
-			if(!proteins.writeOut(wd + filterFileParams.ofname, filterFileParams))
+			cout << endl << "Writing protein data...";
+			if(!proteins.writeOut(wd + par.ofname, par))
 			{
 				cout << "Could not write out file! Exiting..." << endl;
 				return 0;
 			}
-			cout << endl << "Protein data written in wide format to: " << filterFileParams.ofname << endl;
+			cout << " done!" << endl << "Protein data written in wide format to: "
+			<< par.ofname << endl << endl;
 		}
-		if(filterFileParams.outputFormat == 2 || filterFileParams.outputFormat == 3)
+		if(par.outputFormat == 2 || par.outputFormat == 3)
 		{
-			if(!proteins.writeOutDB(wd + filterFileParams.dbOfname, filterFileParams))
+			cout << endl << "Writing protein data...";
+			if(!proteins.writeOutDB(wd + par.dbOfname, par))
 			{
 				cout << "Could not write out file! Exiting..." << endl;
 				return 0;
 			}
-			cout << endl << "Protein data written in long format to: " << filterFileParams.dbOfname << endl;
+			cout << " done!" << endl << "Protein data written in long format to: "
+			<< par.dbOfname << endl << endl;
 		}
 	}
-	
 	//write out combined peptide data
-	if(filterFileParams.includePeptides)
+	if(par.includePeptides)
 	{
-		assert(filterFileParams.peptideOutput != 0);
-		if(filterFileParams.peptideOutput == 1 || filterFileParams.peptideOutput == 3)
+		assert(par.peptideOutput != 0);
+		if(par.peptideOutput == 1 || par.peptideOutput == 3)
 		{
-			if(!peptides.writeOut(wd + filterFileParams.peptideOfFname, filterFileParams))
+			cout << endl << "Writing peptide data...";
+			if(!peptides.writeOut(wd + par.peptideOfFname, par))
 			{
 				cout << "Could not write out file! Exiting..." << endl;
 				return 0;
 			}
-			cout << endl << "Peptide data written in wide format to: " << filterFileParams.peptideOfFname << endl;
+			cout << " done!" << endl << "Peptide data written in wide format to: "
+			<< par.peptideOfFname << endl << endl;
 		}
 		
-		if(filterFileParams.peptideOutput == 2 || filterFileParams.peptideOutput == 3)
+		if(par.peptideOutput == 2 || par.peptideOutput == 3)
 		{
-			if(!peptides.writeOutDB(wd + filterFileParams.dbPeptideOfFname, filterFileParams))
+			cout << endl << "Writing peptide data...";
+			if(!peptides.writeOutDB(wd + par.dbPeptideOfFname, par))
 			{
 				cout << "Could not write out file! Exiting..." << endl;
 				return 0;
 			}
-			cout << endl << "Peptide data written in long format to: " << filterFileParams.dbPeptideOfFname << endl;
+			cout << " done!" << endl << "Peptide data written in long format to: "
+			<< par.dbPeptideOfFname << endl << endl;
 		}
 	}
+	//write saint input files
+	if(par.includeSaint)
+	{
+		cout << endl << "Writing saint output files...";
+		if(!proteins.writeSaint(wd + par.saintPreyFname, 1))
+		{
+			cout << "Could not write prey file! Exiting..." << endl;
+			return 0;
+		}
+		if(!proteins.writeSaint(wd + par.saintInteractionFname, 2))
+		{
+			cout << "Could not write interaction file! Exiting..." << endl;
+			return 0;
+		}
+		cout << " done!" << endl << "prey file written to: " << par.saintPreyFname << endl
+		<< "interaction data written to: " << par.saintPreyFname << endl << endl;
+ 	}
 	
 	return 0;
 }

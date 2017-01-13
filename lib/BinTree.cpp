@@ -17,12 +17,6 @@ namespace binTree{
 		right = nullptr;
 	}
 	
-	template <class _Tp>
-	_Tp* Node<_Tp>::getVal() const
-	{
-		return &val;
-	}
-	
 	template<class _Tp>
 	BinTree<_Tp>::BinTree()
 	{
@@ -82,12 +76,12 @@ namespace binTree{
 	}
 	
 	template <class _Tp>
-	typename Node<_Tp>::Node* BinTree<_Tp>::search(const _Tp& arg, typename Node<_Tp>::Node* leaf) const
+	_Tp* BinTree<_Tp>::search(const _Tp& arg, typename Node<_Tp>::Node* leaf) const
 	{
 		if(leaf!=nullptr)
 		{
 			if(arg == leaf->val)
-				return leaf;
+				return &leaf->val;
 			if(arg < leaf->val)
 				return search(arg, leaf->left);
 			else
@@ -111,7 +105,7 @@ namespace binTree{
 	}
 	
 	template<class _Tp>
-	typename Node<_Tp>::Node* BinTree<_Tp>::search(const _Tp& arg) const
+	_Tp* BinTree<_Tp>::search(const _Tp& arg) const
 	{
 		return search(arg, root);
 	}

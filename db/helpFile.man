@@ -1,4 +1,4 @@
-.TH "DTarray_pro v1.0" 1 "9 September 2016" "DTarray_pro"
+.TH "DTarray_pro v1.5" 1 "12 January 2017" "DTarray_pro"
 .SH NAME
 DTarray_pro - Combine DTASelect-filter files.
 .SH SYNOPSIS
@@ -12,6 +12,8 @@ DTarray_pro - Combine DTASelect-filter files.
 .br
 [-g 0 | -g 1 | -g 2]
 .br
+[--saint \fI<bait_file>\fP]
+.br
 [-u, --unique]
 .br
 [-c, --coverage]
@@ -19,6 +21,8 @@ DTarray_pro - Combine DTASelect-filter files.
 [--seqC]
 .br
 [-s 0 | -s 1]
+.br
+[--rev 0 | --rev 1]
 .br
 [--loc]
 .br
@@ -146,6 +150,9 @@ Group peptides by parent protein and charge. Peptides found in multiple charge s
 
 \fITechnical_note:\fR Information about each peptide found is stored in a string keyed, custom implementation, hash table. Changing the grouping method modifies the hash key value used for each peptide. 
 .TP
+\fB--saint\fI <bait_file>\fR
+Generate input files for saintExpress. \fI<bait_file>\fP should be a text file with three columns separated by tabs: IP name (or sample name), bait name, and T if sample is test or C if sample is control. Two files are generated in working dirrectory: interaction_file.txt and prey_file.txt.
+.TP
 \fB-u, --unique\fP
 Include spectral counts for unique peptides in output file.
 .TP
@@ -168,6 +175,21 @@ Group columns by sample.
 \fB1\fR
 .in +0.75i
 Group columns by observation.
+.in
+.TP
+\fB--rev\fR
+Choose whether to include reverse matches in protein and peptide output files. \fB1\fR is the default.
+.TP
+.in +0.75i
+\fB0\fR
+.in +0.75i
+Do not include reverse matches.
+.in
+.TP
+.in +0.75i
+\fB1\fR
+.in +0.75i
+Include reverse matches.
 .in
 .TP
 \fB--loc\fP

@@ -65,6 +65,7 @@ protected:
 	double avgMass, monoMass;
 	string length;
 	string sequence;
+	string matchDirrection;
 	static size_t* colIndex;
 	bool supDataAdded;
 };

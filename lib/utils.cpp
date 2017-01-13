@@ -8,14 +8,22 @@ namespace utils{
 	bool File::read(string _fname)
 	{
 		fname = _fname;
+		return read();
+	}
+	
+	bool File::read()
+	{
+		if(fname.empty())
+			throw runtime_error("File must be specified!");
+		
 		ifstream inF(fname.c_str());
 		
 		if(!inF)
-			return false;
+		return false;
 		
 		delimType = detectLineEnding(inF);
 		if(delimType == unknown)
-			throw runtime_error("Invalid delimiter in file: " + fname + "!");
+		throw runtime_error("Invalid delimiter in file: " + fname + "!");
 		delim = utils::getDelim(delimType);
 		
 		inF.seekg(0, inF.end);
@@ -27,7 +35,7 @@ namespace utils{
 		{
 			ss << buffer;
 			if(delimType == crlf)
-				beginLine = 1;
+			beginLine = 1;
 			else beginLine = 0;
 			free(buffer);
 			return true;

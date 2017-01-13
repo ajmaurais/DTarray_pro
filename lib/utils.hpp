@@ -57,6 +57,7 @@ namespace utils {
 		
 		//modifers
 		bool read(string);
+		bool read();
 		inline string getLine();
 		inline string getLine_skip();
 		inline string getLine_trim();

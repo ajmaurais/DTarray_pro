@@ -124,15 +124,15 @@ namespace mwDB{
 	double MWDB::getMW(string a, int avgMono) const
 	{
 		AminoAcid temp (a, 0, 0);
-		binTree::Node<AminoAcid>* nTemp = aminoAcidsDB->search(temp);
+		AminoAcid* aaTemp = aminoAcidsDB->search(temp);
 		
-		if(nTemp == nullptr)
+		if(aaTemp == nullptr)
 			return -1;
 		
 		if(avgMono == 0)
-			return nTemp->val.avgMass;
+			return aaTemp->avgMass;
 		else if(avgMono == 1)
-			return nTemp->val.monoMass;
+			return aaTemp->monoMass;
 		else return -1;
 	}
 	
@@ -190,12 +190,12 @@ namespace mwDB{
 	
 	bool MWDB::addStaticMod(const AminoAcid& mod)
 	{
-		binTree::Node<AminoAcid>* nTemp = aminoAcidsDB->search(mod);
+		AminoAcid* aaTemp = aminoAcidsDB->search(mod);
 		
-		if(nTemp == nullptr)
+		if(aaTemp == nullptr)
 			return false;
 		
-		nTemp->val += mod;
+		*aaTemp += mod;
 		
 		return true;
 	}

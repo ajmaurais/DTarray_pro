@@ -24,6 +24,7 @@
 #include "../lib/utils.hpp"
 #include "FilterFile.hpp"
 #include "calcMW.hpp"
+#include "saintOutput.hpp"
 
 using namespace std;
 
@@ -90,7 +91,7 @@ public:
 	}
 	inline string makeKey() const;
 	void consolidate(const Peptide&);
-	void write(ofstream&);
+	void write(ofstream&, int);
 	
 private:
 	string key, calcSequence;
@@ -125,13 +126,14 @@ class Protein : public ProteinTemplate , public ProteinDataTemplate<filterFile::
 	friend class hashTable::LinkedList<Protein>;
 private:
 	string MW, loc, fxn;
-	string fullDescription, matchDirrection, pI;
+	string fullDescription, pI;
 	
 	//pointers to Proteins data
 	static Dbase* locDB;
 	static mwDB::MWDB_Protein* mwdb;
 	static mwDB::SeqDB* seqDB;
 	static Dbase* fxnDB;
+	static saint::BaitFile* baitFile;
 	
 	//modifier
 	void getProteinData(string);
@@ -153,12 +155,14 @@ public:
 			Dbase* const _locDB,
 			Dbase* const _fxnDB,
 			mwDB::MWDB_Protein* const _mwdb,
-			mwDB::SeqDB* const _seqDB)
+			mwDB::SeqDB* const _seqDB,
+			saint::BaitFile* const _baitFile)
 		: ProteinDataTemplate<filterFile::FilterFileData_protein>(pars) {
 		locDB = _locDB;
 		mwdb = _mwdb;
 		seqDB = _seqDB;
 		fxnDB = _fxnDB;
+		baitFile = _baitFile;
 	}
 	Protein() : ProteinDataTemplate<filterFile::FilterFileData_protein>() {}
 	~Protein(){}
@@ -166,20 +170,26 @@ public:
 	inline void operator = (const Protein&);
 	
 	void consolidate(const Protein&);
-	void write(ofstream&);
+	void write(ofstream&, int);
+	void writeProtein(ofstream&);
+	void writePrey(ofstream&) const;
+	void writeInteractions(ofstream&) const;
 };
 
 Dbase* Protein::locDB = nullptr;
 Dbase* Protein::fxnDB = nullptr;
 mwDB::MWDB_Protein* Protein::mwdb = nullptr;
 mwDB::SeqDB* Protein::seqDB = nullptr;
+saint::BaitFile* Protein::baitFile = nullptr;
 
 //stores data for all proteins found in DTA filter files
 class Proteins : public DBTemplate<Protein>{
+	friend class saint::BaitFile;
 	Dbase* locDB;
 	Dbase* fxnDB;
 	mwDB::MWDB_Protein* mwdb;
 	mwDB::SeqDB* seqDB;
+	saint::BaitFile* baitFile;
 	
 	//modifers
 	bool readIn(string, filterFile::FilterFileParams* const,
@@ -193,12 +203,14 @@ public:
 		seqDB = nullptr;
 		mwdb = nullptr;
 		fxnDB = nullptr;
+		baitFile = nullptr;
 	}
 	Proteins() : DBTemplate<Protein>(){
 		locDB = nullptr;
 		seqDB = nullptr;
 		mwdb = nullptr;
 		fxnDB = nullptr;
+		baitFile = nullptr;
 	}
 	~Proteins(){
 		delete locDB;
@@ -211,10 +223,12 @@ public:
 	bool readInMWdb(string, const filterFile::FilterFileParams&);
 	bool readInSeqDB(string);
 	bool readInFxnDB(string);
+	bool readBaitFile(string);
 	
 	//properities
 	bool writeOut(string, const filterFile::FilterFileParams&);
 	bool writeOutDB(string, const filterFile::FilterFileParams&);
+	bool writeSaint(string, int) const;
 	
 	//modifiers
 	bool readIn(string, filterFile::FilterFileParams&, Peptides* const);

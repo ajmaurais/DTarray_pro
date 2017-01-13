@@ -26,12 +26,10 @@ namespace binTree{
 	class Node{
 		friend class BinTree<_Tp>;
 	public:
-		_Tp val;
-		
 		Node();
 		
-		_Tp* getVal() const;
 	private:
+		_Tp val;
 		Node *left;
 		Node *right;
 	};
@@ -48,7 +46,7 @@ namespace binTree{
 		void destroyTree();
 		
 		//properties
-		typename Node<_Tp>::Node* search(const _Tp&) const;
+		_Tp* search(const _Tp&) const;
 		
 	private:
 		typename Node<_Tp>::Node* root;
@@ -58,7 +56,7 @@ namespace binTree{
 		void destroyTree(typename Node<_Tp>::Node*);
 		
 		//properties
-		typename Node<_Tp>::Node* search(const _Tp&, typename Node<_Tp>::Node*) const;
+		_Tp* search(const _Tp&, typename Node<_Tp>::Node*) const;
 	};
 }
 

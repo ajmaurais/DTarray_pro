@@ -57,7 +57,7 @@ namespace hashTable{
 		//properties
 		_Tp* getItem(string);
 		bool itemExists(string) const;
-		void write(ofstream&);
+		void write(ofstream& outF, int fxnNum = 0);
 		
 		inline size_t getLength() const{
 			return dat.size();
@@ -105,7 +105,7 @@ namespace hashTable{
 		}
 		unsigned long getLength() const;
 		void printHistogram() const;
-		void write(ofstream&);
+		void write(ofstream& outF, int fxnNum = 0);
 	};
 }
 

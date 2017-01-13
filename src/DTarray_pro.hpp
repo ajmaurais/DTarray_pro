@@ -14,10 +14,11 @@
 	#define nullptr NULL
 #endif
 
-#define BIN_VERSION_NUM "1.50"
-#define MIN_BIN_VERSION_NUM 1.3
+#define BIN_VERSION_NUM "1.51"
+#define MIN_BIN_VERSION_NUM 1.51
 
 #include "dtafilter.hpp"
+#include "saintOutput.hpp"
 #include "../lib/BinTree.cpp"
 #include "../lib/hashTable.cpp"
 #include "../lib/utils.cpp"
@@ -25,5 +26,6 @@
 #include "dtafilter.cpp"
 #include "calcMW.cpp"
 #include "dbase.cpp"
+#include "saintOutput.cpp"
 
 #endif /* DTarray_pro.hpp */

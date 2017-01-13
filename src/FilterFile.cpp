@@ -63,8 +63,6 @@ namespace filterFile{
 			if(line == "<params>")
 				do{
 					line = file.getLine_skip_trim();
-					if(file.end())
-						return false;
 					if(utils::strContains('=', line)) //find lines containing params by = symbol
 					{
 						Param param (line);
@@ -229,6 +227,42 @@ namespace filterFile{
 								return false;
 							}
 							peptideGroupMethod = intToGroupFormat(utils::toInt(param.value));
+							continue;
+						}
+						if(param.param == "includeSaint")
+						{
+							assert(param.value == "0" || param.value == "1");
+							includeSaint = utils::toInt(param.value);
+							continue;
+						}
+						if(param.param == "saintBaitFile")
+						{
+							if(!param.value.empty())
+							{
+								if(!utils::fileExists(param.value))
+								{
+									cout << "Bait file does not exist!" << endl;
+									return false;
+								}
+								saintBaitFile = param.value;
+								continue;
+							}
+							else continue;
+						}
+						if(param.param == "saintPreyFname")
+						{
+							saintPreyFname = param.value;
+							continue;
+						}
+						if(param.param == "saintInteractionFname")
+						{
+							saintInteractionFname = param.value;
+							continue;
+						}
+						if(param.param == "includeReverse")
+						{
+							assert(param.value == "1" || param.value == "0");
+							includeReverse = utils::toInt(param.value);
 							continue;
 						}
 						else return false;

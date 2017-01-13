@@ -196,7 +196,7 @@ bool Proteins::readIn(string wd, filterFile::FilterFileParams* const pars,
 			if(isColumnHeaderLine(line)) //skip if header line
 				continue;
 			else{
-				Protein newProtein(pars, locDB, fxnDB, mwdb, seqDB);
+				Protein newProtein(pars, locDB, fxnDB, mwdb, seqDB, baitFile);
 				newProtein.initialize(colNamesTemp, colNamesLen, &colIndex);
 				newProtein.getProteinData(line);
 				inProtein = true; //used to determine if it is valid to loop through peptide lines below protein
@@ -227,6 +227,7 @@ bool Proteins::readIn(string wd, filterFile::FilterFileParams* const pars,
 							newPeptide.proteinID = newProtein.ID;
 							newPeptide.protein = newProtein.protein;
 							newPeptide.description = newProtein.description;
+							newPeptide.matchDirrection = newProtein.matchDirrection;
 							newPeptide.parsePeptide(line);
 							
 							if(pars->peptideGroupMethod == filterFile::byScan)
@@ -371,10 +372,55 @@ bool Proteins::readInLocDB(string fname)
 	return locDB->readIn(fname);
 }
 
-void Protein::write(ofstream& outF)
+bool Proteins::readBaitFile(string fname)
+{
+	baitFile = new saint::BaitFile(fname);
+	return baitFile->read();
+}
+
+void Protein::write(ofstream& outF, int fxnNum)
+{
+	switch(fxnNum) {
+		case 0 : writeProtein(outF);
+			break;
+		case 1 : writePrey(outF);
+			break;
+		case 2 : writeInteractions(outF);
+			break;
+		default : throw runtime_error("Function does not exist");
+	}
+}
+
+void Protein::writePrey(ofstream& outF) const
+{
+	assert(outF);
+	outF << ID << OUT_DELIM <<
+	length << OUT_DELIM << description << endl;
+}
+
+void Protein::writeInteractions(ofstream& outF) const
+{
+	assert(outF);
+	for(int i = 0; i < colSize; i++)
+	{
+		if(col[i].count > 0)
+		{
+			outF << col[i].colname << OUT_DELIM <<
+			baitFile->getBaitName(col[i].colname) << OUT_DELIM <<
+			ID << OUT_DELIM <<
+			col[i].count << endl;
+		}
+	}
+}
+
+void Protein::writeProtein(ofstream& outF)
 {
 	if(!outF)
 		throw runtime_error("Bad ofstream");
+	
+	if(!par->includeReverse)
+		if(matchDirrection == "Reverse_sp")
+			return;
 	
 	if(!supDataAdded)
 	{
@@ -841,9 +887,21 @@ bool Proteins::writeOutDB(string ofname, const filterFile::FilterFileParams& par
 	Protein::colIndex = &colIndex;
 	//print proteins and spectral counts
 	for (colIndex = 0; colIndex < par.numFiles; colIndex++)
-		data->write(outF);
+		data->write(outF, 0);
 	
 	par.outputFormat = outputFormat;
+	
+	return true;
+}
+
+bool Proteins::writeSaint(string fname, int file) const
+{
+	ofstream outF(fname);
+	
+	if(!outF)
+		return false;
+	
+	data->write(outF, file);
 	
 	return true;
 }
@@ -900,10 +958,15 @@ inline string parseSequence(string str)
 		str : str.substr(firstP + 1, secP - (str.length() - secP));
 }
 
-void Peptide::write(ofstream& outF)
+void Peptide::write(ofstream& outF, int fxnNum)
 {
+	assert(fxnNum == 0);
 	if(!outF)
 		throw runtime_error("Bad ofstream!");
+	
+	if(!par->includeReverse)
+		if(matchDirrection == "Reverse_sp")
+			return;
 	
 	if(!supDataAdded)
 	{
@@ -1006,7 +1069,7 @@ bool Peptides::writeOut(string ofname, const filterFile::FilterFileParams& pars)
 	outF << endl;
 	
 	//print peptides and spectral counts
-	data->write(outF);
+	data->write(outF, 0);
 	
 	pars.outputFormat = outputFormat;
 	
@@ -1076,7 +1139,7 @@ bool Peptides::writeOutDB(string ofname, const filterFile::FilterFileParams& par
 	
 	Peptide::colIndex = &colIndex;
 	for(colIndex = 0; colIndex < pars.numFiles; colIndex++)
-		data->write(outF);
+		data->write(outF, 0);
 	
 	pars.outputFormat = outputFormat;
 	

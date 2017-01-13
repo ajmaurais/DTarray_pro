@@ -11,8 +11,8 @@ fxnDBfname="$scriptWDdb/humanFxn.txt"
 staticModificationsDB="$scriptWDdb/staticModifications.txt"
 binName="DTarray_pro"
 helpFileFname="$scriptWDdb/helpFile.man"
-versionNum='1.50'
-versionNumStr='1.5.0'
+versionNum='1.51'
+versionNumStr='1.5.1'
 
 recompileMessage='DTarray_pro source code recompiled.'
 invalidOptionMessage="is an invalid option! Exiting...\nUse DTarray -h for help."
@@ -55,6 +55,12 @@ useDefaultSeqDB="1"
 includeNullPeptides="0"
 supInfoOutput="0"
 groupPeptides="1"
+includeSaint="0"
+saintBaitFile=""
+saintPreyFname="prey_file.txt"
+saintInteractionFname="interaction_file.txt"
+includeReverse="1"
+
 
 function usage {
 	cat $scriptWDdb/usage.txt
@@ -77,13 +83,21 @@ function absPath {
 }
 
 function purgeDir {
-	rm -v ./$defaultParamsName
-	rm -v ./$defaultFlistName
-	rm -v ./$staticModificationsName
-	rm -v ./$ofname
-	rm -v ./$dbOfname
-	rm -v ./$peptideOfFname
-	rm -v ./$dbPeptideOfFname
+	if [ -d "$1" ] ; then
+		cd "$1"
+		rm -fv ./$defaultParamsName
+		rm -fv ./$defaultFlistName
+		rm -fv ./$staticModificationsName
+		rm -fv ./$ofname
+		rm -fv ./$dbOfname
+		rm -fv ./$peptideOfFname
+		rm -fv ./$dbPeptideOfFname
+		rm -fv ./$saintPreyFname
+		rm -fv ./$saintInteractionFname
+	else
+		echo "Dir does not exist!"
+		exit
+	fi
 }
 
 #get arguements
@@ -180,7 +194,7 @@ while ! [[ -z "$1" ]] ; do
 			isArg "$1"
 			supInfoOutput="$1" ;;
 		"--purge")
-			purgeDir
+			purgeDir "$wd"
 			exit ;;
 		"--pswd")
 			echo $scriptWDHome
@@ -194,6 +208,15 @@ while ! [[ -z "$1" ]] ; do
 			shift
 			isArg "$1"
 			groupPeptides="$1" ;;
+		"--saint")
+			shift
+			isArg "$1"
+			includeSaint="1"
+			saintBaitFile=$(absPath "$1") ;;
+		"--rev")
+			shift
+			isArg "$1"
+			includeReverse="$1" ;;
         *)
             echo -e "$1" $invalidOptionMessage
 			usage;;
@@ -218,7 +241,6 @@ if $recompile ; then
 fi
 
 echo -e '\nDTarray_pro v'$versionNumStr
-echo
 
 #create params file
 cd $wd
@@ -300,6 +322,11 @@ if ! $keepParams ; then
 	echo 'includeNullPeptides='$includeNullPeptides >> ./$paramsName
 	echo 'supInfoOutput='$supInfoOutput >> ./$paramsName
 	echo 'groupPeptides='$groupPeptides >> ./$paramsName
+	echo 'includeSaint='$includeSaint >> ./$paramsName
+	echo 'saintBaitFile='$saintBaitFile >> ./$paramsName
+	echo 'saintPreyFname='$saintPreyFname >> ./$paramsName
+	echo 'saintInteractionFname='$saintInteractionFname >> ./$paramsName
+	echo 'includeReverse='$includeReverse >> ./$paramsName
 	echo -e '\n</params>\n' >> ./$paramsName
 	echo -e '</paramsFile>' >> ./$paramsName
 fi
