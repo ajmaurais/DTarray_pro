@@ -522,9 +522,9 @@ void Protein::writeProtein(ofstream& outF)
 	{
 		outF << OUT_DELIM << col[*colIndex].colname;
 		
-		if (!par->sampleNamePrefix.empty())
+		if (par->parseSampleName)
 		{
-			outF << OUT_DELIM << parseSample(col[*colIndex].colname, par->sampleNamePrefix, 1) << OUT_DELIM <<
+			outF << OUT_DELIM << parseSample(col[*colIndex].colname, par->sampleNamePrefix, par->parseSampleName, 1) << OUT_DELIM <<
 			parseReplicate(col[*colIndex].colname);
 		}
 		
@@ -578,7 +578,6 @@ bool Proteins::writeOut(string ofname, const filterFile::FilterFileParams& par)
 	filterFile::OutputFormat outputFormat = par.outputFormat;
 	par.outputFormat = filterFile::wideFormat;
 	
-	bool parseSampleName = par.sampleNamePrefix != "";
 	int colNamesLength = DEFAULT_COL_NAMES_LENGTH;
 	vector<string> headers;
 	vector<string>::iterator it = headers.begin();
@@ -628,7 +627,7 @@ bool Proteins::writeOut(string ofname, const filterFile::FilterFileParams& par)
 				break;
 			}
 	}
-	if(parseSampleName)
+	if(!par.sampleNamePrefix.empty())
 	{
 		string delim;
 		if(par.supInfoOutput == 0)
@@ -649,8 +648,8 @@ bool Proteins::writeOut(string ofname, const filterFile::FilterFileParams& par)
 		for (int i = 0; i < par.numFiles; i++)
 		{
 			if (i == 0)
-				outF << parseSample(colNames[i], par.sampleNamePrefix, 0);
-			else outF << tabs << parseSample(colNames[i], par.sampleNamePrefix, 0);
+				outF << parseSample(colNames[i], par.sampleNamePrefix, false, 0);
+			else outF << tabs << parseSample(colNames[i], par.sampleNamePrefix, false, 0);
 		}
 		outF << endl;
 		for (int i = 0; i < colNamesLength; i++)
@@ -742,7 +741,7 @@ bool Proteins::writeOut(string ofname, const filterFile::FilterFileParams& par)
 		for(int i = 0; i <= par.supInfoNum; i++)
 		{
 			for (int i = 0; i < par.numFiles; i ++)
-				ofColNames.push_back(parseSample(colNames[i], par.sampleNamePrefix, 0));
+				ofColNames.push_back(parseSample(colNames[i], par.sampleNamePrefix, false, 0));
 		}
 		int colNamesLen = int(ofColNames.size());
 		for (int i = 0; i < colNamesLen; i++)
@@ -772,8 +771,6 @@ bool Proteins::writeOutDB(string ofname, const filterFile::FilterFileParams& par
 	
 	filterFile::OutputFormat outputFormat = par.outputFormat;
 	par.outputFormat = filterFile::longFormat;
-
-	bool parseSampleName = !(par.sampleNamePrefix.empty());
 	
 	//print column headers
 	vector<string> headers;
@@ -783,7 +780,7 @@ bool Proteins::writeOutDB(string ofname, const filterFile::FilterFileParams& par
 	for (int i = 0; i < DEFAULT_COL_NAMES_DB_LENGTH ; i++)
 		headers.push_back(DEFAULT_COL_NAMES_DB[i]);
 	
-	if(parseSampleName)
+	if(par.parseSampleName)
 	{
 		for(it = headers.begin(); it != headers.end(); it++)
 			if(*it == "Long_sample_name")
@@ -913,15 +910,19 @@ inline bool isColumnHeaderLine(const string& line)
 }
 
 //optional fxn to parse long sample name
-string parseSample(string sampleName, string prefix, bool outputFormat)
+string parseSample(string sampleName, string prefix, bool parseSampleName, bool outputFormat)
 {
 	//return unparsed sampleName if prefix is empty string or is not found in sampleName
-	if(!utils::strContains(prefix, sampleName) || prefix.length() == 0)
+	if(!parseSampleName && (!utils::strContains(prefix, sampleName) || prefix.length() == 0)){
 		return sampleName;
-	
-	string sample = utils::removeSubstr(prefix, sampleName); //remove prefix from sampleName
-	
-	return outputFormat ? sample.substr(0, sample.find_last_of("_")) : sample;
+	}
+	else if(parseSampleName && prefix.empty()){
+		return sampleName.substr(0, sampleName.find_last_of("_"));
+	}
+	else {
+		string sample = utils::removeSubstr(prefix, sampleName); //remove prefix from sampleName
+		return outputFormat ? sample.substr(0, sample.find_last_of("_")) : sample;
+	}
 }
 
 //get replicate number from sample name
@@ -1014,9 +1015,9 @@ void Peptide::write(ofstream& outF, int fxnNum)
 		outF << col[*colIndex].colname << OUT_DELIM <<
 		col[*colIndex].count;
 		
-		if(!par->sampleNamePrefix.empty())
+		if(par->parseSampleName)
 		{
-			outF << OUT_DELIM << parseSample(col[*colIndex].colname, par->sampleNamePrefix, 1)
+			outF << OUT_DELIM << parseSample(col[*colIndex].colname, par->sampleNamePrefix, par->parseSampleName, 1)
 			<< OUT_DELIM <<	parseReplicate(col[*colIndex].colname);
 		}
 	}
@@ -1092,7 +1093,7 @@ bool Peptides::writeOutDB(string ofname, const filterFile::FilterFileParams& par
 	vector<string>::iterator it;
 	int defaultColNamesLen = DEFALUT_PEPTIDE_DB_COLNAMES_LEN;
 	
-	if(!pars.sampleNamePrefix.empty())
+	if(pars.parseSampleName)
 		defaultColNamesLen += 2;
 	
 	for(int i = 0; i < defaultColNamesLen; i++)

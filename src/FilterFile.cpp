@@ -77,6 +77,12 @@ namespace filterFile{
 							sampleNamePrefix = param.value;
 							continue;
 						}
+						if(param.param == "parseSampleName")
+						{
+							assert(param.value == "1" || param.value == "0");
+							parseSampleName = utils::toInt(param.value);
+							continue;
+						}
 						if(param.param == "outputFormat")
 						{
 							if(!(param.value == "0" || param.value == "1" || param.value == "2" || param.value == "3"))
@@ -205,7 +211,11 @@ namespace filterFile{
 						}
 						if(param.param == "includeNullPeptides")
 						{
-							assert(param.value == "0" || param.value == "1");
+							if(!(param.value == "0" || param.value == "1"))
+							{
+								cout << param.value << PARAM_ERROR_MESSAGE << "includeNullPeptides" << endl;
+								return false;
+							}
 							includeNullPeptides = utils::toInt(param.value);
 							continue;
 						}

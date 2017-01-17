@@ -35,6 +35,7 @@ includeUnique="0"
 wd=$(pwd)'/'
 recompile=false
 sampleNamePrefx=""
+parseSampleName="0"
 rewriteFlist=false
 filesFound=false
 keepParams=false
@@ -129,9 +130,13 @@ while ! [[ -z "$1" ]] ; do
 			recompile=true
 			continueExc=false;;
 		"-f" | "--prefix")
-			shift
-			isArg "$1"
-			sampleNamePrefix="$1";;
+			if [[ $2 == -* ]] || [[ -z "$2" ]] ; then
+				parseSampleName="1"
+			else
+				shift
+				isArg "$1"
+				sampleNamePrefix="$1"
+			fi;;
 		"--rw")
 			shift
 			isArg "$1"
@@ -193,6 +198,10 @@ while ! [[ -z "$1" ]] ; do
 			shift
 			isArg "$1"
 			supInfoOutput="$1" ;;
+		"-n" | "--nullp")
+			shift
+			isArg "$1"
+			includeNullPeptides="$1" ;;
 		"--purge")
 			purgeDir "$wd"
 			exit ;;
@@ -305,6 +314,7 @@ if ! $keepParams ; then
 	echo 'outputFormat='$output >> ./$paramsName
 	echo 'includeUnique='$includeUnique >> ./$paramsName
 	echo 'sampleNamePrefix='$sampleNamePrefix >> ./$paramsName
+	echo 'parseSampleName='$parseSampleName >> ./$paramsName
 	echo 'getSubCelluarLoc='$getSubCelluarLoc >> ./$paramsName
 	echo 'locDBfname='$locDBfname >> ./$paramsName
 	echo 'calcMW='$calcMWStr >> ./$paramsName

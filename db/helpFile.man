@@ -12,6 +12,8 @@ DTarray_pro - Combine DTASelect-filter files.
 .br
 [-g 0 | -g 1 | -g 2]
 .br
+[-n 0 | -n 1]
+.br
 [--saint \fI<bait_file>\fP]
 .br
 [-u, --unique]
@@ -32,7 +34,7 @@ DTarray_pro - Combine DTASelect-filter files.
 .br
 [--seq | --seq \fI<fasfa_file>\fP]
 .br
-[-f, --prefix \fI<prefix>\fP]
+[-f | -f \fI<prefix>\fP]
 .br
 [-d, --directory \fI<directory>\fP]
 .br
@@ -150,6 +152,21 @@ Group peptides by parent protein and charge. Peptides found in multiple charge s
 
 \fITechnical_note:\fR Information about each peptide found is stored in a string keyed, custom implementation, hash table. Changing the grouping method modifies the hash key value used for each peptide. 
 .TP
+\fB-n, --nullp\fR
+Specify whether to include peptides with 0 spectral counts in long peptide output file. \fB\fR is the default.
+.TP
+.in +0.75i
+\fB0\fR
+.in +0.75i
+Do not include peptides with 0 spectral counts in output file.
+.in
+.TP
+.in +0.75i
+\fB1\fR 
+.in +0.75i
+Include peptides with 0 spectral counts in output file.
+.in 
+.TP
 \fB--saint\fI <bait_file>\fR
 Generate input files for saintExpress. \fI<bait_file>\fP should be a text file with three columns separated by tabs: IP name (or sample name), bait name, and T if sample is test or C if sample is control. Two files are generated in working dirrectory: interaction_file.txt and prey_file.txt.
 .TP
@@ -222,8 +239,14 @@ Specify parent directory from which to run program. By default, the current work
 \fB-r, --recompile\fP
 Recompile all c++ source code then exit program. g++ must be installed to use this option.  c++ code is compatible with STL 98 or later.
 .TP
-\fB-f \fI<prefix>\fP
-Remove \fI<prefix>\fR from all sample names. If \fI<prefix>\fR is not found in sample name, name is unchanged. In long output format, columns will be included for long sample name, short sample name and replicate number. The value for replicate number is taken as: <number> where the sample name is in the format \fI<sample name>_<number>\fR.
+\fB-f\fR
+Include columns for sample name and replicate number in long protein and peptide output files. The value for replicate number is taken as: <number> where the sample name is in the format \fI<sample name>_<number>\fR.
+.TP
+.in +0.75i
+\fI<prefix>\fP
+.in +0.75i
+Remove \fI<prefix>\fR from all sample names. If \fI<prefix>\fR is not found in sample name, name is unchanged. In long output format, columns will be included for long sample name, short sample name and replicate number. 
+.in
 .TP
 \fB--rw \fI<arg>\fP
 Rewrite existing param files in working directory.

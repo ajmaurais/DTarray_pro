@@ -239,7 +239,7 @@ public:
 /*************/
 
 inline bool isColumnHeaderLine(const string&);
-string parseSample(string, string, bool);
+string parseSample(string, string, bool, bool);
 int parsePeptideSC(string);
 string parseReplicate(string);
 string getID(string);

@@ -129,6 +129,7 @@ namespace filterFile{
 		int numFiles;
 		static OutputFormat outputFormat;
 		string sampleNamePrefix;
+		bool parseSampleName;
 		bool includeUnique;
 		bool getSubCelluarLoc;
 		string locDBfname;
@@ -158,6 +159,7 @@ namespace filterFile{
 			versionNum = "";
 			numFiles = 0;
 			sampleNamePrefix = "";
+			parseSampleName = false;
 			includeUnique = false;
 			getSubCelluarLoc = false;
 			locDBfname = "";
