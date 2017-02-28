@@ -1,6 +1,6 @@
 //
 //  main.cpp
-//  DTarray_AJM
+//  DTarray_pro
 //
 //  Created by Aaron Maurais on 3/25/16.
 //  Copyright © 2016 Aaron Maurais. All rights reserved.
@@ -12,7 +12,7 @@ using namespace std;
 
 int main (int argc, char* argv[])
 {
-	//check arguements
+	//check args
 	assert(argc == 4);
 	string wd = string(argv[1]);
 	string flistName = string(argv[2]);
@@ -21,18 +21,18 @@ int main (int argc, char* argv[])
 	
 	//read in names of files to combine and output params
 	filterFile::FilterFileParams par;
-	if (!par.readFlist(flistName, wd))
+	if(!par.readFlist(flistName, wd))
 	{
 		cout << "\nFailed to read file list! Exiting..." << endl;
-		return 0;
+		return -1;
 	}
-	if (!par.readDTParams(paramsName, wd))
+	if(!par.readDTParams(paramsName, wd))
 	{
 		cout << "\nFailed to read params file! Exiting..." << endl;
-		return 0;
+		return -1;
 	}
 	if(!par.optionsCompatable())
-		return 0;
+		return -1;
 	
 	if(par.peptideOutput != filterFile::none)
 		cout << "Grouping peptides " <<
@@ -47,7 +47,7 @@ int main (int argc, char* argv[])
 		if(!proteins.readBaitFile(par.saintBaitFile))
 		{
 			cout << "Could not read bait file!" << endl;
-			return 0;
+			return -1;
 		}
 	}
 	//read in subcellular locations database and add sub cell locations to proteins
@@ -57,20 +57,19 @@ int main (int argc, char* argv[])
 		if(!proteins.readInLocDB(par.locDBfname))
 		{
 			cout <<"Failed to read protein location DB file! Exiting..." << endl;
-			return 0;
+			return -1;
 		}
 		cout << " done!" << endl;
 	}
 	
 	//read in subcellular locations database and add sub cell locations to proteins
-	//filterFileParams.getFxn = true;
 	if(par.getFxn)
 	{
 		cout << endl << "Reading protein function database...";
 		if(!proteins.readInFxnDB(par.fxnDBfname))
 		{
 			cout <<"Failed to read protein function DB file! Exiting..." << endl;
-			return 0;
+			return -1;
 		}
 		cout << " done!" << endl;
 	}
@@ -82,7 +81,7 @@ int main (int argc, char* argv[])
 		if(!proteins.readInMWdb(wd, par))
 		{
 			cout << "Failed to read mwDB files! Exiting..." << endl;
-			return 0;
+			return -1;
 		}
 		cout << " done!" << endl;
 	}
@@ -93,7 +92,7 @@ int main (int argc, char* argv[])
 		if(!proteins.readInSeqDB(par.seqDBfname))
 		{
 			cout << "Failed to read seqDB file! Exiting..." << endl;
-			return 0;
+			return -1;
 		}
 		cout << " done!" << endl;
 	}
@@ -104,7 +103,7 @@ int main (int argc, char* argv[])
 	//read in and combine files
 	cout << endl;
 	if(!proteins.readIn(wd, par, &peptides))
-		return 0;
+		return -1;
 	
 	cout << endl << par.numFiles << " files combined." << endl;
 	
@@ -121,7 +120,7 @@ int main (int argc, char* argv[])
 			if(!proteins.writeOut(wd + par.ofname, par))
 			{
 				cout << "Could not write out file! Exiting..." << endl;
-				return 0;
+				return -1;
 			}
 			cout << " done!" << endl << "Protein data written in wide format to: "
 			<< par.ofname << endl << endl;
@@ -132,7 +131,7 @@ int main (int argc, char* argv[])
 			if(!proteins.writeOutDB(wd + par.dbOfname, par))
 			{
 				cout << "Could not write out file! Exiting..." << endl;
-				return 0;
+				return -1;
 			}
 			cout << " done!" << endl << "Protein data written in long format to: "
 			<< par.dbOfname << endl << endl;
@@ -148,7 +147,7 @@ int main (int argc, char* argv[])
 			if(!peptides.writeOut(wd + par.peptideOfFname, par))
 			{
 				cout << "Could not write out file! Exiting..." << endl;
-				return 0;
+				return -1;
 			}
 			cout << " done!" << endl << "Peptide data written in wide format to: "
 			<< par.peptideOfFname << endl << endl;
@@ -160,25 +159,25 @@ int main (int argc, char* argv[])
 			if(!peptides.writeOutDB(wd + par.dbPeptideOfFname, par))
 			{
 				cout << "Could not write out file! Exiting..." << endl;
-				return 0;
+				return -1;
 			}
 			cout << " done!" << endl << "Peptide data written in long format to: "
 			<< par.dbPeptideOfFname << endl << endl;
 		}
 	}
-	//write saint input files
+	//write saintExpress input files
 	if(par.includeSaint)
 	{
 		cout << endl << "Writing saint output files...";
 		if(!proteins.writeSaint(wd + par.saintPreyFname, 1))
 		{
 			cout << "Could not write prey file! Exiting..." << endl;
-			return 0;
+			return -1;
 		}
 		if(!proteins.writeSaint(wd + par.saintInteractionFname, 2))
 		{
 			cout << "Could not write interaction file! Exiting..." << endl;
-			return 0;
+			return -1;
 		}
 		cout << " done!" << endl << "prey file written to: " << par.saintPreyFname << endl
 		<< "interaction data written to: " << par.saintPreyFname << endl << endl;

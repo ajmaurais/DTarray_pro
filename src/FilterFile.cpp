@@ -63,7 +63,7 @@ namespace filterFile{
 			if(line == "<params>")
 				do{
 					line = file.getLine_skip_trim();
-					if(utils::strContains('=', line)) //find lines containing params by = symbol
+					if(utils::strContains('=', line)) //find lines containing params by '=' symbol
 					{
 						Param param (line);
 						if(param.param == "versionNum")

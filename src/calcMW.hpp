@@ -10,7 +10,7 @@
 #define calcMW_h
 
 #include "../lib/hashTable.hpp"
-#include "../lib/binTree.hpp"
+#include "../lib/BinTree.hpp"
 
 class MWDB;
 class nwNode;
@@ -19,6 +19,8 @@ class AATree;
 class SeqDB;
 
 namespace mwDB{
+	size_t const SEQ_LIB_SIZE = 10000;
+	
 	class Peptide{
 		friend class MWDB;
 		friend class SeqDB;
@@ -60,13 +62,21 @@ namespace mwDB{
 	class SeqDB{
 		hashTable::HashTable<Peptide>* seqLibrary;
 	public:
-		SeqDB();
-		~SeqDB();
+		SeqDB(){
+			seqLibrary = new hashTable::HashTable<mwDB::Peptide>(SEQ_LIB_SIZE);
+		}
+		~SeqDB(){
+			delete seqLibrary;
+		}
 		
 		//modifers
 		bool readIn(string);
 		
 		string getSequence(string) const;
+		
+		void printHistogram() const{
+			seqLibrary->printHistogram();
+		}
 	};
 	
 	class MWDB{
@@ -100,6 +110,10 @@ namespace mwDB{
 		}
 		~MWDB_Protein(){
 			delete seqDB;
+		}
+		
+		void printHistogram() const{
+			seqDB->printHistogram();
 		}
 		
 		bool readIn(string wd, const filterFile::FilterFileParams&);

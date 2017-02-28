@@ -19,11 +19,11 @@ namespace utils{
 		ifstream inF(fname.c_str());
 		
 		if(!inF)
-		return false;
+			return false;
 		
 		delimType = detectLineEnding(inF);
 		if(delimType == unknown)
-		throw runtime_error("Invalid delimiter in file: " + fname + "!");
+			throw runtime_error("Invalid delimiter in file: " + fname + "!");
 		delim = utils::getDelim(delimType);
 		
 		inF.seekg(0, inF.end);
@@ -35,9 +35,9 @@ namespace utils{
 		{
 			ss << buffer;
 			if(delimType == crlf)
-			beginLine = 1;
+				beginLine = 1;
 			else beginLine = 0;
-			free(buffer);
+				free(buffer);
 			return true;
 		}
 		else {
@@ -146,7 +146,7 @@ namespace utils{
 		return toString(size_t(num));
 	}
 	
-	//converts int to string because to_string does not work with some c++ compilers
+	//converts int to string because to_string does not work with stl 98
 	inline string toString(size_t num)
 	{
 		string str;
@@ -158,8 +158,8 @@ namespace utils{
 		return str;
 	}
 	
-	//converts string to int because atoi does not work with some c++ compilers
-	//Precondition: str must be a string with a valid interger conversion
+	//converts string to int because atoi does not work with stl 98
+	//Pre: str must be a string with a valid interger conversion
 	inline int toInt(string str)
 	{
 		assert(isInteger(str));
@@ -179,14 +179,14 @@ namespace utils{
 		return whithinTxt.find(findTxt) != string::npos;
 	}
 	
-	//overloaded version of strContains handels findTxt as char
+	//overloaded version of strContains, handels findTxt as char
 	inline bool strContains(char findTxt, string whithinTxt)
 	{
 		return strContains(string(1, findTxt), whithinTxt);
 	}
 	
 	//split str by delim and populate each split into elems
-	inline void split (const string str, char delim, vector<string> & elems)
+	inline void split (const string str, const char delim, vector<string> & elems)
 	{
 		elems.clear();
 		stringstream ss (str);
@@ -249,7 +249,7 @@ namespace utils{
 		char * p ;
 		strtod(str.c_str(), &p);
 		
-		return (*p != '\0' || p == str) ? false : true;
+		return !(*p != '\0' || p == str);
 	}
 	
 	//converts string to int because stod does not work with some c++ compilers

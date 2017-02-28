@@ -40,8 +40,6 @@ size_t const MAX_PARAM_ITTERATIONS = 100;
 string const SEQ_NOT_FOUND = "SEQUENCE_NOT_FOUND_IN_DB";
 size_t const PROTEINS_DATA_SIZE = 500;
 size_t const PEPTIDES_DATA_SIZE = 2500;
-
-//editable params for DB output format
 string const DEFAULT_COL_NAMES_DB [] = {"Full_description", "ID", "Protein", "Description", "pI", "length(aa)", "Mass(Da)",
 	"Long_sample_name", "Spectral_counts"};
 size_t const DEFAULT_COL_NAMES_DB_LENGTH = 9;
@@ -55,6 +53,7 @@ size_t const DEFALUT_PEPTIDE_COLNAMES_LEN = 7;
 string const DEFALUT_PEPTIDE_DB_COLNAMES [] = {"protein_ID", "parent_protein", "protein_description", "sequence", "length(aa)", "unique",
 	"calcMH", "Long_sample_name", "Spectral_counts", "Sample", "Replicate"};
 size_t const DEFALUT_PEPTIDE_DB_COLNAMES_LEN = 9;
+string const REVERSE_MATCH = "Reverse_";
 
 /**********************/
 /* class definitions */
@@ -122,8 +121,6 @@ public:
 //stores data for each protein found in filter file
 class Protein : public ProteinTemplate , public ProteinDataTemplate<filterFile::FilterFileData_protein> {
 	friend class Proteins;
-	friend class hashTable::HashTable<Protein>;
-	friend class hashTable::LinkedList<Protein>;
 private:
 	string MW, loc, fxn;
 	string fullDescription, pI;
@@ -138,7 +135,6 @@ private:
 	//modifier
 	void getProteinData(string);
 	inline void getProtein(string);
-	DBProtein toDBprotein() const;
 	inline void clear();
 	void calcMW();
 	void addSeq();

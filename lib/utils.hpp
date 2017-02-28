@@ -95,7 +95,7 @@ namespace utils {
 	inline double toDouble(string);
 	inline bool strContains(string, string);
 	inline bool strContains(char, string);
-	inline void split (const string, char, vector<string> &);
+	inline void split (const string, const char, vector<string> &);
 	inline string trimTraling(const string&);
 	inline string trimLeading(const string&);
 	inline string trim(const string&);
@@ -105,8 +105,6 @@ namespace utils {
 	inline void getLine(istream& is, string& line, char delim = DEFAULT_LINE_DELIM, size_t beginLine = DEFAULT_BEGIN_LINE);
 	inline string removeSubstr(string, string);
 	string toLower(string);
-	template<class _Tp> long binSearch(const vector<_Tp>* const, const _Tp&, long, long);
-	template<class _Tp> typename vector<_Tp>::iterator insertSorted(vector<_Tp>* const, const _Tp&);
 	string repeat(string, size_t);
 }
 

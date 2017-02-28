@@ -200,15 +200,6 @@ namespace mwDB{
 		return true;
 	}
 	
-	SeqDB::SeqDB() {
-		seqLibrary = new hashTable::HashTable<mwDB::Peptide>(10000);
-	}
-	
-	SeqDB::~SeqDB()
-	{
-		delete seqLibrary;
-	}
-	
 	string SeqDB::getSequence(string id) const
 	{
 		Peptide* const temp = seqLibrary->getItem(id);

@@ -4,10 +4,10 @@ scriptWDHome="$HOME/scripts/DTarray_pro"
 scriptWDbin="$scriptWDHome/bin"
 scriptWDsrc="$scriptWDHome/src"
 scriptWDdb="$scriptWDHome/db"
-locDBfname="$scriptWDdb/subCelluarLoc.txt"
+locDBfname="$scriptWDdb/humanLoc.tsv"
 seqDBfname="$scriptWDdb/humanProteome.fasta"
 aaDBfanme="$scriptWDdb/aaMasses.txt"
-fxnDBfname="$scriptWDdb/humanFxn.txt"
+fxnDBfname="$scriptWDdb/humanFxn.tsv"
 staticModificationsDB="$scriptWDdb/staticModifications.txt"
 binName="DTarray_pro"
 helpFileFname="$scriptWDdb/helpFile.man"
@@ -19,7 +19,7 @@ invalidOptionMessage="is an invalid option! Exiting...\nUse DTarray -h for help.
 defaultParamsName="dtarray_pro.params"
 defaultFlistName="dtarray_pro_flist.txt"
 defaultStaticModificationsName="staticModifications.txt"
-paramsCommentSymbol="#" #if changed, COMMENT_SYMBOL must also be changed in src/DTarray_AJM.hpp
+paramsCommentSymbol="#" #if changed, utils::COMMENT_SYMBOL must also be changed in lib/utils.hpp
 
 #default paramaters
 paramsName=$defaultParamsName
@@ -32,7 +32,7 @@ dbPeptideOfFname="peptideList_long.tsv"
 input="standard"
 output="1"
 includeUnique="0"
-wd=$(pwd)'/'
+wd=$(pwd)
 recompile=false
 sampleNamePrefx=""
 parseSampleName="0"
@@ -136,8 +136,9 @@ while ! [[ -z "$1" ]] ; do
 				shift
 				isArg "$1"
 				sampleNamePrefix="$1"
+				parseSampleName="1"
 			fi;;
-		"--rw")
+		"-rw")
 			shift
 			isArg "$1"
 			arg="$1"
@@ -153,14 +154,14 @@ while ! [[ -z "$1" ]] ; do
 			;;
 		"-k" | "--keepParams")
 			keepParams=true;;
-		"--par")
+		"-par")
 			shift
 			isArg "$1"
 			flistName="$1"
 			keepParams=true;;
-		"--loc")
+		"-loc")
 			getSubCelluarLoc="1";;
-		"--mw")
+		"-mw")
 			if [[ $2 == -* ]] || [[ -z "$2" ]] ; then
 				mwDBFname=$seqDBfname
 				calcMWStr="1"
@@ -174,7 +175,7 @@ while ! [[ -z "$1" ]] ; do
 				calcMW=true
 				useDefaultSeqDB="1"
 			fi;;
-		"--seq")
+		"-seq")
 				if [[ $2 == -* ]] || [[ -z "$2" ]] ; then
 					seqDBFnameTr=$seqDBfname
 					getSeq="1"
@@ -192,7 +193,7 @@ while ! [[ -z "$1" ]] ; do
 			;;
 		"-c" | "--coverage")
 			includeCoverage="1" ;;
-		"--seqC")
+		"-seqC")
 			includeSequenceCount="1" ;;
 		"-s")
 			shift
@@ -211,18 +212,18 @@ while ! [[ -z "$1" ]] ; do
 		"--oswd")
 			open $scriptWDHome
 			exit ;;
-		"--fxn")
+		"-fxn")
 			getFxn="1" ;;
 		"-g" | "--group")
 			shift
 			isArg "$1"
 			groupPeptides="$1" ;;
-		"--saint")
+		"-saint")
 			shift
 			isArg "$1"
 			includeSaint="1"
 			saintBaitFile=$(absPath "$1") ;;
-		"--rev")
+		"-rev")
 			shift
 			isArg "$1"
 			includeReverse="$1" ;;
@@ -300,7 +301,7 @@ if ! [[ -a $flistName ]] ; then
 	echo -e "\n</flist>\n" >> ./$flistName
 fi
 
-#write output paramaters to params file
+#write params to params file
 cd $wd
 if ! $keepParams ; then
 	echo -e "$paramsCommentSymbol Params for DTarray_pro\n$paramsCommentSymbol Params generated on: "$(date +"%y-%m-%d_%H:%M:%S")'\n' > ./$paramsName

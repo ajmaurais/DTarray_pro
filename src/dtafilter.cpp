@@ -98,9 +98,8 @@ void Protein::getProteinData(string line)
 	
 	//keep fullDescription but seperate by spaces instead of tabs
 	fullDescription = elems[0];
-	int len = int(elems.size());
-	for (int i = 1; i < len; i++)
-		fullDescription += (" " + elems[i]);
+	for(vector<string>::iterator it = elems.begin(); it != elems.end(); ++it)
+		fullDescription += (" " + *it);
 	
 	//extract pI
 	pI = elems[6];
@@ -114,7 +113,7 @@ void Protein::getProteinData(string line)
 	
 	//Extract uniprotID
 	ID = ::getID(elems[0]);
-	if(matchDirrection == "Reverse_sp")
+	if(utils::strContains(matchDirrection, REVERSE_MATCH))
 		ID = "reverse_" + ID;
 	
 	//extract MW
@@ -167,7 +166,7 @@ void Peptide::calcMW()
 	monoMass = mwdb->calcMW(calcSequence, 1);
 }
 
-//loop through protein headder and peptide lines in DTA filter file and add data to Proteins
+//loop through protein header and peptide lines in DTA filter file and add data to Proteins
 bool Proteins::readIn(string wd, filterFile::FilterFileParams* const pars,
 					  const vector <filterFile::FilterFileData_protein>& colNamesTemp,
 					  const vector<filterFile::FilterFileData_peptide>& pColNamesTemp,
@@ -205,7 +204,7 @@ bool Proteins::readIn(string wd, filterFile::FilterFileParams* const pars,
 				uniquePeptidesIndex = data->consolidate(newProtein, newProtein.ID); //insert new protein into proteins list
 				
 				//get peptide data if applicable
-				if((pars->includeUnique || pars->includePeptides ) && inProtein)
+				if((pars->includeUnique || pars->includePeptides) && inProtein)
 				{
 					numUniquePeptides = 0;
 					line = file.getLine();
@@ -335,15 +334,15 @@ bool Proteins::readIn(string wd, filterFile::FilterFileParams& par, Peptides * c
 		pColNamesTemp.push_back(pTemp);
 	}
 	
-	for(DBTemplate::colIndex = 0; DBTemplate::colIndex < par.numFiles; DBTemplate::colIndex++)
+	for(Proteins::colIndex = 0; Proteins::colIndex < par.numFiles; Proteins::colIndex++)
 	{
 		Peptides::colIndex = Proteins::colIndex;
 		if(!readIn(wd, &par, colNamesTemp, pColNamesTemp, peptides))
 		{
-			cout <<"Failed to read in " << par.getFilePath(DBTemplate::colIndex) <<"!" << endl << "Exiting..." << endl;
+			cout <<"Failed to read in " << par.getFilePath(Proteins::colIndex) <<"!" << endl << "Exiting..." << endl;
 			return false;
 		}
-		cout << "Adding " << par.getFileColname(DBTemplate::colIndex) << "..." << endl;
+		cout << "Adding " << par.getFileColname(Proteins::colIndex) << "..." << endl;
 	}
 	return true;
 }
@@ -419,7 +418,7 @@ void Protein::writeProtein(ofstream& outF)
 		throw runtime_error("Bad ofstream");
 	
 	if(!par->includeReverse)
-		if(matchDirrection == "Reverse_sp")
+		if(utils::strContains(matchDirrection, REVERSE_MATCH))
 			return;
 	
 	if(!supDataAdded)
@@ -590,6 +589,7 @@ bool Proteins::writeOut(string ofname, const filterFile::FilterFileParams& par)
 			if(*it == "Mass(Da)")
 			{
 				headers.insert(it + 1, "subcelluar_loc");
+				colNamesLength = int(headers.size());
 				break;
 			}
 	}
@@ -599,6 +599,7 @@ bool Proteins::writeOut(string ofname, const filterFile::FilterFileParams& par)
 			if(*it == "Mass(Da)")
 			{
 				headers.insert(it + 1, "Function");
+				colNamesLength = int(headers.size());
 				break;
 			}
 	}
@@ -624,6 +625,7 @@ bool Proteins::writeOut(string ofname, const filterFile::FilterFileParams& par)
 			if(headers[i] == "Mass(Da)")
 			{
 				headers.insert(it + i + 1, MWCALC_HEADERS[2]);
+				colNamesLength = int(headers.size());
 				break;
 			}
 	}
@@ -663,7 +665,7 @@ bool Proteins::writeOut(string ofname, const filterFile::FilterFileParams& par)
 			else if(par.includeCoverage)
 				repeatedHeaders += (OUT_DELIM + SUP_INFO_HEADERS[2]);
 			else if(par.includeSequenceCount)
-				repeatedHeaders += ( OUT_DELIM + SUP_INFO_HEADERS[3]);
+				repeatedHeaders += (OUT_DELIM + SUP_INFO_HEADERS[3]);
 			else return false;
 		}
 		else if(par.supInfoNum == 2)
@@ -893,7 +895,7 @@ bool Proteins::writeOutDB(string ofname, const filterFile::FilterFileParams& par
 
 bool Proteins::writeSaint(string fname, int file) const
 {
-	ofstream outF(fname);
+	ofstream outF(fname.c_str());
 	
 	if(!outF)
 		return false;
@@ -989,15 +991,17 @@ void Peptide::write(ofstream& outF, int fxnNum)
 	if(par->peptideGroupMethod != filterFile::byCharge)
 		outF << charge << OUT_DELIM;
 	
-	outF << unique << OUT_DELIM <<
-	calcMH << OUT_DELIM;
+	outF << unique << OUT_DELIM;
 	
 	if(par->calcMW)
 		outF << avgMass << OUT_DELIM <<
 		monoMass << OUT_DELIM;
 	
+	outF << calcMH << OUT_DELIM;
+	
 	if(par->outputFormat == 1)
 	{
+		
 		for(int i = 0; i < colSize; i++)
 		{
 			if(i == 0)

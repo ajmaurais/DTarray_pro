@@ -104,7 +104,7 @@ namespace hashTable{
 			return array[hash(key.c_str())].getItem(key);
 		}
 		unsigned long getLength() const;
-		void printHistogram() const;
+		void printHistogram() const; //for debuging
 		void write(ofstream& outF, int fxnNum = 0);
 	};
 }

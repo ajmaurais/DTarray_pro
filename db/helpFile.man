@@ -6,7 +6,7 @@ DTarray_pro - Combine DTASelect-filter files.
 .in +1i
 [-o, --out \fI<output_files>\fP]
 .br
-[--of, --ofname \fI<file_name>\fP]
+[-of, --ofname \fI<file_name>\fP]
 .br
 [-p, --peptides \fI<output_files>\fP]
 .br
@@ -14,25 +14,25 @@ DTarray_pro - Combine DTASelect-filter files.
 .br
 [-n 0 | -n 1]
 .br
-[--saint \fI<bait_file>\fP]
+[-saint \fI<bait_file>\fP]
 .br
 [-u, --unique]
 .br
 [-c, --coverage]
 .br
-[--seqC]
+[-seqC]
 .br
 [-s 0 | -s 1]
 .br
-[--rev 0 | --rev 1]
+[-rev 0 | --rev 1]
 .br
-[--loc]
+[-loc]
 .br
-[--fxn]
+[-fxn]
 .br
-[--mw | --mw \fI<fasfa_file>\fP]
+[-mw | -mw \fI<fasfa_file>\fP]
 .br
-[--seq | --seq \fI<fasfa_file>\fP]
+[-seq | -seq \fI<fasfa_file>\fP]
 .br
 [-f | -f \fI<prefix>\fP]
 .br
@@ -40,7 +40,7 @@ DTarray_pro - Combine DTASelect-filter files.
 .br
 [-rw \fI<arg>\fP]
 .br
-[--par \fI<file>\fP]
+[-par \fI<file>\fP]
 .br
 [-k, --keepParams]
 .br
@@ -59,7 +59,7 @@ Command line options are processed from left to right. Options can be specified 
 \fB-h, --help\fR
 Display this help file.
 .TP
-\fB--of, --ofname \fI<file_name>\fR
+\fB-of, --ofname \fI<file_name>\fR
 Specify output file name. By default, the output file name is \fIDTarray_pro.txt\fR.
 .TP
 \fB-i, --in\fI <mode>\fP
@@ -149,11 +149,9 @@ Group peptides by parent protein. A separate entry for each charge state of a gi
 .in +0.75i
 Group peptides by parent protein and charge. Peptides found in multiple charge states will be grouped in output files. Information specific to each scan, i.e. obsMH, parent file, and scan, are not available with this group method. 
 .in
-
-\fITechnical_note:\fR Information about each peptide found is stored in a string keyed, custom implementation, hash table. Changing the grouping method modifies the hash key value used for each peptide. 
 .TP
 \fB-n, --nullp\fR
-Specify whether to include peptides with 0 spectral counts in long peptide output file. \fB\fR is the default.
+Specify whether to include peptides with 0 spectral counts in long peptide output file. \fB0\fR is the default.
 .TP
 .in +0.75i
 \fB0\fR
@@ -167,7 +165,7 @@ Do not include peptides with 0 spectral counts in output file.
 Include peptides with 0 spectral counts in output file.
 .in 
 .TP
-\fB--saint\fI <bait_file>\fR
+\fB-saint\fI <bait_file>\fR
 Generate input files for saintExpress. \fI<bait_file>\fP should be a text file with three columns separated by tabs: IP name (or sample name), bait name, and T if sample is test or C if sample is control. Two files are generated in working dirrectory: interaction_file.txt and prey_file.txt.
 .TP
 \fB-u, --unique\fP
@@ -176,7 +174,7 @@ Include spectral counts for unique peptides in output file.
 \fB-c, --coverage\fP
 Include sequence coverage for proteins in output file.
 .TP
-\fB--seqC\fP
+\fB-seqC\fP
 Include sequence count for proteins in output file.
 .TP
 \fB-s\fP
@@ -194,7 +192,7 @@ Group columns by sample.
 Group columns by observation.
 .in
 .TP
-\fB--rev\fR
+\fB-rev\fR
 Choose whether to include reverse matches in protein and peptide output files. \fB1\fR is the default.
 .TP
 .in +0.75i
@@ -209,13 +207,13 @@ Do not include reverse matches.
 Include reverse matches.
 .in
 .TP
-\fB--loc\fP
-Use \fIsubCelluarLoc.txt\fR in \fI$PROGRAM_HOME_DIR/db/\fR to include subcelluar localization information for proteins in output file.
+\fB-loc\fP
+Use \fIhumanLoc.tsv\fR in \fI$PROGRAM_HOME_DIR/db/\fR to include subcelluar localization information for proteins in output file. humanLoc.tsv contains Uniprot annotations for subcelluar localization by Uniprot ID, updated as of Jan 18 2016. Currently, sub cell location information is available for human proteins only.
 .TP
-\fB--fxn\fP
+\fB-fxn\fP
 Use \fIhumanFxn.txt\fR in \fI$PROGRAM_HOME_DIR/db/\fR to include panther category for proteins in output file.
 .TP
-\fB--mw
+\fB-mw
 Calculate protein molecular weights taking into account static modifications. Static modification information is specified in \fIstaticModifications.txt\fR file in working directory. A blank \fIstaticModifications.txt\fR file will be generated on runtime and can then be edited by the user. Protein sequence information is stored in a fasfa formatted file. The default sequence file is \fIhumanProteome.fasta\fP and is stored in \fI$PROGRAM_HOME_DIR/db/\fR.  
 .TP
 .in +0.75i
@@ -224,7 +222,7 @@ Calculate protein molecular weights taking into account static modifications. St
 The user can optionally specify a fafsa formatted file to lookup protein sequences.
 .in
 .TP
-\fB--seq\fR
+\fB-seq\fR
 Use sequence information in \fI$PROGRAM_HOME_DIR/db/humanProteome.fasta\fR, to include protein sequences in output file.
 .TP
 .in +0.75i
@@ -248,7 +246,7 @@ Include columns for sample name and replicate number in long protein and peptide
 Remove \fI<prefix>\fR from all sample names. If \fI<prefix>\fR is not found in sample name, name is unchanged. In long output format, columns will be included for long sample name, short sample name and replicate number. 
 .in
 .TP
-\fB--rw \fI<arg>\fP
+\fB-rw \fI<arg>\fP
 Rewrite existing param files in working directory.
 .TP
 .in +0.75i
@@ -263,7 +261,7 @@ Rewrite input file list.
 Rewrite static modifications file. See \fB-mw\fR for details on smod file.
 .in
 .TP
-\fB--par \fR<arg>\fP
+\fB-par \fR<arg>\fP
 Specify params file. By default, \fIdtarray_pro.params\fR is used.
 .TP
 \fB-k, --keepParams\fP
@@ -281,3 +279,5 @@ Run \fBDTarray\fR in working directory reading DTASelect-filter files in subdir 
 .TP
 \fBDTarray -mw \fI<file>\fP
 Combine filter files with \fBDTarray\fR then use static modifications file and sequence file to calculate the molecular weights of proteins in dataset.
+.SH AUTHOR
+DTarray_pro was written by Aaron Maurais. Email questions or bugs to: aaron.maurais@.bc.edu

@@ -1,4 +1,4 @@
-# default static modifications for DTarray_AJM	
+# default static modifications for DTarray_pro	
 
 #residue avg_mass mono_isotopic_mass
 C_term	0	0		; avg.	15.9991	mono.	15.99492	
@@ -24,5 +24,5 @@ R	0	0		; avg.	156.1875	mono.	156.10111
 Y	0	0		; avg.	163.176	mono.	163.06333	
 W	0	0		; avg.	186.2132	mono.	186.07931
 U	0	0		; avg. 	150.95364	mono.	150.03900
-O	0	0		; avg.	237.30300	mono.	237.14773
+O	0	0		; avg.	114.1472	mono.	114.07931
 
