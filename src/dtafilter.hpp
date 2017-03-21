@@ -22,7 +22,7 @@
 #include "baseClasses.hpp"
 #include "dbase.hpp"
 #include "../lib/utils.hpp"
-#include "FilterFile.hpp"
+#include "params.hpp"
 #include "calcMW.hpp"
 #include "saintOutput.hpp"
 
@@ -35,8 +35,6 @@ using namespace std;
 bool const INCLUDE_FULL_DESCRIPTION = true;
 string const DEFAULT_COL_NAMES [] = {"Full_description", "ID", "Protein", "Description", "pI", "length(aa)", "Mass(Da)"};
 size_t const DEFAULT_COL_NAMES_LENGTH = 7;
-size_t const COLUMN_HEADER_LINE_ELEMENTS_LENGTH = 13;
-size_t const MAX_PARAM_ITTERATIONS = 100;
 string const SEQ_NOT_FOUND = "SEQUENCE_NOT_FOUND_IN_DB";
 size_t const PROTEINS_DATA_SIZE = 500;
 size_t const PEPTIDES_DATA_SIZE = 2500;
@@ -63,14 +61,14 @@ class Protein;
 class Proteins;
 class Peptide;
 
-class Peptide : public ProteinDataTemplate<filterFile::FilterFileData_peptide> {
+class Peptide : public ProteinDataTemplate<SampleData_peptide> {
 	friend class Proteins;
 	friend class Peptides;
 public:
-	Peptide (filterFile::FilterFileParams * par, mwDB::MWDB* const _mwdb) : ProteinDataTemplate <filterFile::FilterFileData_peptide> (par) {
+	Peptide (params::Params * par, mwDB::MWDB* const _mwdb) : ProteinDataTemplate <SampleData_peptide> (par) {
 		mwdb = _mwdb;
 	}
-	Peptide () : ProteinDataTemplate <filterFile::FilterFileData_peptide> () {}
+	Peptide () : ProteinDataTemplate <SampleData_peptide> () {}
 	~Peptide() {}
 	
 	//modifers
@@ -109,17 +107,17 @@ class Peptides : public DBTemplate<Peptide> {
 private:
 	mwDB::MWDB* mwdb;
 public:
-	Peptides(const filterFile::FilterFileParams& pars) : DBTemplate<Peptide>(pars, PEPTIDES_DATA_SIZE) {}
+	Peptides(const params::Params& pars) : DBTemplate<Peptide>(pars, PEPTIDES_DATA_SIZE) {}
 	Peptides() : DBTemplate<Peptide>(){}
 	~Peptides(){}
 	
 	//properities
-	bool writeOut(string, const filterFile::FilterFileParams&);
-	bool writeOutDB(string, const filterFile::FilterFileParams&);
+	bool writeOut(string, const params::Params&);
+	bool writeOutDB(string, const params::Params&);
 };
 
 //stores data for each protein found in filter file
-class Protein : public ProteinTemplate , public ProteinDataTemplate<filterFile::FilterFileData_protein> {
+class Protein : public ProteinTemplate , public ProteinDataTemplate<SampleData_protein> {
 	friend class Proteins;
 private:
 	string MW, loc, fxn;
@@ -147,20 +145,20 @@ private:
 	void writeSequenceCount(ofstream&) const;
 	
 public:
-	Protein(filterFile::FilterFileParams* const pars,
+	Protein(params::Params* const pars,
 			Dbase* const _locDB,
 			Dbase* const _fxnDB,
 			mwDB::MWDB_Protein* const _mwdb,
 			mwDB::SeqDB* const _seqDB,
 			saint::BaitFile* const _baitFile)
-		: ProteinDataTemplate<filterFile::FilterFileData_protein>(pars) {
+		: ProteinDataTemplate<SampleData_protein>(pars) {
 		locDB = _locDB;
 		mwdb = _mwdb;
 		seqDB = _seqDB;
 		fxnDB = _fxnDB;
 		baitFile = _baitFile;
 	}
-	Protein() : ProteinDataTemplate<filterFile::FilterFileData_protein>() {}
+	Protein() : ProteinDataTemplate<SampleData_protein>() {}
 	~Protein(){}
 	
 	inline void operator = (const Protein&);
@@ -188,13 +186,13 @@ class Proteins : public DBTemplate<Protein>{
 	saint::BaitFile* baitFile;
 	
 	//modifers
-	bool readIn(string, filterFile::FilterFileParams* const,
-				const vector <filterFile::FilterFileData_protein>&,
-				const vector<filterFile::FilterFileData_peptide>&,
+	bool readIn(params::Params* const,
+				const vector <SampleData_protein>&,
+				const vector<SampleData_peptide>&,
 				Peptides* const);
 public:
 	//constructor
-	Proteins(const filterFile::FilterFileParams& pars) : DBTemplate<Protein>(pars, PROTEINS_DATA_SIZE){
+	Proteins(const params::Params& pars) : DBTemplate<Protein>(pars, PROTEINS_DATA_SIZE){
 		locDB = nullptr;
 		seqDB = nullptr;
 		mwdb = nullptr;
@@ -216,25 +214,24 @@ public:
 	}
 	
 	bool readInLocDB(string);
-	bool readInMWdb(string, const filterFile::FilterFileParams&);
+	bool readInMWdb(string, const params::Params&);
 	bool readInSeqDB(string);
 	bool readInFxnDB(string);
 	bool readBaitFile(string);
 	
 	//properities
-	bool writeOut(string, const filterFile::FilterFileParams&);
-	bool writeOutDB(string, const filterFile::FilterFileParams&);
+	bool writeOut(string, const params::Params&);
+	bool writeOutDB(string, const params::Params&);
 	bool writeSaint(string, int) const;
 	
 	//modifiers
-	bool readIn(string, filterFile::FilterFileParams&, Peptides* const);
+	bool readIn(params::Params* const, Peptides* const);
 };
 
 /*************/
 /* functions */
 /*************/
 
-inline bool isColumnHeaderLine(const string&);
 string parseSample(string, string, bool, bool);
 int parsePeptideSC(string);
 string parseReplicate(string);

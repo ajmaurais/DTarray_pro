@@ -85,6 +85,10 @@ namespace utils{
 	
 	/*############# functions ###############*/
 	
+	/*******************/
+	/*  file utilities */
+	/*******************/
+	
 	inline newline_type detectLineEnding_killStream(ifstream& inF) {
 		char tmp;
 		while(inF){
@@ -128,26 +132,128 @@ namespace utils{
 	}
 	
 	//returns true if folder at end of path exists and false if it does not
-	bool dirExists (string path)
+	bool dirExists (const char* path)
 	{
 		struct stat buffer;
-		return stat(path.c_str(), &buffer) == 0 && S_ISDIR(buffer.st_mode);
+		return stat(path, &buffer) == 0 && S_ISDIR(buffer.st_mode);
 	}
 	
 	//returns true if file at end of path exists and false if it does not
-	bool fileExists (string path)
+	bool fileExists(const char* path)
 	{
 		struct stat buffer;
-		return stat(path.c_str(), &buffer) == 0;
+		return stat(path, &buffer) == 0;
 	}
 	
-	inline string toString(int num)
+	bool fileExists(string path)
 	{
-		return toString(size_t(num));
+		return fileExists(path.c_str());
 	}
+	
+	bool dirExists(string path)
+	{
+		return fileExists(path.c_str());
+	}
+	
+	//returns dirrectory from which program is run
+	string pwd()
+	{
+		char temp[PATH_MAX];
+		return (getcwd(temp, PATH_MAX) ? string(temp) : string(""));
+	}
+	
+	//resolves relative and symbolic file references
+	string absPath(const char* _fname)
+	{
+		char fbuff [PATH_MAX + 1];
+		realpath(_fname, fbuff);
+		return string(fbuff);
+	}
+	
+	//resolves relative and symbolic file references
+	string absPath(string _fname)
+	{
+		return(absPath(_fname.c_str()));
+	}
+	
+	bool ls(const char* path, vector<string>& files)
+	{
+		files.clear();
+		DIR* dirFile = opendir(path);
+		if (!dirFile)
+			return false;
+		else {
+			struct dirent* hFile;
+			while((hFile = readdir(dirFile)))
+			{
+				//skip . and ..
+				if (!strcmp(hFile->d_name, ".") || !strcmp(hFile->d_name, ".."))
+					continue;
+				
+				//skip hidden files
+				if (IGNORE_HIDDEN_FILES && (hFile->d_name[0] == '.'))
+					continue;
+				
+				//add to files
+				files.push_back(hFile->d_name);
+			}
+			closedir(dirFile);
+		}
+		return true;
+	}
+	
+	bool ls(const char* path, vector<string>& files, string extension)
+	{
+		files.clear();
+		vector<string> allFiles;
+		if(!ls(path, allFiles))
+			return false;
+		
+		for(vector<string>::iterator it = allFiles.begin(); it != allFiles.end(); ++it)
+			if(endsWith(*it, extension))
+				files.push_back(*it);
+		return true;
+	}
+			   
+	//exicutes string arg as bash command
+	void systemCommand(string command)
+	{
+		system(command.c_str());
+	}
+		   
+	//make dir.
+	//returns true if sucessful
+	bool mkdir(const char* path)
+	{
+		//get abs path and make sure that it dosen't already exist
+		//return false if it does
+		string rpath = absPath(path);
+		if(dirExists(rpath))
+			return false;
+		
+		//make sure that parent dir exists
+		//return false if not
+		size_t pos = rpath.find_last_of("/");
+		assert(pos != string::npos);
+		string parentDir = rpath.substr(0, pos);
+		if(!dirExists(parentDir))
+			return false;
+			
+		//make dir
+		systemCommand("mkdir " + rpath);
+			
+		//test that new dir exists
+		return dirExists(rpath);
+	}
+
+			   
+	/*********************/
+	/*  type conversions */
+	/*********************/
 	
 	//converts int to string because to_string does not work with stl 98
-	inline string toString(size_t num)
+	template <typename _Tp>
+	inline string toString(_Tp num)
 	{
 		string str;
 		stringstream convert;
@@ -173,6 +279,48 @@ namespace utils{
 		return num;
 	}
 	
+	//return true if str can be converted to an int
+	bool isInteger(string str)
+	{
+		if(str.empty() || ((!isdigit(str[0])) && (str[0] != '-') && (str[0] != '+')))
+			return false ;
+		
+		char * p ;
+		strtol(str.c_str(), &p, 10) ;
+		
+		return (*p == 0) ;
+	}
+	
+	//return true if str can be converted to a double
+	bool isDouble(string str)
+	{
+		if(str.empty() || ((!isdigit(str[0])) && (str[0] != '-') && (str[0] != '+')))
+			return false ;
+		
+		char * p ;
+		strtod(str.c_str(), &p);
+		
+		return !(*p != '\0' || p == str);
+	}
+	
+	//converts string to int because stod does not work with some c++ compilers
+	//Precondition: str must be a string with a valid double conversion
+	double toDouble(string str)
+	{
+		assert(isDouble(str));
+		double num;
+		stringstream convert;
+		
+		convert << str;
+		convert >> num;
+		
+		return num;
+	}
+
+	/*****************/
+	/*  string utils */
+	/*****************/
+	
 	//returns true if findTxt is found in whithinTxt and false if it it not
 	inline bool strContains(string findTxt, string whithinTxt)
 	{
@@ -183,6 +331,22 @@ namespace utils{
 	inline bool strContains(char findTxt, string whithinTxt)
 	{
 		return strContains(string(1, findTxt), whithinTxt);
+	}
+	
+	inline bool startsWith(string whithinStr, string findStr)
+	{
+		return (whithinStr.find(findStr) == 0);
+	}
+	
+	inline bool endsWith(string whithinStr, string findStr)
+	{
+		size_t pos = whithinStr.rfind(findStr);
+		if(pos == string::npos)
+			return false;
+		
+		string test = whithinStr.substr(pos);
+		
+		return (whithinStr.substr(pos) == findStr);
 	}
 	
 	//split str by delim and populate each split into elems
@@ -228,44 +392,6 @@ namespace utils{
 		return line.substr(0, COMMENT_SYMBOL.length()) == COMMENT_SYMBOL;
 	}
 	
-	//return true if str can be converted to an int
-	bool isInteger(string str)
-	{
-		if(str.empty() || ((!isdigit(str[0])) && (str[0] != '-') && (str[0] != '+')))
-			return false ;
-		
-		char * p ;
-		strtol(str.c_str(), &p, 10) ;
-		
-		return (*p == 0) ;
-	}
-	
-	//return true if str can be converted to a double
-	bool isDouble(string str)
-	{
-		if(str.empty() || ((!isdigit(str[0])) && (str[0] != '-') && (str[0] != '+')))
-			return false ;
-		
-		char * p ;
-		strtod(str.c_str(), &p);
-		
-		return !(*p != '\0' || p == str);
-	}
-	
-	//converts string to int because stod does not work with some c++ compilers
-	//Precondition: str must be a string with a valid double conversion
-	double toDouble(string str)
-	{
-		assert(isDouble(str));
-		double num;
-		stringstream convert;
-		
-		convert << str;
-		convert >> num;
-		
-		return num;
-	}
-	
 	//gets new line from is and removes trailing and leading whitespace
 	inline void getLineTrim(istream& is, string& line, char delim, size_t beginLine)
 	{
@@ -305,6 +431,34 @@ namespace utils{
 		for(int i = 0; i < numTimes; i++)
 			ret += str;
 		return ret;
+	}
+	
+	/*********/
+	/* other */
+	/*********/
+	
+	bool isFlag(const char* tok)
+	{
+		return tok[0] == '-';
+	}
+	
+	bool isArg(const char* tok)
+	{
+		if(tok == nullptr)
+			return false;
+		else return !isFlag(tok);
+	}
+	
+	string ascTime()
+	{
+		//get current time
+		const char* curTime;
+		time_t rawTime;
+		struct tm * timeInfo;
+		time(&rawTime);
+		timeInfo = localtime(&rawTime);
+		curTime = asctime(timeInfo);
+		return(string(curTime));
 	}
 }
 

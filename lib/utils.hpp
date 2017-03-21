@@ -16,6 +16,16 @@
 #include <cstring>
 #include <stdlib.h>
 #include <stdexcept>
+#include <sys/types.h>
+#include <dirent.h>
+#include <unistd.h>
+#include <ctime>
+#include <vector>
+#include <fstream>
+
+#ifndef PATH_MAX
+	#define PATH_MAX 1024
+#endif
 
 namespace utils {
 	
@@ -26,10 +36,11 @@ namespace utils {
 	/*****************************/
 	
 	string const WHITESPACE = " \f\n\r\t\v";
-	string const COMMENT_SYMBOL = "#"; //if changed, paramsCommentSymbol must also be changed in DTarray_AJM.sh
+	string const COMMENT_SYMBOL = "#";
 	enum newline_type {lf, crlf, cr, unknown};
 	char const DEFAULT_LINE_DELIM = '\n';
 	size_t const DEFAULT_BEGIN_LINE = 0;
+	bool const IGNORE_HIDDEN_FILES = true;
 	
 	/******************************/
 	/*     class definitions     */
@@ -79,33 +90,59 @@ namespace utils {
 		}
 	};
 
-	
 	/*************/
 	/* functions */
 	/*************/
 	
+	//file utils
 	inline char getDelim(newline_type);
 	inline newline_type detectLineEnding_killStream(ifstream&);
 	inline newline_type detectLineEnding(ifstream&);
-	bool dirExists (string);
-	bool fileExists (string);
-	inline string toString(int);
-	inline string toString(size_t);
+	bool dirExists(const char*);
+	bool dirExists(string);
+	bool fileExists(const char*);
+	bool fileExists(string);
+	string pwd();
+	string absPath(string);
+	string absPath(const char*);
+	bool ls(const char*, vector<string>&);
+	bool ls(const char*, vector<string>&, string);
+	bool mkdir(string);
+	bool mkdir(const char*);
+	void systemCommand(string command);
+	
+	//type conversions
+	template <typename _Tp> inline string toString(_Tp);
 	inline int toInt(string);
 	inline double toDouble(string);
+	bool isInteger(string);
+	
+	//string utils
 	inline bool strContains(string, string);
 	inline bool strContains(char, string);
+	inline bool startsWith(string whithinStr, string findStr);
+	inline bool endsWith(string whithinStr, string findStr);
 	inline void split (const string, const char, vector<string> &);
 	inline string trimTraling(const string&);
 	inline string trimLeading(const string&);
 	inline string trim(const string&);
 	bool isCommentLine(string);
-	bool isInteger(string);
-	inline void getLineTrim(istream& is, string& line, char delim = DEFAULT_LINE_DELIM, size_t beginLine = DEFAULT_BEGIN_LINE);
-	inline void getLine(istream& is, string& line, char delim = DEFAULT_LINE_DELIM, size_t beginLine = DEFAULT_BEGIN_LINE);
 	inline string removeSubstr(string, string);
 	string toLower(string);
 	string repeat(string, size_t);
+	inline void getLineTrim(istream& is, string& line, char delim = DEFAULT_LINE_DELIM, size_t beginLine = DEFAULT_BEGIN_LINE);
+	inline void getLine(istream& is, string& line, char delim = DEFAULT_LINE_DELIM, size_t beginLine = DEFAULT_BEGIN_LINE);
+	
+	//other
+	bool isFlag(const char*);
+	bool isArg(const char*);
+	string ascTime();
+	template <typename _Tp, size_t N> _Tp* begin(_Tp(&arr)[N]) {
+		return &arr[0];
+	}
+	template <typename _Tp, size_t N> _Tp* end(_Tp(&arr)[N]) {
+		return &arr[0]+N;
+	}
 }
 
 #endif /* utils_hpp */

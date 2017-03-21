@@ -176,7 +176,7 @@ namespace mwDB{
 					{
 						AminoAcid temp (line);
 						if(!addStaticMod(temp))
-							cout << "Could not find " << temp.symbol << "in aaDB! Using default mass." << endl;
+							cout << endl << "Could not find " << temp.symbol << "in aaDB!";
 					}
 					i++;
 					if(i > MAX_PARAM_ITTERATIONS)
@@ -234,7 +234,7 @@ namespace mwDB{
 		return true;
 	}
 	
-	bool MWDB_Protein::readIn(string wd, const filterFile::FilterFileParams& params)
+	bool MWDB_Protein::readIn(string wd, const params::Params& params)
 	{
 		bool val1 = seqDB->readIn(params.mwDBFname);
 		bool val2 = MWDB::readIn(wd + params.staticModsFname, params.aaDBfanme);

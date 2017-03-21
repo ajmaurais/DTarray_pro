@@ -20,6 +20,7 @@ class SeqDB;
 
 namespace mwDB{
 	size_t const SEQ_LIB_SIZE = 10000;
+	size_t const MAX_PARAM_ITTERATIONS = 100;
 	
 	class Peptide{
 		friend class MWDB;
@@ -116,7 +117,7 @@ namespace mwDB{
 			seqDB->printHistogram();
 		}
 		
-		bool readIn(string wd, const filterFile::FilterFileParams&);
+		bool readIn(string wd, const params::Params&);
 	};
 	
 }

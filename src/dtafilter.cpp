@@ -113,7 +113,7 @@ void Protein::getProteinData(string line)
 	
 	//Extract uniprotID
 	ID = ::getID(elems[0]);
-	if(utils::strContains(matchDirrection, REVERSE_MATCH))
+	if(utils::strContains(REVERSE_MATCH, matchDirrection))
 		ID = "reverse_" + ID;
 	
 	//extract MW
@@ -167,13 +167,12 @@ void Peptide::calcMW()
 }
 
 //loop through protein header and peptide lines in DTA filter file and add data to Proteins
-bool Proteins::readIn(string wd, filterFile::FilterFileParams* const pars,
-					  const vector <filterFile::FilterFileData_protein>& colNamesTemp,
-					  const vector<filterFile::FilterFileData_peptide>& pColNamesTemp,
+bool Proteins::readIn(params::Params* const pars,
+					  const vector <SampleData_protein>& colNamesTemp,
+					  const vector<SampleData_peptide>& pColNamesTemp,
 					  Peptides * const peptides)
 {
-	string fname = wd + pars->getFilePath(colIndex);
-	
+	string fname = pars->wd + pars->getFilePath(colIndex);
 	utils::File file;
 	if(!file.read(fname))
 		return false;
@@ -182,6 +181,7 @@ bool Proteins::readIn(string wd, filterFile::FilterFileParams* const pars,
 	Protein* uniquePeptidesIndex = nullptr;
 	bool inProtein = false;
 	bool getNewLine = true;
+	bool foundHeader = false;
 	string line;
 	Peptide* peptidesIndex = nullptr;
 	size_t colNamesLen = pars->numFiles;
@@ -192,8 +192,14 @@ bool Proteins::readIn(string wd, filterFile::FilterFileParams* const pars,
 		getNewLine = true;
 		if(utils::strContains('%', line))  //find protein header lines by percent symbol for percent coverage
 		{
-			if(isColumnHeaderLine(line)) //skip if header line
-				continue;
+			if(!foundHeader)
+			{
+				if(utils::strContains("Conf%", line)) //skip if header line
+				{
+					foundHeader = true;
+					continue;
+				}
+			}
 			else{
 				Protein newProtein(pars, locDB, fxnDB, mwdb, seqDB, baitFile);
 				newProtein.initialize(colNamesTemp, colNamesLen, &colIndex);
@@ -229,7 +235,7 @@ bool Proteins::readIn(string wd, filterFile::FilterFileParams* const pars,
 							newPeptide.matchDirrection = newProtein.matchDirrection;
 							newPeptide.parsePeptide(line);
 							
-							if(pars->peptideGroupMethod == filterFile::byScan)
+							if(pars->peptideGroupMethod == params::byScan)
 								peptides->data->insert(newPeptide, newPeptide.key);
 							else peptidesIndex = peptides->data->consolidate(newPeptide, newPeptide.key);
 						}
@@ -280,11 +286,11 @@ void Peptide::parsePeptide(const string& line)
 
 inline string Peptide::makeKey() const {
 	switch(par->peptideGroupMethod){
-		case filterFile::byScan : return fileName;
+		case params::byScan : return fileName;
 			break;
-		case filterFile::byProtein : return proteinID + "_" + sequence + "_" + charge;
+		case params::byProtein : return proteinID + "_" + sequence + "_" + charge;
 			break;
-		case filterFile::byCharge : return proteinID + "_" + sequence;
+		case params::byCharge : return proteinID + "_" + sequence;
 			break;
 		default : throw runtime_error("Invalid type");
 	}
@@ -319,35 +325,35 @@ inline void Peptide::clear()
 
 //public Proteins::readIn function which adds all files in filterFileParams to Proteins
 //and summarizes progress for user.
-bool Proteins::readIn(string wd, filterFile::FilterFileParams& par, Peptides * const peptides)
+bool Proteins::readIn(params::Params* const par, Peptides * const peptides)
 {
-	size_t colNamesLen = par.numFiles;
+	size_t colNamesLen = par->numFiles;
 	
-	vector<filterFile::FilterFileData_protein> colNamesTemp;
-	vector<filterFile::FilterFileData_peptide> pColNamesTemp;
+	vector<SampleData_protein> colNamesTemp;
+	vector<SampleData_peptide> pColNamesTemp;
 	
 	for(int i = 0; i < colNamesLen; i++)
 	{
-		filterFile::FilterFileData_protein temp (colNames[i]);
+		SampleData_protein temp (colNames[i]);
 		colNamesTemp.push_back(temp);
-		filterFile::FilterFileData_peptide pTemp (colNames[i]);
+		SampleData_peptide pTemp (colNames[i]);
 		pColNamesTemp.push_back(pTemp);
 	}
 	
-	for(Proteins::colIndex = 0; Proteins::colIndex < par.numFiles; Proteins::colIndex++)
+	for(Proteins::colIndex = 0; Proteins::colIndex < par->numFiles; Proteins::colIndex++)
 	{
 		Peptides::colIndex = Proteins::colIndex;
-		if(!readIn(wd, &par, colNamesTemp, pColNamesTemp, peptides))
+		if(!readIn(par, colNamesTemp, pColNamesTemp, peptides))
 		{
-			cout <<"Failed to read in " << par.getFilePath(Proteins::colIndex) <<"!" << endl << "Exiting..." << endl;
+			cout <<"Failed to read in " << par->getFilePath(Proteins::colIndex) <<"!" << endl << "Exiting..." << endl;
 			return false;
 		}
-		cout << "Adding " << par.getFileColname(Proteins::colIndex) << "..." << endl;
+		cout << "Adding " << par->getFileColname(Proteins::colIndex) << "..." << endl;
 	}
 	return true;
 }
 
-bool Proteins::readInMWdb(string wd, const filterFile::FilterFileParams& par)
+bool Proteins::readInMWdb(string wd, const params::Params& par)
 {
 	mwdb = new mwDB::MWDB_Protein;
 	return mwdb->readIn(wd, par);
@@ -418,7 +424,7 @@ void Protein::writeProtein(ofstream& outF)
 		throw runtime_error("Bad ofstream");
 	
 	if(!par->includeReverse)
-		if(utils::strContains(matchDirrection, REVERSE_MATCH))
+		if(utils::strContains(REVERSE_MATCH, matchDirrection))
 			return;
 	
 	if(!supDataAdded)
@@ -434,7 +440,7 @@ void Protein::writeProtein(ofstream& outF)
 		supDataAdded = true;
 	}
 	
-	if (INCLUDE_FULL_DESCRIPTION)
+	if(INCLUDE_FULL_DESCRIPTION)
 		outF << fullDescription << OUT_DELIM;
 	
 	outF << ID <<
@@ -448,11 +454,11 @@ void Protein::writeProtein(ofstream& outF)
 		outF << OUT_DELIM << avgMass <<
 		OUT_DELIM << monoMass;
 	
-	if(par->getFxn)
-		outF << OUT_DELIM << fxn;
-	
 	if(par->getSeq)
 		outF << OUT_DELIM << sequence;
+	
+	if(par->getFxn)
+		outF << OUT_DELIM << fxn;
 	
 	if(par->getSubCelluarLoc)
 		outF << OUT_DELIM <<  loc;
@@ -567,15 +573,15 @@ void Protein::writeSequenceCount(ofstream& outF) const
 }
 
 //write out combined protein lists to ofname in wide format
-bool Proteins::writeOut(string ofname, const filterFile::FilterFileParams& par)
+bool Proteins::writeOut(string ofname, const params::Params& par)
 {
 	ofstream outF (ofname.c_str());
 	
 	if(!outF)
 		return false;
 	
-	filterFile::OutputFormat outputFormat = par.outputFormat;
-	par.outputFormat = filterFile::wideFormat;
+	params::OutputFormat outputFormat = par.outputFormat;
+	par.outputFormat = params::wideFormat;
 	
 	int colNamesLength = DEFAULT_COL_NAMES_LENGTH;
 	vector<string> headers;
@@ -697,7 +703,7 @@ bool Proteins::writeOut(string ofname, const filterFile::FilterFileParams& par)
 		int len = int(headers.size());
 		if(par.supInfoOutput == 1)
 		{
-			assert(par.supInfoNum > 0);
+			assert(par.supInfoNum >= 1 && par.supInfoNum <= 3);
 			string preBuffer = utils::repeat(string(1, OUT_DELIM), len);
 			string postBuffer = utils::repeat(string(1, OUT_DELIM), colNames.size());
 			
@@ -717,13 +723,13 @@ bool Proteins::writeOut(string ofname, const filterFile::FilterFileParams& par)
 			{
 				if(par.includeCoverage && par.includeUnique)
 					outF << postBuffer << "Unique_peptide_SC" <<
-					postBuffer << "Percent_coverage"; // << postBuffer;
+					postBuffer << "Percent_coverage";
 				else if(par.includeCoverage && par.includeSequenceCount)
 					outF << postBuffer << "Percent_coverage" <<
-					postBuffer << "Sequence_count"; // << postBuffer;
-				else if(par.includeSequenceCount && par.includeCoverage)
+					postBuffer << "Sequence_count";
+				else if(par.includeUnique && par.includeSequenceCount)
 					outF << postBuffer << "Unique_peptide_SC" <<
-					postBuffer << "Sequence_count"; // << postBuffer;
+					postBuffer << "Sequence_count";
 				else return false;
 			}
 			else if(par.supInfoNum == 3)
@@ -733,7 +739,6 @@ bool Proteins::writeOut(string ofname, const filterFile::FilterFileParams& par)
 				postBuffer << "Sequence_count";
 				
 			}
-			else return false;
 			outF << endl;
 		}
 
@@ -764,15 +769,15 @@ bool Proteins::writeOut(string ofname, const filterFile::FilterFileParams& par)
 }
 
 //write out combined protein lists to ofname in long format
-bool Proteins::writeOutDB(string ofname, const filterFile::FilterFileParams& par)
+bool Proteins::writeOutDB(string ofname, const params::Params& par)
 {
 	ofstream outF (ofname.c_str());
 	
 	if(!outF)
 		return false;
 	
-	filterFile::OutputFormat outputFormat = par.outputFormat;
-	par.outputFormat = filterFile::longFormat;
+	params::OutputFormat outputFormat = par.outputFormat;
+	par.outputFormat = params::longFormat;
 	
 	//print column headers
 	vector<string> headers;
@@ -797,7 +802,7 @@ bool Proteins::writeOutDB(string ofname, const filterFile::FilterFileParams& par
 		for(it = headers.begin(); it != headers.end(); it++)
 			if(*it == "Mass(Da)")
 			{
-				headers.insert(it + 1, "subcelluar_loc");
+				headers.insert(it + 1, "Subcelluar_loc");
 				len = int(headers.size());
 				break;
 			}
@@ -844,7 +849,7 @@ bool Proteins::writeOutDB(string ofname, const filterFile::FilterFileParams& par
 		{
 			if(*it == "Spectral_counts")
 			{
-				headers.insert(it + 1, "sequence_count");
+				headers.insert(it + 1, "Sequence_count");
 				len = int(headers.size());
 				break;
 			}
@@ -856,7 +861,7 @@ bool Proteins::writeOutDB(string ofname, const filterFile::FilterFileParams& par
 		{
 			if(*it == "Spectral_counts")
 			{
-				headers.insert(it + 1, "percent_coverage");
+				headers.insert(it + 1, "Percent_coverage");
 				len = int(headers.size());
 				break;
 			}
@@ -885,7 +890,7 @@ bool Proteins::writeOutDB(string ofname, const filterFile::FilterFileParams& par
 	
 	Protein::colIndex = &colIndex;
 	//print proteins and spectral counts
-	for (colIndex = 0; colIndex < par.numFiles; colIndex++)
+	for(colIndex = 0; colIndex < par.numFiles; colIndex++)
 		data->write(outF, 0);
 	
 	par.outputFormat = outputFormat;
@@ -903,12 +908,6 @@ bool Proteins::writeSaint(string fname, int file) const
 	data->write(outF, file);
 	
 	return true;
-}
-
-//check if line containing % is a collumn header line instead of a protein header line
-inline bool isColumnHeaderLine(const string& line)
-{
-	return utils::strContains("Conf%", line);
 }
 
 //optional fxn to parse long sample name
@@ -968,7 +967,7 @@ void Peptide::write(ofstream& outF, int fxnNum)
 		throw runtime_error("Bad ofstream!");
 	
 	if(!par->includeReverse)
-		if(matchDirrection == "Reverse_sp")
+		if(utils::strContains(REVERSE_MATCH, matchDirrection))
 			return;
 	
 	if(!supDataAdded)
@@ -988,7 +987,7 @@ void Peptide::write(ofstream& outF, int fxnNum)
 	sequence << OUT_DELIM <<
 	length << OUT_DELIM;
 	
-	if(par->peptideGroupMethod != filterFile::byCharge)
+	if(par->peptideGroupMethod != params::byCharge)
 		outF << charge << OUT_DELIM;
 	
 	outF << unique << OUT_DELIM;
@@ -1011,7 +1010,7 @@ void Peptide::write(ofstream& outF, int fxnNum)
 	}
 	else if(par->outputFormat == 2)
 	{
-		if(par->peptideGroupMethod != filterFile::byCharge)
+		if(par->peptideGroupMethod != params::byCharge)
 			outF << col[*colIndex].obsMH << OUT_DELIM <<
 			col[*colIndex].scan << OUT_DELIM <<
 			col[*colIndex].parentFile << OUT_DELIM;
@@ -1029,34 +1028,34 @@ void Peptide::write(ofstream& outF, int fxnNum)
 	outF << endl;
 }
 
-bool Peptides::writeOut(string ofname, const filterFile::FilterFileParams& pars)
+bool Peptides::writeOut(string ofname, const params::Params& pars)
 {
 	ofstream outF (ofname.c_str());
 	
 	if(!outF)
 		return false;
 	
-	filterFile::OutputFormat outputFormat = pars.outputFormat;
-	pars.outputFormat = filterFile::wideFormat;
+	params::OutputFormat outputFormat = pars.outputFormat;
+	pars.outputFormat = params::wideFormat;
 	
 	//generate headers based off params
 	vector<string> headers;
 	vector<string>::iterator it;
 	for(int i = 0; i < DEFALUT_PEPTIDE_COLNAMES_LEN; i++)
 		headers.push_back(DEFALUT_PEPTIDE_COLNAMES[i]);
-	if(pars.peptideGroupMethod != filterFile::byCharge)
+	if(pars.peptideGroupMethod != params::byCharge)
 	{
 		for(it = headers.begin(); it != headers.end(); it++)
-			if(*it == "length(aa)")
+			if(*it == "Length(aa)")
 			{
-				headers.insert(it + 1, "charge");
+				headers.insert(it + 1, "Charge");
 				break;
 			}
 	}
 	if(pars.calcMW)
 	{
 		for(it = headers.begin(); it != headers.end(); it++)
-			if(*it == "calcMH")
+			if(*it == "CalcMH")
 			{
 				headers.insert(it + 1, MWCALC_HEADERS, MWCALC_HEADERS + 2);
 				break;
@@ -1082,15 +1081,15 @@ bool Peptides::writeOut(string ofname, const filterFile::FilterFileParams& pars)
 }
 
 
-bool Peptides::writeOutDB(string ofname, const filterFile::FilterFileParams& pars)
+bool Peptides::writeOutDB(string ofname, const params::Params& pars)
 {
 	ofstream outF (ofname.c_str());
 	
 	if(!outF)
 		return false;
 	
-	filterFile::OutputFormat outputFormat = pars.outputFormat;
-	pars.outputFormat = filterFile::longFormat;
+	params::OutputFormat outputFormat = pars.outputFormat;
+	pars.outputFormat = params::longFormat;
 	
 	//generate headers based off params
 	vector<string> headers;
@@ -1102,7 +1101,7 @@ bool Peptides::writeOutDB(string ofname, const filterFile::FilterFileParams& par
 	
 	for(int i = 0; i < defaultColNamesLen; i++)
 		headers.push_back(DEFALUT_PEPTIDE_DB_COLNAMES[i]);
-	if(pars.peptideGroupMethod != filterFile::byCharge)
+	if(pars.peptideGroupMethod != params::byCharge)
 	{
 		//headers to add
 		string add [] = {"obsMH", "Scan", "parent_file"};
@@ -1118,7 +1117,7 @@ bool Peptides::writeOutDB(string ofname, const filterFile::FilterFileParams& par
 		{
 			if(*it == "calcMH")
 			{
-				headers.insert(it + 1, add, add + 3);
+				headers.insert(it + 1, utils::begin(add), utils::end(add));
 				break;
 			}
 		}
@@ -1128,7 +1127,7 @@ bool Peptides::writeOutDB(string ofname, const filterFile::FilterFileParams& par
 		for(it = headers.begin(); it != headers.end(); it++)
 			if(*it == "unique")
 			{
-				headers.insert(it + 1, MWCALC_HEADERS, MWCALC_HEADERS + 2);
+				headers.insert(it + 1, utils::begin(MWCALC_HEADERS), utils::begin(MWCALC_HEADERS) + 2);
 				break;
 			}
 	}

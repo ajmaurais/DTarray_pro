@@ -9,16 +9,21 @@
 #ifndef parentClasses_hpp
 #define parentClasses_hpp
 
-#include "FilterFile.hpp"
+#include "params.hpp"
 #include "../lib/hashTable.hpp"
 
-size_t const DATA_SIZE = 500;
-
 using namespace std;
+
+size_t const DATA_SIZE = 500;
+string const BLANK_STR = "null";
+string const BLANK_VAL = "-1";
 
 class ProteinTemplate;
 template <class _Tp> class ProteinDataTemplate;
 template <class _Tp> class DBTemplate;
+class SampleData;
+class SampleData_peptide;
+class SampleData_protein;
 
 class ProteinTemplate{
 protected:
@@ -49,7 +54,7 @@ public:
 template <class _Tp>
 class ProteinDataTemplate{
 public:
-	ProteinDataTemplate(filterFile::FilterFileParams* const _par) {
+	ProteinDataTemplate(params::Params* const _par) {
 		par = _par;
 		supDataAdded = false;
 	}
@@ -59,7 +64,7 @@ public:
 	
 protected:
 	static size_t colSize;
-	static filterFile::FilterFileParams* par;
+	static params::Params* par;
 	
 	vector<_Tp> col;
 	double avgMass, monoMass;
@@ -72,7 +77,7 @@ protected:
 
 template <class _Tp> size_t* ProteinDataTemplate<_Tp>::colIndex = nullptr;
 template <class _Tp> size_t ProteinDataTemplate<_Tp>::colSize = 0;
-template <class _Tp> filterFile::FilterFileParams* ProteinDataTemplate<_Tp>::par = nullptr;
+template <class _Tp> params::Params* ProteinDataTemplate<_Tp>::par = nullptr;
 
 template<class _Tp>
 class DBTemplate{
@@ -87,7 +92,7 @@ public:
 	DBTemplate(){
 		data = new hashTable::HashTable <_Tp>(DATA_SIZE);
 	}
-	DBTemplate(const filterFile::FilterFileParams& par, size_t dataSize){
+	DBTemplate(const params::Params& par, size_t dataSize){
 		data = new hashTable::HashTable <_Tp>(dataSize);
 		
 		for(int i = 0; i < par.numFiles; i++)
@@ -99,5 +104,64 @@ public:
 };
 
 template <class _Tp> size_t DBTemplate<_Tp>::colIndex = 0;
+
+//stores the data pertaining to a specific filter file (or MS run) for each protein
+class SampleData{
+public:
+	string colname;
+	unsigned int count;
+	string uniquePeptides;
+	
+	//constructor
+	SampleData (string _colName)
+	{
+		colname = _colName;
+		count = 0;
+		uniquePeptides = "0";
+	}
+	SampleData(){
+		colname = BLANK_STR;
+		count = 0;
+		uniquePeptides = "0";
+	}
+	~SampleData() {}
+	
+	inline bool isNull() const{
+		return count == 0;
+	}
+};
+
+class SampleData_peptide : public SampleData {
+public:
+	string parentFile, scan, obsMH;
+	
+	SampleData_peptide(string colName) : SampleData(colName)
+	{
+		parentFile = BLANK_STR;
+		scan = BLANK_VAL;
+		obsMH = BLANK_VAL;
+	}
+	SampleData_peptide() : SampleData() {
+		parentFile = BLANK_STR;
+		scan = BLANK_VAL;
+		obsMH = BLANK_VAL;
+	}
+	~SampleData_peptide() {}
+};
+
+class SampleData_protein : public SampleData {
+public:
+	string coverage, sequenceCount;
+	
+	SampleData_protein(string colName) : SampleData(colName){
+		coverage = "0";
+		sequenceCount = "0";
+	}
+	SampleData_protein() : SampleData(){
+		coverage = "0";
+		sequenceCount = "0";
+	}
+	~SampleData_protein() {}
+};
 
 #endif /* parentClasses_hpp */

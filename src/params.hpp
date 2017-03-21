@@ -1,90 +1,65 @@
 //
-//  FilterFile.hpp
-//  DTarray_AJM
+//  params.hpp
+//  DTarray_pro
 //
 //  Created by Aaron Maurais on 10/28/16.
 //  Copyright © 2016 Aaron Maurais. All rights reserved.
 //
 
-#ifndef FilterFile_hpp
-#define FilterFile_hpp
+#ifndef params_hpp
+#define params_hpp
 
 #include <cassert>
 #include <vector>
 #include <stdexcept>
+#include <iostream>
+#include <cstdlib>
+#include <ctime>
+
 #include "../lib/utils.hpp"
 
 using namespace std;
 
-namespace filterFile{
+namespace params{
 	
-	string const BLANK_STR = "null";
-	string const BLANK_VAL = "-1";
+	/******************************/
+	/* namespace scoped constants */
+	/******************************/
+	
 	string const PARAM_ERROR_MESSAGE = " is an invalid arguement for: ";
+	const string INVALID_ARG = " is an invalid option! Exiting...\nUse DTarray -h for help.";
 	enum OutputFormat {none, wideFormat, longFormat, both};
 	enum PeptideGroupFormat {byScan, byProtein, byCharge};
+	
+	//default file locations
+	const string SCRIPT_WD_HOME = string(getenv("HOME")) + "/scripts/DTarray_pro";
+	const string SCRIPT_WD_DB = SCRIPT_WD_HOME + "/db";
+	const string LOC_DB_FNAME = SCRIPT_WD_DB + "/humanLoc.tsv";
+	const string SEQ_DB_FNAME = SCRIPT_WD_DB + "/humanProteome.fasta";
+	const string MW_DB_FNAME = SEQ_DB_FNAME;
+	const string AA_DB_FNAME = SCRIPT_WD_DB + "/aaMasses.txt";
+	const string FXN_DB_FNAME = SCRIPT_WD_DB + "/humanFxn.tsv";
+	const string STATIC_MOD_FNAME = SCRIPT_WD_DB + "/staticModifications.txt";
+	const string HELP_FILE_FNAME = SCRIPT_WD_DB + "/helpFile.man";
+	const string USAGE_FNAME = SCRIPT_WD_DB + "/usage.txt";
+	
+	//default file names
+	const string DEFAULT_FLIST_NAME = "dtarray_pro_flist.txt";
+	const string DEFAULT_SMOD_NAME = "staticModifications.txt";
+	const string DTAFILTER_EXT = ".dtafilter";
+	const string OFNAME = "DTarray_pro.tsv";
+	const string DB_OFNAME = "DTarray_long.tsv";
+	const string PEPTIDE_OFNAME = "peptideList.tsv";
+	const string PEPTIDE_DB_OFNAME = "peptideList_long.tsv";
+	const string SAINT_PREY_FILE = "prey_file.txt";
+	const string SAINT_INTERACTION_FILE = "interaction_file.txt";
 	
 	/**********************/
 	/* class definitions */
 	/*********************/
 	
-	class FilterFileParams;
+	class Params;
 	class FilterFileParam;
-	class FilterFileData;
-	
-	//stores the data pertaining to a specific filter file (or MS run) for each protein
-	class FilterFileData{
-	public:
-		string colname;
-		unsigned int count;
-		string uniquePeptides;
-		
-		//constructor
-		FilterFileData (string);
-		FilterFileData(){
-			colname = BLANK_STR;
-			count = 0;
-			uniquePeptides = "0";
-		}
-		~FilterFileData() {}
-		
-		inline bool isNull() const{
-			return count == 0;
-		}
-	};
-	
-	class FilterFileData_peptide : public FilterFileData {
-	public:
-		string parentFile, scan, obsMH;
-		
-		FilterFileData_peptide(string colName) : FilterFileData(colName)
-		{
-			parentFile = BLANK_STR;
-			scan = BLANK_VAL;
-			obsMH = BLANK_VAL;
-		}
-		FilterFileData_peptide() : FilterFileData() {
-			parentFile = BLANK_STR;
-			scan = BLANK_VAL;
-			obsMH = BLANK_VAL;
-		}
-		~FilterFileData_peptide() {}
-	};
-	
-	class FilterFileData_protein : public FilterFileData {
-	public:
-		string coverage, sequenceCount;
-		
-		FilterFileData_protein(string colName) : FilterFileData(colName){
-			coverage = "0";
-			sequenceCount = "0";
-		}
-		FilterFileData_protein() : FilterFileData(){
-			coverage = "0";
-			sequenceCount = "0";
-		}
-		~FilterFileData_protein() {}
-	};
 	
 	class FilterFileParam{
 	private:
@@ -111,7 +86,6 @@ namespace filterFile{
 		//constructor
 		Param (string line){
 			size_t posStart = line.find("=");
-			
 			param = line.substr(0, posStart);
 			value = line.substr(posStart + 1);
 		}
@@ -119,19 +93,32 @@ namespace filterFile{
 	
 	//stores names and locations for DTA filter files and output paramaters found in
 	//params file.
-	class FilterFileParams{
+	class Params{
+	private:
 		friend class Proteins;
 		vector<FilterFileParam> file;
 		
 		string parseVersionNum(string) const;
+		
+		void displayHelp() const;
+		void usage() const;
+		bool writeStdFlist(ofstream&) const;
+		bool writeSubdirFlist(ofstream&) const;
+		void purgeDir(string) const;
+		
 	public:
+		string wd;
+		string flistName;
 		string versionNum;
+		string inputFormat;
 		int numFiles;
 		static OutputFormat outputFormat;
 		string sampleNamePrefix;
 		bool parseSampleName;
 		bool includeUnique;
 		bool getSubCelluarLoc;
+		bool rewriteFlist;
+		bool rewriteSmod;
 		string locDBfname;
 		bool calcMW;
 		string aaDBfanme, mwDBFname, staticModsFname;
@@ -153,64 +140,73 @@ namespace filterFile{
 		bool includeSaint;
 		string saintBaitFile, saintPreyFname, saintInteractionFname;
 		bool includeReverse;
+		bool wdSpecified;
 		
-		FilterFileParams ()
+		Params ()
 		{
+			wd = "";
+			flistName = DEFAULT_FLIST_NAME;
 			versionNum = "";
+			inputFormat = "standard";
 			numFiles = 0;
 			sampleNamePrefix = "";
 			parseSampleName = false;
 			includeUnique = false;
 			getSubCelluarLoc = false;
-			locDBfname = "";
+			rewriteFlist = false;
+			rewriteSmod = false;
+			locDBfname = LOC_DB_FNAME;
 			calcMW = false;
-			aaDBfanme = "";
-			mwDBFname = "";
-			staticModsFname = "";
-			ofname = "";
-			dbOfname = "";
-			dbPeptideOfFname = "";
-			peptideOfFname = "";
+			aaDBfanme = AA_DB_FNAME;
+			mwDBFname = MW_DB_FNAME;
+			staticModsFname = DEFAULT_SMOD_NAME;
+			ofname = OFNAME;
+			dbOfname = DB_OFNAME;
+			dbPeptideOfFname = PEPTIDE_DB_OFNAME;
+			peptideOfFname = PEPTIDE_OFNAME;
 			getSeq = false;
-			seqDBfname = "";
+			seqDBfname = SEQ_DB_FNAME;
 			includeCoverage = false;
 			includeSequenceCount = false;
 			includePeptides = false;
-			includeProteins = false;
+			includeProteins = true;
 			getFxn = false;
-			fxnDBfname = "";
-			useDefaultSeqDB=false;
+			fxnDBfname = FXN_DB_FNAME;
+			useDefaultSeqDB=true;
 			includeNullPeptides = false;
 			supInfoOutput = 0;
 			peptideGroupMethod = byProtein;
 			supInfoNum = 0;
 			saintBaitFile = "";
-			saintPreyFname = "";
-			saintInteractionFname = "";
+			saintPreyFname = SAINT_PREY_FILE;
+			saintInteractionFname = SAINT_INTERACTION_FILE;
 			includeSaint = false;
-			includeReverse = false;
+			includeReverse = true;
+			wdSpecified = false;
 		}
 		
 		//modifiers
-		bool readDTParams(string, string);
 		bool readFlist(string, string);
+		bool getOpts(int,const char* const []);
 		
 		//properties
+		bool writeFlist();
+		bool optionsCompatable() const;
 		string getFilePath(size_t index) const {
 			return file[index].getPath();
 		}
 		string getFileColname(size_t index) const {
 			return file[index].getColname();
 		}
-		bool optionsCompatable() const;
+		bool writeSmod(string) const;
 	};
 	
-	OutputFormat FilterFileParams::outputFormat = none;
-	OutputFormat FilterFileParams::peptideOutput = none;
+	OutputFormat Params::outputFormat = wideFormat;
+	OutputFormat Params::peptideOutput = none;
 	
 	OutputFormat intToOutputFormat(int);
 	PeptideGroupFormat intToGroupFormat(int);
 	string groupFormatString(PeptideGroupFormat);
 }
 
-#endif /* FilterFile_hpp */
+#endif /* params_hpp */

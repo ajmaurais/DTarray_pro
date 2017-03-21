@@ -12,31 +12,36 @@ using namespace std;
 
 int main (int argc, char* argv[])
 {
-	//check args
-	assert(argc == 4);
-	string wd = string(argv[1]);
-	string flistName = string(argv[2]);
-	string paramsName = string(argv[3]);
-	assert(utils::dirExists(wd));
-	
 	//read in names of files to combine and output params
-	filterFile::FilterFileParams par;
-	if(!par.readFlist(flistName, wd))
+	params::Params par;
+	if(!par.getOpts(argc, argv))
+		return -1;
+	
+	cout << endl << "DTarray_pro v" << BIN_VERSION_NUM << endl;
+	
+	if(!utils::fileExists(par.wd + par.flistName) || par.rewriteFlist)
+	{
+		assert(par.writeFlist());
+		cout << endl << "Generating " << par.flistName << " using " << par.inputFormat << " input format." << endl;
+	}
+	
+	if(!par.readFlist(par.flistName, par.wd))
 	{
 		cout << "\nFailed to read file list! Exiting..." << endl;
 		return -1;
 	}
-	if(!par.readDTParams(paramsName, wd))
+	if(par.numFiles <= 0)
 	{
-		cout << "\nFailed to read params file! Exiting..." << endl;
+		assert(par.numFiles == 0);
+		cout << endl << "No filter files found." << endl << endl;
 		return -1;
 	}
 	if(!par.optionsCompatable())
 		return -1;
 	
-	if(par.peptideOutput != filterFile::none)
-		cout << "Grouping peptides " <<
-		filterFile::groupFormatString(par.peptideGroupMethod) << endl;
+	if(par.peptideOutput != params::none)
+		cout << endl << "Grouping peptides " <<
+		params::groupFormatString(par.peptideGroupMethod) << "." << endl;
 	
 	Proteins proteins(par);
 	Peptides peptides(par);
@@ -46,7 +51,7 @@ int main (int argc, char* argv[])
 	{
 		if(!proteins.readBaitFile(par.saintBaitFile))
 		{
-			cout << "Could not read bait file!" << endl;
+			cout << endl << "Could not read bait file!" << endl;
 			return -1;
 		}
 	}
@@ -77,8 +82,12 @@ int main (int argc, char* argv[])
 	//calculate mass of peptides or proteins from sequence and amino acid mass databases
 	if(par.calcMW)
 	{
+		if(!utils::fileExists(par.wd + par.staticModsFname))
+			if(!par.writeSmod(par.wd))
+				cout << "Failed to write new smod file" << endl;
+		
 		cout << endl << "Calculating protein molecular weights from: " << par.mwDBFname;
-		if(!proteins.readInMWdb(wd, par))
+		if(!proteins.readInMWdb(par.wd, par))
 		{
 			cout << "Failed to read mwDB files! Exiting..." << endl;
 			return -1;
@@ -86,7 +95,7 @@ int main (int argc, char* argv[])
 		cout << " done!" << endl;
 	}
 	
-	if((!par.calcMW && par.getSeq ) || (par.seqDBfname != par.mwDBFname))
+	if((!par.calcMW && par.getSeq ) || (par.calcMW  && (par.seqDBfname != par.mwDBFname)))
 	{
 		cout << endl << "Getting protein sequences from " << par.seqDBfname;
 		if(!proteins.readInSeqDB(par.seqDBfname))
@@ -102,7 +111,7 @@ int main (int argc, char* argv[])
 	
 	//read in and combine files
 	cout << endl;
-	if(!proteins.readIn(wd, par, &peptides))
+	if(!proteins.readIn(&par, &peptides))
 		return -1;
 	
 	cout << endl << par.numFiles << " files combined." << endl;
@@ -113,11 +122,11 @@ int main (int argc, char* argv[])
 	//write out combined protein data
 	if(par.includeProteins)
 	{
-		assert(par.outputFormat != 0);
-		if (par.outputFormat == 1 || par.outputFormat == 3)
+		assert(par.outputFormat != params::none);
+		if (par.outputFormat == params::wideFormat || par.outputFormat == params::both)
 		{
 			cout << endl << "Writing protein data...";
-			if(!proteins.writeOut(wd + par.ofname, par))
+			if(!proteins.writeOut(par.wd + par.ofname, par))
 			{
 				cout << "Could not write out file! Exiting..." << endl;
 				return -1;
@@ -125,10 +134,10 @@ int main (int argc, char* argv[])
 			cout << " done!" << endl << "Protein data written in wide format to: "
 			<< par.ofname << endl << endl;
 		}
-		if(par.outputFormat == 2 || par.outputFormat == 3)
+		if(par.outputFormat == params::longFormat || par.outputFormat == params::both)
 		{
 			cout << endl << "Writing protein data...";
-			if(!proteins.writeOutDB(wd + par.dbOfname, par))
+			if(!proteins.writeOutDB(par.wd + par.dbOfname, par))
 			{
 				cout << "Could not write out file! Exiting..." << endl;
 				return -1;
@@ -140,11 +149,11 @@ int main (int argc, char* argv[])
 	//write out combined peptide data
 	if(par.includePeptides)
 	{
-		assert(par.peptideOutput != 0);
-		if(par.peptideOutput == 1 || par.peptideOutput == 3)
+		assert(par.peptideOutput != params::none);
+		if(par.peptideOutput == params::wideFormat || par.peptideOutput == params::both)
 		{
 			cout << endl << "Writing peptide data...";
-			if(!peptides.writeOut(wd + par.peptideOfFname, par))
+			if(!peptides.writeOut(par.wd + par.peptideOfFname, par))
 			{
 				cout << "Could not write out file! Exiting..." << endl;
 				return -1;
@@ -153,10 +162,10 @@ int main (int argc, char* argv[])
 			<< par.peptideOfFname << endl << endl;
 		}
 		
-		if(par.peptideOutput == 2 || par.peptideOutput == 3)
+		if(par.peptideOutput == params::longFormat || par.peptideOutput == params::both)
 		{
 			cout << endl << "Writing peptide data...";
-			if(!peptides.writeOutDB(wd + par.dbPeptideOfFname, par))
+			if(!peptides.writeOutDB(par.wd + par.dbPeptideOfFname, par))
 			{
 				cout << "Could not write out file! Exiting..." << endl;
 				return -1;
@@ -169,12 +178,12 @@ int main (int argc, char* argv[])
 	if(par.includeSaint)
 	{
 		cout << endl << "Writing saint output files...";
-		if(!proteins.writeSaint(wd + par.saintPreyFname, 1))
+		if(!proteins.writeSaint(par.wd + par.saintPreyFname, 1))
 		{
 			cout << "Could not write prey file! Exiting..." << endl;
 			return -1;
 		}
-		if(!proteins.writeSaint(wd + par.saintInteractionFname, 2))
+		if(!proteins.writeSaint(par.wd + par.saintInteractionFname, 2))
 		{
 			cout << "Could not write interaction file! Exiting..." << endl;
 			return -1;
