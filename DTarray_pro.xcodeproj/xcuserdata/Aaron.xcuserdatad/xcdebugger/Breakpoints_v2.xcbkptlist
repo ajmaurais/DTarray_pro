@@ -31,11 +31,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/params.cpp"
-            timestampString = "510710621.542976"
+            timestampString = "513018692.601221"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "354"
-            endingLineNumber = "354"
+            startingLineNumber = "389"
+            endingLineNumber = "389"
             landmarkName = "Params::purgeDir(string _wd)"
             landmarkType = "7">
          </BreakpointContent>
@@ -47,11 +47,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/main.cpp"
-            timestampString = "510710920.729429"
+            timestampString = "513018692.601221"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "20"
-            endingLineNumber = "20"
+            startingLineNumber = "22"
+            endingLineNumber = "22"
             landmarkName = "main (int argc, char* argv[])"
             landmarkType = "9">
          </BreakpointContent>
@@ -63,11 +63,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/dtafilter.cpp"
-            timestampString = "510789930.505016"
+            timestampString = "512402963.501305"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "772"
-            endingLineNumber = "772"
+            startingLineNumber = "736"
+            endingLineNumber = "736"
             landmarkName = "Proteins::writeOutDB(string ofname, const params::Params&amp; par)"
             landmarkType = "7">
          </BreakpointContent>
@@ -79,11 +79,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/dtafilter.cpp"
-            timestampString = "510789930.505016"
+            timestampString = "512402963.501305"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "828"
-            endingLineNumber = "828"
+            startingLineNumber = "792"
+            endingLineNumber = "792"
             landmarkName = "Proteins::writeOutDB(string ofname, const params::Params&amp; par)"
             landmarkType = "7">
          </BreakpointContent>
@@ -95,11 +95,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "lib/utils.hpp"
-            timestampString = "511751808.533142"
+            timestampString = "511980798.852146"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "141"
-            endingLineNumber = "141"
+            startingLineNumber = "142"
+            endingLineNumber = "142"
             landmarkName = "begin(_Tp(&amp;arr)[N])"
             landmarkType = "9">
             <Locations>
@@ -111,11 +111,11 @@
                   moduleName = "DTarray_pro"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/Aaron/scripts/DTarray_pro/src/../lib/../lib/utils.hpp"
-                  timestampString = "510718858.178418"
+                  timestampString = "512502167.716574"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "139"
-                  endingLineNumber = "139"
+                  startingLineNumber = "142"
+                  endingLineNumber = "142"
                   offsetFromSymbolStart = "8">
                </Location>
                <Location
@@ -126,26 +126,11 @@
                   moduleName = "DTarray_pro"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/Aaron/scripts/DTarray_pro/src/../lib/../lib/utils.hpp"
-                  timestampString = "510718858.181324"
+                  timestampString = "512502167.719744"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "139"
-                  endingLineNumber = "139"
-                  offsetFromSymbolStart = "8">
-               </Location>
-               <Location
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "std::__1::basic_string&lt;char, std::__1::char_traits&lt;char&gt;, std::__1::allocator&lt;char&gt; &gt; const* utils::begin&lt;std::__1::basic_string&lt;char, std::__1::char_traits&lt;char&gt;, std::__1::allocator&lt;char&gt; &gt; const, 3ul&gt;(std::__1::basic_string&lt;char, std::__1::char_traits&lt;char&gt;, std::__1::allocator&lt;char&gt; &gt; const (&amp;) [3ul])"
-                  moduleName = "DTarray_pro"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/Aaron/scripts/DTarray_pro/src/../lib/../lib/utils.hpp"
-                  timestampString = "510718858.185125"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "139"
-                  endingLineNumber = "139"
+                  startingLineNumber = "142"
+                  endingLineNumber = "142"
                   offsetFromSymbolStart = "8">
                </Location>
             </Locations>
@@ -158,11 +143,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/calcMW.cpp"
-            timestampString = "510774989.317109"
+            timestampString = "513054228.55666"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "179"
-            endingLineNumber = "179"
+            startingLineNumber = "155"
+            endingLineNumber = "155"
             landmarkName = "MWDB::readIn(string staticMods, string aaDB)"
             landmarkType = "7">
          </BreakpointContent>
@@ -174,29 +159,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/params.cpp"
-            timestampString = "510775088.077024"
+            timestampString = "513018692.601221"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "313"
-            endingLineNumber = "313"
+            startingLineNumber = "346"
+            endingLineNumber = "346"
             landmarkName = "Params::writeSmod(string _wd)"
             landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "src/main.cpp"
-            timestampString = "510775110.353619"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "85"
-            endingLineNumber = "85"
-            landmarkName = "main (int argc, char* argv[])"
-            landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -206,11 +175,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/params.cpp"
-            timestampString = "510775133.25164"
+            timestampString = "513018692.601221"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "312"
-            endingLineNumber = "312"
+            startingLineNumber = "345"
+            endingLineNumber = "345"
             landmarkName = "Params::writeSmod(string _wd)"
             landmarkType = "7">
          </BreakpointContent>
@@ -221,28 +190,12 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "src/main.cpp"
-            timestampString = "510775467.044283"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "90"
-            endingLineNumber = "90"
-            landmarkName = "main (int argc, char* argv[])"
-            landmarkType = "9">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "src/calcMW.cpp"
-            timestampString = "510775495.710009"
+            timestampString = "513054228.55666"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "180"
-            endingLineNumber = "180"
+            startingLineNumber = "156"
+            endingLineNumber = "156"
             landmarkName = "MWDB::readIn(string staticMods, string aaDB)"
             landmarkType = "7">
          </BreakpointContent>
@@ -254,11 +207,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/calcMW.cpp"
-            timestampString = "510775524.264909"
+            timestampString = "513054228.55666"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "178"
-            endingLineNumber = "178"
+            startingLineNumber = "154"
+            endingLineNumber = "154"
             landmarkName = "MWDB::readIn(string staticMods, string aaDB)"
             landmarkType = "7">
          </BreakpointContent>
@@ -269,28 +222,12 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "src/main.cpp"
-            timestampString = "510775568.839385"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "91"
-            endingLineNumber = "91"
-            landmarkName = "main (int argc, char* argv[])"
-            landmarkType = "9">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "src/params.cpp"
-            timestampString = "510788517.101478"
+            timestampString = "512593480.082503"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "168"
-            endingLineNumber = "168"
+            startingLineNumber = "175"
+            endingLineNumber = "175"
             landmarkName = "Params::getOpts(int argc, const char* const argv [])"
             landmarkType = "7">
          </BreakpointContent>
@@ -302,11 +239,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/main.cpp"
-            timestampString = "510788718.005381"
+            timestampString = "513018692.601221"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "28"
-            endingLineNumber = "28"
+            startingLineNumber = "30"
+            endingLineNumber = "30"
             landmarkName = "main (int argc, char* argv[])"
             landmarkType = "9">
          </BreakpointContent>
@@ -318,11 +255,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/params.cpp"
-            timestampString = "510789992.526278"
+            timestampString = "513018692.601221"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "368"
-            endingLineNumber = "368"
+            startingLineNumber = "405"
+            endingLineNumber = "405"
             landmarkName = "Params::writeFlist()"
             landmarkType = "7">
          </BreakpointContent>
@@ -334,12 +271,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/dtafilter.cpp"
-            timestampString = "510789930.505016"
+            timestampString = "512246033.571947"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "339"
-            endingLineNumber = "339"
-            landmarkName = "Proteins::readIn(params::Params* const par, Peptides * const peptides)"
+            startingLineNumber = "345"
+            endingLineNumber = "345"
+            landmarkName = "Proteins::readIn(params::Params* const par, Peptides* const peptides)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -350,13 +287,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/params.cpp"
-            timestampString = "510789199.03458"
+            timestampString = "513018692.601221"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "303"
-            endingLineNumber = "303"
-            landmarkName = "Params::getOpts(int argc, const char* const argv [])"
-            landmarkType = "7">
+            startingLineNumber = "336"
+            endingLineNumber = "336">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -366,11 +301,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/main.cpp"
-            timestampString = "510789228.757092"
+            timestampString = "513018692.601221"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "24"
-            endingLineNumber = "24"
+            startingLineNumber = "26"
+            endingLineNumber = "26"
             landmarkName = "main (int argc, char* argv[])"
             landmarkType = "9">
          </BreakpointContent>
@@ -382,13 +317,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/params.cpp"
-            timestampString = "510789992.526278"
+            timestampString = "513018692.601221"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "417"
-            endingLineNumber = "417"
-            landmarkName = "Params::writeSubdirFlist(ofstream&amp; outF)"
-            landmarkType = "7">
+            startingLineNumber = "454"
+            endingLineNumber = "454">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -398,11 +331,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/dtafilter.cpp"
-            timestampString = "510789930.505016"
+            timestampString = "512246033.571947"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "190"
-            endingLineNumber = "190"
+            startingLineNumber = "189"
+            endingLineNumber = "189"
             landmarkName = "Proteins::readIn(params::Params* const pars, const vector &lt;SampleData_protein&gt;&amp; colNamesTemp, const vector&lt;SampleData_peptide&gt;&amp; pColNamesTemp, Peptides * const peptides)"
             landmarkType = "7">
          </BreakpointContent>
@@ -414,7 +347,423 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/dtafilter.cpp"
-            timestampString = "510789930.505016"
+            timestampString = "512246033.571947"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "193"
+            endingLineNumber = "193"
+            landmarkName = "Proteins::readIn(params::Params* const pars, const vector &lt;SampleData_protein&gt;&amp; colNamesTemp, const vector&lt;SampleData_peptide&gt;&amp; pColNamesTemp, Peptides * const peptides)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/dtafilter.cpp"
+            timestampString = "512498509.231669"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "964"
+            endingLineNumber = "964"
+            landmarkName = "Peptide::write(ofstream&amp; outF, int fxnNum)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/dtafilter.cpp"
+            timestampString = "512937054.129433"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1099"
+            endingLineNumber = "1099"
+            landmarkName = "Peptides::writeOutDB(string ofname, const params::Params&amp; pars)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/dtafilter.cpp"
+            timestampString = "512937054.129433"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1117"
+            endingLineNumber = "1117"
+            landmarkName = "Peptides::writeOutDB(string ofname, const params::Params&amp; pars)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/dtafilter.cpp"
+            timestampString = "512937054.129433"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1157"
+            endingLineNumber = "1157"
+            landmarkName = "Peptides::writeOutDB(string ofname, const params::Params&amp; pars)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/dtafilter.cpp"
+            timestampString = "512498509.231669"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "957"
+            endingLineNumber = "957"
+            landmarkName = "Peptide::parseSequence(const string&amp; str)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/params.cpp"
+            timestampString = "512593480.082503"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "206"
+            endingLineNumber = "206"
+            landmarkName = "Params::getOpts(int argc, const char* const argv [])"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/dtafilter.cpp"
+            timestampString = "512402963.501305"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "686"
+            endingLineNumber = "686"
+            landmarkName = "Proteins::writeOut(string ofname, const params::Params&amp; par)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/dtafilter.cpp"
+            timestampString = "512402963.501305"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "576"
+            endingLineNumber = "576"
+            landmarkName = "Proteins::writeOut(string ofname, const params::Params&amp; par)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/dtafilter.cpp"
+            timestampString = "512402963.501305"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "586"
+            endingLineNumber = "586"
+            landmarkName = "Proteins::writeOut(string ofname, const params::Params&amp; par)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/dtafilter.cpp"
+            timestampString = "512402963.501305"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "600"
+            endingLineNumber = "600"
+            landmarkName = "Proteins::writeOut(string ofname, const params::Params&amp; par)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/dtafilter.cpp"
+            timestampString = "512402963.501305"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "665"
+            endingLineNumber = "665"
+            landmarkName = "Proteins::writeOut(string ofname, const params::Params&amp; par)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/dtafilter.cpp"
+            timestampString = "512402963.501305"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "675"
+            endingLineNumber = "675"
+            landmarkName = "Proteins::writeOut(string ofname, const params::Params&amp; par)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/dtafilter.cpp"
+            timestampString = "512402963.501305"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "693"
+            endingLineNumber = "693"
+            landmarkName = "Proteins::writeOut(string ofname, const params::Params&amp; par)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/dtafilter.cpp"
+            timestampString = "512402963.501305"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "709"
+            endingLineNumber = "709"
+            landmarkName = "Proteins::writeOut(string ofname, const params::Params&amp; par)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/dtafilter.cpp"
+            timestampString = "512245189.104966"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "128"
+            endingLineNumber = "128"
+            landmarkName = "Protein::getProteinData(string line)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/dtafilter.cpp"
+            timestampString = "512402963.501305"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "926"
+            endingLineNumber = "926"
+            landmarkName = "parseModPeptide(string line)"
+            landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/dtafilter.cpp"
+            timestampString = "512246039.639679"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "245"
+            endingLineNumber = "245"
+            landmarkName = "Proteins::readIn(params::Params* const pars, const vector &lt;SampleData_protein&gt;&amp; colNamesTemp, const vector&lt;SampleData_peptide&gt;&amp; pColNamesTemp, Peptides * const peptides)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/dtafilter.cpp"
+            timestampString = "512402963.501305"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "706"
+            endingLineNumber = "706"
+            landmarkName = "Proteins::writeOut(string ofname, const params::Params&amp; par)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/dtafilter.cpp"
+            timestampString = "512402963.501305"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "590"
+            endingLineNumber = "590"
+            landmarkName = "Proteins::writeOut(string ofname, const params::Params&amp; par)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/dtafilter.cpp"
+            timestampString = "512402963.501305"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "592"
+            endingLineNumber = "592"
+            landmarkName = "Proteins::writeOut(string ofname, const params::Params&amp; par)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/dtafilter.cpp"
+            timestampString = "512402963.501305"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "594"
+            endingLineNumber = "594"
+            landmarkName = "Proteins::writeOut(string ofname, const params::Params&amp; par)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/dtafilter.cpp"
+            timestampString = "512402963.501305"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "704"
+            endingLineNumber = "704"
+            landmarkName = "Proteins::writeOut(string ofname, const params::Params&amp; par)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/dtafilter.hpp"
+            timestampString = "512342718.269476"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "71"
+            endingLineNumber = "71"
+            landmarkName = "ProteinDataTemplate &lt;SampleData_peptide&gt;(par)"
+            landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/dtafilter.cpp"
+            timestampString = "512402963.501305"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "816"
+            endingLineNumber = "816"
+            landmarkName = "Proteins::writeOutDB(string ofname, const params::Params&amp; par)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/dtafilter.cpp"
+            timestampString = "512496021.357658"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "192"
+            endingLineNumber = "192"
+            landmarkName = "Proteins::readIn(params::Params* const pars, const vector &lt;SampleData_protein&gt;&amp; colNamesTemp, const vector&lt;SampleData_peptide&gt;&amp; pColNamesTemp, Peptides * const peptides)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/dtafilter.cpp"
+            timestampString = "512496074.739228"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "194"
@@ -430,12 +779,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/dtafilter.cpp"
-            timestampString = "511566920.527791"
+            timestampString = "512496219.642929"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "965"
-            endingLineNumber = "965"
-            landmarkName = "Peptide::write(ofstream&amp; outF, int fxnNum)"
+            startingLineNumber = "247"
+            endingLineNumber = "247"
+            landmarkName = "Proteins::readIn(params::Params* const pars, const vector &lt;SampleData_protein&gt;&amp; colNamesTemp, const vector&lt;SampleData_peptide&gt;&amp; pColNamesTemp, Peptides * const peptides)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -446,11 +795,218 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/dtafilter.cpp"
-            timestampString = "511566993.52894"
+            timestampString = "512497578.992071"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1086"
-            endingLineNumber = "1086"
+            startingLineNumber = "932"
+            endingLineNumber = "932"
+            landmarkName = "parseModPeptide(string line)"
+            landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/dtafilter.cpp"
+            timestampString = "512498509.231669"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "938"
+            endingLineNumber = "938"
+            landmarkName = "parseModPeptide(string line)"
+            landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/dtafilter.cpp"
+            timestampString = "512498509.231669"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "934"
+            endingLineNumber = "934"
+            landmarkName = "parseModPeptide(string line)"
+            landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/dtafilter.cpp"
+            timestampString = "512498509.231669"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "939"
+            endingLineNumber = "939"
+            landmarkName = "parseModPeptide(string line)"
+            landmarkType = "9">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "parseModPeptide(std::__1::basic_string&lt;char, std::__1::char_traits&lt;char&gt;, std::__1::allocator&lt;char&gt; &gt;)"
+                  moduleName = "DTarray_pro"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/Aaron/scripts/DTarray_pro/src/dtafilter.cpp"
+                  timestampString = "512497321.007746"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "942"
+                  endingLineNumber = "942"
+                  offsetFromSymbolStart = "382">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "parseModPeptide(std::__1::basic_string&lt;char, std::__1::char_traits&lt;char&gt;, std::__1::allocator&lt;char&gt; &gt;)"
+                  moduleName = "DTarray_pro"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/Aaron/scripts/DTarray_pro/src/dtafilter.cpp"
+                  timestampString = "512497321.011205"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "942"
+                  endingLineNumber = "942"
+                  offsetFromSymbolStart = "4154">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "lib/utils.hpp"
+            timestampString = "512498180.40928"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "145"
+            endingLineNumber = "145"
+            landmarkName = "end(_Tp(&amp;arr)[N])"
+            landmarkType = "9">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "std::__1::basic_string&lt;char, std::__1::char_traits&lt;char&gt;, std::__1::allocator&lt;char&gt; &gt;* utils::end&lt;std::__1::basic_string&lt;char, std::__1::char_traits&lt;char&gt;, std::__1::allocator&lt;char&gt; &gt;, 8ul&gt;(std::__1::basic_string&lt;char, std::__1::char_traits&lt;char&gt;, std::__1::allocator&lt;char&gt; &gt; (&amp;) [8ul])"
+                  moduleName = "DTarray_pro"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/Aaron/scripts/DTarray_pro/src/../lib/../lib/utils.hpp"
+                  timestampString = "512498455.000318"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "145"
+                  endingLineNumber = "145"
+                  offsetFromSymbolStart = "8">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "std::__1::basic_string&lt;char, std::__1::char_traits&lt;char&gt;, std::__1::allocator&lt;char&gt; &gt;* utils::end&lt;std::__1::basic_string&lt;char, std::__1::char_traits&lt;char&gt;, std::__1::allocator&lt;char&gt; &gt;, 3ul&gt;(std::__1::basic_string&lt;char, std::__1::char_traits&lt;char&gt;, std::__1::allocator&lt;char&gt; &gt; (&amp;) [3ul])"
+                  moduleName = "DTarray_pro"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/Aaron/scripts/DTarray_pro/src/../lib/../lib/utils.hpp"
+                  timestampString = "512498455.003364"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "145"
+                  endingLineNumber = "145"
+                  offsetFromSymbolStart = "8">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "lib/utils.hpp"
+            timestampString = "512498504.324064"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "141"
+            endingLineNumber = "141"
+            landmarkName = "begin(_Tp(&amp;arr)[N])"
+            landmarkType = "9">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "std::__1::basic_string&lt;char, std::__1::char_traits&lt;char&gt;, std::__1::allocator&lt;char&gt; &gt;* utils::begin&lt;std::__1::basic_string&lt;char, std::__1::char_traits&lt;char&gt;, std::__1::allocator&lt;char&gt; &gt;, 8ul&gt;(std::__1::basic_string&lt;char, std::__1::char_traits&lt;char&gt;, std::__1::allocator&lt;char&gt; &gt; (&amp;) [8ul])"
+                  moduleName = "DTarray_pro"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/Aaron/scripts/DTarray_pro/src/../lib/../lib/utils.hpp"
+                  timestampString = "512498510.599583"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "142"
+                  endingLineNumber = "142"
+                  offsetFromSymbolStart = "8">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "std::__1::basic_string&lt;char, std::__1::char_traits&lt;char&gt;, std::__1::allocator&lt;char&gt; &gt;* utils::begin&lt;std::__1::basic_string&lt;char, std::__1::char_traits&lt;char&gt;, std::__1::allocator&lt;char&gt; &gt;, 3ul&gt;(std::__1::basic_string&lt;char, std::__1::char_traits&lt;char&gt;, std::__1::allocator&lt;char&gt; &gt; (&amp;) [3ul])"
+                  moduleName = "DTarray_pro"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/Aaron/scripts/DTarray_pro/src/../lib/../lib/utils.hpp"
+                  timestampString = "512498510.602939"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "142"
+                  endingLineNumber = "142"
+                  offsetFromSymbolStart = "8">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "std::__1::basic_string&lt;char, std::__1::char_traits&lt;char&gt;, std::__1::allocator&lt;char&gt; &gt; const* utils::begin&lt;std::__1::basic_string&lt;char, std::__1::char_traits&lt;char&gt;, std::__1::allocator&lt;char&gt; &gt; const, 3ul&gt;(std::__1::basic_string&lt;char, std::__1::char_traits&lt;char&gt;, std::__1::allocator&lt;char&gt; &gt; const (&amp;) [3ul])"
+                  moduleName = "DTarray_pro"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/Aaron/scripts/DTarray_pro/src/../lib/../lib/utils.hpp"
+                  timestampString = "512498510.605974"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "142"
+                  endingLineNumber = "142"
+                  offsetFromSymbolStart = "8">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/dtafilter.cpp"
+            timestampString = "512937054.129433"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1133"
+            endingLineNumber = "1133"
             landmarkName = "Peptides::writeOutDB(string ofname, const params::Params&amp; pars)"
             landmarkType = "7">
          </BreakpointContent>
@@ -462,11 +1018,369 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/dtafilter.cpp"
-            timestampString = "511567027.485294"
+            timestampString = "512876884.080479"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1104"
-            endingLineNumber = "1104"
+            startingLineNumber = "1044"
+            endingLineNumber = "1044"
+            landmarkName = "Peptides::writeOut(string ofname, const params::Params&amp; pars)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/dtafilter.cpp"
+            timestampString = "512937802.615151"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "288"
+            endingLineNumber = "288"
+            landmarkName = "Peptide::parsePeptide(const string&amp; line)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "lib/hashTable.cpp"
+            timestampString = "513053761.681364"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "76"
+            endingLineNumber = "76"
+            landmarkName = "hash(const char* key)"
+            landmarkType = "9">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "hashTable::HashTable&lt;Protein&gt;::hash(char const*) const"
+                  moduleName = "DTarray_pro"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/Aaron/scripts/DTarray_pro/src/../lib/hashTable.cpp"
+                  timestampString = "512937876.670114"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "78"
+                  endingLineNumber = "78"
+                  offsetFromSymbolStart = "89">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "hashTable::HashTable&lt;Peptide&gt;::hash(char const*) const"
+                  moduleName = "DTarray_pro"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/Aaron/scripts/DTarray_pro/src/../lib/hashTable.cpp"
+                  timestampString = "512937876.672497"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "78"
+                  endingLineNumber = "78"
+                  offsetFromSymbolStart = "89">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "hashTable::HashTable&lt;mwDB::AminoAcid&gt;::hash(char const*) const"
+                  moduleName = "DTarray_pro"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/Aaron/scripts/DTarray_pro/src/../lib/hashTable.cpp"
+                  timestampString = "512937876.675705"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "78"
+                  endingLineNumber = "78"
+                  offsetFromSymbolStart = "89">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "hashTable::HashTable&lt;mwDB::Peptide&gt;::hash(char const*) const"
+                  moduleName = "DTarray_pro"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/Aaron/scripts/DTarray_pro/src/../lib/hashTable.cpp"
+                  timestampString = "512937876.677567"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "78"
+                  endingLineNumber = "78"
+                  offsetFromSymbolStart = "89">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "hashTable::HashTable&lt;DBProtein&gt;::hash(char const*) const"
+                  moduleName = "DTarray_pro"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/Aaron/scripts/DTarray_pro/src/../lib/hashTable.cpp"
+                  timestampString = "512937876.679453"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "78"
+                  endingLineNumber = "78"
+                  offsetFromSymbolStart = "89">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "hashTable::HashTable&lt;saint::BaitFileData&gt;::hash(char const*) const"
+                  moduleName = "DTarray_pro"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/Aaron/scripts/DTarray_pro/src/../lib/hashTable.cpp"
+                  timestampString = "512937876.681234"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "78"
+                  endingLineNumber = "78"
+                  offsetFromSymbolStart = "89">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "lib/hashTable.cpp"
+            timestampString = "513053761.681364"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "73"
+            endingLineNumber = "73"
+            landmarkName = "hash(const char* key)"
+            landmarkType = "9">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "hashTable::HashTable&lt;Protein&gt;::hash(char const*) const"
+                  moduleName = "DTarray_pro"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/Aaron/scripts/DTarray_pro/src/../lib/hashTable.cpp"
+                  timestampString = "512938035.784058"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "75"
+                  endingLineNumber = "75"
+                  offsetFromSymbolStart = "16">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "hashTable::HashTable&lt;Peptide&gt;::hash(char const*) const"
+                  moduleName = "DTarray_pro"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/Aaron/scripts/DTarray_pro/src/../lib/hashTable.cpp"
+                  timestampString = "512938035.786797"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "75"
+                  endingLineNumber = "75"
+                  offsetFromSymbolStart = "16">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "hashTable::HashTable&lt;mwDB::AminoAcid&gt;::hash(char const*) const"
+                  moduleName = "DTarray_pro"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/Aaron/scripts/DTarray_pro/src/../lib/hashTable.cpp"
+                  timestampString = "512938035.789554"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "75"
+                  endingLineNumber = "75"
+                  offsetFromSymbolStart = "16">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "hashTable::HashTable&lt;mwDB::Peptide&gt;::hash(char const*) const"
+                  moduleName = "DTarray_pro"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/Aaron/scripts/DTarray_pro/src/../lib/hashTable.cpp"
+                  timestampString = "512938035.792313"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "75"
+                  endingLineNumber = "75"
+                  offsetFromSymbolStart = "16">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "hashTable::HashTable&lt;DBProtein&gt;::hash(char const*) const"
+                  moduleName = "DTarray_pro"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/Aaron/scripts/DTarray_pro/src/../lib/hashTable.cpp"
+                  timestampString = "512938035.795193"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "75"
+                  endingLineNumber = "75"
+                  offsetFromSymbolStart = "16">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "hashTable::HashTable&lt;saint::BaitFileData&gt;::hash(char const*) const"
+                  moduleName = "DTarray_pro"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/Aaron/scripts/DTarray_pro/src/../lib/hashTable.cpp"
+                  timestampString = "512938035.798047"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "75"
+                  endingLineNumber = "75"
+                  offsetFromSymbolStart = "16">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/params.cpp"
+            timestampString = "513018692.601221"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "372"
+            endingLineNumber = "372"
+            landmarkName = "Params::purgeDir(string _wd)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/main.cpp"
+            timestampString = "513018687.593608"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "15"
+            endingLineNumber = "15"
+            landmarkName = "main (int argc, char* argv[])"
+            landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "lib/hashTable.cpp"
+            timestampString = "513053490.221348"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "35"
+            endingLineNumber = "35"
+            landmarkName = "getItem(string key)"
+            landmarkType = "9">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "hashTable::LinkedList&lt;mwDB::AminoAcid&gt;::getItem(std::__1::basic_string&lt;char, std::__1::char_traits&lt;char&gt;, std::__1::allocator&lt;char&gt; &gt;)"
+                  moduleName = "DTarray_pro"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/Aaron/scripts/DTarray_pro/src/../lib/hashTable.cpp"
+                  timestampString = "513053594.300679"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "35"
+                  endingLineNumber = "35"
+                  offsetFromSymbolStart = "32">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "hashTable::LinkedList&lt;mwDB::Peptide&gt;::getItem(std::__1::basic_string&lt;char, std::__1::char_traits&lt;char&gt;, std::__1::allocator&lt;char&gt; &gt;)"
+                  moduleName = "DTarray_pro"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/Aaron/scripts/DTarray_pro/src/../lib/hashTable.cpp"
+                  timestampString = "513053594.303845"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "35"
+                  endingLineNumber = "35"
+                  offsetFromSymbolStart = "32">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "hashTable::LinkedList&lt;DBProtein&gt;::getItem(std::__1::basic_string&lt;char, std::__1::char_traits&lt;char&gt;, std::__1::allocator&lt;char&gt; &gt;)"
+                  moduleName = "DTarray_pro"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/Aaron/scripts/DTarray_pro/src/../lib/hashTable.cpp"
+                  timestampString = "513053594.306804"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "35"
+                  endingLineNumber = "35"
+                  offsetFromSymbolStart = "32">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "hashTable::LinkedList&lt;saint::BaitFileData&gt;::getItem(std::__1::basic_string&lt;char, std::__1::char_traits&lt;char&gt;, std::__1::allocator&lt;char&gt; &gt;)"
+                  moduleName = "DTarray_pro"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/Aaron/scripts/DTarray_pro/src/../lib/hashTable.cpp"
+                  timestampString = "513053594.309558"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "35"
+                  endingLineNumber = "35"
+                  offsetFromSymbolStart = "32">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/dtafilter.cpp"
+            timestampString = "513054224.387192"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1143"
+            endingLineNumber = "1143"
             landmarkName = "Peptides::writeOutDB(string ofname, const params::Params&amp; pars)"
             landmarkType = "7">
          </BreakpointContent>
@@ -478,12 +1392,44 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/dtafilter.cpp"
-            timestampString = "511567180.620471"
+            timestampString = "513054267.369905"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1144"
-            endingLineNumber = "1144"
+            startingLineNumber = "1141"
+            endingLineNumber = "1141"
             landmarkName = "Peptides::writeOutDB(string ofname, const params::Params&amp; pars)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/dtafilter.cpp"
+            timestampString = "513056534.374404"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "174"
+            endingLineNumber = "174"
+            landmarkName = "Proteins::readIn(params::Params* const pars, const vector &lt;SampleData_protein&gt;&amp; colNamesTemp, const vector&lt;SampleData_peptide&gt;&amp; pColNamesTemp, Peptides * const peptides)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/dtafilter.cpp"
+            timestampString = "513101317.157168"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "699"
+            endingLineNumber = "699"
+            landmarkName = "Proteins::writeOut(string ofname, const params::Params&amp; par)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

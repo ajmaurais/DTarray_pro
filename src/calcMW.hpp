@@ -10,7 +10,6 @@
 #define calcMW_h
 
 #include "../lib/hashTable.hpp"
-#include "../lib/BinTree.hpp"
 
 class MWDB;
 class nwNode;
@@ -20,6 +19,7 @@ class SeqDB;
 
 namespace mwDB{
 	size_t const SEQ_LIB_SIZE = 10000;
+	size_t const AA_DB_SIZE = 20;
 	size_t const MAX_PARAM_ITTERATIONS = 100;
 	
 	class Peptide{
@@ -55,9 +55,9 @@ namespace mwDB{
 		void operator += (const AminoAcid&);
 		
 		//properities
-		bool operator < (const AminoAcid&) const;
-		bool operator > (const AminoAcid&) const;
-		bool operator == (const AminoAcid&) const;
+		bool operator == (const string& _comp) const{
+			return(symbol == _comp);
+		}
 	};
 	
 	class SeqDB{
@@ -74,19 +74,19 @@ namespace mwDB{
 		bool readIn(string);
 		
 		string getSequence(string) const;
-		
-		void printHistogram() const{
-			seqLibrary->printHistogram();
-		}
 	};
 	
 	class MWDB{
 	public:
-		binTree::BinTree <AminoAcid>* aminoAcidsDB;
+		hashTable::HashTable <AminoAcid>* aminoAcidsDB;
 		
 		//constructor
-		MWDB();
-		~MWDB();
+		MWDB(){
+			aminoAcidsDB = new hashTable::HashTable<AminoAcid>(AA_DB_SIZE);
+		}
+		~MWDB(){
+			delete aminoAcidsDB;
+		}
 		
 		//modifers
 		bool readIn(string, string);
@@ -113,13 +113,8 @@ namespace mwDB{
 			delete seqDB;
 		}
 		
-		void printHistogram() const{
-			seqDB->printHistogram();
-		}
-		
 		bool readIn(string wd, const params::Params&);
 	};
-	
 }
 
 #endif /* calcMW_h */

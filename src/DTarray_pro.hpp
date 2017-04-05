@@ -13,6 +13,7 @@
 #if (__cplusplus == 199711L || __cplusplus == 1)
 	#define nullptr NULL
 #endif
+
 //make sure this value is defined
 #ifndef PATH_MAX
 	#define PATH_MAX 1024
@@ -21,9 +22,8 @@
 #define BIN_VERSION_NUM "1.60"
 #define MIN_BIN_VERSION_NUM 1.60
 
+#include "gitVersion.hpp"
 #include "dtafilter.hpp"
-#include "saintOutput.hpp"
-#include "../lib/BinTree.cpp"
 #include "../lib/hashTable.cpp"
 #include "../lib/utils.cpp"
 #include "params.cpp"

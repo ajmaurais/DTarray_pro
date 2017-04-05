@@ -30,18 +30,20 @@ namespace params{
 	const string INVALID_ARG = " is an invalid option! Exiting...\nUse DTarray -h for help.";
 	enum OutputFormat {none, wideFormat, longFormat, both};
 	enum PeptideGroupFormat {byScan, byProtein, byCharge};
+	const string VNUM_STR = "<versionNum>";
+	const string END_VNUM_STR = "</versionNum>";
 	
 	//default file locations
-	const string SCRIPT_WD_HOME = string(getenv("HOME")) + "/scripts/DTarray_pro";
-	const string SCRIPT_WD_DB = SCRIPT_WD_HOME + "/db";
-	const string LOC_DB_FNAME = SCRIPT_WD_DB + "/humanLoc.tsv";
-	const string SEQ_DB_FNAME = SCRIPT_WD_DB + "/humanProteome.fasta";
+	const string PROG_WD_HOME = string(getenv("HOME")) + "/scripts/DTarray_pro";
+	const string PROG_WD_DB = PROG_WD_HOME + "/db";
+	const string LOC_DB_FNAME = PROG_WD_DB + "/humanLoc.tsv";
+	const string SEQ_DB_FNAME = PROG_WD_DB + "/humanProteome.fasta";
 	const string MW_DB_FNAME = SEQ_DB_FNAME;
-	const string AA_DB_FNAME = SCRIPT_WD_DB + "/aaMasses.txt";
-	const string FXN_DB_FNAME = SCRIPT_WD_DB + "/humanFxn.tsv";
-	const string STATIC_MOD_FNAME = SCRIPT_WD_DB + "/staticModifications.txt";
-	const string HELP_FILE_FNAME = SCRIPT_WD_DB + "/helpFile.man";
-	const string USAGE_FNAME = SCRIPT_WD_DB + "/usage.txt";
+	const string AA_DB_FNAME = PROG_WD_DB + "/aaMasses.txt";
+	const string FXN_DB_FNAME = PROG_WD_DB + "/humanFxn.tsv";
+	const string STATIC_MOD_FNAME = PROG_WD_DB + "/staticModifications.txt";
+	const string HELP_FILE_FNAME = PROG_WD_DB + "/helpFile.man";
+	const string USAGE_FNAME = PROG_WD_DB + "/usage.txt";
 	
 	//default file names
 	const string DEFAULT_FLIST_NAME = "dtarray_pro_flist.txt";
@@ -141,6 +143,8 @@ namespace params{
 		string saintBaitFile, saintPreyFname, saintInteractionFname;
 		bool includeReverse;
 		bool wdSpecified;
+		int modGroupMethod;
+		bool includeModStat;
 		
 		Params ()
 		{
@@ -183,6 +187,8 @@ namespace params{
 			includeSaint = false;
 			includeReverse = true;
 			wdSpecified = false;
+			modGroupMethod = 0;
+			includeModStat = false;
 		}
 		
 		//modifiers

@@ -17,8 +17,7 @@ namespace hashTable{
 	template<class _Tp>
 	_Tp* LinkedList<_Tp>::consolidate(const _Tp& newItem)
 	{
-		typename std::list<_Tp>::iterator it = dat.begin();
-		for(;it != dat.end(); it++)
+		for(typename std::list<_Tp>::iterator it = dat.begin();it != dat.end(); ++it)
 		{
 			if(*it == newItem)
 			{
@@ -33,18 +32,18 @@ namespace hashTable{
 	template<class _Tp>
 	_Tp* LinkedList<_Tp>::getItem(string key)
 	{
-		typename list<_Tp>::iterator it = dat.begin();
-		for(;it != dat.end(); it++)
+		for(typename list<_Tp>::iterator it = dat.begin();it != dat.end(); ++it)
+		{
 			if(*it == key)
 				return &(*it);
+		}
 		return nullptr;
 	}
 	
 	template<class _Tp>
 	bool LinkedList<_Tp>::itemExists(string key) const
 	{
-		typename list<_Tp>::iterator it = dat.begin();
-		for(; it != dat.end(); it++)
+		for(typename list<_Tp>::iterator it = dat.begin(); it != dat.end(); ++it)
 			if(*it == key)
 				return true;
 		return false;
@@ -59,8 +58,7 @@ namespace hashTable{
 		if(dat.empty())
 			return;
 		
-		typename list<_Tp>::iterator it = dat.begin();
-		for(;it != dat.end(); it++)
+		for(typename list<_Tp>::iterator it = dat.begin();it != dat.end(); ++it)
 			(*it).write(outF, fxnNum);
 			
 	}

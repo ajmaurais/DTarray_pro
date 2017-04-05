@@ -63,35 +63,35 @@
       </BuildableProductRunnable>
       <CommandLineArguments>
          <CommandLineArgument
-            argument = "-i subdir"
+            argument = "-d /Users/Aaron/Google_Drive/School_Work/Mass_spec_data/BioID/H3A_test/data/"
+            isEnabled = "YES">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "-u"
+            isEnabled = "YES">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "-modS"
+            isEnabled = "YES">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "-c"
+            isEnabled = "YES">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "-seqC"
+            isEnabled = "YES">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "-s 1"
+            isEnabled = "YES">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "-p 3"
             isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "-d /Users/Aaron/Google_Drive/School_Work/Mass_spec_data/test/dtarray_stats"
-            isEnabled = "YES">
-         </CommandLineArgument>
-         <CommandLineArgument
-            argument = "-p 2"
-            isEnabled = "YES">
-         </CommandLineArgument>
-         <CommandLineArgument
-            argument = "-mw /Users/Aaron/Google_Drive/School_Work/Mass_spec_data/test/dtarray_stats/KL_peptide_library_libraryTest_1.fasta"
-            isEnabled = "YES">
-         </CommandLineArgument>
-         <CommandLineArgument
-            argument = "-g 0"
-            isEnabled = "YES">
-         </CommandLineArgument>
-         <CommandLineArgument
-            argument = "-o 0"
-            isEnabled = "YES">
-         </CommandLineArgument>
-         <CommandLineArgument
-            argument = "-rev 0"
-            isEnabled = "YES">
-         </CommandLineArgument>
-         <CommandLineArgument
-            argument = "-n 1"
+            argument = "-mw"
             isEnabled = "YES">
          </CommandLineArgument>
       </CommandLineArguments>

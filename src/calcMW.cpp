@@ -67,21 +67,6 @@ namespace mwDB{
 		monoMass = num1;
 	}
 	
-	bool AminoAcid::operator < (const AminoAcid& compp) const
-	{
-		return symbol < compp.symbol;
-	}
-	
-	bool AminoAcid::operator > (const AminoAcid& compp) const
-	{
-		return symbol > compp.symbol;
-	}
-	
-	bool AminoAcid::operator == (const AminoAcid& compp) const
-	{
-		return symbol == compp.symbol;
-	}
-	
 	void AminoAcid::operator += (const AminoAcid& mod)
 	{
 		avgMass += mod.avgMass;
@@ -89,16 +74,6 @@ namespace mwDB{
 	}
 	
 	/* #################### MWDB #################### */
-	
-	MWDB::MWDB()
-	{
-		aminoAcidsDB = new binTree::BinTree <AminoAcid>;
-	}
-	
-	MWDB::~MWDB()
-	{
-		delete aminoAcidsDB;
-	}
 	
 	double MWDB::calcMW(string sequence, int avgMono) const
 	{
@@ -124,7 +99,7 @@ namespace mwDB{
 	double MWDB::getMW(string a, int avgMono) const
 	{
 		AminoAcid temp (a, 0, 0);
-		AminoAcid* aaTemp = aminoAcidsDB->search(temp);
+		AminoAcid* aaTemp = aminoAcidsDB->getItem(temp.symbol);
 		
 		if(aaTemp == nullptr)
 			return -1;
@@ -150,7 +125,8 @@ namespace mwDB{
 		
 		do{
 			line = file.getLine_skip_trim();
-			aminoAcidsDB->insert(AminoAcid(line));
+			AminoAcid newAA(line);
+			aminoAcidsDB->insert(newAA, newAA.symbol);
 		} while(!file.end());
 		
 		return true;
@@ -190,7 +166,7 @@ namespace mwDB{
 	
 	bool MWDB::addStaticMod(const AminoAcid& mod)
 	{
-		AminoAcid* aaTemp = aminoAcidsDB->search(mod);
+		AminoAcid* aaTemp = aminoAcidsDB->getItem(mod.symbol);
 		
 		if(aaTemp == nullptr)
 			return false;

@@ -34,7 +34,6 @@ namespace saint{
 			BaitFileData newBaitDat(line);
 			dat->insert(newBaitDat, newBaitDat.getIPname());
 		}
-		
 		return true;
 	}
 	

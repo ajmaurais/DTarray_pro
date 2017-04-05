@@ -33,25 +33,27 @@ using namespace std;
 /*****************************/
 
 bool const INCLUDE_FULL_DESCRIPTION = true;
-string const DEFAULT_COL_NAMES [] = {"Full_description", "ID", "Protein", "Description", "pI", "length(aa)", "Mass(Da)"};
+string const DEFAULT_COL_NAMES [] = {"Full_description", "ID", "Protein", "Description", "pI", "Length(aa)", "Mass(Da)"};
 size_t const DEFAULT_COL_NAMES_LENGTH = 7;
 string const SEQ_NOT_FOUND = "SEQUENCE_NOT_FOUND_IN_DB";
 size_t const PROTEINS_DATA_SIZE = 500;
 size_t const PEPTIDES_DATA_SIZE = 2500;
-string const DEFAULT_COL_NAMES_DB [] = {"Full_description", "ID", "Protein", "Description", "pI", "length(aa)", "Mass(Da)",
+string const DEFAULT_COL_NAMES_DB [] = {"Full_description", "ID", "Protein", "Description", "pI", "Length(aa)", "Mass(Da)",
 	"Long_sample_name", "Spectral_counts"};
 size_t const DEFAULT_COL_NAMES_DB_LENGTH = 9;
 string const PARSE_SAMPLE_NAME_HEADERS [] = {"Sample", "Replicate"};
 size_t const PARSE_SAMPLE_NAME_HEADERS_LEN = 2;
-string const SUP_INFO_HEADERS[] = {"SC", "Unique_pep_SC", "coverage", "sequence_count"};
+string const SUP_INFO_HEADERS[] = {"SC", "Unique_pep_SC", "Coverage", "Sequence_count", "Num_mod_pep", "SC_mod_pep"};
+size_t const SUP_INFO_HEADERS_LEN = 6;
 string const MWCALC_HEADERS [] = {"avg_mass", "monoisotopic_mass", "sequence"};
 size_t const MWCALC_HEADERS_LENGTH = 2;
-string const DEFALUT_PEPTIDE_COLNAMES [] = {"protein_ID", "parent_protein", "protein_description", "sequence", "length(aa)", "unique", "calcMH"};
+string const DEFALUT_PEPTIDE_COLNAMES [] = {"Protein_ID", "Parent_protein", "Protein_description", "Sequence", "Length(aa)", "Unique", "CalcMH"};
 size_t const DEFALUT_PEPTIDE_COLNAMES_LEN = 7;
-string const DEFALUT_PEPTIDE_DB_COLNAMES [] = {"protein_ID", "parent_protein", "protein_description", "sequence", "length(aa)", "unique",
-	"calcMH", "Long_sample_name", "Spectral_counts", "Sample", "Replicate"};
+string const DEFALUT_PEPTIDE_DB_COLNAMES [] = {"Protein_ID", "Parent_protein", "Protein_description", "Sequence", "Length(aa)", "Unique",
+	"CalcMH", "Long_sample_name", "Spectral_counts", "Sample", "Replicate"};
 size_t const DEFALUT_PEPTIDE_DB_COLNAMES_LEN = 9;
 string const REVERSE_MATCH = "Reverse_";
+const char* DIFFMODS = "*";
 
 /**********************/
 /* class definitions */
@@ -65,7 +67,7 @@ class Peptide : public ProteinDataTemplate<SampleData_peptide> {
 	friend class Proteins;
 	friend class Peptides;
 public:
-	Peptide (params::Params * par, mwDB::MWDB* const _mwdb) : ProteinDataTemplate <SampleData_peptide> (par) {
+	Peptide (params::Params* const par, mwDB::MWDB* const _mwdb) : ProteinDataTemplate <SampleData_peptide>(par) {
 		mwdb = _mwdb;
 	}
 	Peptide () : ProteinDataTemplate <SampleData_peptide> () {}
@@ -77,7 +79,7 @@ public:
 	inline void operator = (const Peptide&);
 	
 	//properities
-	inline bool operator == (const Peptide& comp) const {
+	inline bool operator == (const Peptide& comp) const{
 		return comp.key == key;
 	}
 	inline bool operator > (const Peptide& comp) const{
@@ -98,6 +100,7 @@ private:
 	static mwDB::MWDB* mwdb;
 
 	void parsePeptide(const string&);
+	inline void parseSequence(const string&);
 };
 
 mwDB::MWDB* Peptide::mwdb = nullptr;
@@ -143,6 +146,7 @@ private:
 	void writeUnique(ofstream&) const;
 	void writeCoverage(ofstream&) const;
 	void writeSequenceCount(ofstream&) const;
+	void writeModStat(ofstream&) const;
 	
 public:
 	Protein(params::Params* const pars,
@@ -211,6 +215,7 @@ public:
 		delete mwdb;
 		delete seqDB;
 		delete fxnDB;
+		delete baitFile;
 	}
 	
 	bool readInLocDB(string);
@@ -234,6 +239,7 @@ public:
 
 string parseSample(string, string, bool, bool);
 int parsePeptideSC(string);
+int parseModPeptide(string);
 string parseReplicate(string);
 string getID(string);
 inline string parseSequence(string);

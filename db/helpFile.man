@@ -1,57 +1,45 @@
+.ds HOME \V[HOME]
+.ds PROG_WD_HOME \*[HOME]/scripts/DTarray_pro\fR
+.ds PROG_WD_DB \fI\*[PROG_WD_HOME]\fI/db\fR
+.ds FXN_DB_FNAME \fI\*[PROG_WD_DB]\fI/humanFxn.tsv\fR
+.ds LOC_DB_FNAME \fI\*[PROG_WD_DB]\fI/humanLoc.tsv\fR
+.ds SEQ_DB_FNAME \fI\*[PROG_WD_DB]\fI/humanProteome.fasta\fR
+.ds SMOD_FNAME \fIstaticModifications.txt\fR
+.ds FLIST_FNAME \fIdtarray_pro_flist.txt\fR
 .TH "DTarray_pro v1.6" 1 "8 March 2017" "DTarray_pro"
 .SH NAME
 DTarray_pro - Combine DTASelect-filter files.
 .SH SYNOPSIS
-\fBDTarray	[-i, --in \fI<mode>\fP]
-.in +1i
-[-o, --out \fI<output_files>\fP]
-.br
-[-p, --peptides \fI<output_files>\fP]
-.br
-[-g 0 | -g 1 | -g 2]
-.br
-[-n 0 | -n 1]
-.br
-[-saint \fI<bait_file>\fP]
-.br
-[-u, --unique]
-.br
-[-c, --coverage]
-.br
-[-seqC]
-.br
-[-s 0 | -s 1]
-.br
-[-rev 0 | --rev 1]
-.br
-[-loc]
-.br
-[-fxn]
-.br
-[-mw | -mw \fI<fasfa_file>\fP]
-.br
-[-smod]
-.br
-[-seq | -seq \fI<fasfa_file>\fP]
-.br
-[-f | -f \fI<prefix>\fP]
-.br
-[-d, --directory \fI<directory>\fP]
-.br
-[-rw \fI<arg>\fP]
-.br
-[--purge]
-.br
-[-h, --help]
-.in
+.B DTarray
+[\fB-i\fR \fI<mode>\fR]
+[\fB-o\fR \fI<output_files>\fR]
+[\fB-p\fR \fI<output_files>\fR]
+[\fB-g\fR \fI<group_method>\fR]
+[\fB-n\fR \fI<0/1>\fR]
+[\fB-modG\fR \fI<group_method>\fR]
+[\fB-modS\fR]
+[\fB-u\fR]
+[\fB-c\fR]
+[\fB-seqC\fR]
+[\fB-s\fR \fI<output_format>\fR]
+[\fB-saint\fR \fI<bait_file>\fR]
+[\fB-rev \fI<0/1>\fR]
+[\fB-loc\fR]
+[\fB-fxn\fR]
+[\fB-mw\fR | \fB-mw\fR \fI<fasfa_file>\fR]
+[\fB-smod\fR]
+[\fB-seq\fR | \fB-seq\fR \fI<fasfa_file>\fR]
+[\fB-f\fR | \fB-f\fR \fI<prefix>\fR]
+[\fB-d\fR \fI<dir>\fR]
+[\fB-rw\fR \fI<arg>\fP]
+[\fB--purge\fR]
+[\fB-h\fR, \fB--help\fR]
 .SH DESCRIPTION
-DTarray_pro extracts Uniprot ID numbers, molecular weights, and spectral counts from .dtafilter files stored in the working directory. Protein data is combined into one dataset, written to the working directory as a tab delimitated text file. At execution, a file list named \fIdtarray_pro_flist.txt\fR, containing all the valid DTAfilter files found in the working directory, is generated. If a file list already exists, the existing file list is used. Various options are available to, modify how files are treated in the working directory, extract additional data from the DTAfilter files, and to change the output file format.
+DTarray_pro extracts Uniprot ID numbers, molecular weights, and spectral counts from .dtafilter files stored in the working directory. Protein data is combined into one dataset, written to the working directory as a tab delimitated text file. At execution, a file list named \*[FLIST_FNAME], containing all the valid DTAfilter files found in the working directory, is generated. If a file list already exists, the existing file list is used. Various options are available to, modify how files are treated in the working directory, extract additional data from the DTAfilter files, and to change the output file format.
 .SH OPTIONS
 .TP
 Command line options are processed from left to right. Options can be specified more than once. If conflicting options are specified, later specifications override earlier ones.
-.TP
-\fB-h, --help\fR
-Display this help file.
+.SS INPUT/OUTPUT OPTIONS
 .TP
 \fB-i, --in\fI <mode>\fP
 Specify which input mode is used. \fBstandard\fR is the default.\fP
@@ -122,13 +110,66 @@ Use long output format.
 Generate both wide and long output files.
 .in
 .TP
+\fB-saint\fI <bait_file>\fR
+Generate input files for saintExpress. \fI<bait_file>\fP should be a text file with three columns separated by tabs: IP name (or sample name), bait name, and T if sample is test or C if sample is control. Two files are generated in working dirrectory: interaction_file.txt and prey_file.txt.
+.TP
+\fB-d, --dir\fI <dir>\fP
+Specify parent directory from which to run program. By default, the current working directory is used.
+
+.SS RUN SPECIFIC SUPPLEMENTARY INFORMATION
+.TP
+\fB-u, --unique\fP
+Include spectral counts for unique peptides in output file.
+.TP
+\fB-modS\fR
+Include information about number of modified peptides found for each protein. Columns for number and spectral counts for modified peptides will be included in protein output files.
+.TP
+\fB-c, --coverage\fP
+Include sequence coverage for proteins in output file.
+.TP
+\fB-seqC\fP
+Include sequence count for proteins in output file.
+.TP
+\fB-s\fP
+Specify how to group sup info columns in output file. \fB0\fR is the default. One or more run specific sup info options must be specified to use this option.
+.TP
+.in +0.75i
+\fB0\fR
+.in +0.75i
+Group columns by sample.
+.in
+.TP
+.in +0.75i
+\fB1\fR
+.in +0.75i
+Group columns by observation.
+.in
+
+.SS PROTEIN SPECIFIC SUPPLEMENTARY INFORMATION
+.TP
+\fB-loc\fP
+Use \*[LOC_DB_FNAME] to lookup subcelluar localization information for proteins in output file. humanLoc.tsv contains Uniprot annotations for subcelluar localization by Uniprot ID, updated as of Jan 18 2016. Currently, sub cell location information is available for human proteins only.
+.TP
+\fB-fxn\fP
+Use \*[FXN_DB_FNAME] to include panther category for proteins in output file.
+.TP
+\fB-seq\fR
+Use sequence information in \*[SEQ_DB_FNAME], to include protein sequences in output file.
+.TP
+.in +0.75i
+\fI<fafsa_file>
+.in +0.75i
+The user can optionally specify a fafsa formatted file to lookup protein sequences. The \fI<fasfa_file>\fR used to calculate protein molecular weights does not have to be the same as the \fI<fasfa_file>\fR used to search for protein sequences.
+.in
+
+.SS PEPTIDE FILE OPTIONS
 \fB-g, --group\fP
 Specify how peptides are grouped in peptide output files. \fB1\fR is the default.
 .TP
 .in +0.75i
 \fB0\fR
 .in +0.75i
-Do not group peptides. In this format, each peptide will be output on a separate line in a long formatted peptide output file. Only long format is supported for this group method.  
+Do not group peptides. In this format, each peptide will be output on a separate line in a long formatted peptide output file. Columns with information specific to each scan, i.e. obsMH, parent file, and scan, are included in output file. Only long output format is supported for this group method. 
 .in
 .TP
 .in +0.75i
@@ -138,7 +179,22 @@ Group peptides by parent protein. A separate entry for each charge state of a gi
 .in
 \fB2\fR
 .in +0.75i
-Group peptides by parent protein and charge. Peptides found in multiple charge states will be grouped in output files. Information specific to each scan, i.e. obsMH, parent file, and scan, are not available with this group method. 
+Group peptides by parent protein and charge. Peptides found in multiple charge states will be grouped in output files. 
+.in
+.TP
+\fB-modG\fR
+Specify how to group modified peptides in peptide output files. \fB0\fR is the default.
+.TP
+.in +0.75i
+\fB0\fR
+.in +0.75i
+Peptides with the same sequence, but different modification status will not be grouped. A separate entry will be included for each modification status found for a peptide.
+.in
+.TP
+.in +0.75i
+\fB1\fR
+.in +0.75i
+Ignore modification status when grouping peptides.
 .in
 .TP
 \fB-n, --nullp\fR
@@ -154,33 +210,29 @@ Do not include peptides with 0 spectral counts in output file.
 \fB1\fR 
 .in +0.75i
 Include peptides with 0 spectral counts in output file.
-.in 
+.in
+
+.SS PROTEIN AND PEPTIDE COMPATABLE OPTIONS
 .TP
-\fB-saint\fI <bait_file>\fR
-Generate input files for saintExpress. \fI<bait_file>\fP should be a text file with three columns separated by tabs: IP name (or sample name), bait name, and T if sample is test or C if sample is control. Two files are generated in working dirrectory: interaction_file.txt and prey_file.txt.
-.TP
-\fB-u, --unique\fP
-Include spectral counts for unique peptides in output file.
-.TP
-\fB-c, --coverage\fP
-Include sequence coverage for proteins in output file.
-.TP
-\fB-seqC\fP
-Include sequence count for proteins in output file.
-.TP
-\fB-s\fP
-Specify how to format unique and coverage columns in output file. \fB0\fR is the default. Either \fB-c\fR and/or \fB-u\fR and/or \fB--seqC\fR options must be specified to use this option.
+\fB-mw
+Calculate protein/peptide molecular weights taking into account static modifications. Static modification information is specified in \*[SMOD_FNAME] file in working directory. A blank \*[SMOD_FNAME] file will be generated on runtime and can then be edited by the user. Protein sequence information is stored in a fasfa formatted file. The default sequence file is \*[SEQ_DB_FNAME].
 .TP
 .in +0.75i
-\fB0\fR
+\fI<fafsa_file>
 .in +0.75i
-Group columns by sample.
+The user can optionally specify a fafsa formatted file to lookup protein sequences.
 .in
 .TP
+\fB-smod\fR
+Copy default smod file to working directory and exit program.
+.TP
+\fB-f\fR
+Include columns for sample name and replicate number in long protein and peptide output files. The value for replicate number is taken as: <number> where the sample name is in the format \fI<sample name>_<number>\fR.
+.TP
 .in +0.75i
-\fB1\fR
+\fI<prefix>\fP
 .in +0.75i
-Group columns by observation.
+Remove \fI<prefix>\fR from all sample names. If \fI<prefix>\fR is not found in sample name, name is unchanged. In long output format, columns will be included for long sample name, short sample name and replicate number. 
 .in
 .TP
 \fB-rev\fR
@@ -197,45 +249,9 @@ Do not include reverse matches.
 .in +0.75i
 Include reverse matches.
 .in
-.TP
-\fB-loc\fP
-Use \fIhumanLoc.tsv\fR in \fI$PROGRAM_HOME_DIR/db/\fR to include subcelluar localization information for proteins in output file. humanLoc.tsv contains Uniprot annotations for subcelluar localization by Uniprot ID, updated as of Jan 18 2016. Currently, sub cell location information is available for human proteins only.
-.TP
-\fB-fxn\fP
-Use \fIhumanFxn.txt\fR in \fI$PROGRAM_HOME_DIR/db/\fR to include panther category for proteins in output file.
-.TP
-\fB-mw
-Calculate protein molecular weights taking into account static modifications. Static modification information is specified in \fIstaticModifications.txt\fR file in working directory. A blank \fIstaticModifications.txt\fR file will be generated on runtime and can then be edited by the user. Protein sequence information is stored in a fasfa formatted file. The default sequence file is \fIhumanProteome.fasta\fP and is stored in \fI$PROGRAM_HOME_DIR/db/\fR.  
-.TP
-.in +0.75i
-\fI<fafsa_file>
-.in +0.75i
-The user can optionally specify a fafsa formatted file to lookup protein sequences.
-.in
-.TP
-\fB-smod\fR
-Copy default smod file to working directory and exit program.
-.TP
-\fB-seq\fR
-Use sequence information in \fI$PROGRAM_HOME_DIR/db/humanProteome.fasta\fR, to include protein sequences in output file.
-.TP
-.in +0.75i
-\fI<fafsa_file>
-.in +0.75i
-The user can optionally specify a fafsa formatted file to lookup protein sequences. The \fI<fasfa_file>\fR used to calculate protein molecular weights does not have to be the same as the \fI<fasfa_file>\fR used to search for protein sequences.
-.in
-.TP
-\fB-d, --dir\fI <file>\fP
-Specify parent directory from which to run program. By default, the current working directory is used.
-.TP
-\fB-f\fR
-Include columns for sample name and replicate number in long protein and peptide output files. The value for replicate number is taken as: <number> where the sample name is in the format \fI<sample name>_<number>\fR.
-.TP
-.in +0.75i
-\fI<prefix>\fP
-.in +0.75i
-Remove \fI<prefix>\fR from all sample names. If \fI<prefix>\fR is not found in sample name, name is unchanged. In long output format, columns will be included for long sample name, short sample name and replicate number. 
-.in
+
+
+.SS OTHER
 .TP
 \fB-rw \fI<arg>\fP
 Rewrite existing param files in working directory.
@@ -253,7 +269,14 @@ Rewrite static modifications file. See \fB-mw\fR for details on smod file.
 .in
 .TP
 \fB--purge\fP
-Remove file list, params file, static modifications file, and all DTarray output files from current working directory and exit program. Only files with default names will be removed. 
+Remove file list, static modifications file, and all DTarray output files from current working directory and exit program. Only files with default names will be removed.
+.TP
+\fB-v, --version\fR
+Print binary version number and exit program.
+.TP
+\fB-h, --help\fR
+Display this help file.
+
 .SH EXAMPLES
 .TP
 \fBDTarray\fP

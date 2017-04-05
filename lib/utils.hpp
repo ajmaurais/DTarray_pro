@@ -122,12 +122,13 @@ namespace utils {
 	inline bool strContains(char, string);
 	inline bool startsWith(string whithinStr, string findStr);
 	inline bool endsWith(string whithinStr, string findStr);
-	inline void split (const string, const char, vector<string> &);
+	inline void split (const string&, const char, vector<string>&);
 	inline string trimTraling(const string&);
 	inline string trimLeading(const string&);
 	inline string trim(const string&);
 	bool isCommentLine(string);
 	inline string removeSubstr(string, string);
+	inline string removeChars(char, string);
 	string toLower(string);
 	string repeat(string, size_t);
 	inline void getLineTrim(istream& is, string& line, char delim = DEFAULT_LINE_DELIM, size_t beginLine = DEFAULT_BEGIN_LINE);

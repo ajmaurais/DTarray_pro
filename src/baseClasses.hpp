@@ -109,20 +109,20 @@ template <class _Tp> size_t DBTemplate<_Tp>::colIndex = 0;
 class SampleData{
 public:
 	string colname;
-	unsigned int count;
-	string uniquePeptides;
+	int count;
+	int uniquePeptides;
 	
 	//constructor
 	SampleData (string _colName)
 	{
 		colname = _colName;
 		count = 0;
-		uniquePeptides = "0";
+		uniquePeptides = 0;
 	}
 	SampleData(){
 		colname = BLANK_STR;
 		count = 0;
-		uniquePeptides = "0";
+		uniquePeptides = 0;
 	}
 	~SampleData() {}
 	
@@ -152,14 +152,21 @@ public:
 class SampleData_protein : public SampleData {
 public:
 	string coverage, sequenceCount;
+	unsigned int modPeptides, modPeptidesSC;
 	
 	SampleData_protein(string colName) : SampleData(colName){
+		
 		coverage = "0";
 		sequenceCount = "0";
+		modPeptides = 0;
+		modPeptidesSC = 0;
+		
 	}
 	SampleData_protein() : SampleData(){
 		coverage = "0";
 		sequenceCount = "0";
+		modPeptides = 0;
+		modPeptidesSC = 0;
 	}
 	~SampleData_protein() {}
 };

@@ -27,8 +27,7 @@
 		930E31C51DCD39640001BB21 /* dbase.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = dbase.hpp; path = src/dbase.hpp; sourceTree = "<group>"; };
 		930E31C61DCD3AC50001BB21 /* baseClasses.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = baseClasses.hpp; path = src/baseClasses.hpp; sourceTree = "<group>"; };
 		9355406D1D7E3D57008C847D /* calcMW.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = calcMW.cpp; path = src/calcMW.cpp; sourceTree = "<group>"; };
-		935749811D833F2D00ED60BF /* BinTree.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = BinTree.cpp; path = lib/BinTree.cpp; sourceTree = "<group>"; };
-		935749821D833F2D00ED60BF /* BinTree.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = BinTree.hpp; path = lib/BinTree.hpp; sourceTree = "<group>"; };
+		9355E44B1E940CA10027785C /* gitVersion.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = gitVersion.hpp; path = src/gitVersion.hpp; sourceTree = "<group>"; };
 		935749831D83521B00ED60BF /* hashTable.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = hashTable.hpp; path = lib/hashTable.hpp; sourceTree = "<group>"; };
 		935D3A0C1D5954F000171E6A /* dtafilter.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = dtafilter.hpp; path = src/dtafilter.hpp; sourceTree = "<group>"; };
 		938468E51E1ABE6200B96854 /* DTarray_pro.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = DTarray_pro.hpp; path = src/DTarray_pro.hpp; sourceTree = "<group>"; };
@@ -77,13 +76,12 @@
 			children = (
 				93C94ED11CF3A8580003D4E5 /* main.cpp */,
 				938468E51E1ABE6200B96854 /* DTarray_pro.hpp */,
+				9355E44B1E940CA10027785C /* gitVersion.hpp */,
 				935D3A0C1D5954F000171E6A /* dtafilter.hpp */,
 				93CAE4701D3EEC9800BDE765 /* dtafilter.cpp */,
 				93FC02651E270377005D2E6C /* saintOutput.cpp */,
 				93FC02661E270377005D2E6C /* saintOutput.hpp */,
 				930E31C61DCD3AC50001BB21 /* baseClasses.hpp */,
-				935749821D833F2D00ED60BF /* BinTree.hpp */,
-				935749811D833F2D00ED60BF /* BinTree.cpp */,
 				935749831D83521B00ED60BF /* hashTable.hpp */,
 				9309A5A71D806F6700C404ED /* hashTable.cpp */,
 				93E331A91DC3EF5B002EF248 /* calcMW.hpp */,

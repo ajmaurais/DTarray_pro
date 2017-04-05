@@ -84,7 +84,7 @@ namespace params{
 				}
 				if(!(!strcmp(argv[i], "0") || !strcmp(argv[i], "1") || !strcmp(argv[i], "2") || !strcmp(argv[i], "3")))
 				{
-					cout << argv[i] << PARAM_ERROR_MESSAGE << "outputFormat" << endl;
+					cerr << argv[i] << PARAM_ERROR_MESSAGE << "outputFormat" << endl;
 					return false;
 				}
 				outputFormat = intToOutputFormat(utils::toInt(argv[i]));
@@ -102,7 +102,7 @@ namespace params{
 				wd = utils::absPath(argv[i]);
 				if(!utils::dirExists(wd))
 				{
-					cout << "Specified direectory does not exist." << endl;
+					cerr << "Specified direectory does not exist." << endl;
 					return false;
 				}
 				continue;
@@ -119,7 +119,7 @@ namespace params{
 				else if(!strcmp(argv[i], "smod"))
 					rewriteSmod = true;
 				else{
-					cout << argv[i] << PARAM_ERROR_MESSAGE << "outputFormat" << endl;
+					cerr << argv[i] << PARAM_ERROR_MESSAGE << "rewrite" << endl;
 					return false;
 				}
 				continue;
@@ -160,7 +160,7 @@ namespace params{
 			if(!strcmp(argv[i], "-smod"))
 			{
 				if(!writeSmod(wd))
-					cout << "Could not write new smod file!" << endl;
+					cerr << "Could not write new smod file!" << endl;
 				return false;
 			}
 			if(!strcmp(argv[i], "-p") || !strcmp(argv[i], "--peptides"))
@@ -172,7 +172,7 @@ namespace params{
 				}
 				if(!(!strcmp(argv[i], "0") || !strcmp(argv[i], "1") || !strcmp(argv[i], "2") || !strcmp(argv[i], "3")))
 				{
-					cout << argv[i] << PARAM_ERROR_MESSAGE << "peptideOutput" << endl;
+					cerr << argv[i] << PARAM_ERROR_MESSAGE << "peptideOutput" << endl;
 					return false;
 				}
 				peptideOutput = intToOutputFormat(utils::toInt(argv[i]));
@@ -188,10 +188,31 @@ namespace params{
 				}
 				if(!(!strcmp(argv[i], "0") || !strcmp(argv[i], "1") || !strcmp(argv[i], "2")))
 				{
-					cout << argv[i] << PARAM_ERROR_MESSAGE << "peptideGroupMethod" << endl;
+					cerr << argv[i] << PARAM_ERROR_MESSAGE << "peptideGroupMethod" << endl;
 					return false;
 				}
 				peptideGroupMethod = intToGroupFormat(utils::toInt(argv[i]));
+				continue;
+			}
+			if(!strcmp(argv[i], "-modG"))
+			{
+				if(!utils::isArg(argv[++i]))
+				{
+					usage();
+					return false;
+				}
+				if(!(!strcmp(argv[i], "0") || !strcmp(argv[i], "1")))
+				{
+					cerr << argv[i] << PARAM_ERROR_MESSAGE << "modGroupMethod" << endl;
+					return false;
+				}
+				modGroupMethod = utils::toInt(argv[i]);
+				continue;
+			}
+			if(!strcmp(argv[i], "-modS"))
+			{
+				includeModStat = true;
+				supInfoNum += 2;
 				continue;
 			}
 			if(!strcmp(argv[i], "-u"))
@@ -221,7 +242,7 @@ namespace params{
 				}
 				if(!(!strcmp(argv[i], "0") || !strcmp(argv[i], "1")))
 				{
-					cout << argv[i] << PARAM_ERROR_MESSAGE << "supInfoOutput" << endl;
+					cerr << argv[i] << PARAM_ERROR_MESSAGE << "supInfoOutput" << endl;
 					return false;
 				}
 				supInfoOutput = utils::toInt(argv[i]);
@@ -257,7 +278,7 @@ namespace params{
 				}
 				if(!(!strcmp(argv[i], "0") || !strcmp(argv[i], "1")))
 				{
-					cout << argv[i] << PARAM_ERROR_MESSAGE << "includeReverse" << endl;
+					cerr << argv[i] << PARAM_ERROR_MESSAGE << "includeReverse" << endl;
 					return false;
 				}
 				includeReverse = utils::toInt(argv[i]);
@@ -277,6 +298,13 @@ namespace params{
 				else throw runtime_error("bad opts!");
 				continue;
 			}
+			if(!strcmp(argv[i], "-v") || !strcmp(argv[i], "--version"))
+			{
+				cerr << "DTarray_pro " << BIN_VERSION_NUM << endl;
+				cerr << "Last git commit: " << GIT_DATE << endl;
+				cerr << "git revision: " << GIT_COMMIT << endl;
+				return false;
+			}
 			if(!strcmp(argv[i], "--purge"))
 			{
 				purgeDir(wd);
@@ -284,16 +312,16 @@ namespace params{
 			}
 			if(!strcmp(argv[i], "--pswd"))
 			{
-				cout << SCRIPT_WD_HOME << endl;
+				cerr << PROG_WD_HOME << endl;
 				return false;
 			}
 			if(!strcmp(argv[i], "--oswd"))
 			{
-				utils::systemCommand("open " + SCRIPT_WD_HOME);
+				utils::systemCommand("open " + PROG_WD_HOME);
 				return false;
 			}
 			else{
-				cout << argv[i] << INVALID_ARG << endl;
+				cerr << argv[i] << INVALID_ARG << endl;
 				usage();
 				return false;
 			}
@@ -318,8 +346,8 @@ namespace params{
 			return false;
 		
 		if(wdSpecified)
-			cout << "Generating " << _wd << DEFAULT_SMOD_NAME << endl;
-		else cout << "Generating ./" << DEFAULT_SMOD_NAME << endl;
+			cerr << "Generating " << _wd << DEFAULT_SMOD_NAME << endl;
+		else cerr << "Generating ./" << DEFAULT_SMOD_NAME << endl;
 		
 		outF << utils::COMMENT_SYMBOL << " Static modifications for DTarray_pro" << endl
 		<< utils::COMMENT_SYMBOL << " File generated on: " << utils::ascTime() << endl
@@ -336,9 +364,11 @@ namespace params{
 	void Params::usage() const
 	{
 		utils::systemCommand("cat " + USAGE_FNAME);
-		cout << endl;
+		cerr << endl;
 	}
 	
+	//removes all DTarray_pro generated files with default flie names in
+	//working dirrectory
 	void Params::purgeDir(string _wd) const
 	{
 		if(utils::dirExists(_wd))
@@ -351,16 +381,18 @@ namespace params{
 				SAINT_PREY_FILE, SAINT_INTERACTION_FILE};
 			
 			for(string* p = utils::begin(deleteFiles); p != utils::end(deleteFiles); ++p)
+			{
 				if(utils::fileExists(_wd + *p))
 				{
 					if(wdSpecified)
-						cout << "Removed " << _wd << *p << endl;
-					else cout << "Removed ./" << *p << endl;
+						cerr << "Removed " << _wd << *p << endl;
+					else cerr << "Removed ./" << *p << endl;
 					utils::systemCommand("rm -f " + _wd + *p);
 				}
+			}
 		}
 		else{
-			cout << "Dir does not exist!" << endl;
+			cerr << "Dir does not exist!" << endl;
 		}
 	}
 	
@@ -374,7 +406,7 @@ namespace params{
 		
 		outF << utils::COMMENT_SYMBOL << "File list for DTarray_pro" << endl
 		<< utils::COMMENT_SYMBOL << "File List generated on: " << utils::ascTime() << endl;
-		outF << "\n<versionNum>" << BIN_VERSION_NUM << "</versionNum>\n<flist>\n\n";
+		outF << endl << VNUM_STR << BIN_VERSION_NUM << END_VNUM_STR << "\n<flist>\n\n";
 		
 		if(inputFormat == "standard")
 			return writeStdFlist(outF);
@@ -389,7 +421,7 @@ namespace params{
 		vector<string> filterFiles;
 		if(!utils::ls(wd.c_str(), filterFiles, DTAFILTER_EXT))
 		{
-			cout << "\nDTA-filter files could not be found in the specified directory! Exiting..." << endl;
+			cerr << "\nDTA-filter files could not be found in the specified directory! Exiting..." << endl;
 			return false;
 		}
 		
@@ -439,14 +471,18 @@ namespace params{
 
 		numFiles = 0;
 		string line;
-		string versionNumStr = "<versionNum>";
 		
 		do{
 			line = data.getLine_skip_trim();
-			if(line.substr(0, versionNumStr.length()) == versionNumStr)
+			if(line.substr(0, VNUM_STR.length()) == VNUM_STR) //check line begins with VNUM_STR
 			{
 				versionNum = parseVersionNum(line);
-				assert(MIN_BIN_VERSION_NUM <= utils::toDouble(versionNum));
+				if(!(MIN_BIN_VERSION_NUM <= utils::toDouble(versionNum)))
+				{
+					cerr << "File list was generated under binary version: " << versionNum
+						<< endl << "Min flist version is: " << MIN_BIN_VERSION_NUM << endl;
+					return false;
+				}
 				continue;
 			}
 			if(line == "<flist>")
@@ -469,16 +505,13 @@ namespace params{
 	
 	string Params::parseVersionNum(string line) const
 	{
-		string versionNumStr = "<versionNum>";
-		string endVersionNumStr = "</versionNum>";
-		
-		size_t before = line.find(versionNumStr);
-		size_t end = line.find(endVersionNumStr);
+		size_t before = line.find(VNUM_STR);
+		size_t end = line.find(END_VNUM_STR);
 		if(end == string::npos || before != 0)
 			return "-1";
 		
-		size_t len = line.length() - (versionNumStr.length() + endVersionNumStr.length());
-		string mid = line.substr(before + versionNumStr.length(), len);
+		size_t len = line.length() - (VNUM_STR.length() + END_VNUM_STR.length());
+		string mid = line.substr(before + VNUM_STR.length(), len);
 		
 		return mid;
 	}
@@ -487,21 +520,21 @@ namespace params{
 	{
 		bool good = true;
 		assert(MIN_BIN_VERSION_NUM <= utils::toDouble(versionNum));
-		if(BIN_VERSION_NUM != versionNum)
-		{
-			cout << "DTarray_pro cpp binary file was compiled from version: " << BIN_VERSION_NUM << endl;
-			cout << "DTarray_pro.sh is version: " << versionNum << endl;
-			cout << "Version incompatability may cause unpredictable behavior.\n\n";
-		}
 		if(peptideGroupMethod == byScan && ((peptideOutput == wideFormat) || (peptideOutput == both)))
 		{
-			cout << endl << "groupPeptides and peptideOutput options are incompatable!" << endl
+			cerr << endl << "peptideGroupMethod and peptideOutput options are incompatable!" << endl
+				<< "Use DTarray -h for more info." << endl << endl;
+			good = false;
+		}
+		if(modGroupMethod == 1 && (peptideGroupMethod == byScan || peptideOutput == none))
+		{
+			cerr << endl << "modGroupMethod and peptide output options are incompatable!" << endl
 				<< "Use DTarray -h for more info." << endl << endl;
 			good = false;
 		}
 		if(supInfoOutput == 1 && supInfoNum <= 0)
 		{
-			cout << endl <<"Non zero supInfoOutput with zero supInfoNum." << endl
+			cerr << endl <<"Non zero supInfoOutput with zero supInfoNum." << endl
 				<< "Use DTarray -h for more info." << endl << endl;
 			good = false;
 		}

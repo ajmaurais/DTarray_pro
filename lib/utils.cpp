@@ -158,7 +158,7 @@ namespace utils{
 	//returns dirrectory from which program is run
 	string pwd()
 	{
-		char temp[PATH_MAX];
+		char temp[PATH_MAX + 1];
 		return (getcwd(temp, PATH_MAX) ? string(temp) : string(""));
 	}
 	
@@ -182,7 +182,7 @@ namespace utils{
 		DIR* dirFile = opendir(path);
 		if (!dirFile)
 			return false;
-		else {
+		else{
 			struct dirent* hFile;
 			while((hFile = readdir(dirFile)))
 			{
@@ -220,7 +220,7 @@ namespace utils{
 	{
 		system(command.c_str());
 	}
-		   
+	
 	//make dir.
 	//returns true if sucessful
 	bool mkdir(const char* path)
@@ -251,7 +251,7 @@ namespace utils{
 	/*  type conversions */
 	/*********************/
 	
-	//converts int to string because to_string does not work with stl 98
+	//converts num to string because to_string does not work with stl 98
 	template <typename _Tp>
 	inline string toString(_Tp num)
 	{
@@ -344,13 +344,11 @@ namespace utils{
 		if(pos == string::npos)
 			return false;
 		
-		string test = whithinStr.substr(pos);
-		
 		return (whithinStr.substr(pos) == findStr);
 	}
 	
 	//split str by delim and populate each split into elems
-	inline void split (const string str, const char delim, vector<string> & elems)
+	inline void split (const string& str, const char delim, vector<string>& elems)
 	{
 		elems.clear();
 		stringstream ss (str);
@@ -418,6 +416,12 @@ namespace utils{
 		return whithinStr;
 	}
 	
+	inline string removeChars(char findChar, string wStr)
+	{
+		wStr.erase(remove(wStr.begin(), wStr.end(), findChar), wStr.end());
+		return wStr;
+	}
+	
 	string toLower(string str)
 	{
 		transform(str.begin(), str.end(), str.begin(), ::tolower);
@@ -461,4 +465,3 @@ namespace utils{
 		return(string(curTime));
 	}
 }
-
