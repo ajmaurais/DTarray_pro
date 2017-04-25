@@ -10,7 +10,7 @@
 
 using namespace std;
 
-int main (int argc, char* argv[])
+int main(int argc, char* argv[])
 {	
 	//read in names of files to combine and output params
 	params::Params par;
@@ -67,7 +67,7 @@ int main (int argc, char* argv[])
 		}
 		cerr << " done!" << endl;
 	}
-	//read in subcellular locations database and add sub cell locations to proteins
+	//read in fxn database and add fxn to proteins
 	if(par.getFxn)
 	{
 		cerr << endl << "Reading protein function database...";

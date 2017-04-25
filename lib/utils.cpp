@@ -38,6 +38,7 @@ namespace utils{
 				beginLine = 1;
 			else beginLine = 0;
 				free(buffer);
+			slen = ss.str().length();
 			return true;
 		}
 		else {

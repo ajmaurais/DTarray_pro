@@ -63,36 +63,15 @@
       </BuildableProductRunnable>
       <CommandLineArguments>
          <CommandLineArgument
-            argument = "-d /Users/Aaron/Google_Drive/School_Work/Mass_spec_data/BioID/H3A_test/data/"
+            argument = "-d /Users/Aaron/Google_Drive/School_Work/Mass_spec_data/Thompson_lab_samples/BB-F_and_BB-Cl/data/"
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "-u"
-            isEnabled = "YES">
-         </CommandLineArgument>
-         <CommandLineArgument
-            argument = "-modS"
-            isEnabled = "YES">
-         </CommandLineArgument>
-         <CommandLineArgument
-            argument = "-c"
-            isEnabled = "YES">
-         </CommandLineArgument>
-         <CommandLineArgument
-            argument = "-seqC"
-            isEnabled = "YES">
-         </CommandLineArgument>
-         <CommandLineArgument
-            argument = "-s 1"
-            isEnabled = "YES">
-         </CommandLineArgument>
-         <CommandLineArgument
-            argument = "-p 3"
             isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "-mw"
-            isEnabled = "YES">
+            argument = "-saint /Users/Aaron/Google_Drive/School_Work/Mass_spec_data/Thompson_lab_samples/BioID/PAD2_BioID/filterFiles/baitFile.txt"
+            isEnabled = "NO">
          </CommandLineArgument>
       </CommandLineArguments>
       <AdditionalOptions>

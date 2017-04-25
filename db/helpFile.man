@@ -26,26 +26,26 @@ DTarray_pro - Combine DTASelect-filter files.
 [\fB-rev \fI<0/1>\fR]
 [\fB-loc\fR]
 [\fB-fxn\fR]
-[\fB-mw\fR | \fB-mw\fR \fI<fasfa_file>\fR]
+[\fB-mw\fR [\fI<fasfa_file>\fR]]
 [\fB-smod\fR]
-[\fB-seq\fR | \fB-seq\fR \fI<fasfa_file>\fR]
-[\fB-f\fR | \fB-f\fR \fI<prefix>\fR]
+[\fB-seq\fR [\fI<fasfa_file>\fR]]
+[\fB-f\fR [\fI<prefix>\fR]]
 [\fB-d\fR \fI<dir>\fR]
 [\fB-rw\fR \fI<arg>\fP]
 [\fB--purge\fR]
 [\fB-h\fR, \fB--help\fR]
 .SH DESCRIPTION
-DTarray_pro extracts Uniprot ID numbers, molecular weights, and spectral counts from .dtafilter files stored in the working directory. Protein data is combined into one dataset, written to the working directory as a tab delimitated text file. At execution, a file list named \*[FLIST_FNAME], containing all the valid DTAfilter files found in the working directory, is generated. If a file list already exists, the existing file list is used. Various options are available to, modify how files are treated in the working directory, extract additional data from the DTAfilter files, and to change the output file format.
+DTarray_pro extracts Uniprot ID numbers, molecular weights, and spectral counts from .dtafilter files stored in the working directory. Protein data is combined into one dataset and written to the working directory as a tab delimitated text file (.tsv). At runtime, a file list named \*[FLIST_FNAME], containing all the valid DTAfilter files found in the working directory, is generated. If a file list already exists, the existing file list is used. Various options are available to, modify how files are treated in the working directory, extract additional data from the DTAfilter files, and to change the output file format.
 .SH OPTIONS
 .TP
 Command line options are processed from left to right. Options can be specified more than once. If conflicting options are specified, later specifications override earlier ones.
 .SS INPUT/OUTPUT OPTIONS
 .TP
 \fB-i, --in\fI <mode>\fP
-Specify which input mode is used. \fBstandard\fR is the default.\fP
+Specify which input mode is used. \fBstd\fR is the default.\fP
 .TP
 .in +0.75i
-\fBstandard\fR
+\fBstd\fR
 .in +0.75i
 Read in DTASelect-filter files stored in a common directory with the name \fI<sample_name>\fR.dtafilter
 .in
@@ -124,13 +124,13 @@ Include spectral counts for unique peptides in output file.
 \fB-modS\fR
 Include information about number of modified peptides found for each protein. Columns for number and spectral counts for modified peptides will be included in protein output files.
 .TP
-\fB-c, --coverage\fP
-Include sequence coverage for proteins in output file.
+\fB-c, --coverage\fR
+Include percent sequence coverage for proteins in output file.
 .TP
-\fB-seqC\fP
+\fB-seqC\fR
 Include sequence count for proteins in output file.
 .TP
-\fB-s\fP
+\fB-s\fR
 Specify how to group sup info columns in output file. \fB0\fR is the default. One or more run specific sup info options must be specified to use this option.
 .TP
 .in +0.75i
@@ -227,7 +227,7 @@ The user can optionally specify a fafsa formatted file to lookup protein sequenc
 Copy default smod file to working directory and exit program.
 .TP
 \fB-f\fR
-Include columns for sample name and replicate number in long protein and peptide output files. The value for replicate number is taken as: <number> where the sample name is in the format \fI<sample name>_<number>\fR.
+Include columns for sample name and replicate number in long protein and peptide output files. The value for replicate number is taken as: <number> where the sample name is in the format <sample name>_<number>.
 .TP
 .in +0.75i
 \fI<prefix>\fP
@@ -279,13 +279,13 @@ Display this help file.
 
 .SH EXAMPLES
 .TP
-\fBDTarray\fP
+\fBDTarray\fR
 Run \fRDTarray\fR using default parameters.
 .TP
-\fBDTarray -i \fRsubdir\fP
-Run \fBDTarray\fR in working directory reading DTASelect-filter files in subdir format.
+\fBDTarray -p 2\fR
+Run \fBDTarray\fR, generating wide formatted protein and peptide output files.  
 .TP
-\fBDTarray -mw \fI<file>\fP
-Combine filter files with \fBDTarray\fR then use static modifications file and sequence file to calculate the molecular weights of proteins in dataset.
+\fBDTarray -u -s 1\fR
+Run \fBDTarray\fR and include spectral counts for unique peptides in output file (\fB-u\fR), grouping columns by spectral counts then unique peptide spectral counts (\fB-s 1\fR).
 .SH AUTHOR
 DTarray_pro was written by Aaron Maurais. Email questions or bugs to: aaron.maurais@.bc.edu

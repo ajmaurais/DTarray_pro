@@ -151,7 +151,7 @@ namespace params{
 			wd = "";
 			flistName = DEFAULT_FLIST_NAME;
 			versionNum = "";
-			inputFormat = "standard";
+			inputFormat = "std";
 			numFiles = 0;
 			sampleNamePrefix = "";
 			parseSampleName = false;

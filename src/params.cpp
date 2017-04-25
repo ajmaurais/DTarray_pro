@@ -346,8 +346,8 @@ namespace params{
 			return false;
 		
 		if(wdSpecified)
-			cerr << "Generating " << _wd << DEFAULT_SMOD_NAME << endl;
-		else cerr << "Generating ./" << DEFAULT_SMOD_NAME << endl;
+			cerr << endl << "Generating " << _wd << DEFAULT_SMOD_NAME << endl;
+		else cerr << endl <<"Generating ./" << DEFAULT_SMOD_NAME << endl;
 		
 		outF << utils::COMMENT_SYMBOL << " Static modifications for DTarray_pro" << endl
 		<< utils::COMMENT_SYMBOL << " File generated on: " << utils::ascTime() << endl
@@ -408,7 +408,7 @@ namespace params{
 		<< utils::COMMENT_SYMBOL << "File List generated on: " << utils::ascTime() << endl;
 		outF << endl << VNUM_STR << BIN_VERSION_NUM << END_VNUM_STR << "\n<flist>\n\n";
 		
-		if(inputFormat == "standard")
+		if(inputFormat == "std")
 			return writeStdFlist(outF);
 		else if(inputFormat == "subdir")
 			return writeSubdirFlist(outF);
@@ -426,7 +426,7 @@ namespace params{
 		}
 		
 		for(vector<string>::iterator it = filterFiles.begin(); it != filterFiles.end(); ++it)
-			outF << (*it).substr(0, (*it).length() - DTAFILTER_EXT.length()) << OUT_DELIM << *it << endl;
+			outF << '\t' << (*it).substr(0, (*it).length() - DTAFILTER_EXT.length()) << OUT_DELIM << *it << endl;
 		
 		outF << "\n</flist>\n";
 		

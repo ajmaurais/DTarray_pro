@@ -38,7 +38,7 @@ namespace saint{
 	}
 	
 	string BaitFile::getBaitName(string _key) const
-	{
+	{	
 		BaitFileData* item = dat->getItem(_key);
 		if(item == nullptr)
 			return "BAIT_NOT_FOUND";

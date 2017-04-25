@@ -12,8 +12,11 @@ void Protein::consolidate(const Protein& toAdd)
 {
 	col[*toAdd.colIndex].colname = toAdd.col[*toAdd.colIndex].colname;
 	col[*toAdd.colIndex].count = toAdd.col[*toAdd.colIndex].count;
+	col[*toAdd.colIndex].uniquePeptides = toAdd.col[*toAdd.colIndex].uniquePeptides;
 	col[*toAdd.colIndex].coverage = toAdd.col[*toAdd.colIndex].coverage;
 	col[*toAdd.colIndex].sequenceCount = toAdd.col[*toAdd.colIndex].sequenceCount;
+	col[*toAdd.colIndex].modPeptides = toAdd.col[*toAdd.colIndex].modPeptides;
+	col[*toAdd.colIndex].modPeptidesSC = toAdd.col[*toAdd.colIndex].modPeptidesSC;
 }
 
 void Peptide::consolidate(const Peptide& toAdd)
@@ -200,6 +203,7 @@ bool Proteins::readIn(params::Params* const pars,
 				}
 			}
 			else{
+				//initalize Protein to hold data for current line
 				Protein newProtein(pars, locDB, fxnDB, mwdb, seqDB, baitFile);
 				newProtein.initialize(colNamesTemp, colNamesLen, &colIndex);
 				newProtein.getProteinData(line);
@@ -215,7 +219,7 @@ bool Proteins::readIn(params::Params* const pars,
 					getNewLine = false;
 					while(!file.end())
 					{
-						Peptide newPeptide(pars, mwdb);
+						//Peptide newPeptide(pars, mwdb);
 						if(getNewLine)
 							line = file.getLine();
 						getNewLine = true;
@@ -226,6 +230,7 @@ bool Proteins::readIn(params::Params* const pars,
 						
 						if(pars->includePeptides)
 						{
+							Peptide newPeptide(pars, mwdb);
 							newPeptide.initialize(pColNamesTemp, colNamesLen, &peptides->colIndex);
 							newPeptide.proteinID = newProtein.ID;
 							newPeptide.protein = newProtein.protein;

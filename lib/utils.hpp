@@ -27,7 +27,7 @@
 	#define PATH_MAX 1024
 #endif
 
-namespace utils {
+namespace utils{
 	
 	using namespace std;
 	
@@ -55,16 +55,21 @@ namespace utils {
 		newline_type delimType;
 		string fname;
 		size_t beginLine;
-		stringstream ss;
+		//stringstream ss;
+		unsigned long slen;
 	public:
 		File(){
 			buffer = nullptr;
+			slen = 0;
 		}
 		File(string str){
 			buffer = nullptr;
 			fname = str;
+			slen = 0;
 		}
 		~File(){}
+		
+		stringstream ss;
 		
 		//modifers
 		bool read(string);
@@ -76,8 +81,8 @@ namespace utils {
 		inline string getLine_trim_skip();
 		
 		//properties
-		inline bool end() const{
-			return (ss.rdbuf()->in_avail() == 0);
+		inline bool end(){
+			return (ss.tellg() >= slen);
 		}
 		inline string getFname() const{
 			return fname;
