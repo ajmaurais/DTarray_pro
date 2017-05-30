@@ -84,7 +84,7 @@ namespace hashTable{
 		for (int i = 0; i < size; i++)
 		{
 			cout << i + 1 << ":\t";
-			for ( int j = 0; j < array[i].getLength(); j++ )
+			for(int j = 0; j < array[i].getLength(); j++)
 				cout << " X";
 			cout << endl;
 		}

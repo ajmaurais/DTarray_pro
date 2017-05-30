@@ -9,8 +9,8 @@
 #ifndef saintOutput_hpp
 #define saintOutput_hpp
 
-#include<iostream>
-#include<vector>
+#include <iostream>
+#include <vector>
 #include "../lib/utils.hpp"
 #include "../lib/hashTable.hpp"
 

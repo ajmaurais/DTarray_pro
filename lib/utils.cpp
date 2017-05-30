@@ -153,7 +153,7 @@ namespace utils{
 	
 	bool dirExists(string path)
 	{
-		return fileExists(path.c_str());
+		return dirExists(path.c_str());
 	}
 	
 	//returns dirrectory from which program is run

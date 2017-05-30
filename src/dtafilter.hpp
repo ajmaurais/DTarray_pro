@@ -45,10 +45,11 @@ string const PARSE_SAMPLE_NAME_HEADERS [] = {"Sample", "Replicate"};
 size_t const PARSE_SAMPLE_NAME_HEADERS_LEN = 2;
 string const SUP_INFO_HEADERS[] = {"SC", "Unique_pep_SC", "Coverage", "Sequence_count", "Num_mod_pep", "SC_mod_pep"};
 size_t const SUP_INFO_HEADERS_LEN = 6;
+string const PEP_SUP_INFO_HEADERS[] = {"SC", "Mod_pep_SC"};
+size_t const PEP_SUP_INFO_HEADERS_LEN = 2;
 string const MWCALC_HEADERS [] = {"Avg_mass", "Monoisotopic_mass", "Sequence"};
 size_t const MWCALC_HEADERS_LENGTH = 2;
 string const DEFALUT_PEPTIDE_COLNAMES [] = {"Protein_ID", "Parent_protein", "Protein_description", "Sequence", "Length(aa)", "Unique", "CalcMH"};
-size_t const DEFALUT_PEPTIDE_COLNAMES_LEN = 7;
 string const DEFALUT_PEPTIDE_DB_COLNAMES [] = {"Protein_ID", "Parent_protein", "Protein_description", "Sequence", "Length(aa)", "Unique",
 	"CalcMH", "Long_sample_name", "Spectral_counts", "Sample", "Replicate"};
 size_t const DEFALUT_PEPTIDE_DB_COLNAMES_LEN = 9;

@@ -61,6 +61,8 @@ namespace params{
 		{
 			if(!strcmp(argv[i], "-h") || !strcmp(argv[i], "--help"))
 			{
+				cout << HELP_FILE_FNAME << endl;
+				
 				utils::systemCommand("man " + HELP_FILE_FNAME);
 				return false;
 			}
@@ -206,13 +208,14 @@ namespace params{
 					cerr << argv[i] << PARAM_ERROR_MESSAGE << "modGroupMethod" << endl;
 					return false;
 				}
-				modGroupMethod = utils::toInt(argv[i]);
+				modGroupMethod = utils::toInt(argv[i]);					
 				continue;
 			}
 			if(!strcmp(argv[i], "-modS"))
 			{
 				includeModStat = true;
 				supInfoNum += 2;
+				peptideSupInfoNum += 1;
 				continue;
 			}
 			if(!strcmp(argv[i], "-u"))
@@ -310,12 +313,12 @@ namespace params{
 				purgeDir(wd);
 				return false;
 			}
-			if(!strcmp(argv[i], "--pswd"))
+			if(!strcmp(argv[i], "-pswd"))
 			{
 				cerr << PROG_WD_HOME << endl;
 				return false;
 			}
-			if(!strcmp(argv[i], "--oswd"))
+			if(!strcmp(argv[i], "-oswd"))
 			{
 				utils::systemCommand("open " + PROG_WD_HOME);
 				return false;
@@ -443,11 +446,11 @@ namespace params{
 		
 		for(vector<string>::iterator it = files.begin(); it != files.end(); ++it)
 			if(utils::dirExists(wd + *it))
-				if(utils::fileExists(wd + *it + "/DTASelect-filter.txt"))
+				if(utils::fileExists(wd + *it + "/" + DTAFILTER_NAME))
 					filterFiles.push_back(*it);
 		
 		for(vector<string>::iterator it = filterFiles.begin(); it != filterFiles.end(); ++it)
-			outF << *it << OUT_DELIM << *it << "/DTASelect-filter.txt" << endl;
+			outF << *it << OUT_DELIM << *it << "/" << DTAFILTER_NAME << endl;
 		
 		outF << "\n</flist>\n";
 		
@@ -532,7 +535,7 @@ namespace params{
 				<< "Use DTarray -h for more info." << endl << endl;
 			good = false;
 		}
-		if(supInfoOutput == 1 && supInfoNum <= 0)
+		if(supInfoOutput == 1 && (supInfoNum <= 0 && peptideSupInfoNum <= 0))
 		{
 			cerr << endl <<"Non zero supInfoOutput with zero supInfoNum." << endl
 				<< "Use DTarray -h for more info." << endl << endl;

@@ -121,9 +121,6 @@ Specify parent directory from which to run program. By default, the current work
 \fB-u, --unique\fP
 Include spectral counts for unique peptides in output file.
 .TP
-\fB-modS\fR
-Include information about number of modified peptides found for each protein. Columns for number and spectral counts for modified peptides will be included in protein output files.
-.TP
 \fB-c, --coverage\fR
 Include percent sequence coverage for proteins in output file.
 .TP
@@ -214,6 +211,9 @@ Include peptides with 0 spectral counts in output file.
 
 .SS PROTEIN AND PEPTIDE COMPATABLE OPTIONS
 .TP
+\fB-modS\fR
+Include information about number of modified peptides. Columns for number and spectral counts for modified peptides will be included in protein and peptide output files.
+.TP
 \fB-mw
 Calculate protein/peptide molecular weights taking into account static modifications. Static modification information is specified in \*[SMOD_FNAME] file in working directory. A blank \*[SMOD_FNAME] file will be generated on runtime and can then be edited by the user. Protein sequence information is stored in a fasfa formatted file. The default sequence file is \*[SEQ_DB_FNAME].
 .TP
@@ -249,7 +249,6 @@ Do not include reverse matches.
 .in +0.75i
 Include reverse matches.
 .in
-
 
 .SS OTHER
 .TP

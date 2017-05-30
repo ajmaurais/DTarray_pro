@@ -32,6 +32,7 @@ namespace params{
 	enum PeptideGroupFormat {byScan, byProtein, byCharge};
 	const string VNUM_STR = "<versionNum>";
 	const string END_VNUM_STR = "</versionNum>";
+	const string DTAFILTER_NAME = "DTASelect-filter.txt";
 	
 	//default file locations
 	const string PROG_WD_HOME = string(getenv("HOME")) + "/scripts/DTarray_pro";
@@ -137,7 +138,7 @@ namespace params{
 		bool useDefaultSeqDB;
 		bool includeNullPeptides;
 		int supInfoOutput;
-		unsigned int supInfoNum;
+		unsigned int supInfoNum, peptideSupInfoNum;
 		PeptideGroupFormat peptideGroupMethod;
 		bool includeSaint;
 		string saintBaitFile, saintPreyFname, saintInteractionFname;
