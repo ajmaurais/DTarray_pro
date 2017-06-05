@@ -6,7 +6,7 @@
 .ds SEQ_DB_FNAME \fI\*[PROG_WD_DB]\fI/humanProteome.fasta\fR
 .ds SMOD_FNAME \fIstaticModifications.txt\fR
 .ds FLIST_FNAME \fIdtarray_pro_flist.txt\fR
-.TH "DTarray_pro v1.6" 1 "8 March 2017" "DTarray_pro"
+.TH "DTarray_pro v1.61" 1 "8 March 2017" "DTarray_pro"
 .SH NAME
 DTarray_pro - Combine DTASelect-filter files.
 .SH SYNOPSIS
@@ -14,6 +14,7 @@ DTarray_pro - Combine DTASelect-filter files.
 [\fB-i\fR \fI<mode>\fR]
 [\fB-o\fR \fI<output_files>\fR]
 [\fB-p\fR \fI<output_files>\fR]
+[\fB-lr\fR \fI<output_files>\fR]
 [\fB-g\fR \fI<group_method>\fR]
 [\fB-n\fR \fI<0/1>\fR]
 [\fB-modG\fR \fI<group_method>\fR]
@@ -109,6 +110,35 @@ Use long output format.
 .in +0.75i
 Generate both wide and long output files.
 .in
+.TP
+\fB-lr, --locReport\fI <output_files>\fR
+Generate table of subcellular locations identified in each sample. Columns are included for count, sum of spectral counts, and total peptides identified. \fB0\fR is the default. \fB-s\fR and \fB-u\fR are supported in loc_report if specified. \fB-loc\fR option is also set automatically when loc_report is included.
+.TP
+.in +0.75i
+\fB0\fR
+.in +0.75i
+Do not include loc_report.
+.in
+.TP
+.in +0.75i
+\fB1\fR
+.in +0.75i
+Use wide output format.
+.in
+.TP
+.in +0.75i
+\fB2\fR
+.in +0.75i
+Use long output format.
+.in
+.TP
+.in +0.75i
+\fB3\fR
+.in +0.75i
+Generate both wide and long output files.
+.in
+.TP
+
 .TP
 \fB-saint\fI <bait_file>\fR
 Generate input files for saintExpress. \fI<bait_file>\fP should be a text file with three columns separated by tabs: IP name (or sample name), bait name, and T if sample is test or C if sample is control. Two files are generated in working dirrectory: interaction_file.txt and prey_file.txt.

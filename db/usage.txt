@@ -1,6 +1,7 @@
 usage:	DTarray  [-i, —-in <mode>]
 		 [-o, —-out <output_files>]
 		 [-p, —-peptides <output_files>]
+		 [-lr, --locReport <output_files>]
 		 [-mw [<fasfa file>]]
 		 [-smod]
 		 [-seq [<fasfa file>]]
