@@ -27,11 +27,6 @@ namespace locReport{
 			col[i].consolidate(toAdd.col[i]);
 	}
 	
-	void LocDB::addLoc(string _loc, LocDat newLoc)
-	{
-		locTable->consolidate(newLoc, newLoc.getKey());
-	}
-	
 	inline void Loc::initializeCol(string _sampleName, unsigned int _count, unsigned int _specSum,
 								   unsigned int _uniqSpecSum, unsigned int _seqCount)
 	{

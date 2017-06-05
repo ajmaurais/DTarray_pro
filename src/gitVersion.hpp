@@ -2,7 +2,7 @@
 #ifndef gitVersion_h
 #define gitVersion_h
 
-const char* GIT_DATE = "Tue May 30 12:18:26 2017";
-const char* GIT_COMMIT = "5c1bad82b006e4a3f74967c9450db191423e6434";
+const char* GIT_DATE = "Mon Jun 5 17:04:33 2017";
+const char* GIT_COMMIT = "697ae783d6811e4c788c68e73088c10d5439290d";
 
 #endif /* gitVersion_h */

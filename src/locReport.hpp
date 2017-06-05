@@ -134,7 +134,9 @@ namespace locReport{
 			delete locTable;
 		}
 		
-		void addLoc(string, LocDat);
+		void addLoc(LocDat newLoc){
+			locTable->consolidate(newLoc, newLoc.getKey());
+		}
 		void writeLocReport(ofstream& outF, int fxnNum){
 			locTable->write(outF, fxnNum);
 		}

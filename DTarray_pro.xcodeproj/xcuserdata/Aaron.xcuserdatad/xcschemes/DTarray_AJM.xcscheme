@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0730"
+   LastUpgradeVersion = "0830"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -63,7 +63,11 @@
       </BuildableProductRunnable>
       <CommandLineArguments>
          <CommandLineArgument
-            argument = "-u"
+            argument = "-f Biotin-PG_Tryp_SF_"
+            isEnabled = "YES">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "-p 2"
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
@@ -72,19 +76,23 @@
          </CommandLineArgument>
          <CommandLineArgument
             argument = "-s 1"
-            isEnabled = "YES">
+            isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
             argument = "-d /Users/Aaron/Google_Drive/School_Work/Mass_spec_data/Thompson_lab_samples/Human_RA_and_Healthy_SF/16-09-15_205818_dtarraySetup/"
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "-p 2"
-            isEnabled = "NO">
+            argument = "-loc"
+            isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "-h"
-            isEnabled = "NO">
+            argument = "-lr 3"
+            isEnabled = "YES">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "-u"
+            isEnabled = "YES">
          </CommandLineArgument>
       </CommandLineArguments>
       <AdditionalOptions>

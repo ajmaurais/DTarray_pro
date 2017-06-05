@@ -348,8 +348,12 @@ namespace params{
 			wd += "/";
 		if(calcMW && !getSeq)
 			seqDBfname = mwDBFname;
-		if(locOutput != none && includeUnique)
-			locSupInfoNum += 1;
+		if(locOutput != none)
+		{
+			getSubCelluarLoc = true;
+			if(includeUnique)
+				locSupInfoNum += 1;
+		}
 		
 		return true;
 	}

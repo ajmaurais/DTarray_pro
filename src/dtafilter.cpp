@@ -428,7 +428,7 @@ void Protein::addLocToTable()
 	utils::split(loc, DB_DELIM, elems);
 	
 	for(vector<string>::iterator it = elems.begin(); it != elems.end(); ++it)
-		locTable->addLoc(*it, toLocDat(*it));
+		locTable->addLoc(toLocDat(*it));
 }
 
 void Protein::apply(int fxnNum)
