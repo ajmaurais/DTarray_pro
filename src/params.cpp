@@ -61,8 +61,6 @@ namespace params{
 		{
 			if(!strcmp(argv[i], "-h") || !strcmp(argv[i], "--help"))
 			{
-				cout << HELP_FILE_FNAME << endl;
-				
 				utils::systemCommand("man " + HELP_FILE_FNAME);
 				return false;
 			}
@@ -179,6 +177,21 @@ namespace params{
 				}
 				peptideOutput = intToOutputFormat(utils::toInt(argv[i]));
 				includePeptides = (peptideOutput != none);
+				continue;
+			}
+			if(!strcmp(argv[i], "-lr") || !strcmp(argv[i], "--locReport"))
+			{
+				if(!utils::isArg(argv[++i]))
+				{
+					usage();
+					return false;
+				}
+				if(!(!strcmp(argv[i], "0") || !strcmp(argv[i], "1") || !strcmp(argv[i], "2") || !strcmp(argv[i], "3")))
+				{
+					cerr << argv[i] << PARAM_ERROR_MESSAGE << "peptideOutput" << endl;
+					return false;
+				}
+				locOutput = intToOutputFormat(utils::toInt(argv[i]));
 				continue;
 			}
 			if(!strcmp(argv[i], "-g") || !strcmp(argv[i], "--group"))
@@ -335,6 +348,8 @@ namespace params{
 			wd += "/";
 		if(calcMW && !getSeq)
 			seqDBfname = mwDBFname;
+		if(locOutput != none && includeUnique)
+			locSupInfoNum += 1;
 		
 		return true;
 	}
@@ -535,10 +550,16 @@ namespace params{
 				<< "Use DTarray -h for more info." << endl << endl;
 			good = false;
 		}
-		if(supInfoOutput == 1 && (supInfoNum <= 0 && peptideSupInfoNum <= 0))
+		if(supInfoOutput == 1 && (supInfoNum <= 0 && peptideSupInfoNum <= 0 && locOutput == none))
 		{
 			cerr << endl <<"Non zero supInfoOutput with zero supInfoNum." << endl
 				<< "Use DTarray -h for more info." << endl << endl;
+			good = false;
+		}
+		if(!getSubCelluarLoc && locOutput != none)
+		{
+			cerr << endl << "Zero getSubCelluarLoc with nonzero locOutput." << endl
+			<< "Use DTarray -h for more info." << endl << endl;
 			good = false;
 		}
 		return good;

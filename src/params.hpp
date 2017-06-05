@@ -56,6 +56,8 @@ namespace params{
 	const string PEPTIDE_DB_OFNAME = "peptideList_long.tsv";
 	const string SAINT_PREY_FILE = "prey_file.txt";
 	const string SAINT_INTERACTION_FILE = "interaction_file.txt";
+	const string LOC_TABLE_FNAME = "loc_summary.tsv";
+	const string LOC_TABLE_LONG_FNAME = "loc_summary_long.tsv";
 	
 	/**********************/
 	/* class definitions */
@@ -81,19 +83,7 @@ namespace params{
 			return colname;
 		}
 	};
-	
-	struct Param {
-		string param;
-		string value;
 		
-		//constructor
-		Param (string line){
-			size_t posStart = line.find("=");
-			param = line.substr(0, posStart);
-			value = line.substr(posStart + 1);
-		}
-	};
-	
 	//stores names and locations for DTA filter files and output paramaters found in
 	//params file.
 	class Params{
@@ -109,12 +99,13 @@ namespace params{
 		bool writeSubdirFlist(ofstream&) const;
 		void purgeDir(string) const;
 		
-	public:
 		string wd;
+		int numFiles;
+		
+	public:
 		string flistName;
 		string versionNum;
 		string inputFormat;
-		int numFiles;
 		static OutputFormat outputFormat;
 		string sampleNamePrefix;
 		bool parseSampleName;
@@ -146,6 +137,9 @@ namespace params{
 		bool wdSpecified;
 		int modGroupMethod;
 		bool includeModStat;
+		string locTableFname, locTableLongFname;
+		static OutputFormat locOutput;
+		int locSupInfoNum;
 		
 		Params ()
 		{
@@ -177,7 +171,7 @@ namespace params{
 			includeProteins = true;
 			getFxn = false;
 			fxnDBfname = FXN_DB_FNAME;
-			useDefaultSeqDB=true;
+			useDefaultSeqDB = true;
 			includeNullPeptides = false;
 			supInfoOutput = 0;
 			peptideGroupMethod = byProtein;
@@ -190,6 +184,9 @@ namespace params{
 			wdSpecified = false;
 			modGroupMethod = 0;
 			includeModStat = false;
+			locTableFname = LOC_TABLE_FNAME;
+			locTableLongFname = LOC_TABLE_LONG_FNAME;
+			locSupInfoNum = 0;
 		}
 		
 		//modifiers
@@ -206,10 +203,18 @@ namespace params{
 			return file[index].getColname();
 		}
 		bool writeSmod(string) const;
+		
+		int getNumFiles() const{
+			return numFiles;
+		}
+		string getwd() const{
+			return wd;
+		}
 	};
 	
 	OutputFormat Params::outputFormat = wideFormat;
 	OutputFormat Params::peptideOutput = none;
+	OutputFormat Params::locOutput = none;
 	
 	OutputFormat intToOutputFormat(int);
 	PeptideGroupFormat intToGroupFormat(int);

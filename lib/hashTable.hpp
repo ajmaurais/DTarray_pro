@@ -53,12 +53,12 @@ namespace hashTable{
 			dat.push_front(newItem);
 		}
 		_Tp* consolidate(const _Tp&);
-		
-		//properties
 		_Tp* getItem(string);
-		bool itemExists(string) const;
+		void apply(int fxnNum = 0);
 		void write(ofstream& outF, int fxnNum = 0);
 		
+		//properties
+		bool itemExists(string) const;
 		inline size_t getLength() const{
 			return dat.size();
 		}
@@ -77,7 +77,7 @@ namespace hashTable{
 			delete [] array;
 		}
 		
-		inline size_t hash(const char*) const;
+		inline size_t hash(string) const;
 		
 	public:
 		//constructor
@@ -106,6 +106,7 @@ namespace hashTable{
 		unsigned long getLength() const;
 		void printHistogram() const; //for debuging
 		void write(ofstream& outF, int fxnNum = 0);
+		void apply(int fxnNum = 0);
 	};
 }
 

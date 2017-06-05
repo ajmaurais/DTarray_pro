@@ -39,12 +39,6 @@ public:
 	inline bool operator == (string comp) const{
 		return comp == ID;
 	}
-	inline bool operator > (const ProteinTemplate& comp) const{
-		return comp.ID > ID;
-	}
-	inline bool operator < (const ProteinTemplate& comp) const{
-		return comp.ID < ID;
-	}
 	
 	string getID(){
 		return ID;
@@ -95,7 +89,7 @@ public:
 	DBTemplate(const params::Params& par, size_t dataSize){
 		data = new hashTable::HashTable <_Tp>(dataSize);
 		
-		for(int i = 0; i < par.numFiles; i++)
+		for(int i = 0; i < par.getNumFiles(); i++)
 			colNames.push_back(par.getFileColname(i));
 	}
 	~DBTemplate(){

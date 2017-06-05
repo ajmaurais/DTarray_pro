@@ -63,16 +63,27 @@ namespace hashTable{
 			
 	}
 	
+	template<class _Tp>
+	void LinkedList<_Tp>::apply(int fxnNum)
+	{
+		if(dat.empty())
+			return;
+		
+		for(typename list<_Tp>::iterator it = dat.begin(); it != dat.end(); ++it)
+			(*it).apply(fxnNum);
+	}
+	
 	/**********************/
 	/*     HashTable     */
 	/*********************/
 	
 	template<class _Tp>
-	inline size_t HashTable<_Tp>::hash(const char* key) const
+	inline size_t HashTable<_Tp>::hash(string key) const
 	{
 		size_t h = FIRSTH;
-		for(; *key; key++)
-			h = (h * A)^(key[0] * B);
+		size_t sLen = key.length();
+		for(size_t i = 0; i < sLen; i++)
+			h = (h * A)^(key[i] * B);
 		return h % size;
 	}
 	
@@ -81,6 +92,7 @@ namespace hashTable{
 	{
 		cout << endl << "Hash Table Contains ";
 		cout << getLength() << " Items total" << endl;
+		//cout << "Avg items/list: " << double(getLength()/size) << endl;
 		for (int i = 0; i < size; i++)
 		{
 			cout << i + 1 << ":\t";
@@ -108,6 +120,13 @@ namespace hashTable{
 		
 		for(size_t i = 0; i < size; i++)
 			array[i].write(outF, fxnNum);
+	}
+	
+	template<class _Tp>
+	void HashTable<_Tp>::apply(int fxnNum)
+	{
+		for(size_t i = 0; i < size; i++)
+			array[i].apply(fxnNum);
 	}
 }
 

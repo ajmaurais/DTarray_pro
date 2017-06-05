@@ -19,7 +19,7 @@
 	#define PATH_MAX 1024
 #endif
 
-#define BIN_VERSION_NUM "1.60"
+#define BIN_VERSION_NUM "1.62"
 #define MIN_BIN_VERSION_NUM 1.60
 
 #include "gitVersion.hpp"
@@ -31,5 +31,6 @@
 #include "calcMW.cpp"
 #include "dbase.cpp"
 #include "saintOutput.cpp"
+#include "locReport.cpp"
 
 #endif /* DTarray_pro.hpp */

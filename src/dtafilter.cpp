@@ -176,7 +176,7 @@ bool Proteins::readIn(params::Params* const pars,
 					  const vector<SampleData_peptide>& pColNamesTemp,
 					  Peptides * const peptides)
 {
-	string fname = pars->wd + pars->getFilePath(colIndex);
+	string fname = pars->getwd() + pars->getFilePath(colIndex);
 	utils::File file;
 	if(!file.read(fname))
 		return false;
@@ -187,13 +187,13 @@ bool Proteins::readIn(params::Params* const pars,
 	bool foundHeader = false;
 	string line;
 	Peptide* peptidesIndex = nullptr;
-	size_t colNamesLen = pars->numFiles;
+	size_t colNamesLen = pars->getNumFiles();
 	
 	while(!file.end()){
 		if(getNewLine)
 			line = file.getLine();
 		getNewLine = true;
-		if(utils::strContains('%', line))  //find protein header lines by percent symbol for percent coverage
+		if(utils::strContains('%', line)) //find protein header lines by percent symbol for percent coverage
 		{
 			if(!foundHeader)
 			{
@@ -205,7 +205,7 @@ bool Proteins::readIn(params::Params* const pars,
 			}
 			else{
 				//initalize Protein to hold data for current line
-				Protein newProtein(pars, locDB, fxnDB, mwdb, seqDB, baitFile);
+				Protein newProtein(pars, locDB, fxnDB, mwdb, seqDB, baitFile, locTable);
 				newProtein.initialize(colNamesTemp, colNamesLen, &colIndex);
 				newProtein.getProteinData(line);
 				inProtein = true; //used to determine if it is valid to loop through peptide lines below protein
@@ -340,7 +340,7 @@ inline void Peptide::clear()
 //and summarizes progress for user.
 bool Proteins::readIn(params::Params* const par, Peptides* const peptides)
 {
-	size_t colNamesLen = par->numFiles;
+	size_t colNamesLen = par->getNumFiles();
 	
 	vector<SampleData_protein> colNamesTemp;
 	vector<SampleData_peptide> pColNamesTemp;
@@ -353,7 +353,7 @@ bool Proteins::readIn(params::Params* const par, Peptides* const peptides)
 		pColNamesTemp.push_back(pTemp);
 	}
 	
-	for(Proteins::colIndex = 0; Proteins::colIndex < par->numFiles; Proteins::colIndex++)
+	for(Proteins::colIndex = 0; Proteins::colIndex < par->getNumFiles(); Proteins::colIndex++)
 	{
 		Peptides::colIndex = Proteins::colIndex;
 		if(!readIn(par, colNamesTemp, pColNamesTemp, peptides))
@@ -405,7 +405,38 @@ void Protein::write(ofstream& outF, int fxnNum)
 			break;
 		case 2 : writeInteractions(outF);
 			break;
-		default : throw runtime_error("Function does not exist");
+		default : throw runtime_error("Function does not exist!");
+	}
+}
+
+locReport::LocDat Protein::toLocDat(const string& _loc) const
+{
+	locReport::LocDat newLocDat(_loc, matchDirrection, colSize, par);
+	
+	for(size_t i = 0; i < colSize; i++)
+		newLocDat.initializeCol(i, col[i].colname, (col[i].count > 0), col[i].count, col[i].uniquePeptides, utils::toInt(col[i].sequenceCount));
+	
+	return newLocDat;
+}
+
+void Protein::addLocToTable()
+{
+	if(!supDataAdded)
+		addSupData();
+	
+	vector<string> elems;
+	utils::split(loc, DB_DELIM, elems);
+	
+	for(vector<string>::iterator it = elems.begin(); it != elems.end(); ++it)
+		locTable->addLoc(*it, toLocDat(*it));
+}
+
+void Protein::apply(int fxnNum)
+{
+	switch(fxnNum){
+		case 0 : addLocToTable();
+			break;
+		default : throw runtime_error("Function does not exist!");
 	}
 }
 
@@ -431,6 +462,19 @@ void Protein::writeInteractions(ofstream& outF) const
 	}
 }
 
+void Protein::addSupData()
+{
+	if(par->calcMW)
+		calcMW();
+	if(par->getSubCelluarLoc)
+		addLoc();
+	if(par->getSeq && !par->calcMW)
+		addSeq();
+	if(par->getFxn)
+		addFxn();
+	supDataAdded = true;
+}
+
 void Protein::writeProtein(ofstream& outF)
 {
 	if(!outF)
@@ -441,17 +485,7 @@ void Protein::writeProtein(ofstream& outF)
 			return;
 	
 	if(!supDataAdded)
-	{
-		if(par->calcMW)
-			calcMW();
-		if(par->getSubCelluarLoc)
-			addLoc();
-		if(par->getSeq && !par->calcMW)
-			addSeq();
-		if(par->getFxn)
-			addFxn();
-		supDataAdded = true;
-	}
+		addSupData();
 	
 	if(INCLUDE_FULL_DESCRIPTION)
 		outF << fullDescription << OUT_DELIM;
@@ -474,10 +508,11 @@ void Protein::writeProtein(ofstream& outF)
 		outF << OUT_DELIM << fxn;
 	
 	if(par->getSubCelluarLoc)
-		outF << OUT_DELIM <<  loc;
+		outF << OUT_DELIM << loc;
 	
 	if(par->outputFormat == 1)
 	{
+		assert(par->supInfoNum >= 0 && par->supInfoNum <=1);
 		if(par->supInfoOutput == 0)
 		{
 			for(int i = 0; i < colSize; i++)
@@ -499,8 +534,6 @@ void Protein::writeProtein(ofstream& outF)
 		}
 		else if(par->supInfoOutput == 1)
 		{
-			assert(par->supInfoNum > 0);
-			
 			writeCount(outF);
 			
 			if(par->includeUnique)
@@ -663,7 +696,7 @@ bool Proteins::writeOut(string ofname, const params::Params& par)
 		else delim = string(1, OUT_DELIM);
 		for(int i = 0; i < colNamesLength; i++)
 			outF << OUT_DELIM;
-		for(int i = 0; i < par.numFiles ; i++)
+		for(int i = 0; i < par.getNumFiles(); i++)
 			outF << colNames[i] << delim;
 		outF << endl;
 	}
@@ -681,7 +714,7 @@ bool Proteins::writeOut(string ofname, const params::Params& par)
 		
 		for(int i = 0; i < colNamesLength; i++)
 			outF << OUT_DELIM;
-		for(int i = 0; i < par.numFiles; i++)
+		for(int i = 0; i < par.getNumFiles(); i++)
 		{
 			if (i == 0)
 				outF << parseSample(colNames[i], par.sampleNamePrefix, false, 0);
@@ -691,7 +724,7 @@ bool Proteins::writeOut(string ofname, const params::Params& par)
 		for(int i = 0; i < colNamesLength; i++)
 			outF << headers[i] << OUT_DELIM;
 		
-		for (int i = 0; i < par.numFiles; i++)
+		for (int i = 0; i < par.getNumFiles(); i++)
 		{
 			if(i == 0)
 				outF << repeatHeaders;
@@ -701,7 +734,7 @@ bool Proteins::writeOut(string ofname, const params::Params& par)
 	}
 	else {
 		int len = int(headers.size());
-		if(par.supInfoOutput == 1)
+		if(par.supInfoOutput == 1 && supInfo)
 		{
 			assert(par.supInfoNum >= 1 && par.supInfoNum <= 5);
 			string preBuffer = utils::repeat(string(1, OUT_DELIM), len);
@@ -718,7 +751,7 @@ bool Proteins::writeOut(string ofname, const params::Params& par)
 			ofColNames.push_back(headers[i]);
 		for(int i = 0; i <= par.supInfoNum; i++)
 		{
-			for(int i = 0; i < par.numFiles; i ++)
+			for(int i = 0; i < par.getNumFiles(); i ++)
 				ofColNames.push_back(parseSample(colNames[i], par.sampleNamePrefix, false, 0));
 		}
 		int colNamesLen = int(ofColNames.size());
@@ -874,7 +907,7 @@ bool Proteins::writeOutDB(string ofname, const params::Params& par)
 	
 	Protein::colIndex = &colIndex;
 	//print proteins and spectral counts
-	for(colIndex = 0; colIndex < par.numFiles; colIndex++)
+	for(colIndex = 0; colIndex < par.getNumFiles(); colIndex++)
 		data->write(outF, 0);
 	
 	par.outputFormat = outputFormat;
@@ -890,6 +923,169 @@ bool Proteins::writeSaint(string fname, int file) const
 		return false;
 	
 	data->write(outF, file);
+	
+	return true;
+}
+
+void Proteins::buildLocTable()
+{
+	//apply loc build fxn across data hash table
+	locTable = new locReport::LocDB;
+	Protein::locTable = locTable;
+	data->apply(0);
+}
+
+bool Proteins::writeLongLocTable(string fname, const params::Params& pars) const
+{
+	ofstream outF(fname.c_str());
+	
+	if(!outF)
+		return false;
+	
+	vector<string> headers;
+	vector<string>::iterator it;
+	headers.push_back("Location");
+	
+	if(pars.parseSampleName)
+	{
+		headers.push_back("Long_sample_name");
+		headers.push_back("Sample");
+		headers.push_back("Replicate");
+	}
+	else{
+		headers.push_back("Sample");
+	}
+	
+	headers.insert(headers.end(), utils::begin(LOC_REPORT_HEADERS), utils::end(LOC_REPORT_HEADERS));
+	
+	if(pars.includeUnique)
+	{
+		for(it = headers.begin(); it != headers.end(); ++it)
+		{
+			if(*it == "Sum_SC")
+			{
+				headers.insert(it + 1, "Sum_uniq_SC");
+				break;
+			}
+		}
+	}
+	
+	for(it = headers.begin(); it != headers.end(); ++it)
+	{
+		if(it == headers.begin())
+			outF << *it;
+		else outF << OUT_DELIM << *it;
+	}
+	outF << endl;
+	
+	locTable->writeLocReport(outF, 1);
+	
+	return true;
+}
+
+bool Proteins::writeWideLocTable(string fname, const params::Params& pars) const
+{
+	ofstream outF(fname.c_str());
+	
+	if(!outF)
+		return false;
+	
+	vector<string> headers;
+	vector<string> repeatedHeadersV;
+	vector<string>::iterator it;
+	headers.push_back("Location");
+	
+	int supInfoNum = pars.includeUnique + 3;
+	
+	repeatedHeadersV.insert(repeatedHeadersV.end(), utils::begin(LOC_REPORT_HEADERS), utils::end(LOC_REPORT_HEADERS));
+	
+	if(pars.includeUnique)
+	{
+		for(it = repeatedHeadersV.begin(); it != repeatedHeadersV.end(); ++it)
+		{
+			if(*it == "Sum_SC")
+			{
+				repeatedHeadersV.insert(it + 1, "Sum_uniq_SC");
+				break;
+			}
+		}
+	}
+	
+	if(!pars.sampleNamePrefix.empty())
+	{
+		string delim;
+		if(pars.supInfoOutput == 0)
+			delim = utils::repeat(string(1, OUT_DELIM), supInfoNum);
+		else delim = string(1, OUT_DELIM);
+		for(int i = 0; i < headers.size(); i++)
+			outF << OUT_DELIM;
+		for(int i = 0; i < pars.getNumFiles() ; i++)
+			outF << colNames[i] << delim;
+		outF << endl;
+	}
+	
+	assert(pars.supInfoNum >= 0 && pars.supInfoNum <=1);
+	if(pars.supInfoOutput == 0)
+	{
+		string tabs = utils::repeat(string(1, OUT_DELIM), supInfoNum);
+		
+		string repeatHeaders;
+		for(it = repeatedHeadersV.begin(); it != repeatedHeadersV.end(); ++it)
+		{
+			if(it == repeatedHeadersV.begin())
+				repeatHeaders = *it;
+			else repeatHeaders += (OUT_DELIM + *it);
+		}
+		
+		for(int i = 0; i < headers.size(); i++)
+			outF << OUT_DELIM;
+		for(int i = 0; i < pars.getNumFiles(); i++)
+		{
+			if (i == 0)
+			outF << parseSample(colNames[i], pars.sampleNamePrefix, false, 0);
+			else outF << tabs << parseSample(colNames[i], pars.sampleNamePrefix, false, 0);
+		}
+		outF << endl;
+		for(int i = 0; i < headers.size(); i++)
+		outF << headers[i] << OUT_DELIM;
+		
+		for (int i = 0; i < pars.getNumFiles(); i++)
+		{
+			if(i == 0)
+			outF << repeatHeaders;
+			else outF << OUT_DELIM << repeatHeaders;
+		}
+		outF << endl;
+	}
+	else if(pars.supInfoOutput == 1)
+	{
+		string preBuffer = utils::repeat(string(1, OUT_DELIM), headers.size());
+		string postBuffer = utils::repeat(string(1, OUT_DELIM), colNames.size());
+		
+		outF << preBuffer;
+		for(vector<string>::iterator it = repeatedHeadersV.begin(); it != repeatedHeadersV.end(); ++it)
+			outF << *it << postBuffer;
+		outF << endl;
+		
+		vector<string> ofColNames;
+		for(int i = 0; i < headers.size(); i ++)
+			ofColNames.push_back(headers[i]);
+		for(int i = 0; i <= supInfoNum - 1; i++)
+		{
+			for(int i = 0; i < pars.getNumFiles(); i ++)
+				ofColNames.push_back(parseSample(colNames[i], pars.sampleNamePrefix, false, 0));
+		}
+		int colNamesLen = int(ofColNames.size());
+		for(int i = 0; i < colNamesLen; i++)
+		{
+			if(i == 0)
+				outF << ofColNames[i];
+			else outF << OUT_DELIM << ofColNames[i];
+		}
+		outF << endl;
+	}
+	
+	locTable->writeLocReport(outF, 0);
 	
 	return true;
 }
@@ -1006,6 +1202,7 @@ void Peptide::write(ofstream& outF, int fxnNum)
 	
 	if(par->outputFormat == 1)
 	{
+		assert(par->supInfoNum >= 0 && par->supInfoNum <=1);
 		if(par->supInfoOutput == 0)
 		{
 			for(int i = 0; i < colSize; i++)
@@ -1104,7 +1301,7 @@ bool Peptides::writeOut(string ofname, const params::Params& pars)
 		else delim = string(1, OUT_DELIM);
 		for(int i = 0; i < headers.size(); i++)
 			outF << OUT_DELIM;
-		for(int i = 0; i < pars.numFiles ; i++)
+		for(int i = 0; i < pars.getNumFiles() ; i++)
 			outF << colNames[i] << delim;
 		outF << endl;
 	}
@@ -1122,7 +1319,7 @@ bool Peptides::writeOut(string ofname, const params::Params& pars)
 		
 		for(int i = 0; i < headers.size(); i++)
 			outF << OUT_DELIM;
-		for(int i = 0; i < pars.numFiles; i++)
+		for(int i = 0; i < pars.getNumFiles(); i++)
 		{
 			if (i == 0)
 				outF << parseSample(colNames[i], pars.sampleNamePrefix, false, 0);
@@ -1132,7 +1329,7 @@ bool Peptides::writeOut(string ofname, const params::Params& pars)
 		for(int i = 0; i < headers.size(); i++)
 			outF << headers[i] << OUT_DELIM;
 		
-		for (int i = 0; i < pars.numFiles; i++)
+		for (int i = 0; i < pars.getNumFiles(); i++)
 		{
 			if(i == 0)
 				outF << repeatHeaders;
@@ -1159,7 +1356,7 @@ bool Peptides::writeOut(string ofname, const params::Params& pars)
 			ofColNames.push_back(headers[i]);
 		for(int i = 0; i <= pars.peptideSupInfoNum; i++)
 		{
-			for(int i = 0; i < pars.numFiles; i ++)
+			for(int i = 0; i < pars.getNumFiles(); i ++)
 				ofColNames.push_back(parseSample(colNames[i], pars.sampleNamePrefix, false, 0));
 		}
 		int colNamesLen = int(ofColNames.size());
@@ -1251,7 +1448,7 @@ bool Peptides::writeOutDB(string ofname, const params::Params& pars)
 	outF << endl;
 	
 	Peptide::colIndex = &colIndex;
-	for(colIndex = 0; colIndex < pars.numFiles; colIndex++)
+	for(colIndex = 0; colIndex < pars.getNumFiles(); colIndex++)
 		data->write(outF, 0);
 	
 	pars.outputFormat = outputFormat;

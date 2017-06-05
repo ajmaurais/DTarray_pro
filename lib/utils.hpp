@@ -55,7 +55,7 @@ namespace utils{
 		newline_type delimType;
 		string fname;
 		size_t beginLine;
-		//stringstream ss;
+		stringstream ss;
 		unsigned long slen;
 	public:
 		File(){
@@ -68,8 +68,6 @@ namespace utils{
 			slen = 0;
 		}
 		~File(){}
-		
-		stringstream ss;
 		
 		//modifers
 		bool read(string);

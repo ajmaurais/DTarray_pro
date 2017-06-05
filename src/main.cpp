@@ -19,17 +19,17 @@ int main(int argc, char* argv[])
 	
 	cerr << endl << "DTarray_pro v" << BIN_VERSION_NUM << endl;
 	
-	if(!utils::fileExists(par.wd + par.flistName) || par.rewriteFlist)
+	if(!utils::fileExists(par.getwd() + par.flistName) || par.rewriteFlist)
 	{
 		assert(par.writeFlist());
 		cerr << endl << "Generating " << par.flistName << " using " << par.inputFormat << " input format." << endl;
 	}
-	if(!par.readFlist(par.flistName, par.wd))
+	if(!par.readFlist(par.flistName, par.getwd()))
 	{
 		cerr << "\nFailed to read file list! Exiting..." << endl;
 		return -1;
 	}
-	if(par.numFiles <= 0)
+	if(par.getNumFiles() <= 0)
 	{
 		cerr << endl << "No filter files found. Exiting..." << endl << endl;
 		return -1;
@@ -81,12 +81,12 @@ int main(int argc, char* argv[])
 	//calculate mass of peptides or proteins from sequence and amino acid mass databases
 	if(par.calcMW)
 	{
-		if(!utils::fileExists(par.wd + par.staticModsFname))
-			if(!par.writeSmod(par.wd))
+		if(!utils::fileExists(par.getwd() + par.staticModsFname))
+			if(!par.writeSmod(par.getwd()))
 				cerr << "Failed to write new smod file" << endl;
 		
 		cerr << endl << "Getting protein sequences from " << par.mwDBFname << "...";
-		if(!proteins.readInMWdb(par.wd, par))
+		if(!proteins.readInMWdb(par.getwd(), par))
 		{
 			cerr << "Failed to read mwDB files! Exiting..." << endl;
 			return -1;
@@ -110,7 +110,7 @@ int main(int argc, char* argv[])
 	cerr << endl;
 	if(!proteins.readIn(&par, &peptides))
 		return -1;
-	cerr << endl << par.numFiles << " files combined." << endl;
+	cerr << endl << par.getNumFiles() << " files combined." << endl;
 	
 	if(!par.sampleNamePrefix.empty())
 		cerr << endl << "Parsing colnames by prefix: " << par.sampleNamePrefix << endl;
@@ -122,7 +122,7 @@ int main(int argc, char* argv[])
 		if (par.outputFormat == params::wideFormat || par.outputFormat == params::both)
 		{
 			cerr << endl << "Writing protein data...";
-			if(!proteins.writeOut(par.wd + par.ofname, par))
+			if(!proteins.writeOut(par.getwd() + par.ofname, par))
 			{
 				cerr << "Could not write out file! Exiting..." << endl;
 				return -1;
@@ -133,7 +133,7 @@ int main(int argc, char* argv[])
 		if(par.outputFormat == params::longFormat || par.outputFormat == params::both)
 		{
 			cerr << endl << "Writing protein data...";
-			if(!proteins.writeOutDB(par.wd + par.dbOfname, par))
+			if(!proteins.writeOutDB(par.getwd() + par.dbOfname, par))
 			{
 				cerr << "Could not write out file! Exiting..." << endl;
 				return -1;
@@ -142,6 +142,7 @@ int main(int argc, char* argv[])
 			<< par.dbOfname << endl << endl;
 		}
 	}
+	
 	//write out combined peptide data
 	if(par.includePeptides)
 	{
@@ -149,7 +150,7 @@ int main(int argc, char* argv[])
 		if(par.peptideOutput == params::wideFormat || par.peptideOutput == params::both)
 		{
 			cerr << endl << "Writing peptide data...";
-			if(!peptides.writeOut(par.wd + par.peptideOfFname, par))
+			if(!peptides.writeOut(par.getwd() + par.peptideOfFname, par))
 			{
 				cerr << "Could not write out file! Exiting..." << endl;
 				return -1;
@@ -161,7 +162,7 @@ int main(int argc, char* argv[])
 		if(par.peptideOutput == params::longFormat || par.peptideOutput == params::both)
 		{
 			cerr << endl << "Writing peptide data...";
-			if(!peptides.writeOutDB(par.wd + par.dbPeptideOfFname, par))
+			if(!peptides.writeOutDB(par.getwd() + par.dbPeptideOfFname, par))
 			{
 				cerr << "Could not write out file! Exiting..." << endl;
 				return -1;
@@ -170,16 +171,17 @@ int main(int argc, char* argv[])
 			<< par.dbPeptideOfFname << endl << endl;
 		}
 	}
+	
 	//write saintExpress input files
 	if(par.includeSaint)
 	{
 		cerr << endl << "Writing saint output files...";
-		if(!proteins.writeSaint(par.wd + par.saintPreyFname, 1))
+		if(!proteins.writeSaint(par.getwd() + par.saintPreyFname, 1))
 		{
 			cerr << "Could not write prey file! Exiting..." << endl;
 			return -1;
 		}
-		if(!proteins.writeSaint(par.wd + par.saintInteractionFname, 2))
+		if(!proteins.writeSaint(par.getwd() + par.saintInteractionFname, 2))
 		{
 			cerr << "Could not write interaction file! Exiting..." << endl;
 			return -1;
@@ -187,6 +189,35 @@ int main(int argc, char* argv[])
 		cerr << " done!" << endl << "prey file written to: " << par.saintPreyFname << endl
 		<< "interaction data written to: " << par.saintPreyFname << endl << endl;
  	}
+	
+	//write sub celluar localization report
+	if(par.locOutput != params::none)
+	{
+		proteins.buildLocTable();
+		
+		if(par.locOutput == params::wideFormat || par.locOutput == params::both)
+		{
+			cerr << endl << "Writing sub celluar loc summary table...";
+			if(!proteins.writeWideLocTable(par.getwd() + par.locTableFname, par))
+			{
+				cerr << "Could not write loc summary table! Exiting..." << endl;
+				return -1;
+			}
+			cerr << " done!" << endl << "Subcellular loc summary table written in wide format to: "
+			<< par.locTableFname << endl << endl;
+		}
+		if(par.locOutput == params::longFormat || par.locOutput == params::both)
+		{
+			cerr << endl << "Writing sub celluar loc summary table...";
+			if(!proteins.writeLongLocTable(par.getwd() + par.locTableLongFname, par))
+			{
+				cerr << "Could not write loc summary table! Exiting..." << endl;
+				return -1;
+			}
+			cerr << " done!" << endl << "Subcellular loc summary table written in long format to: "
+			<< par.locTableLongFname << endl << endl;
+		}
+	}
 	
 	return 0;
 }

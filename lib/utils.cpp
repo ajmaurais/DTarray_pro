@@ -37,11 +37,10 @@ namespace utils{
 			if(delimType == crlf)
 				beginLine = 1;
 			else beginLine = 0;
-				free(buffer);
+			free(buffer);
 			slen = ss.str().length();
 			return true;
-		}
-		else {
+		} else {
 			free(buffer);
 			return false;
 		}
@@ -188,11 +187,11 @@ namespace utils{
 			while((hFile = readdir(dirFile)))
 			{
 				//skip . and ..
-				if (!strcmp(hFile->d_name, ".") || !strcmp(hFile->d_name, ".."))
+				if(!strcmp(hFile->d_name, ".") || !strcmp(hFile->d_name, ".."))
 					continue;
 				
 				//skip hidden files
-				if (IGNORE_HIDDEN_FILES && (hFile->d_name[0] == '.'))
+				if(IGNORE_HIDDEN_FILES && (hFile->d_name[0] == '.'))
 					continue;
 				
 				//add to files

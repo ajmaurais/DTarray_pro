@@ -25,6 +25,7 @@
 #include "params.hpp"
 #include "calcMW.hpp"
 #include "saintOutput.hpp"
+#include "locReport.hpp"
 
 using namespace std;
 
@@ -56,6 +57,9 @@ size_t const DEFALUT_PEPTIDE_DB_COLNAMES_LEN = 9;
 string const REVERSE_MATCH = "Reverse_";
 const char* DIFFMODS = "*";
 
+char const DB_DELIM = ';';
+string const LOC_REPORT_HEADERS [] = {"Count", "Sum_SC", "Sum_seq_count"};
+
 /**********************/
 /* class definitions */
 /*********************/
@@ -63,12 +67,14 @@ const char* DIFFMODS = "*";
 class Protein;
 class Proteins;
 class Peptide;
+class Peptides;
 
 class Peptide : public ProteinDataTemplate<SampleData_peptide> {
 	friend class Proteins;
 	friend class Peptides;
 public:
-	Peptide (params::Params* const par, mwDB::MWDB* const _mwdb) : ProteinDataTemplate <SampleData_peptide>(par) {
+	Peptide (params::Params* const par, mwDB::MWDB* const _mwdb) : ProteinDataTemplate <SampleData_peptide>(par)
+	{
 		mwdb = _mwdb;
 	}
 	Peptide () : ProteinDataTemplate <SampleData_peptide> () {}
@@ -133,6 +139,7 @@ private:
 	static mwDB::SeqDB* seqDB;
 	static Dbase* fxnDB;
 	static saint::BaitFile* baitFile;
+	static locReport::LocDB* locTable;
 	
 	//modifier
 	void getProteinData(string);
@@ -142,6 +149,8 @@ private:
 	void addSeq();
 	void addLoc();
 	void addFxn();
+	void addSupData();
+	void addLocToTable();
 	
 	void writeCount(ofstream&) const;
 	void writeUnique(ofstream&) const;
@@ -149,19 +158,25 @@ private:
 	void writeSequenceCount(ofstream&) const;
 	void writeModStat(ofstream&) const;
 	
+	void writeProtein(ofstream&); //write fxn 0
+	void writePrey(ofstream&) const; //write fxn 1
+	void writeInteractions(ofstream&) const; //write fxn 2
+	
 public:
 	Protein(params::Params* const pars,
 			Dbase* const _locDB,
 			Dbase* const _fxnDB,
 			mwDB::MWDB_Protein* const _mwdb,
 			mwDB::SeqDB* const _seqDB,
-			saint::BaitFile* const _baitFile)
+			saint::BaitFile* const _baitFile,
+			locReport::LocDB* const _locTable)
 		: ProteinDataTemplate<SampleData_protein>(pars) {
 		locDB = _locDB;
 		mwdb = _mwdb;
 		seqDB = _seqDB;
 		fxnDB = _fxnDB;
 		baitFile = _baitFile;
+		locTable = _locTable;
 	}
 	Protein() : ProteinDataTemplate<SampleData_protein>() {}
 	~Protein(){}
@@ -170,9 +185,8 @@ public:
 	
 	void consolidate(const Protein&);
 	void write(ofstream&, int);
-	void writeProtein(ofstream&);
-	void writePrey(ofstream&) const;
-	void writeInteractions(ofstream&) const;
+	void apply(int);
+	locReport::LocDat toLocDat(const string&) const;
 };
 
 Dbase* Protein::locDB = nullptr;
@@ -180,6 +194,7 @@ Dbase* Protein::fxnDB = nullptr;
 mwDB::MWDB_Protein* Protein::mwdb = nullptr;
 mwDB::SeqDB* Protein::seqDB = nullptr;
 saint::BaitFile* Protein::baitFile = nullptr;
+locReport::LocDB* Protein::locTable = nullptr;
 
 //stores data for all proteins found in DTA filter files
 class Proteins : public DBTemplate<Protein>{
@@ -189,6 +204,7 @@ class Proteins : public DBTemplate<Protein>{
 	mwDB::MWDB_Protein* mwdb;
 	mwDB::SeqDB* seqDB;
 	saint::BaitFile* baitFile;
+	locReport::LocDB* locTable;
 	
 	//modifers
 	bool readIn(params::Params* const,
@@ -203,6 +219,7 @@ public:
 		mwdb = nullptr;
 		fxnDB = nullptr;
 		baitFile = nullptr;
+		locTable = nullptr;
 	}
 	Proteins() : DBTemplate<Protein>(){
 		locDB = nullptr;
@@ -210,6 +227,7 @@ public:
 		mwdb = nullptr;
 		fxnDB = nullptr;
 		baitFile = nullptr;
+		locTable = nullptr;
 	}
 	~Proteins(){
 		delete locDB;
@@ -217,6 +235,7 @@ public:
 		delete seqDB;
 		delete fxnDB;
 		delete baitFile;
+		delete locTable;
 	}
 	
 	bool readInLocDB(string);
@@ -224,11 +243,14 @@ public:
 	bool readInSeqDB(string);
 	bool readInFxnDB(string);
 	bool readBaitFile(string);
+	void buildLocTable();
 	
 	//properities
 	bool writeOut(string, const params::Params&);
 	bool writeOutDB(string, const params::Params&);
 	bool writeSaint(string, int) const;
+	bool writeWideLocTable(string, const params::Params&) const;
+	bool writeLongLocTable(string, const params::Params&) const;
 	
 	//modifiers
 	bool readIn(params::Params* const, Peptides* const);
