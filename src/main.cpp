@@ -56,7 +56,7 @@ int main(int argc, char* argv[])
 			return -1;
 		}
 	}
-	//read in subcellular locations database and add sub cell locations to proteins
+	//read in subcellular locations database
 	if(par.getSubCelluarLoc)
 	{
 		cerr << endl << "Reading subcellular locations database...";
@@ -67,7 +67,7 @@ int main(int argc, char* argv[])
 		}
 		cerr << " done!" << endl;
 	}
-	//read in fxn database and add fxn to proteins
+	//read in fxn database
 	if(par.getFxn)
 	{
 		cerr << endl << "Reading protein function database...";

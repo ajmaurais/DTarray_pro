@@ -72,7 +72,6 @@ namespace mwDB{
 		
 		//modifers
 		bool readIn(string);
-		
 		string getSequence(string) const;
 	};
 	

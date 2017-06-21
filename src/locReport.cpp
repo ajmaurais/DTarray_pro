@@ -67,7 +67,7 @@ namespace locReport{
 		if(!outF)
 			throw runtime_error("Bad ofstream");
 		
-		assert(pars->supInfoNum >= 0 && pars->supInfoNum <=1);
+		assert(pars->locSupInfoNum >= 0 && pars->locSupInfoNum <=1);
 		if(pars->supInfoOutput == 0)
 		{
 			outF << loc;

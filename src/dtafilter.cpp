@@ -498,8 +498,8 @@ void Protein::writeProtein(ofstream& outF)
 	OUT_DELIM << MW;
 	
 	if(par->calcMW)
-		outF << OUT_DELIM << avgMass <<
-		OUT_DELIM << monoMass;
+		outF << OUT_DELIM << std::fixed << avgMass <<
+		OUT_DELIM << std::fixed << monoMass;
 	
 	if(par->getSeq)
 		outF << OUT_DELIM << sequence;
@@ -512,7 +512,7 @@ void Protein::writeProtein(ofstream& outF)
 	
 	if(par->outputFormat == 1)
 	{
-		assert(par->supInfoNum >= 0 && par->supInfoNum <=1);
+		assert(par->supInfoNum >= 0 && par->supInfoNum <= 5);
 		if(par->supInfoOutput == 0)
 		{
 			for(int i = 0; i < colSize; i++)
@@ -1024,7 +1024,7 @@ bool Proteins::writeWideLocTable(string fname, const params::Params& pars) const
 		outF << endl;
 	}
 	
-	assert(pars.supInfoNum >= 0 && pars.supInfoNum <=1);
+	assert(pars.locSupInfoNum >= 0 && pars.locSupInfoNum <=1);
 	if(pars.supInfoOutput == 0)
 	{
 		string tabs = utils::repeat(string(1, OUT_DELIM), supInfoNum);
@@ -1195,14 +1195,14 @@ void Peptide::write(ofstream& outF, int fxnNum)
 	outF << OUT_DELIM << unique;
 	
 	if(par->calcMW)
-		outF << OUT_DELIM << avgMass
-		 << OUT_DELIM << monoMass;
+		outF << OUT_DELIM << std::fixed << avgMass
+		<< OUT_DELIM << std::fixed << monoMass;
 	
 	outF << OUT_DELIM << calcMH;
 	
 	if(par->outputFormat == 1)
 	{
-		assert(par->supInfoNum >= 0 && par->supInfoNum <=1);
+		assert(par->peptideSupInfoNum >= 0 && par->peptideSupInfoNum <= 2);
 		if(par->supInfoOutput == 0)
 		{
 			for(int i = 0; i < colSize; i++)
@@ -1307,7 +1307,7 @@ bool Peptides::writeOut(string ofname, const params::Params& pars)
 	}
 	if(supInfo && (pars.supInfoOutput == 0))
 	{
-		string tabs = utils::repeat(string(1, OUT_DELIM), pars.supInfoNum + 1);
+		string tabs = utils::repeat(string(1, OUT_DELIM), pars.peptideSupInfoNum + 1);
 		
 		string repeatHeaders;
 		for(vector<string>::iterator it = supInfoHeaders.begin(); it != supInfoHeaders.end(); ++it)
@@ -1341,7 +1341,7 @@ bool Peptides::writeOut(string ofname, const params::Params& pars)
 		int len = int(headers.size());
 		if(pars.supInfoOutput == 1)
 		{
-			assert(pars.supInfoNum >= 1 && pars.peptideSupInfoNum <= 1);
+			assert(pars.peptideSupInfoNum >= 1 && pars.peptideSupInfoNum <= 1);
 			string preBuffer = utils::repeat(string(1, OUT_DELIM), len);
 			string postBuffer = utils::repeat(string(1, OUT_DELIM), colNames.size());
 			

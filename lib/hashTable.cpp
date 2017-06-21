@@ -92,7 +92,6 @@ namespace hashTable{
 	{
 		cout << endl << "Hash Table Contains ";
 		cout << getLength() << " Items total" << endl;
-		//cout << "Avg items/list: " << double(getLength()/size) << endl;
 		for (int i = 0; i < size; i++)
 		{
 			cout << i + 1 << ":\t";

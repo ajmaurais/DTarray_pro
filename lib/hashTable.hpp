@@ -90,18 +90,18 @@ namespace hashTable{
 		
 		//modifers
 		void insert(const _Tp& newItem, string key){
-			array[hash(key.c_str())].push_front(newItem);
+			array[hash(key)].push_front(newItem);
 		}
 		_Tp* consolidate(const _Tp& newItem, string key){
-			return array[hash(key.c_str())].consolidate(newItem);
+			return array[hash(key)].consolidate(newItem);
 		}
 		
 		//properties
 		bool itemExists(string key) const{
-			return array[hash(key.c_str())].itemExists(key);
+			return array[hash(key)].itemExists(key);
 		}
 		_Tp* getItem(string key) const {
-			return array[hash(key.c_str())].getItem(key);
+			return array[hash(key)].getItem(key);
 		}
 		unsigned long getLength() const;
 		void printHistogram() const; //for debuging
