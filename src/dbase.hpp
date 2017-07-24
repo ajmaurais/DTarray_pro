@@ -16,6 +16,7 @@
 using namespace std;
 
 string const DAT_NOT_FOUND = "NOT_FOUND_IN_DB";
+size_t const DB_DBASE_SIZE = 10000;
 
 class DBProtein;
 class Dbase;
@@ -47,7 +48,7 @@ private:
 public:
 	
 	Dbase() {
-		db = new hashTable::HashTable<DBProtein> (10000);
+		db = new hashTable::HashTable<DBProtein> (DB_DBASE_SIZE);
 	}
 	~Dbase() {
 		delete db;

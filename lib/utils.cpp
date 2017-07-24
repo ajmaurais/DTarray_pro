@@ -354,7 +354,7 @@ namespace utils{
 		stringstream ss (str);
 		string item;
 		
-		while (getline(ss, item, delim)) {
+		while(getline(ss, item, delim)) {
 			elems.push_back(item);
 		}
 	}
@@ -362,7 +362,7 @@ namespace utils{
 	//remove trailing WHITESPACE
 	inline string trimTraling(const string& str)
 	{
-		if (str.empty())
+		if(str.empty())
 			return "";
 		return str.substr(0, str.find_last_not_of(WHITESPACE) + 1 );
 	}
@@ -370,7 +370,7 @@ namespace utils{
 	//remove leading WHITESPACE
 	inline string trimLeading(const string& str)
 	{
-		if (str.empty())
+		if(str.empty())
 			return "";
 		return str.substr(str.find_first_not_of(WHITESPACE));
 	}
@@ -378,7 +378,7 @@ namespace utils{
 	//remove trailing and leading WHITESPACE
 	inline string trim(const string& str)
 	{
-		if (str.empty())
+		if(str.empty())
 			return "";
 		return trimLeading(trimTraling(str));
 	}

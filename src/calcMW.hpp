@@ -12,9 +12,7 @@
 #include "../lib/hashTable.hpp"
 
 class MWDB;
-class nwNode;
 class Peptide;
-class AATree;
 class SeqDB;
 
 namespace mwDB{
