@@ -61,7 +61,7 @@ namespace params{
 		{
 			if(!strcmp(argv[i], "-h") || !strcmp(argv[i], "--help"))
 			{
-				utils::systemCommand("man " + HELP_FILE_FNAME);
+				utils::systemCommand("man " + PROG_HELP_FILE_FNAME);
 				return false;
 			}
 			if(!strcmp(argv[i], "-i") || !strcmp(argv[i], "--in"))
@@ -150,7 +150,7 @@ namespace params{
 			if(!strcmp(argv[i], "-seq"))
 			{
 				if(!utils::isArg(argv[i+1]))
-					seqDBfname = SEQ_DB_FNAME;
+					seqDBfname = PROG_SEQ_DB_FNAME;
 				else if(utils::isArg(argv[i+1]))
 					seqDBfname = utils::absPath(argv[++i]);
 				else throw runtime_error("bad opts!");
@@ -363,7 +363,7 @@ namespace params{
 		if(_wd[_wd.length() - 1] != '/')
 			_wd += "/";
 		ofstream outF((_wd + DEFAULT_SMOD_NAME).c_str());
-		utils::File staticMods(STATIC_MOD_FNAME);
+		utils::File staticMods(PROG_STATIC_MOD_FNAME);
 		if(!outF || !staticMods.read())
 			return false;
 		
@@ -383,10 +383,15 @@ namespace params{
 		return true;
 	}
 	
+	//print program usage information located in PROG_USAGE_FNAME
 	void Params::usage() const
 	{
-		utils::systemCommand("cat " + USAGE_FNAME);
-		cerr << endl;
+		utils::File file(PROG_USAGE_FNAME);
+		if(!file.read(PROG_USAGE_FNAME))
+			throw runtime_error(PROG_USAGE_FNAME + "could not be found!");
+		
+		while(!file.end())
+			cerr << file.getLine() << endl;
 	}
 	
 	//removes all DTarray_pro generated files with default flie names in
@@ -399,8 +404,8 @@ namespace params{
 				_wd += "/";
 			
 			string deleteFiles [] = {DEFAULT_FLIST_NAME, DEFAULT_SMOD_NAME,
-				OFNAME, DB_OFNAME, PEPTIDE_OFNAME, PEPTIDE_DB_OFNAME,
-				SAINT_PREY_FILE, SAINT_INTERACTION_FILE};
+				OFNAME, DB_OFNAME, PEPTIDE_OFNAME, PEPTIDE_DB_OFNAME, SAINT_PREY_FILE,
+				SAINT_INTERACTION_FILE, LOC_TABLE_FNAME, LOC_TABLE_LONG_FNAME};
 			
 			for(string* p = utils::begin(deleteFiles); p != utils::end(deleteFiles); ++p)
 			{

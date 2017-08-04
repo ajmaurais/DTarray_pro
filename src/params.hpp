@@ -17,6 +17,7 @@
 #include <ctime>
 
 #include "../lib/utils.hpp"
+#include "dtafilter.hpp"
 
 using namespace std;
 
@@ -37,14 +38,14 @@ namespace params{
 	//default file locations
 	const string PROG_WD_HOME = string(getenv("HOME")) + "/scripts/DTarray_pro";
 	const string PROG_WD_DB = PROG_WD_HOME + "/db";
-	const string LOC_DB_FNAME = PROG_WD_DB + "/humanLoc.tsv";
-	const string SEQ_DB_FNAME = PROG_WD_DB + "/humanProteome.fasta";
-	const string MW_DB_FNAME = SEQ_DB_FNAME;
-	const string AA_DB_FNAME = PROG_WD_DB + "/aaMasses.txt";
-	const string FXN_DB_FNAME = PROG_WD_DB + "/humanFxn.tsv";
-	const string STATIC_MOD_FNAME = PROG_WD_DB + "/staticModifications.txt";
-	const string HELP_FILE_FNAME = PROG_WD_DB + "/helpFile.man";
-	const string USAGE_FNAME = PROG_WD_DB + "/usage.txt";
+	const string PROG_LOC_DB_FNAME = PROG_WD_DB + "/humanLoc.tsv";
+	const string PROG_SEQ_DB_FNAME = PROG_WD_DB + "/humanProteome.fasta";
+	const string PROG_MW_DB_FNAME = PROG_SEQ_DB_FNAME;
+	const string PROG_AA_DB_FNAME = PROG_WD_DB + "/aaMasses.txt";
+	const string PROG_FXN_DB_FNAME = PROG_WD_DB + "/humanFxn.tsv";
+	const string PROG_STATIC_MOD_FNAME = PROG_WD_DB + "/staticModifications.txt";
+	const string PROG_HELP_FILE_FNAME = PROG_WD_DB + "/helpFile.man";
+	const string PROG_USAGE_FNAME = PROG_WD_DB + "/usage.txt";
 	
 	//default file names
 	const string DEFAULT_FLIST_NAME = "dtarray_pro_flist.txt";
@@ -154,23 +155,23 @@ namespace params{
 			getSubCelluarLoc = false;
 			rewriteFlist = false;
 			rewriteSmod = false;
-			locDBfname = LOC_DB_FNAME;
+			locDBfname = PROG_LOC_DB_FNAME;
 			calcMW = false;
-			aaDBfanme = AA_DB_FNAME;
-			mwDBFname = MW_DB_FNAME;
+			aaDBfanme = PROG_AA_DB_FNAME;
+			mwDBFname = PROG_MW_DB_FNAME;
 			staticModsFname = DEFAULT_SMOD_NAME;
 			ofname = OFNAME;
 			dbOfname = DB_OFNAME;
 			dbPeptideOfFname = PEPTIDE_DB_OFNAME;
 			peptideOfFname = PEPTIDE_OFNAME;
 			getSeq = false;
-			seqDBfname = SEQ_DB_FNAME;
+			seqDBfname = PROG_SEQ_DB_FNAME;
 			includeCoverage = false;
 			includeSequenceCount = false;
 			includePeptides = false;
 			includeProteins = true;
 			getFxn = false;
-			fxnDBfname = FXN_DB_FNAME;
+			fxnDBfname = PROG_FXN_DB_FNAME;
 			useDefaultSeqDB = true;
 			includeNullPeptides = false;
 			supInfoOutput = 0;
