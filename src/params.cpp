@@ -228,7 +228,7 @@ namespace params{
 			{
 				includeModStat = true;
 				supInfoNum += 2;
-				peptideSupInfoNum += 1;
+				peptideSupInfoNum++;
 				continue;
 			}
 			if(!strcmp(argv[i], "-u"))
@@ -387,8 +387,7 @@ namespace params{
 	void Params::usage() const
 	{
 		utils::File file(PROG_USAGE_FNAME);
-		if(!file.read(PROG_USAGE_FNAME))
-			throw runtime_error(PROG_USAGE_FNAME + "could not be found!");
+		assert(file.read());
 		
 		while(!file.end())
 			cerr << file.getLine() << endl;
@@ -501,7 +500,7 @@ namespace params{
 		
 		do{
 			line = data.getLine_skip_trim();
-			if(line.substr(0, VNUM_STR.length()) == VNUM_STR) //check line begins with VNUM_STR
+			if(utils::startsWith(line, VNUM_STR)) //check line begins with VNUM_STR
 			{
 				versionNum = parseVersionNum(line);
 				if(!(MIN_BIN_VERSION_NUM <= utils::toDouble(versionNum)))

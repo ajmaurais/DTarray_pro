@@ -175,7 +175,7 @@ Group columns by observation.
 .SS PROTEIN SPECIFIC SUPPLEMENTARY INFORMATION
 .TP
 \fB-loc\fP
-Use \*[LOC_DB_FNAME] to lookup subcelluar localization information for proteins in output file. humanLoc.tsv contains Uniprot annotations for subcelluar localization by Uniprot ID, updated as of Jan 18 2016. Currently, sub cell location information is available for human proteins only.
+Use \*[LOC_DB_FNAME] to lookup subcelluar localization information for proteins in output file. humanLoc.tsv contains Uniprot annotations for subcelluar localization by Uniprot ID, updated as of Jan 18 2017. Currently, sub cell location information is available for human proteins only.
 .TP
 \fB-fxn\fP
 Use \*[FXN_DB_FNAME] to include panther category for proteins in output file.
@@ -245,7 +245,7 @@ Include peptides with 0 spectral counts in output file.
 Include information about number of modified peptides. Columns for number and spectral counts for modified peptides will be included in protein and peptide output files.
 .TP
 \fB-mw
-Calculate protein/peptide molecular weights taking into account static modifications. Static modification information is specified in \*[SMOD_FNAME] file in working directory. A blank \*[SMOD_FNAME] file will be generated on runtime and can then be edited by the user. Protein sequence information is stored in a fasfa formatted file. The default sequence file is \*[SEQ_DB_FNAME].
+Calculate protein/peptide molecular weights taking into account static modifications. Static modification information is specified in \*[SMOD_FNAME] file in working directory. A blank \*[SMOD_FNAME] file will be generated at runtime and can then be edited by the user. Protein sequence information is stored in a fasfa formatted file. The default sequence file is \*[SEQ_DB_FNAME].
 .TP
 .in +0.75i
 \fI<fafsa_file>

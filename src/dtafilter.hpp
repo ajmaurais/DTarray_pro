@@ -89,12 +89,6 @@ public:
 	inline bool operator == (const Peptide& comp) const{
 		return comp.key == key;
 	}
-	inline bool operator > (const Peptide& comp) const{
-		return key > comp.key;
-	}
-	inline bool operator < (const Peptide& comp) const{
-		return key < comp.key;
-	}
 	inline string makeKey() const;
 	void consolidate(const Peptide&);
 	void write(ofstream&, int);

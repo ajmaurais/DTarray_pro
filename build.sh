@@ -1,16 +1,18 @@
 
 #recompile DTarray_pro
 
+GIT_VERSION_HPP="src/gitVersion.hpp"
+
 #if dir is under git versioning, get updated git info
 if [ -d .git ] ; then
 	echo "Getting git version number..."
 	gitDate=$(git log -1 --format=%cd --date=local)
 	gitCommit=$(git rev-parse HEAD)
-	echo -e "\n#ifndef gitVersion_h" > src/gitVersion.hpp
-	echo -e "#define gitVersion_h\n" >> src/gitVersion.hpp
-	echo "const char* GIT_DATE = \"$gitDate\";" >> src/gitVersion.hpp
-	echo "const char* GIT_COMMIT = \"$gitCommit\";" >> src/gitVersion.hpp
-	echo -e "\n#endif /* gitVersion_h */" >> src/gitVersion.hpp
+	echo -e "\n#ifndef gitVersion_h" > $GIT_VERSION_HPP
+	echo -e "#define gitVersion_h\n" >> $GIT_VERSION_HPP
+	echo "const char* GIT_DATE = \"$gitDate\";" >> $GIT_VERSION_HPP
+	echo "const char* GIT_COMMIT = \"$gitCommit\";" >> $GIT_VERSION_HPP
+	echo -e "\n#endif /* gitVersion_h */" >> $GIT_VERSION_HPP
 fi
 
 echo "Recompiling DTarray_pro..."
