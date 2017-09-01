@@ -1,5 +1,12 @@
+//
+//  utils.cpp
+//  costom general utils library
+//
+//  Created by Aaron Maurais on 8/31/17.
+//  Copyright © 2017 Aaron Maurais. All rights reserved.
+//
 
-#include "../lib/utils.hpp"
+#include "utils.hpp"
 
 namespace utils{
 	
@@ -214,7 +221,7 @@ namespace utils{
 				files.push_back(*it);
 		return true;
 	}
-			   
+	
 	//exicutes string arg as bash command
 	void systemCommand(string command)
 	{
@@ -238,15 +245,32 @@ namespace utils{
 		string parentDir = rpath.substr(0, pos);
 		if(!dirExists(parentDir))
 			return false;
-			
+		
 		//make dir
 		systemCommand("mkdir " + rpath);
-			
+		
 		//test that new dir exists
 		return dirExists(rpath);
 	}
-
-			   
+	
+	template<class _Tp>
+	_Tp baseName(const _Tp& path, const _Tp& delims)
+	{
+		return path.substr(path.find_last_of(delims) + 1);
+	}
+	template<class _Tp>
+	_Tp removeExtension(const _Tp& filename)
+	{
+		typename _Tp::size_type const p(filename.find_last_of('.'));
+		return p > 0 && p != _Tp::npos ? filename.substr(0, p) : filename;
+	}
+	template<class _Tp>
+	_Tp getExtension(const _Tp& filename)
+	{
+		typename _Tp::size_type const p(filename.find_last_of('.'));
+		return p > 0 && p != _Tp::npos ? filename.substr(p) : filename;
+	}
+	
 	/*********************/
 	/*  type conversions */
 	/*********************/
@@ -316,7 +340,7 @@ namespace utils{
 		
 		return num;
 	}
-
+	
 	/*****************/
 	/*  string utils */
 	/*****************/
@@ -443,7 +467,9 @@ namespace utils{
 	
 	bool isFlag(const char* tok)
 	{
-		return tok[0] == '-';
+		if(tok == nullptr)
+			return false;
+		else return tok[0] == '-';
 	}
 	
 	bool isArg(const char* tok)

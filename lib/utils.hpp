@@ -1,9 +1,9 @@
 //
-//  utils.hpp
-//  DTarray_AJM
+//  utils.cpp
+//  costom general utils library
 //
-//  Created by Aaron Maurais on 10/28/16.
-//  Copyright © 2016 Aaron Maurais. All rights reserved.
+//  Created by Aaron Maurais on 8/31/17.
+//  Copyright © 2017 Aaron Maurais. All rights reserved.
 //
 
 #ifndef utils_hpp
@@ -22,6 +22,7 @@
 #include <ctime>
 #include <vector>
 #include <fstream>
+#include <algorithm>
 
 #ifndef PATH_MAX
 	#define PATH_MAX 1024
@@ -92,7 +93,7 @@ namespace utils{
 			return delimType;
 		}
 	};
-
+	
 	/*************/
 	/* functions */
 	/*************/
@@ -113,6 +114,9 @@ namespace utils{
 	bool mkdir(string);
 	bool mkdir(const char*);
 	void systemCommand(string command);
+	template<class _Tp> _Tp baseName(const _Tp& path, const _Tp& delims = "/\\");
+	template<class _Tp> _Tp removeExtension(const _Tp&);
+	template<class _Tp> _Tp getExtension(const _Tp&);
 	
 	//type conversions
 	template <typename _Tp> inline string toString(_Tp);
@@ -134,8 +138,10 @@ namespace utils{
 	inline string removeChars(char, string);
 	string toLower(string);
 	string repeat(string, size_t);
-	inline void getLineTrim(istream& is, string& line, char delim = DEFAULT_LINE_DELIM, size_t beginLine = DEFAULT_BEGIN_LINE);
-	inline void getLine(istream& is, string& line, char delim = DEFAULT_LINE_DELIM, size_t beginLine = DEFAULT_BEGIN_LINE);
+	inline void getLineTrim(istream& is, string& line,
+		char delim = DEFAULT_LINE_DELIM, size_t beginLine = DEFAULT_BEGIN_LINE);
+	inline void getLine(istream& is, string& line,
+		char delim = DEFAULT_LINE_DELIM, size_t beginLine = DEFAULT_BEGIN_LINE);
 	
 	//other
 	bool isFlag(const char*);

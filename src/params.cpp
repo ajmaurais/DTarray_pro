@@ -428,18 +428,24 @@ namespace params{
 			wd += "/";
 		ofstream outF((wd + flistName).c_str());
 		if(!outF)
+		{
+			cout << "Could not write flist!" << endl;
 			return false;
+		}
 		
 		outF << utils::COMMENT_SYMBOL << "File list for DTarray_pro" << endl
-		<< utils::COMMENT_SYMBOL << "File List generated on: " << utils::ascTime() << endl;
-		outF << endl << VNUM_STR << BIN_VERSION_NUM << END_VNUM_STR << "\n<flist>\n\n";
+			<< utils::COMMENT_SYMBOL << "File List generated on: " << utils::ascTime() << endl;
+			outF << endl << VNUM_STR << BIN_VERSION_NUM << END_VNUM_STR << "\n<flist>\n\n";
 		
 		if(inputFormat == "std")
 			return writeStdFlist(outF);
 		else if(inputFormat == "subdir")
 			return writeSubdirFlist(outF);
-		else return false;
-	}
+		else{
+			cout << inputFormat << " is not a valid input format!" << endl;
+			return false;
+		}//end of else
+	} //end of functon
 	
 	bool Params::writeStdFlist(ofstream& outF) const
 	{
@@ -571,5 +577,5 @@ namespace params{
 			good = false;
 		}
 		return good;
-	}
-}
+	} //end of function
+}//end of namespace

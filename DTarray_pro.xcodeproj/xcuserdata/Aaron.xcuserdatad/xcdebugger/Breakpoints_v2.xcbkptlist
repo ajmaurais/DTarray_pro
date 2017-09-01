@@ -94,54 +94,6 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "lib/utils.hpp"
-            timestampString = "518141909.944551"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "145"
-            endingLineNumber = "145"
-            landmarkName = "begin(_Tp(&amp;arr)[N])"
-            landmarkType = "9">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "std::__1::basic_string&lt;char, std::__1::char_traits&lt;char&gt;, std::__1::allocator&lt;char&gt; &gt;* utils::begin&lt;std::__1::basic_string&lt;char, std::__1::char_traits&lt;char&gt;, std::__1::allocator&lt;char&gt; &gt;, 8ul&gt;(std::__1::basic_string&lt;char, std::__1::char_traits&lt;char&gt;, std::__1::allocator&lt;char&gt; &gt; (&amp;) [8ul])"
-                  moduleName = "DTarray_pro"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/Aaron/scripts/DTarray_pro/src/../lib/../lib/utils.hpp"
-                  timestampString = "512502167.716574"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "142"
-                  endingLineNumber = "142"
-                  offsetFromSymbolStart = "8">
-               </Location>
-               <Location
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "std::__1::basic_string&lt;char, std::__1::char_traits&lt;char&gt;, std::__1::allocator&lt;char&gt; &gt;* utils::begin&lt;std::__1::basic_string&lt;char, std::__1::char_traits&lt;char&gt;, std::__1::allocator&lt;char&gt; &gt;, 3ul&gt;(std::__1::basic_string&lt;char, std::__1::char_traits&lt;char&gt;, std::__1::allocator&lt;char&gt; &gt; (&amp;) [3ul])"
-                  moduleName = "DTarray_pro"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/Aaron/scripts/DTarray_pro/src/../lib/../lib/utils.hpp"
-                  timestampString = "512502167.719744"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "142"
-                  endingLineNumber = "142"
-                  offsetFromSymbolStart = "8">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "src/calcMW.cpp"
             timestampString = "519753916.839804"
             startingColumnNumber = "9223372036854775807"
@@ -255,11 +207,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/params.cpp"
-            timestampString = "523557150.574123"
+            timestampString = "525890108.345471"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "433"
-            endingLineNumber = "433"
+            startingLineNumber = "436"
+            endingLineNumber = "436"
             landmarkName = "Params::writeFlist()"
             landmarkType = "7">
          </BreakpointContent>
@@ -319,11 +271,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/params.cpp"
-            timestampString = "523557150.574123"
+            timestampString = "525890108.345471"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "482"
-            endingLineNumber = "482">
+            startingLineNumber = "488"
+            endingLineNumber = "488">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -880,117 +832,6 @@
                   startingLineNumber = "942"
                   endingLineNumber = "942"
                   offsetFromSymbolStart = "4154">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "lib/utils.hpp"
-            timestampString = "518141909.944551"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "148"
-            endingLineNumber = "148"
-            landmarkName = "end(_Tp(&amp;arr)[N])"
-            landmarkType = "9">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "std::__1::basic_string&lt;char, std::__1::char_traits&lt;char&gt;, std::__1::allocator&lt;char&gt; &gt;* utils::end&lt;std::__1::basic_string&lt;char, std::__1::char_traits&lt;char&gt;, std::__1::allocator&lt;char&gt; &gt;, 8ul&gt;(std::__1::basic_string&lt;char, std::__1::char_traits&lt;char&gt;, std::__1::allocator&lt;char&gt; &gt; (&amp;) [8ul])"
-                  moduleName = "DTarray_pro"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/Aaron/scripts/DTarray_pro/src/../lib/../lib/utils.hpp"
-                  timestampString = "512498455.000318"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "145"
-                  endingLineNumber = "145"
-                  offsetFromSymbolStart = "8">
-               </Location>
-               <Location
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "std::__1::basic_string&lt;char, std::__1::char_traits&lt;char&gt;, std::__1::allocator&lt;char&gt; &gt;* utils::end&lt;std::__1::basic_string&lt;char, std::__1::char_traits&lt;char&gt;, std::__1::allocator&lt;char&gt; &gt;, 3ul&gt;(std::__1::basic_string&lt;char, std::__1::char_traits&lt;char&gt;, std::__1::allocator&lt;char&gt; &gt; (&amp;) [3ul])"
-                  moduleName = "DTarray_pro"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/Aaron/scripts/DTarray_pro/src/../lib/../lib/utils.hpp"
-                  timestampString = "512498455.003364"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "145"
-                  endingLineNumber = "145"
-                  offsetFromSymbolStart = "8">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "lib/utils.hpp"
-            timestampString = "518141909.944551"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "144"
-            endingLineNumber = "144"
-            landmarkName = "begin(_Tp(&amp;arr)[N])"
-            landmarkType = "9">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "std::__1::basic_string&lt;char, std::__1::char_traits&lt;char&gt;, std::__1::allocator&lt;char&gt; &gt;* utils::begin&lt;std::__1::basic_string&lt;char, std::__1::char_traits&lt;char&gt;, std::__1::allocator&lt;char&gt; &gt;, 8ul&gt;(std::__1::basic_string&lt;char, std::__1::char_traits&lt;char&gt;, std::__1::allocator&lt;char&gt; &gt; (&amp;) [8ul])"
-                  moduleName = "DTarray_pro"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/Aaron/scripts/DTarray_pro/src/../lib/../lib/utils.hpp"
-                  timestampString = "512498510.599583"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "142"
-                  endingLineNumber = "142"
-                  offsetFromSymbolStart = "8">
-               </Location>
-               <Location
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "std::__1::basic_string&lt;char, std::__1::char_traits&lt;char&gt;, std::__1::allocator&lt;char&gt; &gt;* utils::begin&lt;std::__1::basic_string&lt;char, std::__1::char_traits&lt;char&gt;, std::__1::allocator&lt;char&gt; &gt;, 3ul&gt;(std::__1::basic_string&lt;char, std::__1::char_traits&lt;char&gt;, std::__1::allocator&lt;char&gt; &gt; (&amp;) [3ul])"
-                  moduleName = "DTarray_pro"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/Aaron/scripts/DTarray_pro/src/../lib/../lib/utils.hpp"
-                  timestampString = "512498510.602939"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "142"
-                  endingLineNumber = "142"
-                  offsetFromSymbolStart = "8">
-               </Location>
-               <Location
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "std::__1::basic_string&lt;char, std::__1::char_traits&lt;char&gt;, std::__1::allocator&lt;char&gt; &gt; const* utils::begin&lt;std::__1::basic_string&lt;char, std::__1::char_traits&lt;char&gt;, std::__1::allocator&lt;char&gt; &gt; const, 3ul&gt;(std::__1::basic_string&lt;char, std::__1::char_traits&lt;char&gt;, std::__1::allocator&lt;char&gt; &gt; const (&amp;) [3ul])"
-                  moduleName = "DTarray_pro"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/Aaron/scripts/DTarray_pro/src/../lib/../lib/utils.hpp"
-                  timestampString = "512498510.605974"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "142"
-                  endingLineNumber = "142"
-                  offsetFromSymbolStart = "8">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -1568,11 +1409,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/params.cpp"
-            timestampString = "523557150.574123"
+            timestampString = "525890108.345471"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "526"
-            endingLineNumber = "526"
+            startingLineNumber = "532"
+            endingLineNumber = "532"
             landmarkName = "Params::readFlist(string fname, string path)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1584,11 +1425,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/params.cpp"
-            timestampString = "523557150.574123"
+            timestampString = "525890108.345471"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "529"
-            endingLineNumber = "529"
+            startingLineNumber = "535"
+            endingLineNumber = "535"
             landmarkName = "Params::readFlist(string fname, string path)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1600,27 +1441,27 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/params.cpp"
-            timestampString = "523557150.574123"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "519"
-            endingLineNumber = "519"
-            landmarkName = "Params::readFlist(string fname, string path)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "src/params.cpp"
-            timestampString = "523557150.574123"
+            timestampString = "525890108.345471"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "525"
             endingLineNumber = "525"
+            landmarkName = "Params::readFlist(string fname, string path)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/params.cpp"
+            timestampString = "525890108.345471"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "531"
+            endingLineNumber = "531"
             landmarkName = "Params::readFlist(string fname, string path)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1696,11 +1537,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/params.cpp"
-            timestampString = "523557150.574123"
+            timestampString = "525890108.345471"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "563"
-            endingLineNumber = "563"
+            startingLineNumber = "569"
+            endingLineNumber = "569"
             landmarkName = "Params::optionsCompatable()"
             landmarkType = "7">
          </BreakpointContent>
@@ -1824,11 +1665,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/params.cpp"
-            timestampString = "523557150.574123"
+            timestampString = "525890108.345471"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "549"
-            endingLineNumber = "549"
+            startingLineNumber = "555"
+            endingLineNumber = "555"
             landmarkName = "Params::optionsCompatable()"
             landmarkType = "7">
          </BreakpointContent>
@@ -2475,11 +2316,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/params.cpp"
-            timestampString = "523762394.759705"
+            timestampString = "525890108.345471"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "503"
-            endingLineNumber = "503"
+            startingLineNumber = "509"
+            endingLineNumber = "509"
             landmarkName = "Params::readFlist(string fname, string path)"
             landmarkType = "7">
          </BreakpointContent>
@@ -2491,11 +2332,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/params.cpp"
-            timestampString = "523762498.35523"
+            timestampString = "525890108.345471"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "516"
-            endingLineNumber = "516"
+            startingLineNumber = "522"
+            endingLineNumber = "522"
             landmarkName = "Params::readFlist(string fname, string path)"
             landmarkType = "7">
          </BreakpointContent>
@@ -2507,11 +2348,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/params.cpp"
-            timestampString = "523762608.497567"
+            timestampString = "525890108.345471"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "547"
-            endingLineNumber = "547"
+            startingLineNumber = "553"
+            endingLineNumber = "553"
             landmarkName = "Params::optionsCompatable()"
             landmarkType = "7">
          </BreakpointContent>
@@ -2530,6 +2371,22 @@
             endingLineNumber = "63"
             landmarkName = "Params::getOpts(int argc, const char* const argv [])"
             landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/main.cpp"
+            timestampString = "525889816.812237"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "24"
+            endingLineNumber = "24"
+            landmarkName = "main(int argc, char* argv[])"
+            landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
