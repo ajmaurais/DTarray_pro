@@ -61,7 +61,7 @@ namespace params{
 		{
 			if(!strcmp(argv[i], "-h") || !strcmp(argv[i], "--help"))
 			{
-				utils::systemCommand("man " + PROG_HELP_FILE_FNAME);
+				displayHelp();
 				return false;
 			}
 			if(!strcmp(argv[i], "-i") || !strcmp(argv[i], "--in"))

@@ -94,7 +94,9 @@ namespace params{
 		
 		string parseVersionNum(string) const;
 		
-		void displayHelp() const;
+		void displayHelp() const{
+			utils::systemCommand("man " + PROG_HELP_FILE_FNAME);
+		}
 		void usage() const;
 		bool writeStdFlist(ofstream&) const;
 		bool writeSubdirFlist(ofstream&) const;
@@ -177,6 +179,7 @@ namespace params{
 			supInfoOutput = 0;
 			peptideGroupMethod = byProtein;
 			supInfoNum = 0;
+			peptideSupInfoNum = 0;
 			saintBaitFile = "";
 			saintPreyFname = SAINT_PREY_FILE;
 			saintInteractionFname = SAINT_INTERACTION_FILE;
