@@ -12,6 +12,7 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
+#include "params.hpp"
 #include "../lib/hashTable.hpp"
 #include "../lib/utils.hpp"
 

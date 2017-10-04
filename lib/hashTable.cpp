@@ -17,7 +17,7 @@ namespace hashTable{
 	template<class _Tp>
 	_Tp* LinkedList<_Tp>::consolidate(const _Tp& newItem)
 	{
-		for(typename std::list<_Tp>::iterator it = dat.begin();it != dat.end(); ++it)
+		for(typename list<_Tp>::iterator it = dat.begin();it != dat.end(); ++it)
 		{
 			if(*it == newItem)
 			{
@@ -127,5 +127,5 @@ namespace hashTable{
 		for(size_t i = 0; i < size; i++)
 			array[i].apply(fxnNum);
 	}
-}
+}//end of hashTable namespace
 

@@ -56,7 +56,7 @@ void Protein::addFxn()
 	fxn = fxnDB->getDat(ID);
 }
 
-inline void Protein::operator = (const Protein& _p)
+void Protein::operator = (const Protein& _p)
 {
 	ID = _p.ID;
 	protein = _p.protein;
@@ -74,7 +74,7 @@ inline void Protein::operator = (const Protein& _p)
 	supDataAdded = _p.supDataAdded;
 }
 
-inline void Peptide::operator = (const Peptide& _p)
+void Peptide::operator = (const Peptide& _p)
 {
 	key = _p.key;
 	calcSequence = _p.calcSequence;
@@ -102,8 +102,8 @@ void Protein::getProteinData(string line)
 	
 	//keep fullDescription but seperate by spaces instead of tabs
 	fullDescription = elems[0];
-	for(vector<string>::iterator it = elems.begin(); it != elems.end(); ++it)
-		fullDescription += (" " + *it);
+	for(int i = 1; i < 9; i++)
+		fullDescription += (" " + elems[i]);
 	
 	//extract pI
 	pI = elems[6];
@@ -136,7 +136,7 @@ void Protein::getProteinData(string line)
 	col[*colIndex].sequenceCount = elems[1];
 }
 
-inline void Protein::getProtein(string str)
+void Protein::getProtein(string str)
 {
 	size_t firstSpace = str.find(" ");
 	
@@ -258,13 +258,13 @@ bool Proteins::readIn(params::Params* const pars,
 							}
 							
 						}
-					}
+					}//end of while
 					getNewLine = false;
 					inProtein = false;
-				}
-			}
-		}
-	}
+				}//end of if
+			}//end of else
+		}//end of if
+	}//end of while
 	return true;
 }
 
@@ -297,7 +297,7 @@ void Peptide::parsePeptide(const string& line)
 	col[*colIndex].parentFile = elems[0];
 }
 
-inline string Peptide::makeKey() const {
+string Peptide::makeKey() const {
 	switch(par->peptideGroupMethod){
 		case params::byScan : return fileName;
 			break;
@@ -309,7 +309,7 @@ inline string Peptide::makeKey() const {
 	}
 }
 
-inline void Protein::clear()
+void Protein::clear()
 {
 	col.clear();
 	MW.clear();
@@ -324,7 +324,7 @@ inline void Protein::clear()
 	sequence.clear();
 }
 
-inline void Peptide::clear()
+void Peptide::clear()
 {
 	col.clear();
 	unique = 0;

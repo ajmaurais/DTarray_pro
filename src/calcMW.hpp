@@ -10,6 +10,7 @@
 #define calcMW_h
 
 #include "../lib/hashTable.hpp"
+#include "params.hpp"
 
 class MWDB;
 class Peptide;

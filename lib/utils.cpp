@@ -96,7 +96,7 @@ namespace utils{
 	/*  file utilities */
 	/*******************/
 	
-	inline newline_type detectLineEnding_killStream(ifstream& inF) {
+	newline_type detectLineEnding_killStream(ifstream& inF) {
 		char tmp;
 		while(inF){
 			inF.get(tmp);
@@ -112,7 +112,7 @@ namespace utils{
 		return unknown;
 	}
 	
-	inline newline_type detectLineEnding(ifstream& inF)
+	newline_type detectLineEnding(ifstream& inF)
 	{
 		if(!inF)
 			throw runtime_error("Bad file stream!");
@@ -122,7 +122,7 @@ namespace utils{
 		return ret;
 	}
 	
-	inline char getDelim(newline_type type)
+	char getDelim(newline_type type)
 	{
 		switch(type){
 			case lf : return '\n';
@@ -187,7 +187,7 @@ namespace utils{
 	{
 		files.clear();
 		DIR* dirFile = opendir(path);
-		if (!dirFile)
+		if(!dirFile)
 			return false;
 		else{
 			struct dirent* hFile;
@@ -384,24 +384,27 @@ namespace utils{
 	}
 	
 	//remove trailing WHITESPACE
-	inline string trimTraling(const string& str)
+	template<class _Tp> _Tp trimTraling(const _Tp& _str)
 	{
+		string str = string(_str);
 		if(str.empty())
 			return "";
-		return str.substr(0, str.find_last_not_of(WHITESPACE) + 1 );
+		return str.substr(0, str.find_last_not_of(WHITESPACE) + 1);
 	}
 	
 	//remove leading WHITESPACE
-	inline string trimLeading(const string& str)
+	template<class _Tp> _Tp trimLeading(const _Tp& _str)
 	{
+		string str = string(_str);
 		if(str.empty())
 			return "";
 		return str.substr(str.find_first_not_of(WHITESPACE));
 	}
 	
 	//remove trailing and leading WHITESPACE
-	inline string trim(const string& str)
+	template<class _Tp> _Tp trim(const _Tp& _str)
 	{
+		string str = string(_str);
 		if(str.empty())
 			return "";
 		return trimLeading(trimTraling(str));

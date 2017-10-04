@@ -81,15 +81,15 @@ public:
 	~Peptide() {}
 	
 	//modifers
-	inline void clear();
+	void clear();
 	void calcMW();
-	inline void operator = (const Peptide&);
+	void operator = (const Peptide&);
 	
 	//properities
-	inline bool operator == (const Peptide& comp) const{
+	bool operator == (const Peptide& comp) const{
 		return comp.key == key;
 	}
-	inline string makeKey() const;
+	string makeKey() const;
 	void consolidate(const Peptide&);
 	void write(ofstream&, int);
 	
@@ -101,7 +101,7 @@ private:
 	static mwDB::MWDB* mwdb;
 
 	void parsePeptide(const string&);
-	inline void parseSequence(const string&);
+	void parseSequence(const string&);
 };
 
 mwDB::MWDB* Peptide::mwdb = nullptr;
@@ -137,8 +137,8 @@ private:
 	
 	//modifier
 	void getProteinData(string);
-	inline void getProtein(string);
-	inline void clear();
+	void getProtein(string);
+	void clear();
 	void calcMW();
 	void addSeq();
 	void addLoc();
@@ -175,7 +175,7 @@ public:
 	Protein() : ProteinDataTemplate<SampleData_protein>() {}
 	~Protein(){}
 	
-	inline void operator = (const Protein&);
+	void operator = (const Protein&);
 	
 	void consolidate(const Protein&);
 	void write(ofstream&, int);

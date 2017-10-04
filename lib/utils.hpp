@@ -1,5 +1,5 @@
 //
-//  utils.cpp
+//  utils.hpp
 //  costom general utils library
 //
 //  Created by Aaron Maurais on 8/31/17.
@@ -41,7 +41,7 @@ namespace utils{
 	enum newline_type {lf, crlf, cr, unknown};
 	char const DEFAULT_LINE_DELIM = '\n';
 	size_t const DEFAULT_BEGIN_LINE = 0;
-	bool const IGNORE_HIDDEN_FILES = true;
+	bool const IGNORE_HIDDEN_FILES = true; //ignore hidden files in utils::ls
 	
 	/******************************/
 	/*     class definitions     */
@@ -49,6 +49,8 @@ namespace utils{
 	
 	class File;
 	
+	//file class for reading in text files line by line
+	//automatically detects and handles line return characters from different operating systems
 	class File{
 	private:
 		char* buffer;
@@ -99,9 +101,9 @@ namespace utils{
 	/*************/
 	
 	//file utils
-	inline char getDelim(newline_type);
-	inline newline_type detectLineEnding_killStream(ifstream&);
-	inline newline_type detectLineEnding(ifstream&);
+	char getDelim(newline_type);
+	newline_type detectLineEnding_killStream(ifstream&);
+	newline_type detectLineEnding(ifstream&);
 	bool dirExists(const char*);
 	bool dirExists(string);
 	bool fileExists(const char*);
@@ -130,9 +132,9 @@ namespace utils{
 	inline bool startsWith(string whithinStr, string findStr);
 	inline bool endsWith(string whithinStr, string findStr);
 	inline void split (const string&, const char, vector<string>&);
-	inline string trimTraling(const string&);
-	inline string trimLeading(const string&);
-	inline string trim(const string&);
+	template<class _Tp> _Tp trimTraling(const _Tp&);
+	template<class _Tp> _Tp trimLeading(const _Tp&);
+	template<class _Tp> _Tp trim(const _Tp&);
 	bool isCommentLine(string);
 	inline string removeSubstr(string, string);
 	inline string removeChars(char, string);

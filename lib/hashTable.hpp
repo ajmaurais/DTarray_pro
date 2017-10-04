@@ -46,10 +46,10 @@ namespace hashTable{
 		~LinkedList() {}
 		
 		//modifer
-		inline void push_back(const _Tp& newItem){
+		void push_back(const _Tp& newItem){
 			dat.push_back(newItem);
 		}
-		inline void push_front(const _Tp& newItem){
+		void push_front(const _Tp& newItem){
 			dat.push_front(newItem);
 		}
 		_Tp* consolidate(const _Tp&);
@@ -59,10 +59,10 @@ namespace hashTable{
 		
 		//properties
 		bool itemExists(string) const;
-		inline size_t getLength() const{
+		size_t getLength() const{
 			return dat.size();
 		}
-		inline bool empty() const{
+		bool empty() const{
 			return dat.empty();
 		}
 	};
@@ -107,7 +107,7 @@ namespace hashTable{
 		void printHistogram() const; //for debuging
 		void write(ofstream& outF, int fxnNum = 0);
 		void apply(int fxnNum = 0);
-	};
-}
+	};//end of HashTable class
+}//end of hashTable namespace
 
 #endif

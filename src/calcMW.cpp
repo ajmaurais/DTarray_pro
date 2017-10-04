@@ -152,7 +152,7 @@ namespace mwDB{
 					{
 						AminoAcid temp (line);
 						if(!addStaticMod(temp))
-							cout << endl << "Could not find " << temp.symbol << "in aaDB!";
+							cout << endl << "Could not find " << temp.symbol << " in aaDB!" << endl;
 					}
 					i++;
 					if(i > MAX_PARAM_ITTERATIONS)
