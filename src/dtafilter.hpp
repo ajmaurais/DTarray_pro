@@ -55,6 +55,8 @@ string const DEFALUT_PEPTIDE_DB_COLNAMES [] = {"Protein_ID", "Parent_protein", "
 	"CalcMH", "Long_sample_name", "Spectral_counts", "Sample", "Replicate"};
 size_t const DEFALUT_PEPTIDE_DB_COLNAMES_LEN = 9;
 string const REVERSE_MATCH = "Reverse_";
+
+//diffmod symbols to search for
 const char* DIFFMODS = "*";
 
 char const DB_DELIM = ';';

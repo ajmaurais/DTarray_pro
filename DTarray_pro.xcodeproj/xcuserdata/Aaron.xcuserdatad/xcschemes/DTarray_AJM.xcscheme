@@ -66,11 +66,11 @@
       <CommandLineArguments>
          <CommandLineArgument
             argument = "-d /Users/Aaron/Google_Drive/School_Work/Mass_spec_data/Thompson_lab_samples/Human_RA_and_Healthy_SF/data/"
-            isEnabled = "NO">
+            isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
             argument = "-d /Users/Aaron/Google_Drive/School_Work/Mass_spec_data/temp/"
-            isEnabled = "YES">
+            isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
             argument = "-p 1"

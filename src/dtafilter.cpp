@@ -1134,6 +1134,8 @@ int parseModPeptide(string line)
 	size_t firstP = sequence.find(".");
 	size_t secP = sequence.find_last_of(".");
 	sequence = sequence.substr(firstP + 1, secP - (sequence.length() - secP));
+	
+	//return true if any DIFMODS are found in peptide string.
 	for(const char* p = DIFFMODS; *p; p++)
 		if(utils::strContains(*p, sequence))
 			return utils::toInt(elems[11]);

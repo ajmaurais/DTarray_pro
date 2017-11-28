@@ -132,9 +132,9 @@ namespace utils{
 	inline bool startsWith(string whithinStr, string findStr);
 	inline bool endsWith(string whithinStr, string findStr);
 	inline void split (const string&, const char, vector<string>&);
-	template<class _Tp> _Tp trimTraling(const _Tp&);
-	template<class _Tp> _Tp trimLeading(const _Tp&);
-	template<class _Tp> _Tp trim(const _Tp&);
+	string trimTraling(const string&);
+	string trimLeading(const string&);
+	string trim(const string&);
 	bool isCommentLine(string);
 	inline string removeSubstr(string, string);
 	inline string removeChars(char, string);

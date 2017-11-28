@@ -384,27 +384,24 @@ namespace utils{
 	}
 	
 	//remove trailing WHITESPACE
-	template<class _Tp> _Tp trimTraling(const _Tp& _str)
+	string trimTraling(const string& str)
 	{
-		string str = string(_str);
 		if(str.empty())
 			return "";
 		return str.substr(0, str.find_last_not_of(WHITESPACE) + 1);
 	}
 	
 	//remove leading WHITESPACE
-	template<class _Tp> _Tp trimLeading(const _Tp& _str)
+	string trimLeading(const string& str)
 	{
-		string str = string(_str);
 		if(str.empty())
 			return "";
 		return str.substr(str.find_first_not_of(WHITESPACE));
 	}
 	
 	//remove trailing and leading WHITESPACE
-	template<class _Tp> _Tp trim(const _Tp& _str)
+	string trim(const string& str)
 	{
-		string str = string(_str);
 		if(str.empty())
 			return "";
 		return trimLeading(trimTraling(str));
