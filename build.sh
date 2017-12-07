@@ -1,7 +1,7 @@
 
 #recompile DTarray_pro
 
-GIT_VERSION_HPP="src/gitVersion.hpp"
+GIT_VERSION_HPP="include/gitVersion.hpp"
 
 #if dir is under git versioning, get updated git info
 if [ -d .git ] ; then
