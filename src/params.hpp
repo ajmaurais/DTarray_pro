@@ -44,7 +44,7 @@ namespace params{
 	const string PROG_AA_DB_FNAME = PROG_WD_DB + "/aaMasses.txt";
 	const string PROG_FXN_DB_FNAME = PROG_WD_DB + "/humanFxn.tsv";
 	const string PROG_STATIC_MOD_FNAME = PROG_WD_DB + "/staticModifications.txt";
-	const string PROG_HELP_FILE_FNAME = PROG_WD_HOME + "/man/DTarray.1";
+	const string PROG_HELP_FILE_FNAME = PROG_WD_DB + "/helpFile.man";
 	const string PROG_USAGE_FNAME = PROG_WD_DB + "/usage.txt";
 	
 	//default file names

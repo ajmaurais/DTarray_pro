@@ -253,22 +253,21 @@ namespace utils{
 		return dirExists(rpath);
 	}
 	
-	template<class _Tp>
-	_Tp baseName(const _Tp& path, const _Tp& delims)
+	std::string baseName(const std::string& path, const std::string& delims)
 	{
 		return path.substr(path.find_last_of(delims) + 1);
 	}
-	template<class _Tp>
-	_Tp removeExtension(const _Tp& filename)
+	
+	std::string removeExtension(const std::string& filename)
 	{
-		typename _Tp::size_type const p(filename.find_last_of('.'));
-		return p > 0 && p != _Tp::npos ? filename.substr(0, p) : filename;
+		std::string::size_type const p(filename.find_last_of('.'));
+		return p > 0 && p != std::string::npos ? filename.substr(0, p) : filename;
 	}
-	template<class _Tp>
-	_Tp getExtension(const _Tp& filename)
+
+	std::string getExtension(const std::string& filename)
 	{
-		typename _Tp::size_type const p(filename.find_last_of('.'));
-		return p > 0 && p != _Tp::npos ? filename.substr(p) : filename;
+		std::string::size_type const p(filename.find_last_of('.'));
+		return p > 0 && p != std::string::npos ? filename.substr(p) : filename;
 	}
 	
 	/*********************/

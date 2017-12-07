@@ -69,6 +69,10 @@
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
+            argument = "-h"
+            isEnabled = "YES">
+         </CommandLineArgument>
+         <CommandLineArgument
             argument = "-d /Users/Aaron/Google_Drive/School_Work/Mass_spec_data/temp/"
             isEnabled = "NO">
          </CommandLineArgument>

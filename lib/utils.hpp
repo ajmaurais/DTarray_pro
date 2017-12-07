@@ -116,9 +116,9 @@ namespace utils{
 	bool mkdir(string);
 	bool mkdir(const char*);
 	void systemCommand(string command);
-	template<class _Tp> _Tp baseName(const _Tp& path, const _Tp& delims = "/\\");
-	template<class _Tp> _Tp removeExtension(const _Tp&);
-	template<class _Tp> _Tp getExtension(const _Tp&);
+	std::string baseName(const std::string& path, const std::string& delims = "/\\");
+	std::string removeExtension(const std::string&);
+	std::string getExtension(const std::string&);
 	
 	//type conversions
 	template <typename _Tp> inline string toString(_Tp);
