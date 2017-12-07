@@ -9,8 +9,8 @@
 #ifndef parentClasses_hpp
 #define parentClasses_hpp
 
-#include "params.hpp"
-#include "../lib/hashTable.hpp"
+#include <params.hpp>
+#include <hashTable.hpp>
 
 using namespace std;
 

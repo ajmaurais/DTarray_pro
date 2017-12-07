@@ -22,15 +22,15 @@
 #define BIN_VERSION_NUM "1.63"
 #define MIN_BIN_VERSION_NUM 1.60
 
-#include "gitVersion.hpp"
-#include "dtafilter.hpp"
-#include "../lib/hashTable.cpp"
-#include "../lib/utils.cpp"
-#include "params.cpp"
-#include "dtafilter.cpp"
-#include "calcMW.cpp"
-#include "dbase.cpp"
-#include "saintOutput.cpp"
-#include "locReport.cpp"
+#include <gitVersion.hpp>
+#include <dtafilter.hpp>
+#include "../src/hashTable.cpp"
+#include "../src/utils.cpp"
+#include "../src/params.cpp"
+#include "../src/dtafilter.cpp"
+#include "../src/calcMW.cpp"
+#include "../src/dbase.cpp"
+#include "../src/saintOutput.cpp"
+#include "../src/locReport.cpp"
 
 #endif /* DTarray_pro.hpp */

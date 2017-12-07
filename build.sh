@@ -17,6 +17,6 @@ fi
 
 echo "Recompiling DTarray_pro..."
 
-g++ -o bin/DTarray_pro src/main.cpp
+g++ -I./include/ -o bin/DTarray_pro src/main.cpp
 
 echo "Done!"

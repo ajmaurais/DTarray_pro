@@ -19,13 +19,14 @@
 #include <string>
 #include <algorithm>
 #include <stdexcept>
-#include "baseClasses.hpp"
-#include "dbase.hpp"
-#include "../lib/utils.hpp"
-#include "params.hpp"
-#include "calcMW.hpp"
-#include "saintOutput.hpp"
-#include "locReport.hpp"
+
+#include <baseClasses.hpp>
+#include <dbase.hpp>
+#include <utils.hpp>
+#include <params.hpp>
+#include <calcMW.hpp>
+#include <saintOutput.hpp>
+#include <locReport.hpp>
 
 using namespace std;
 

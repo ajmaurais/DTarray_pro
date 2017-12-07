@@ -9,9 +9,9 @@
 #ifndef dbase_hpp
 #define dbase_hpp
 
-#include "baseClasses.hpp"
-#include "../lib/hashTable.hpp"
-#include "../lib/utils.hpp"
+#include <baseClasses.hpp>
+#include <hashTable.hpp>
+#include <utils.hpp>
 
 using namespace std;
 

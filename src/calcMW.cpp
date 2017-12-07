@@ -6,7 +6,7 @@
 //  Copyright © 2016 Aaron Maurais. All rights reserved.
 //
 
-#include "calcMW.hpp"
+#include <calcMW.hpp>
 
 namespace mwDB{
 	

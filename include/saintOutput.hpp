@@ -11,8 +11,8 @@
 
 #include <iostream>
 #include <vector>
-#include "../lib/utils.hpp"
-#include "../lib/hashTable.hpp"
+#include <utils.hpp>
+#include <hashTable.hpp>
 
 using namespace std;
 

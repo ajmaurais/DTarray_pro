@@ -16,8 +16,8 @@
 #include <cstdlib>
 #include <ctime>
 
-#include "../lib/utils.hpp"
-#include "dtafilter.hpp"
+#include <utils.hpp>
+#include <dtafilter.hpp>
 
 using namespace std;
 

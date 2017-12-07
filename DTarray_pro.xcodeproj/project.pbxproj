@@ -23,27 +23,27 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		9309A5A71D806F6700C404ED /* hashTable.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = hashTable.cpp; path = lib/hashTable.cpp; sourceTree = "<group>"; };
-		930E31C51DCD39640001BB21 /* dbase.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = dbase.hpp; path = src/dbase.hpp; sourceTree = "<group>"; };
-		930E31C61DCD3AC50001BB21 /* baseClasses.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = baseClasses.hpp; path = src/baseClasses.hpp; sourceTree = "<group>"; };
+		9309A5A71D806F6700C404ED /* hashTable.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = hashTable.cpp; path = src/hashTable.cpp; sourceTree = "<group>"; };
+		930E31C51DCD39640001BB21 /* dbase.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = dbase.hpp; path = include/dbase.hpp; sourceTree = "<group>"; };
+		930E31C61DCD3AC50001BB21 /* baseClasses.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = baseClasses.hpp; path = include/baseClasses.hpp; sourceTree = "<group>"; };
 		9355406D1D7E3D57008C847D /* calcMW.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = calcMW.cpp; path = src/calcMW.cpp; sourceTree = "<group>"; };
-		9355E44B1E940CA10027785C /* gitVersion.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = gitVersion.hpp; path = src/gitVersion.hpp; sourceTree = "<group>"; };
-		935749831D83521B00ED60BF /* hashTable.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = hashTable.hpp; path = lib/hashTable.hpp; sourceTree = "<group>"; };
+		9355E44B1E940CA10027785C /* gitVersion.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = gitVersion.hpp; path = include/gitVersion.hpp; sourceTree = "<group>"; };
+		935749831D83521B00ED60BF /* hashTable.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = hashTable.hpp; path = include/hashTable.hpp; sourceTree = "<group>"; };
 		935C31841EDF1A0C00497FB7 /* locReport.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = locReport.cpp; path = src/locReport.cpp; sourceTree = "<group>"; };
-		935C31851EDF1A0C00497FB7 /* locReport.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = locReport.hpp; path = src/locReport.hpp; sourceTree = "<group>"; };
-		935D3A0C1D5954F000171E6A /* dtafilter.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = dtafilter.hpp; path = src/dtafilter.hpp; sourceTree = "<group>"; };
-		938468E51E1ABE6200B96854 /* DTarray_pro.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = DTarray_pro.hpp; path = src/DTarray_pro.hpp; sourceTree = "<group>"; };
+		935C31851EDF1A0C00497FB7 /* locReport.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = locReport.hpp; path = include/locReport.hpp; sourceTree = "<group>"; };
+		935D3A0C1D5954F000171E6A /* dtafilter.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = dtafilter.hpp; path = include/dtafilter.hpp; sourceTree = "<group>"; };
+		938468E51E1ABE6200B96854 /* DTarray_pro.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = DTarray_pro.hpp; path = include/DTarray_pro.hpp; sourceTree = "<group>"; };
 		93C94ECE1CF3A8580003D4E5 /* DTarray_pro */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = DTarray_pro; sourceTree = BUILT_PRODUCTS_DIR; };
 		93C94ED11CF3A8580003D4E5 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = src/main.cpp; sourceTree = "<group>"; };
-		93CAE46F1D3EE60700BDE765 /* utils.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = utils.cpp; path = lib/utils.cpp; sourceTree = "<group>"; };
+		93CAE46F1D3EE60700BDE765 /* utils.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = utils.cpp; path = src/utils.cpp; sourceTree = "<group>"; };
 		93CAE4701D3EEC9800BDE765 /* dtafilter.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = dtafilter.cpp; path = src/dtafilter.cpp; sourceTree = "<group>"; };
-		93E331A81DC3D6F2002EF248 /* utils.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = utils.hpp; path = lib/utils.hpp; sourceTree = "<group>"; };
-		93E331A91DC3EF5B002EF248 /* calcMW.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = calcMW.hpp; path = src/calcMW.hpp; sourceTree = "<group>"; };
+		93E331A81DC3D6F2002EF248 /* utils.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = utils.hpp; path = include/utils.hpp; sourceTree = "<group>"; };
+		93E331A91DC3EF5B002EF248 /* calcMW.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = calcMW.hpp; path = include/calcMW.hpp; sourceTree = "<group>"; };
 		93E331AA1DC3F264002EF248 /* params.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = params.cpp; path = src/params.cpp; sourceTree = "<group>"; };
-		93E331AB1DC3F264002EF248 /* params.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = params.hpp; path = src/params.hpp; sourceTree = "<group>"; };
+		93E331AB1DC3F264002EF248 /* params.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = params.hpp; path = include/params.hpp; sourceTree = "<group>"; };
 		93E331AC1DC3F3C3002EF248 /* dbase.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = dbase.cpp; path = src/dbase.cpp; sourceTree = "<group>"; };
 		93FC02651E270377005D2E6C /* saintOutput.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = saintOutput.cpp; path = src/saintOutput.cpp; sourceTree = "<group>"; };
-		93FC02661E270377005D2E6C /* saintOutput.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = saintOutput.hpp; path = src/saintOutput.hpp; sourceTree = "<group>"; };
+		93FC02661E270377005D2E6C /* saintOutput.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = saintOutput.hpp; path = include/saintOutput.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -203,9 +203,11 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = /Users/Aaron/scripts/DTarray_pro/include/;
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = NO;
 				SDKROOT = macosx;
 			};
 			name = Debug;
@@ -243,8 +245,10 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = /Users/Aaron/scripts/DTarray_pro/include/;
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				MTL_ENABLE_DEBUG_INFO = NO;
+				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = NO;
 				SDKROOT = macosx;
 			};
 			name = Release;

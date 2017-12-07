@@ -12,9 +12,10 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
-#include "params.hpp"
-#include "../lib/hashTable.hpp"
-#include "../lib/utils.hpp"
+
+#include <params.hpp>
+#include <hashTable.hpp>
+#include <utils.hpp>
 
 using namespace std;
 

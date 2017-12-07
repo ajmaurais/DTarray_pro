@@ -6,7 +6,7 @@
 //  Copyright © 2017 Aaron Maurais. All rights reserved.
 //
 
-#include "locReport.hpp"
+#include <locReport.hpp>
 
 namespace locReport{
 	

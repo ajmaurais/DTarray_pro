@@ -9,8 +9,8 @@
 #ifndef calcMW_h
 #define calcMW_h
 
-#include "../lib/hashTable.hpp"
-#include "params.hpp"
+#include <hashTable.hpp>
+#include <params.hpp>
 
 namespace mwDB{
 	class MWDB;
