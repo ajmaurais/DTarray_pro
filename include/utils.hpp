@@ -135,6 +135,8 @@ namespace utils{
 	string trimTraling(const string&);
 	string trimLeading(const string&);
 	string trim(const string&);
+	void trimAll(std::vector<std::string>&);
+	void removeBlanks(std::vector<std::string>&);
 	bool isCommentLine(string);
 	inline string removeSubstr(string, string);
 	inline string removeChars(char, string);

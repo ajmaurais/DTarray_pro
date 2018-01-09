@@ -156,12 +156,14 @@ void Protein::calcMW()
 		sequence = SEQ_NOT_FOUND;
 		avgMass = -1;
 		monoMass = -1;
+		formula = "";
 		return;
 	}
 	
 	sequence = tmp_sequence;
 	avgMass = mwdb->calcMW(sequence, 0);
 	monoMass = mwdb->calcMW(sequence, 1);
+	//formula = mwdb->getFormula(sequence);
 }
 
 void Peptide::calcMW()
@@ -499,7 +501,8 @@ void Protein::writeProtein(ofstream& outF)
 	
 	if(par->calcMW)
 		outF << OUT_DELIM << std::fixed << avgMass <<
-		OUT_DELIM << std::fixed << monoMass;
+		OUT_DELIM << std::fixed << monoMass <<
+		OUT_DELIM << formula;
 	
 	if(par->getSeq)
 		outF << OUT_DELIM << sequence;
@@ -1198,7 +1201,8 @@ void Peptide::write(ofstream& outF, int fxnNum)
 	
 	if(par->calcMW)
 		outF << OUT_DELIM << std::fixed << avgMass
-		<< OUT_DELIM << std::fixed << monoMass;
+		<< OUT_DELIM << std::fixed << monoMass
+		<< OUT_DELIM << formula;
 	
 	outF << OUT_DELIM << calcMH;
 	
@@ -1290,7 +1294,7 @@ bool Peptides::writeOut(string ofname, const params::Params& pars)
 		for(it = headers.begin(); it != headers.end(); it++)
 			if(*it == "Unique")
 			{
-				headers.insert(it + 1, MWCALC_HEADERS, MWCALC_HEADERS + 2);
+				headers.insert(it + 1, MWCALC_HEADERS, MWCALC_HEADERS + 3);
 				break;
 			}
 	}
@@ -1426,7 +1430,7 @@ bool Peptides::writeOutDB(string ofname, const params::Params& pars)
 		for(it = headers.begin(); it != headers.end(); it++)
 			if(*it == "Unique")
 			{
-				headers.insert(it + 1, MWCALC_HEADERS, MWCALC_HEADERS + 2);
+				headers.insert(it + 1, MWCALC_HEADERS, MWCALC_HEADERS + 3);
 				break;
 			}
 	}

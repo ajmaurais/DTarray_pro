@@ -44,12 +44,15 @@ namespace params{
 	const string PROG_AA_DB_FNAME = PROG_WD_DB + "/aaMasses.txt";
 	const string PROG_FXN_DB_FNAME = PROG_WD_DB + "/humanFxn.tsv";
 	const string PROG_STATIC_MOD_FNAME = PROG_WD_DB + "/staticModifications.txt";
+	const string PROG_ATOM_COUNT_TABLE_FNAME = PROG_WD_DB + "/defaultResidueAtoms.txt";
+	const string PROG_ATOM_MASS_TABLE_FNAME = PROG_WD_DB + "/atomMasses.txt";
 	const string PROG_HELP_FILE_FNAME = PROG_WD_DB + "/helpFile.man";
 	const string PROG_USAGE_FNAME = PROG_WD_DB + "/usage.txt";
 	
 	//default file names
 	const string DEFAULT_FLIST_NAME = "dtarray_pro_flist.txt";
 	const string DEFAULT_SMOD_NAME = "staticModifications.txt";
+	const string DEFAULT_ATOM_COUNT_TABLE_FNAME = "atomCountTable.txt";
 	const string DTAFILTER_EXT = ".dtafilter";
 	const string OFNAME = "DTarray_pro.tsv";
 	const string DB_OFNAME = "DTarray_long.tsv";
@@ -89,7 +92,7 @@ namespace params{
 	//params file.
 	class Params{
 	private:
-		friend class Proteins;
+		//friend class Proteins;
 		vector<FilterFileParam> file;
 		
 		string parseVersionNum(string) const;
@@ -119,6 +122,7 @@ namespace params{
 		string locDBfname;
 		bool calcMW;
 		string aaDBfanme, mwDBFname, staticModsFname;
+		string atomMassTableFname, atomCountTableFname;
 		string ofname, dbOfname, dbPeptideOfFname, peptideOfFname;
 		bool getSeq;
 		string seqDBfname;
@@ -163,6 +167,8 @@ namespace params{
 			aaDBfanme = PROG_AA_DB_FNAME;
 			mwDBFname = PROG_MW_DB_FNAME;
 			staticModsFname = DEFAULT_SMOD_NAME;
+			atomMassTableFname = PROG_ATOM_MASS_TABLE_FNAME;
+			atomCountTableFname = PROG_ATOM_COUNT_TABLE_FNAME;
 			ofname = OFNAME;
 			dbOfname = DB_OFNAME;
 			dbPeptideOfFname = PEPTIDE_DB_OFNAME;
@@ -201,13 +207,14 @@ namespace params{
 		//properties
 		bool writeFlist();
 		bool optionsCompatable() const;
+		bool writeSmod(string) const;
+		bool writeAtomCountTable(string) const;
 		string getFilePath(size_t index) const {
 			return file[index].getPath();
 		}
 		string getFileColname(size_t index) const {
 			return file[index].getColname();
 		}
-		bool writeSmod(string) const;
 		
 		int getNumFiles() const{
 			return numFiles;

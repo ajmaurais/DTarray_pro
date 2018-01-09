@@ -32,5 +32,6 @@
 #include "../src/dbase.cpp"
 #include "../src/saintOutput.cpp"
 #include "../src/locReport.cpp"
+#include "../src/molecularFormula.cpp"
 
 #endif /* DTarray_pro.hpp */

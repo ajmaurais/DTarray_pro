@@ -62,6 +62,7 @@ protected:
 	
 	vector<_Tp> col;
 	double avgMass, monoMass;
+	std::string formula;
 	string length;
 	string sequence;
 	string matchDirrection;

@@ -406,6 +406,22 @@ namespace utils{
 		return trimLeading(trimTraling(str));
 	}
 	
+	void trimAll(std::vector<std::string>& elems)
+	{
+		for(std::vector<std::string>::iterator it = elems.begin(); it != elems.end(); ++it)
+			*it = utils::trim(*it);
+	}
+	
+	void removeBlanks(std::vector<std::string>& elems)
+	{
+		for(std::vector<std::string>::iterator it = elems.begin(); it != elems.end();)
+		{
+			if(it->empty())
+				elems.erase(it);
+			else ++it;
+		}
+	}
+	
 	//returns true if line begins with COMMENT_SYMBOL, ignoring leading whitespace
 	bool isCommentLine(string line)
 	{
