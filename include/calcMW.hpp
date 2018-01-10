@@ -22,15 +22,15 @@ namespace mwDB{
 	size_t const MAX_PARAM_ITTERATIONS = 100;*/
 	
 	class SeqDB{
-		typedef map<string, string> seqLibraryType;
+		typedef std::map<std::string, std::string> seqLibraryType;
 		seqLibraryType seqLibrary;
 	public:
 		SeqDB(){}
 		~SeqDB(){}
 		
 		//modifers
-		bool readIn(string);
-		string getSequence(string) const;
+		bool readIn(std::string);
+		std::string getSequence(std::string) const;
 	};
 	
 	class MWDB_Protein : public molFormula::Residues{
@@ -44,7 +44,7 @@ namespace mwDB{
 			delete seqDB;
 		}
 		
-		bool initalize(string wd, const params::Params&);
+		bool initalize(std::string wd, const params::Params&);
 	};
 }
 

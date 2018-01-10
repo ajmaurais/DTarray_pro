@@ -24,13 +24,13 @@ void DBProtein::clear()
 	dat.clear();
 }
 
-DBProtein::DBProtein(string line)
+DBProtein::DBProtein(std::string line)
 {
 	if(line.empty())
 		clear();
 	else
 	{
-		vector<string>elems;
+		std::vector<std::string>elems;
 		utils::split(line, '\t', elems);
 		assert(elems.size() == 4);
 		
@@ -49,13 +49,13 @@ void DBProtein::operator = (const DBProtein& pget)
 	dat = pget.dat;
 }
 
-bool Dbase::readIn(string fname)
+bool Dbase::readIn(std::string fname)
 {
 	utils::File file(fname);
 	if(!file.read(fname))
 		return false;
 	
-	string line;
+	std::string line;
 	
 	while(!file.end()){
 		line = file.getLine_skip_trim();
@@ -66,7 +66,7 @@ bool Dbase::readIn(string fname)
 	return true;
 }
 
-string Dbase::getDat(string key) const
+std::string Dbase::getDat(std::string key) const
 {
 	DBProtein* const tempNode = db->getItem(key);
 	if(tempNode == nullptr)

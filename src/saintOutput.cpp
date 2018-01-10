@@ -10,9 +10,9 @@
 
 namespace saint{
 	
-	BaitFileData::BaitFileData(string line)
+	BaitFileData::BaitFileData(std::string line)
 	{
-		vector<string> elems;
+		std::vector<std::string> elems;
 		utils::split(line, '\t', elems);
 		assert(elems.size() == 3);
 		ipName = elems[0];
@@ -26,7 +26,7 @@ namespace saint{
 		if(!file.read())
 			return false;
 		
-		string line;
+		std::string line;
 		
 		while(!file.end())
 		{
@@ -37,7 +37,7 @@ namespace saint{
 		return true;
 	}
 	
-	string BaitFile::getBaitName(string _key) const
+	std::string BaitFile::getBaitName(std::string _key) const
 	{	
 		BaitFileData* item = dat->getItem(_key);
 		if(item == nullptr)

@@ -28,7 +28,7 @@ namespace molFormula{
 	typedef std::map<std::string, Species> AtomMassMapType;
 	typedef std::map<std::string, int> AtomCountMapType;
 	
-	string const SUBSCRIPT_MAP [] = {"\u2080", "\u2081", "\u2082", "\u2083", "\u2084", "\u2085",
+	std::string const SUBSCRIPT_MAP [] = {"\u2080", "\u2081", "\u2082", "\u2083", "\u2084", "\u2085",
 		"\u2086", "\u2087", "\u2088", "\u2089"};
 	bool const UNICODE_AS_DEFAULT = true;
 	const std::string FORMULA_RESIDUE_ORDER [] = {"C", "(13)C", "H", "D", "Br", "Cl", "N",

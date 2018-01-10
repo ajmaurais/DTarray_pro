@@ -29,40 +29,38 @@
 #include <locReport.hpp>
 #include <molecularFormula.hpp>
 
-using namespace std;
-
 /******************************/
 /* globally scoped constants */
 /*****************************/
 
 bool const INCLUDE_FULL_DESCRIPTION = true;
-string const DEFAULT_COL_NAMES [] = {"Full_description", "ID", "Protein", "Description", "pI", "Length(aa)", "Mass(Da)"};
+std::string const DEFAULT_COL_NAMES [] = {"Full_description", "ID", "Protein", "Description", "pI", "Length(aa)", "Mass(Da)"};
 size_t const DEFAULT_COL_NAMES_LENGTH = 7;
-string const SEQ_NOT_FOUND = "SEQUENCE_NOT_FOUND_IN_DB";
+std::string const SEQ_NOT_FOUND = "SEQUENCE_NOT_FOUND_IN_DB";
 size_t const PROTEINS_DATA_SIZE = 500;
 size_t const PEPTIDES_DATA_SIZE = 2500;
-string const DEFAULT_COL_NAMES_DB [] = {"Full_description", "ID", "Protein", "Description", "pI", "Length(aa)", "Mass(Da)",
+std::string const DEFAULT_COL_NAMES_DB [] = {"Full_description", "ID", "Protein", "Description", "pI", "Length(aa)", "Mass(Da)",
 	"Long_sample_name", "Spectral_counts"};
 size_t const DEFAULT_COL_NAMES_DB_LENGTH = 9;
-string const PARSE_SAMPLE_NAME_HEADERS [] = {"Sample", "Replicate"};
+std::string const PARSE_SAMPLE_NAME_HEADERS [] = {"Sample", "Replicate"};
 size_t const PARSE_SAMPLE_NAME_HEADERS_LEN = 2;
-string const SUP_INFO_HEADERS[] = {"SC", "Unique_pep_SC", "Coverage", "Sequence_count", "Num_mod_pep", "SC_mod_pep"};
+std::string const SUP_INFO_HEADERS[] = {"SC", "Unique_pep_SC", "Coverage", "Sequence_count", "Num_mod_pep", "SC_mod_pep"};
 size_t const SUP_INFO_HEADERS_LEN = 6;
-string const PEP_SUP_INFO_HEADERS[] = {"SC", "Mod_pep_SC"};
+std::string const PEP_SUP_INFO_HEADERS[] = {"SC", "Mod_pep_SC"};
 size_t const PEP_SUP_INFO_HEADERS_LEN = 2;
-string const MWCALC_HEADERS [] = {"Avg_mass", "Monoisotopic_mass", "Formula", "Sequence"};
+std::string const MWCALC_HEADERS [] = {"Avg_mass", "Monoisotopic_mass", "Formula", "Sequence"};
 size_t const MWCALC_HEADERS_LENGTH = 3;
-string const DEFALUT_PEPTIDE_COLNAMES [] = {"Protein_ID", "Parent_protein", "Protein_description", "Sequence", "Length(aa)", "Unique", "CalcMH"};
-string const DEFALUT_PEPTIDE_DB_COLNAMES [] = {"Protein_ID", "Parent_protein", "Protein_description", "Sequence", "Length(aa)", "Unique",
+std::string const DEFALUT_PEPTIDE_COLNAMES [] = {"Protein_ID", "Parent_protein", "Protein_description", "Sequence", "Length(aa)", "Unique", "CalcMH"};
+std::string const DEFALUT_PEPTIDE_DB_COLNAMES [] = {"Protein_ID", "Parent_protein", "Protein_description", "Sequence", "Length(aa)", "Unique",
 	"CalcMH", "Long_sample_name", "Spectral_counts", "Sample", "Replicate"};
 size_t const DEFALUT_PEPTIDE_DB_COLNAMES_LEN = 9;
-string const REVERSE_MATCH = "Reverse_";
+std::string const REVERSE_MATCH = "Reverse_";
 
 //diffmod symbols to search for
 const char* DIFFMODS = "*";
 
 char const DB_DELIM = ';';
-string const LOC_REPORT_HEADERS [] = {"Count", "Sum_SC", "Sum_seq_count"};
+std::string const LOC_REPORT_HEADERS [] = {"Count", "Sum_SC", "Sum_seq_count"};
 
 /**********************/
 /* class definitions */
@@ -92,19 +90,19 @@ public:
 	bool operator == (const Peptide& comp) const{
 		return comp.key == key;
 	}
-	string makeKey() const;
+	std::string makeKey() const;
 	void consolidate(const Peptide&);
-	void write(ofstream&, int);
+	void write(std::ofstream&, int);
 	
 private:
-	string key, calcSequence;
-	string proteinID, calcMH, fileName, protein, description, charge;
+	std::string key, calcSequence;
+	std::string proteinID, calcMH, fileName, protein, description, charge;
 	bool unique;
 	
 	static molFormula::Residues* mwdb;
 
-	void parsePeptide(const string&);
-	void parseSequence(const string&);
+	void parsePeptide(const std::string&);
+	void parseSequence(const std::string&);
 };
 
 molFormula::Residues* Peptide::mwdb = nullptr;
@@ -119,16 +117,16 @@ public:
 	~Peptides(){}
 	
 	//properities
-	bool writeOut(string, const params::Params&);
-	bool writeOutDB(string, const params::Params&);
+	bool writeOut(std::string, const params::Params&);
+	bool writeOutDB(std::string, const params::Params&);
 };
 
 //stores data for each protein found in filter file
 class Protein : public ProteinTemplate , public ProteinDataTemplate<SampleData_protein> {
 	friend class Proteins;
 private:
-	string MW, loc, fxn;
-	string fullDescription, pI;
+	std::string MW, loc, fxn;
+	std::string fullDescription, pI;
 	
 	//pointers to Proteins data
 	static Dbase* locDB;
@@ -139,8 +137,8 @@ private:
 	static locReport::LocDB* locTable;
 	
 	//modifier
-	void getProteinData(string);
-	void getProtein(string);
+	void getProteinData(std::string);
+	void getProtein(std::string);
 	void clear();
 	void calcMW();
 	void addSeq();
@@ -149,15 +147,15 @@ private:
 	void addSupData();
 	void addLocToTable();
 	
-	void writeCount(ofstream&) const;
-	void writeUnique(ofstream&) const;
-	void writeCoverage(ofstream&) const;
-	void writeSequenceCount(ofstream&) const;
-	void writeModStat(ofstream&) const;
+	void writeCount(std::ofstream&) const;
+	void writeUnique(std::ofstream&) const;
+	void writeCoverage(std::ofstream&) const;
+	void writeSequenceCount(std::ofstream&) const;
+	void writeModStat(std::ofstream&) const;
 	
-	void writeProtein(ofstream&); //write fxn 0
-	void writePrey(ofstream&) const; //write fxn 1
-	void writeInteractions(ofstream&) const; //write fxn 2
+	void writeProtein(std::ofstream&); //write fxn 0
+	void writePrey(std::ofstream&) const; //write fxn 1
+	void writeInteractions(std::ofstream&) const; //write fxn 2
 	
 public:
 	Protein(params::Params* const pars,
@@ -181,9 +179,9 @@ public:
 	void operator = (const Protein&);
 	
 	void consolidate(const Protein&);
-	void write(ofstream&, int);
+	void write(std::ofstream&, int);
 	void apply(int);
-	locReport::LocDat toLocDat(const string&) const;
+	locReport::LocDat toLocDat(const std::string&) const;
 };
 
 Dbase* Protein::locDB = nullptr;
@@ -205,8 +203,8 @@ class Proteins : public DBTemplate<Protein>{
 	
 	//modifers
 	bool readIn(params::Params* const,
-				const vector <SampleData_protein>&,
-				const vector<SampleData_peptide>&,
+				const std::vector <SampleData_protein>&,
+				const std::vector<SampleData_peptide>&,
 				Peptides* const);
 public:
 	//constructor
@@ -235,19 +233,19 @@ public:
 		delete locTable;
 	}
 	
-	bool readInLocDB(string);
-	bool readInMWdb(string, const params::Params&);
-	bool readInSeqDB(string);
-	bool readInFxnDB(string);
-	bool readBaitFile(string);
+	bool readInLocDB(std::string);
+	bool readInMWdb(std::string, const params::Params&);
+	bool readInSeqDB(std::string);
+	bool readInFxnDB(std::string);
+	bool readBaitFile(std::string);
 	void buildLocTable();
 	
 	//properities
-	bool writeOut(string, const params::Params&);
-	bool writeOutDB(string, const params::Params&);
-	bool writeSaint(string, int) const;
-	bool writeWideLocTable(string, const params::Params&) const;
-	bool writeLongLocTable(string, const params::Params&) const;
+	bool writeOut(std::string, const params::Params&);
+	bool writeOutDB(std::string, const params::Params&);
+	bool writeSaint(std::string, int) const;
+	bool writeWideLocTable(std::string, const params::Params&) const;
+	bool writeLongLocTable(std::string, const params::Params&) const;
 	
 	//modifiers
 	bool readIn(params::Params* const, Peptides* const);
@@ -257,12 +255,12 @@ public:
 /* functions */
 /*************/
 
-string parseSample(string, string, bool, bool);
-int parsePeptideSC(string);
-int parseModPeptide(string);
-string parseReplicate(string);
-string getID(string);
-inline string parseSequence(string);
+std::string parseSample(std::string, std::string, bool, bool);
+int parsePeptideSC(std::string);
+int parseModPeptide(std::string);
+std::string parseReplicate(std::string);
+std::string getID(std::string);
+inline std::string parseSequence(std::string);
 
 #endif /* dtafilter_hpp */
 

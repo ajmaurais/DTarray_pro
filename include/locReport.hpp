@@ -17,8 +17,6 @@
 #include <hashTable.hpp>
 #include <utils.hpp>
 
-using namespace std;
-
 namespace locReport{
 	
 	/******************************/
@@ -38,10 +36,10 @@ namespace locReport{
 	class Loc{
 	private:
 		unsigned int count, specSum, uniqSpecSum, seqCount;
-		string sampleName;
+		std::string sampleName;
 		
 	public:
-		Loc(string _sampleName){
+		Loc(std::string _sampleName){
 			sampleName = _sampleName;
 			count = 0; specSum = 0; uniqSpecSum = 0; seqCount = 0;
 		}
@@ -56,9 +54,9 @@ namespace locReport{
 		}
 		
 		inline void consolidate(const Loc&);
-		inline void initializeCol(string, unsigned int, unsigned int, unsigned int, unsigned int);
+		inline void initializeCol(std::string, unsigned int, unsigned int, unsigned int, unsigned int);
 		
-		inline string getSampleName() const{
+		inline std::string getSampleName() const{
 			return sampleName;
 		}
 		inline int getCount() const{
@@ -78,15 +76,15 @@ namespace locReport{
 	class LocDat{
 		//friend class LocDB;
 	private:
-		string loc;
-		string matchDir;
-		vector<Loc> col;
+		std::string loc;
+		std::string matchDir;
+		std::vector<Loc> col;
 		
 	public:
 		static size_t colSize;
 		static params::Params* pars;
 		
-		LocDat(string _loc, string _matchDir, size_t _colSize, params::Params* _pars){
+		LocDat(std::string _loc, std::string _matchDir, size_t _colSize, params::Params* _pars){
 			matchDir = _matchDir;
 			loc = utils::toLower(_loc);
 			col.resize(_colSize);
@@ -98,7 +96,7 @@ namespace locReport{
 		};
 		~LocDat(){}
 		
-		string getKey() const{
+		std::string getKey() const{
 			return utils::toLower(loc);
 		}
 		inline bool operator == (const LocDat& comp) const{
@@ -109,16 +107,16 @@ namespace locReport{
 			loc = add.loc;
 		}
 		
-		inline void initializeCol(size_t colIndex, string _sampleName,
+		inline void initializeCol(size_t colIndex, std::string _sampleName,
 								  unsigned int _count, unsigned int _specSum,
 								  unsigned int _uniqSpecSum, unsigned int _seqCount) {
 			col[colIndex].initializeCol(_sampleName, _count, _specSum, _uniqSpecSum, _seqCount);
 		}
 		void consolidate(const LocDat&);
 		
-		void write(ofstream&, int) const;
-		void writeWide(ofstream&) const;
-		void writeLong(ofstream&) const;
+		void write(std::ofstream&, int) const;
+		void writeWide(std::ofstream&) const;
+		void writeLong(std::ofstream&) const;
 	};
 	
 	size_t LocDat::colSize = 0;
@@ -139,7 +137,7 @@ namespace locReport{
 		void addLoc(LocDat newLoc){
 			locTable->consolidate(newLoc, newLoc.getKey());
 		}
-		void writeLocReport(ofstream& outF, int fxnNum){
+		void writeLocReport(std::ofstream& outF, int fxnNum){
 			locTable->write(outF, fxnNum);
 		}
 	};

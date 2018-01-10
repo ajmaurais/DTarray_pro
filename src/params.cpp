@@ -21,7 +21,7 @@ namespace params{
 				break;
 			case 3 : return both;
 				break;
-			default: throw runtime_error("Invalid type!");
+			default: throw std::runtime_error("Invalid type!");
 		}
 	}
 	
@@ -34,11 +34,11 @@ namespace params{
 				break;
 			case 2 : return byCharge;
 				break;
-			default: throw runtime_error("Invalid type!");
+			default: throw std::runtime_error("Invalid type!");
 		}
 	}
 	
-	string groupFormatString(PeptideGroupFormat format)
+	std::string groupFormatString(PeptideGroupFormat format)
 	{
 		switch(format){
 			case byScan : return "by scan";
@@ -72,7 +72,7 @@ namespace params{
 					return false;
 				}
 				rewriteFlist = true;
-				inputFormat = string(argv[i]);
+				inputFormat = std::string(argv[i]);
 				continue;
 			}
 			if(!strcmp(argv[i], "-o") || !strcmp(argv[i], "--out"))
@@ -84,7 +84,7 @@ namespace params{
 				}
 				if(!(!strcmp(argv[i], "0") || !strcmp(argv[i], "1") || !strcmp(argv[i], "2") || !strcmp(argv[i], "3")))
 				{
-					cerr << argv[i] << PARAM_ERROR_MESSAGE << "outputFormat" << endl;
+					std::cerr << argv[i] << PARAM_ERROR_MESSAGE << "outputFormat" << std::endl;
 					return false;
 				}
 				outputFormat = intToOutputFormat(utils::toInt(argv[i]));
@@ -102,7 +102,7 @@ namespace params{
 				wd = utils::absPath(argv[i]);
 				if(!utils::dirExists(wd))
 				{
-					cerr << "Specified direectory does not exist." << endl;
+					std::cerr << "Specified direectory does not exist." << std::endl;
 					return false;
 				}
 				continue;
@@ -117,7 +117,7 @@ namespace params{
 				if(!strcmp(argv[i], "flist"))
 					rewriteFlist = true;
 				else{
-					cerr << argv[i] << PARAM_ERROR_MESSAGE << "rewrite" << endl;
+					std::cerr << argv[i] << PARAM_ERROR_MESSAGE << "rewrite" << std::endl;
 					return false;
 				}
 				continue;
@@ -141,7 +141,7 @@ namespace params{
 				}
 				else if(utils::isArg(argv[i+1]))
 					mwDBFname = utils::absPath(argv[++i]);
-				else throw runtime_error("bad opts!");
+				else throw std::runtime_error("bad opts!");
 				calcMW = true;
 				continue;
 			}
@@ -151,14 +151,14 @@ namespace params{
 					seqDBfname = PROG_SEQ_DB_FNAME;
 				else if(utils::isArg(argv[i+1]))
 					seqDBfname = utils::absPath(argv[++i]);
-				else throw runtime_error("bad opts!");
+				else throw std::runtime_error("bad opts!");
 				getSeq = true;
 				continue;
 			}
 			if(!strcmp(argv[i], "-mact") || !strcmp(argv[i], "--makeAtomCountTable"))
 			{
 				if(!writeAtomCountTable(wd))
-					cerr << "Could not write atomCountTable!" << endl;
+					std::cerr << "Could not write atomCountTable!" << std::endl;
 				return false;
 			}
 			if(!strcmp(argv[i], "-act") || !strcmp(argv[i], "--atomCountTable"))
@@ -171,7 +171,7 @@ namespace params{
 				atomCountTableFname = utils::absPath(argv[i]);
 				if(!utils::dirExists(wd))
 				{
-					cerr << atomCountTableFname << " does not exist!" << endl;
+					std::cerr << atomCountTableFname << " does not exist!" << std::endl;
 					return false;
 				}
 				continue;
@@ -185,7 +185,7 @@ namespace params{
 				}
 				if(!(!strcmp(argv[i], "0") || !strcmp(argv[i], "1")))
 				{
-					cerr << argv[i] << PARAM_ERROR_MESSAGE << "unicode" << endl;
+					std::cerr << argv[i] << PARAM_ERROR_MESSAGE << "unicode" << std::endl;
 					return false;
 				}
 				unicode = utils::toInt(argv[i]);
@@ -200,7 +200,7 @@ namespace params{
 				}
 				if(!(!strcmp(argv[i], "0") || !strcmp(argv[i], "1") || !strcmp(argv[i], "2") || !strcmp(argv[i], "3")))
 				{
-					cerr << argv[i] << PARAM_ERROR_MESSAGE << "peptideOutput" << endl;
+					std::cerr << argv[i] << PARAM_ERROR_MESSAGE << "peptideOutput" << std::endl;
 					return false;
 				}
 				peptideOutput = intToOutputFormat(utils::toInt(argv[i]));
@@ -216,7 +216,7 @@ namespace params{
 				}
 				if(!(!strcmp(argv[i], "0") || !strcmp(argv[i], "1") || !strcmp(argv[i], "2") || !strcmp(argv[i], "3")))
 				{
-					cerr << argv[i] << PARAM_ERROR_MESSAGE << "peptideOutput" << endl;
+					std::cerr << argv[i] << PARAM_ERROR_MESSAGE << "peptideOutput" << std::endl;
 					return false;
 				}
 				locOutput = intToOutputFormat(utils::toInt(argv[i]));
@@ -231,7 +231,7 @@ namespace params{
 				}
 				if(!(!strcmp(argv[i], "0") || !strcmp(argv[i], "1") || !strcmp(argv[i], "2")))
 				{
-					cerr << argv[i] << PARAM_ERROR_MESSAGE << "peptideGroupMethod" << endl;
+					std::cerr << argv[i] << PARAM_ERROR_MESSAGE << "peptideGroupMethod" << std::endl;
 					return false;
 				}
 				peptideGroupMethod = intToGroupFormat(utils::toInt(argv[i]));
@@ -246,7 +246,7 @@ namespace params{
 				}
 				if(!(!strcmp(argv[i], "0") || !strcmp(argv[i], "1")))
 				{
-					cerr << argv[i] << PARAM_ERROR_MESSAGE << "modGroupMethod" << endl;
+					std::cerr << argv[i] << PARAM_ERROR_MESSAGE << "modGroupMethod" << std::endl;
 					return false;
 				}
 				modGroupMethod = utils::toInt(argv[i]);					
@@ -286,7 +286,7 @@ namespace params{
 				}
 				if(!(!strcmp(argv[i], "0") || !strcmp(argv[i], "1")))
 				{
-					cerr << argv[i] << PARAM_ERROR_MESSAGE << "supInfoOutput" << endl;
+					std::cerr << argv[i] << PARAM_ERROR_MESSAGE << "supInfoOutput" << std::endl;
 					return false;
 				}
 				supInfoOutput = utils::toInt(argv[i]);
@@ -322,7 +322,7 @@ namespace params{
 				}
 				if(!(!strcmp(argv[i], "0") || !strcmp(argv[i], "1")))
 				{
-					cerr << argv[i] << PARAM_ERROR_MESSAGE << "includeReverse" << endl;
+					std::cerr << argv[i] << PARAM_ERROR_MESSAGE << "includeReverse" << std::endl;
 					return false;
 				}
 				includeReverse = utils::toInt(argv[i]);
@@ -337,16 +337,16 @@ namespace params{
 				else if(utils::isArg(argv[i+1]))
 				{
 					parseSampleName = true;
-					sampleNamePrefix = string(argv[++i]);
+					sampleNamePrefix = std::string(argv[++i]);
 				}
-				else throw runtime_error("bad opts!");
+				else throw std::runtime_error("bad opts!");
 				continue;
 			}
 			if(!strcmp(argv[i], "-v") || !strcmp(argv[i], "--version"))
 			{
-				cerr << "DTarray_pro " << BIN_VERSION_NUM << endl;
-				cerr << "Last git commit: " << GIT_DATE << endl;
-				cerr << "git revision: " << GIT_COMMIT << endl;
+				std::cerr << "DTarray_pro " << BIN_VERSION_NUM << std::endl;
+				std::cerr << "Last git commit: " << GIT_DATE << std::endl;
+				std::cerr << "git revision: " << GIT_COMMIT << std::endl;
 				return false;
 			}
 			if(!strcmp(argv[i], "--purge"))
@@ -356,7 +356,7 @@ namespace params{
 			}
 			if(!strcmp(argv[i], "-pswd"))
 			{
-				cerr << PROG_WD_HOME << endl;
+				std::cerr << PROG_WD_HOME << std::endl;
 				return false;
 			}
 			if(!strcmp(argv[i], "-oswd"))
@@ -365,7 +365,7 @@ namespace params{
 				return false;
 			}
 			else{
-				cerr << argv[i] << INVALID_ARG << endl;
+				std::cerr << argv[i] << INVALID_ARG << std::endl;
 				usage();
 				return false;
 			}
@@ -386,13 +386,13 @@ namespace params{
 		return true;
 	}
 	
-	bool Params::writeAtomCountTable(string _wd) const
+	bool Params::writeAtomCountTable(std::string _wd) const
 	{
 		
 		if(_wd[_wd.length() - 1] != '/')
 			_wd += "/";
-		ofstream outF((_wd + DEFAULT_ATOM_COUNT_TABLE_FNAME).c_str());
-		ifstream inF(PROG_ATOM_COUNT_TABLE_FNAME.c_str());
+		std::ofstream outF((_wd + DEFAULT_ATOM_COUNT_TABLE_FNAME).c_str());
+		std::ifstream inF(PROG_ATOM_COUNT_TABLE_FNAME.c_str());
 		if(!inF || !outF)
 			return false;
 		
@@ -404,12 +404,12 @@ namespace params{
 			return false;
 		
 		if(wdSpecified)
-			cerr << endl << "Generating " << _wd << DEFAULT_ATOM_COUNT_TABLE_FNAME << endl;
-		else cerr << endl <<"Generating ./" << DEFAULT_ATOM_COUNT_TABLE_FNAME << endl;
+			std::cerr << std::endl << "Generating " << _wd << DEFAULT_ATOM_COUNT_TABLE_FNAME << std::endl;
+		else std::cerr << std::endl <<"Generating ./" << DEFAULT_ATOM_COUNT_TABLE_FNAME << std::endl;
 		
-		outF << utils::COMMENT_SYMBOL << " Residue atom counts for DTarray_pro" << endl
-		<< utils::COMMENT_SYMBOL << " File generated on: " << utils::ascTime() << endl
-		<< endl << actBuff << endl;
+		outF << utils::COMMENT_SYMBOL << " Residue atom counts for DTarray_pro" << std::endl
+		<< utils::COMMENT_SYMBOL << " File generated on: " << utils::ascTime() << std::endl
+		<< std::endl << actBuff << std::endl;
 		
 		return true;
 	}
@@ -421,35 +421,35 @@ namespace params{
 		assert(file.read());
 		
 		while(!file.end())
-			cerr << file.getLine() << endl;
+			std::cerr << file.getLine() << std::endl;
 	}
 	
 	//removes all DTarray_pro generated files with default flie names in
 	//working dirrectory
-	void Params::purgeDir(string _wd) const
+	void Params::purgeDir(std::string _wd) const
 	{
 		if(utils::dirExists(_wd))
 		{
 			if(_wd[_wd.length() - 1] != '/')
 				_wd += "/";
 			
-			string deleteFiles [] = {DEFAULT_FLIST_NAME, DEFAULT_ATOM_COUNT_TABLE_FNAME, OFNAME,
+			std::string deleteFiles [] = {DEFAULT_FLIST_NAME, DEFAULT_ATOM_COUNT_TABLE_FNAME, OFNAME,
 				DB_OFNAME, PEPTIDE_OFNAME, PEPTIDE_DB_OFNAME, SAINT_PREY_FILE,
 				SAINT_INTERACTION_FILE, LOC_TABLE_FNAME, LOC_TABLE_LONG_FNAME};
 			
-			for(string* p = utils::begin(deleteFiles); p != utils::end(deleteFiles); ++p)
+			for(std::string* p = utils::begin(deleteFiles); p != utils::end(deleteFiles); ++p)
 			{
 				if(utils::fileExists(_wd + *p))
 				{
 					if(wdSpecified)
-						cerr << "Removed " << _wd << *p << endl;
-					else cerr << "Removed ./" << *p << endl;
+						std::cerr << "Removed " << _wd << *p << std::endl;
+					else std::cerr << "Removed ./" << *p << std::endl;
 					utils::systemCommand("rm -f " + _wd + *p);
 				}
 			}
 		}
 		else{
-			cerr << "Dir does not exist!" << endl;
+			std::cerr << "Dir does not exist!" << std::endl;
 		}
 	}
 	
@@ -457,83 +457,83 @@ namespace params{
 	{
 		if(wd[wd.length() - 1] != '/')
 			wd += "/";
-		ofstream outF((wd + flistName).c_str());
+		std::ofstream outF((wd + flistName).c_str());
 		if(!outF)
 		{
-			cout << "Could not write flist!" << endl;
+			std::cout << "Could not write flist!" << std::endl;
 			return false;
 		}
 		
-		outF << utils::COMMENT_SYMBOL << "File list for DTarray_pro" << endl
-			<< utils::COMMENT_SYMBOL << "File List generated on: " << utils::ascTime() << endl;
-			outF << endl << VNUM_STR << BIN_VERSION_NUM << END_VNUM_STR << "\n<flist>\n\n";
+		outF << utils::COMMENT_SYMBOL << "File list for DTarray_pro" << std::endl
+			<< utils::COMMENT_SYMBOL << "File List generated on: " << utils::ascTime() << std::endl;
+			outF << std::endl << VNUM_STR << BIN_VERSION_NUM << END_VNUM_STR << "\n<flist>\n\n";
 		
 		if(inputFormat == "std")
 			return writeStdFlist(outF);
 		else if(inputFormat == "subdir")
 			return writeSubdirFlist(outF);
 		else{
-			cout << inputFormat << " is not a valid input format!" << endl;
+			std::cout << inputFormat << " is not a valid input format!" << std::endl;
 			return false;
 		}//end of else
 	} //end of functon
 	
-	bool Params::writeStdFlist(ofstream& outF) const
+	bool Params::writeStdFlist(std::ofstream& outF) const
 	{
 		assert(outF);
-		vector<string> filterFiles;
+		std::vector<std::string> filterFiles;
 		if(!utils::ls(wd.c_str(), filterFiles, DTAFILTER_EXT))
 		{
-			cerr << "\nDTA-filter files could not be found in the specified directory! Exiting..." << endl;
+			std::cerr << "\nDTA-filter files could not be found in the specified directory! Exiting..." << std::endl;
 			return false;
 		}
 		
-		for(vector<string>::iterator it = filterFiles.begin(); it != filterFiles.end(); ++it)
-			outF << '\t' << (*it).substr(0, (*it).length() - DTAFILTER_EXT.length()) << OUT_DELIM << *it << endl;
+		for(std::vector<std::string>::iterator it = filterFiles.begin(); it != filterFiles.end(); ++it)
+			outF << '\t' << (*it).substr(0, (*it).length() - DTAFILTER_EXT.length()) << OUT_DELIM << *it << std::endl;
 		
 		outF << "\n</flist>\n";
 		
 		return true;
 	}
 	
-	bool Params::writeSubdirFlist(ofstream& outF) const
+	bool Params::writeSubdirFlist(std::ofstream& outF) const
 	{
 		assert(outF);
-		vector<string> files;
-		vector<string> filterFiles;
+		std::vector<std::string> files;
+		std::vector<std::string> filterFiles;
 		if(!utils::ls(wd.c_str(), files))
 			return false;
 		
-		for(vector<string>::iterator it = files.begin(); it != files.end(); ++it)
+		for(std::vector<std::string>::iterator it = files.begin(); it != files.end(); ++it)
 			if(utils::dirExists(wd + *it))
 				if(utils::fileExists(wd + *it + "/" + DTAFILTER_NAME))
 					filterFiles.push_back(*it);
 		
-		for(vector<string>::iterator it = filterFiles.begin(); it != filterFiles.end(); ++it)
-			outF << *it << OUT_DELIM << *it << "/" << DTAFILTER_NAME << endl;
+		for(std::vector<std::string>::iterator it = filterFiles.begin(); it != filterFiles.end(); ++it)
+			outF << *it << OUT_DELIM << *it << "/" << DTAFILTER_NAME << std::endl;
 		
 		outF << "\n</flist>\n";
 		
 		return true;
 	}
 
-	FilterFileParam::FilterFileParam(string line)
+	FilterFileParam::FilterFileParam(std::string line)
 	{
-		vector<string>elems;
+		std::vector<std::string>elems;
 		utils::split(line, '\t', elems);
 		assert(elems.size() == 2);
 		colname = elems[0];
 		path = elems[1];
 	}
 	
-	bool Params::readFlist(string fname, string path)
+	bool Params::readFlist(std::string fname, std::string path)
 	{
 		utils::File data;
 		if(!data.read(path + fname))
 			return false;
 
 		numFiles = 0;
-		string line;
+		std::string line;
 		
 		do{
 			line = data.getLine_skip_trim();
@@ -542,8 +542,8 @@ namespace params{
 				versionNum = parseVersionNum(line);
 				if(!(MIN_BIN_VERSION_NUM <= utils::toDouble(versionNum)))
 				{
-					cerr << "File list was generated under binary version: " << versionNum
-						<< endl << "Min flist version is: " << MIN_BIN_VERSION_NUM << endl;
+					std::cerr << "File list was generated under binary version: " << versionNum
+						<< std::endl << "Min flist version is: " << MIN_BIN_VERSION_NUM << std::endl;
 					return false;
 				}
 				continue;
@@ -566,15 +566,15 @@ namespace params{
 		return true;
 	}
 	
-	string Params::parseVersionNum(string line) const
+	std::string Params::parseVersionNum(std::string line) const
 	{
 		size_t before = line.find(VNUM_STR);
 		size_t end = line.find(END_VNUM_STR);
-		if(end == string::npos || before != 0)
+		if(end == std::string::npos || before != 0)
 			return "-1";
 		
 		size_t len = line.length() - (VNUM_STR.length() + END_VNUM_STR.length());
-		string mid = line.substr(before + VNUM_STR.length(), len);
+		std::string mid = line.substr(before + VNUM_STR.length(), len);
 		
 		return mid;
 	}
@@ -585,26 +585,26 @@ namespace params{
 		assert(MIN_BIN_VERSION_NUM <= utils::toDouble(versionNum));
 		if(peptideGroupMethod == byScan && ((peptideOutput == wideFormat) || (peptideOutput == both)))
 		{
-			cerr << endl << "peptideGroupMethod and peptideOutput options are incompatable!" << endl
-				<< "Use DTarray -h for more info." << endl << endl;
+			std::cerr << std::endl << "peptideGroupMethod and peptideOutput options are incompatable!" << std::endl
+				<< "Use DTarray -h for more info." << std::endl << std::endl;
 			good = false;
 		}
 		if(modGroupMethod == 1 && (peptideGroupMethod == byScan || peptideOutput == none))
 		{
-			cerr << endl << "modGroupMethod and peptide output options are incompatable!" << endl
-				<< "Use DTarray -h for more info." << endl << endl;
+			std::cerr << std::endl << "modGroupMethod and peptide output options are incompatable!" << std::endl
+				<< "Use DTarray -h for more info." << std::endl << std::endl;
 			good = false;
 		}
 		if(supInfoOutput == 1 && (supInfoNum <= 0 && peptideSupInfoNum <= 0 && locOutput == none))
 		{
-			cerr << endl <<"Non zero supInfoOutput with zero supInfoNum." << endl
-				<< "Use DTarray -h for more info." << endl << endl;
+			std::cerr << std::endl <<"Non zero supInfoOutput with zero supInfoNum." << std::endl
+				<< "Use DTarray -h for more info." << std::endl << std::endl;
 			good = false;
 		}
 		if(!getSubCelluarLoc && locOutput != none)
 		{
-			cerr << endl << "Zero getSubCelluarLoc with nonzero locOutput." << endl
-			<< "Use DTarray -h for more info." << endl << endl;
+			std::cerr << std::endl << "Zero getSubCelluarLoc with nonzero locOutput." << std::endl
+			<< "Use DTarray -h for more info." << std::endl << std::endl;
 			good = false;
 		}
 		return good;

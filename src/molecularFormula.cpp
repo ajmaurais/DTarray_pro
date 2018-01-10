@@ -40,7 +40,7 @@ void molFormula::Residue::initalize(molFormula::AtomMassMapType* _atomMassMap,
 									const molFormula::HeaderType& _header,
 									const std::vector<std::string>& _elems)
 {
-	//check that atom count vector is same len as header
+	//check that atom count std::vector is same len as header
 	assert(_header.size() == _elems.size());
 	
 	atomMassMap = _atomMassMap;

@@ -27,7 +27,7 @@ namespace locReport{
 			col[i].consolidate(toAdd.col[i]);
 	}
 	
-	inline void Loc::initializeCol(string _sampleName, unsigned int _count, unsigned int _specSum,
+	inline void Loc::initializeCol(std::string _sampleName, unsigned int _count, unsigned int _specSum,
 								   unsigned int _uniqSpecSum, unsigned int _seqCount)
 	{
 		sampleName = _sampleName;
@@ -37,10 +37,10 @@ namespace locReport{
 		seqCount = _seqCount;
 	}
 	
-	void LocDat::writeLong(ofstream& outF) const
+	void LocDat::writeLong(std::ofstream& outF) const
 	{
 		if(!outF)
-			throw runtime_error("Bad ofstream");
+			throw std::runtime_error("Bad std::ofstream");
 		
 		for(size_t i = 0; i < colSize; i++)
 		{
@@ -58,14 +58,14 @@ namespace locReport{
 			if(pars->includeUnique)
 				outF << OUT_DELIM << col[i].getUniqSpecSum();
 			
-			outF << OUT_DELIM << col[i].getSeqCount() << endl;
+			outF << OUT_DELIM << col[i].getSeqCount() << std::endl;
 		}
 	}
 	
-	void LocDat::writeWide(ofstream& outF) const
+	void LocDat::writeWide(std::ofstream& outF) const
 	{
 		if(!outF)
-			throw runtime_error("Bad ofstream");
+			throw std::runtime_error("Bad std::ofstream");
 		
 		assert(pars->locSupInfoNum >= 0 && pars->locSupInfoNum <=1);
 		if(pars->supInfoOutput == 0)
@@ -81,7 +81,7 @@ namespace locReport{
 				
 				outF << OUT_DELIM << col[i].getSeqCount();
 			}
-			outF << endl;
+			outF << std::endl;
 		}
 		else if(pars->supInfoOutput == 1)
 		{
@@ -100,11 +100,11 @@ namespace locReport{
 			for(size_t i = 0; i < colSize; i++)
 				outF << OUT_DELIM << col[i].getSeqCount();
 			
-			outF << endl;
+			outF << std::endl;
 		}
 	}
 	
-	void LocDat::write(ofstream& outF, int fxnNum) const
+	void LocDat::write(std::ofstream& outF, int fxnNum) const
 	{
 		if(!pars->includeReverse)
 			if(utils::strContains(REVERSE_MATCH, matchDir))
@@ -116,7 +116,7 @@ namespace locReport{
 				break;
 			case 1 : writeLong(outF);
 				break;
-			default : throw runtime_error("functon does not exist!");
+			default : throw std::runtime_error("functon does not exist!");
 		}
 	}
 }

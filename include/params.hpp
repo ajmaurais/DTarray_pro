@@ -19,47 +19,45 @@
 #include <utils.hpp>
 #include <dtafilter.hpp>
 
-using namespace std;
-
 namespace params{
 	
 	/******************************/
 	/* namespace scoped constants */
 	/******************************/
 	
-	string const PARAM_ERROR_MESSAGE = " is an invalid arguement for: ";
-	const string INVALID_ARG = " is an invalid option! Exiting...\nUse DTarray -h for help.";
+	std::string const PARAM_ERROR_MESSAGE = " is an invalid arguement for: ";
+	const std::string INVALID_ARG = " is an invalid option! Exiting...\nUse DTarray -h for help.";
 	enum OutputFormat {none, wideFormat, longFormat, both};
 	enum PeptideGroupFormat {byScan, byProtein, byCharge};
-	const string VNUM_STR = "<versionNum>";
-	const string END_VNUM_STR = "</versionNum>";
-	const string DTAFILTER_NAME = "DTASelect-filter.txt";
+	const std::string VNUM_STR = "<versionNum>";
+	const std::string END_VNUM_STR = "</versionNum>";
+	const std::string DTAFILTER_NAME = "DTASelect-filter.txt";
 	
 	//default file locations
-	const string PROG_WD_HOME = string(getenv("HOME")) + "/scripts/DTarray_pro";
-	const string PROG_WD_DB = PROG_WD_HOME + "/db";
-	const string PROG_LOC_DB_FNAME = PROG_WD_DB + "/humanLoc.tsv";
-	const string PROG_SEQ_DB_FNAME = PROG_WD_DB + "/humanProteome.fasta";
-	const string PROG_MW_DB_FNAME = PROG_SEQ_DB_FNAME;
-	//const string PROG_AA_DB_FNAME = PROG_WD_DB + "/aaMasses.txt";
-	const string PROG_FXN_DB_FNAME = PROG_WD_DB + "/humanFxn.tsv";
-	const string PROG_ATOM_COUNT_TABLE_FNAME = PROG_WD_DB + "/defaultResidueAtoms.txt";
-	const string PROG_ATOM_MASS_TABLE_FNAME = PROG_WD_DB + "/atomMasses.txt";
-	const string PROG_HELP_FILE_FNAME = PROG_WD_DB + "/helpFile.man";
-	const string PROG_USAGE_FNAME = PROG_WD_DB + "/usage.txt";
+	const std::string PROG_WD_HOME = std::string(getenv("HOME")) + "/scripts/DTarray_pro";
+	const std::string PROG_WD_DB = PROG_WD_HOME + "/db";
+	const std::string PROG_LOC_DB_FNAME = PROG_WD_DB + "/humanLoc.tsv";
+	const std::string PROG_SEQ_DB_FNAME = PROG_WD_DB + "/humanProteome.fasta";
+	const std::string PROG_MW_DB_FNAME = PROG_SEQ_DB_FNAME;
+	//const std::string PROG_AA_DB_FNAME = PROG_WD_DB + "/aaMasses.txt";
+	const std::string PROG_FXN_DB_FNAME = PROG_WD_DB + "/humanFxn.tsv";
+	const std::string PROG_ATOM_COUNT_TABLE_FNAME = PROG_WD_DB + "/defaultResidueAtoms.txt";
+	const std::string PROG_ATOM_MASS_TABLE_FNAME = PROG_WD_DB + "/atomMasses.txt";
+	const std::string PROG_HELP_FILE_FNAME = PROG_WD_DB + "/helpFile.man";
+	const std::string PROG_USAGE_FNAME = PROG_WD_DB + "/usage.txt";
 	
 	//default file names
-	const string DEFAULT_FLIST_NAME = "dtarray_pro_flist.txt";
-	const string DEFAULT_ATOM_COUNT_TABLE_FNAME = "atomCountTable.txt";
-	const string DTAFILTER_EXT = ".dtafilter";
-	const string OFNAME = "DTarray_pro.tsv";
-	const string DB_OFNAME = "DTarray_long.tsv";
-	const string PEPTIDE_OFNAME = "peptideList.tsv";
-	const string PEPTIDE_DB_OFNAME = "peptideList_long.tsv";
-	const string SAINT_PREY_FILE = "prey_file.txt";
-	const string SAINT_INTERACTION_FILE = "interaction_file.txt";
-	const string LOC_TABLE_FNAME = "loc_summary.tsv";
-	const string LOC_TABLE_LONG_FNAME = "loc_summary_long.tsv";
+	const std::string DEFAULT_FLIST_NAME = "dtarray_pro_flist.txt";
+	const std::string DEFAULT_ATOM_COUNT_TABLE_FNAME = "atomCountTable.txt";
+	const std::string DTAFILTER_EXT = ".dtafilter";
+	const std::string OFNAME = "DTarray_pro.tsv";
+	const std::string DB_OFNAME = "DTarray_long.tsv";
+	const std::string PEPTIDE_OFNAME = "peptideList.tsv";
+	const std::string PEPTIDE_DB_OFNAME = "peptideList_long.tsv";
+	const std::string SAINT_PREY_FILE = "prey_file.txt";
+	const std::string SAINT_INTERACTION_FILE = "interaction_file.txt";
+	const std::string LOC_TABLE_FNAME = "loc_summary.tsv";
+	const std::string LOC_TABLE_LONG_FNAME = "loc_summary_long.tsv";
 	
 	/**********************/
 	/* class definitions */
@@ -70,18 +68,18 @@ namespace params{
 	
 	class FilterFileParam{
 	private:
-		string path;
-		string colname;
+		std::string path;
+		std::string colname;
 	public:
 		//constructor
-		FilterFileParam(string);
+		FilterFileParam(std::string);
 		~FilterFileParam() {}
 		
 		//properities
-		string getPath() const{
+		std::string getPath() const{
 			return path;
 		}
-		string getColname() const{
+		std::string getColname() const{
 			return colname;
 		}
 	};
@@ -91,58 +89,58 @@ namespace params{
 	class Params{
 	private:
 		//friend class Proteins;
-		vector<FilterFileParam> file;
+		std::vector<FilterFileParam> file;
 		
-		string parseVersionNum(string) const;
+		std::string parseVersionNum(std::string) const;
 		
 		void displayHelp() const{
 			utils::systemCommand("man " + PROG_HELP_FILE_FNAME);
 		}
 		void usage() const;
-		bool writeStdFlist(ofstream&) const;
-		bool writeSubdirFlist(ofstream&) const;
-		void purgeDir(string) const;
+		bool writeStdFlist(std::ofstream&) const;
+		bool writeSubdirFlist(std::ofstream&) const;
+		void purgeDir(std::string) const;
 		
-		string wd;
+		std::string wd;
 		int numFiles;
 		
 	public:
-		string flistName;
-		string versionNum;
-		string inputFormat;
+		std::string flistName;
+		std::string versionNum;
+		std::string inputFormat;
 		static OutputFormat outputFormat;
-		string sampleNamePrefix;
+		std::string sampleNamePrefix;
 		bool parseSampleName;
 		bool includeUnique;
 		bool getSubCelluarLoc;
 		bool rewriteFlist;
-		string locDBfname;
+		std::string locDBfname;
 		bool calcMW;
-		string mwDBFname;
-		string atomMassTableFname, atomCountTableFname;
+		std::string mwDBFname;
+		std::string atomMassTableFname, atomCountTableFname;
 		bool unicode;
-		string ofname, dbOfname, dbPeptideOfFname, peptideOfFname;
+		std::string ofname, dbOfname, dbPeptideOfFname, peptideOfFname;
 		bool getSeq;
-		string seqDBfname;
+		std::string seqDBfname;
 		bool includeCoverage;
 		bool includeSequenceCount;
 		bool includePeptides;
 		bool includeProteins;
 		static OutputFormat peptideOutput;
 		bool getFxn;
-		string fxnDBfname;
+		std::string fxnDBfname;
 		bool useDefaultSeqDB;
 		bool includeNullPeptides;
 		int supInfoOutput;
 		unsigned int supInfoNum, peptideSupInfoNum;
 		PeptideGroupFormat peptideGroupMethod;
 		bool includeSaint;
-		string saintBaitFile, saintPreyFname, saintInteractionFname;
+		std::string saintBaitFile, saintPreyFname, saintInteractionFname;
 		bool includeReverse;
 		bool wdSpecified;
 		int modGroupMethod;
 		bool includeModStat;
-		string locTableFname, locTableLongFname;
+		std::string locTableFname, locTableLongFname;
 		static OutputFormat locOutput;
 		int locSupInfoNum;
 		
@@ -197,24 +195,24 @@ namespace params{
 		}
 		
 		//modifiers
-		bool readFlist(string, string);
+		bool readFlist(std::string, std::string);
 		bool getOpts(int, const char* const []);
 		
 		//properties
 		bool writeFlist();
 		bool optionsCompatable() const;
-		bool writeAtomCountTable(string) const;
-		string getFilePath(size_t index) const {
+		bool writeAtomCountTable(std::string) const;
+		std::string getFilePath(size_t index) const {
 			return file[index].getPath();
 		}
-		string getFileColname(size_t index) const {
+		std::string getFileColname(size_t index) const {
 			return file[index].getColname();
 		}
 		
 		int getNumFiles() const{
 			return numFiles;
 		}
-		string getwd() const{
+		std::string getwd() const{
 			return wd;
 		}
 	};
@@ -225,7 +223,7 @@ namespace params{
 	
 	OutputFormat intToOutputFormat(int);
 	PeptideGroupFormat intToGroupFormat(int);
-	string groupFormatString(PeptideGroupFormat);
+	std::string groupFormatString(PeptideGroupFormat);
 }
 
 #endif /* params_hpp */

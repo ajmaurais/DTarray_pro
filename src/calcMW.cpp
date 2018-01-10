@@ -10,7 +10,7 @@
 
 namespace mwDB{
 	
-	string SeqDB::getSequence(string id) const
+	std::string SeqDB::getSequence(std::string id) const
 	{
 		seqLibraryType::const_iterator it = seqLibrary.find(id);
 		if(it == seqLibrary.end())
@@ -18,14 +18,14 @@ namespace mwDB{
 		else return it->second;
 	}
 	
-	bool SeqDB::readIn(string fname)
+	bool SeqDB::readIn(std::string fname)
 	{
 		utils::File data(fname);
 		if(!data.read(fname))
 			return false;
 		
-		string line;
-		string tempID;
+		std::string line;
+		std::string tempID;
 		while(!data.end())
 		{
 			line = data.getLine_skip_trim();
@@ -41,7 +41,7 @@ namespace mwDB{
 		return true;
 	}//end fxn
 	
-	bool MWDB_Protein::initalize(string wd, const params::Params& params)
+	bool MWDB_Protein::initalize(std::string wd, const params::Params& params)
 	{
 		bool val1 = seqDB->readIn(params.mwDBFname);
 		bool val2 = molFormula::Residues::initalize(params.atomCountTableFname,

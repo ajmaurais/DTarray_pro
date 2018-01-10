@@ -12,11 +12,9 @@
 #include <params.hpp>
 #include <hashTable.hpp>
 
-using namespace std;
-
 size_t const DATA_SIZE = 500;
-string const BLANK_STR = "null";
-string const BLANK_VAL = "-1";
+std::string const BLANK_STR = "null";
+std::string const BLANK_VAL = "-1";
 
 class ProteinTemplate;
 template <class _Tp> class ProteinDataTemplate;
@@ -27,7 +25,7 @@ class SampleData_protein;
 
 class ProteinTemplate{
 protected:
-	string ID, protein, description;
+	std::string ID, protein, description;
 	
 public:
 	ProteinTemplate() {}
@@ -36,11 +34,11 @@ public:
 	inline bool operator == (const ProteinTemplate& comp) const{
 		return comp.ID == ID;
 	}
-	inline bool operator == (string comp) const{
+	inline bool operator == (std::string comp) const{
 		return comp == ID;
 	}
 	
-	string getID(){
+	std::string getID(){
 		return ID;
 	}
 };
@@ -52,7 +50,7 @@ public:
 		par = _par;
 		supDataAdded = false;
 	}
-	void initialize(const vector<_Tp>&, size_t, size_t*);
+	void initialize(const std::vector<_Tp>&, size_t, size_t*);
 	ProteinDataTemplate(){}
 	~ProteinDataTemplate(){}
 	
@@ -60,12 +58,12 @@ protected:
 	static size_t colSize;
 	static params::Params* par;
 	
-	vector<_Tp> col;
+	std::vector<_Tp> col;
 	double avgMass, monoMass;
 	std::string formula;
-	string length;
-	string sequence;
-	string matchDirrection;
+	std::string length;
+	std::string sequence;
+	std::string matchDirrection;
 	static size_t* colIndex;
 	bool supDataAdded;
 };
@@ -81,7 +79,7 @@ protected:
 	hashTable::HashTable <_Tp>* data;
 	
 public:
-	vector<string> colNames;
+	std::vector<std::string> colNames;
 	
 	//constructor
 	DBTemplate(){
@@ -103,12 +101,12 @@ template <class _Tp> size_t DBTemplate<_Tp>::colIndex = 0;
 //stores the data pertaining to a specific filter file (or MS run) for each protein
 class SampleData{
 public:
-	string colname;
+	std::string colname;
 	int count;
 	int modPeptidesSC;
 	
 	//constructor
-	SampleData (string _colName)
+	SampleData (std::string _colName)
 	{
 		colname = _colName;
 		count = 0;
@@ -128,9 +126,9 @@ public:
 
 class SampleData_peptide : public SampleData {
 public:
-	string parentFile, scan, obsMH;
+	std::string parentFile, scan, obsMH;
 	
-	SampleData_peptide(string colName) : SampleData(colName)
+	SampleData_peptide(std::string colName) : SampleData(colName)
 	{
 		parentFile = BLANK_STR;
 		scan = BLANK_VAL;
@@ -146,10 +144,10 @@ public:
 
 class SampleData_protein : public SampleData {
 public:
-	string coverage, sequenceCount;
+	std::string coverage, sequenceCount;
 	unsigned int modPeptides, uniquePeptides;
 	
-	SampleData_protein(string colName) : SampleData(colName){
+	SampleData_protein(std::string colName) : SampleData(colName){
 		
 		coverage = "0";
 		sequenceCount = "0";

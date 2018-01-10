@@ -17,7 +17,7 @@ namespace hashTable{
 	template<class _Tp>
 	_Tp* LinkedList<_Tp>::consolidate(const _Tp& newItem)
 	{
-		for(typename list<_Tp>::iterator it = dat.begin();it != dat.end(); ++it)
+		for(typename std::list<_Tp>::iterator it = dat.begin();it != dat.end(); ++it)
 		{
 			if(*it == newItem)
 			{
@@ -30,9 +30,9 @@ namespace hashTable{
 	}
 	
 	template<class _Tp>
-	_Tp* LinkedList<_Tp>::getItem(string key)
+	_Tp* LinkedList<_Tp>::getItem(std::string key)
 	{
-		for(typename list<_Tp>::iterator it = dat.begin();it != dat.end(); ++it)
+		for(typename std::list<_Tp>::iterator it = dat.begin();it != dat.end(); ++it)
 		{
 			if(*it == key)
 				return &(*it);
@@ -41,24 +41,24 @@ namespace hashTable{
 	}
 	
 	template<class _Tp>
-	bool LinkedList<_Tp>::itemExists(string key) const
+	bool LinkedList<_Tp>::itemExists(std::string key) const
 	{
-		for(typename list<_Tp>::iterator it = dat.begin(); it != dat.end(); ++it)
+		for(typename std::list<_Tp>::iterator it = dat.begin(); it != dat.end(); ++it)
 			if(*it == key)
 				return true;
 		return false;
 	}
 	
 	template<class _Tp>
-	void LinkedList<_Tp>::write(ofstream& outF, int fxnNum)
+	void LinkedList<_Tp>::write(std::ofstream& outF, int fxnNum)
 	{
 		if(!outF)
-			throw runtime_error("Error writing file. Bad ofstream!");
+			throw std::runtime_error("Error writing file. Bad std::ofstream!");
 		
 		if(dat.empty())
 			return;
 		
-		for(typename list<_Tp>::iterator it = dat.begin();it != dat.end(); ++it)
+		for(typename std::list<_Tp>::iterator it = dat.begin();it != dat.end(); ++it)
 			(*it).write(outF, fxnNum);
 			
 	}
@@ -69,7 +69,7 @@ namespace hashTable{
 		if(dat.empty())
 			return;
 		
-		for(typename list<_Tp>::iterator it = dat.begin(); it != dat.end(); ++it)
+		for(typename std::list<_Tp>::iterator it = dat.begin(); it != dat.end(); ++it)
 			(*it).apply(fxnNum);
 	}
 	
@@ -78,7 +78,7 @@ namespace hashTable{
 	/*********************/
 	
 	template<class _Tp>
-	inline size_t HashTable<_Tp>::hash(string key) const
+	inline size_t HashTable<_Tp>::hash(std::string key) const
 	{
 		size_t h = FIRSTH;
 		size_t sLen = key.length();
@@ -90,14 +90,14 @@ namespace hashTable{
 	template<class _Tp>
 	void HashTable<_Tp>::printHistogram() const
 	{
-		cout << endl << "Hash Table Contains ";
-		cout << getLength() << " Items total" << endl;
+		std::cout << std::endl << "Hash Table Contains ";
+		std::cout << getLength() << " Items total" << std::endl;
 		for (int i = 0; i < size; i++)
 		{
-			cout << i + 1 << ":\t";
+			std::cout << i + 1 << ":\t";
 			for(int j = 0; j < array[i].getLength(); j++)
-				cout << " X";
-			cout << endl;
+				std::cout << " X";
+			std::cout << std::endl;
 		}
 	}
 	
@@ -112,10 +112,10 @@ namespace hashTable{
 	}
 	
 	template<class _Tp>
-	void HashTable<_Tp>::write(ofstream& outF, int fxnNum)
+	void HashTable<_Tp>::write(std::ofstream& outF, int fxnNum)
 	{
 		if(!outF)
-			throw runtime_error("Error writing file. Bad ofstream!");
+			throw std::runtime_error("Error writing file. Bad std::ofstream!");
 		
 		for(size_t i = 0; i < size; i++)
 			array[i].write(outF, fxnNum);

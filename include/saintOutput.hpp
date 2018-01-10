@@ -14,8 +14,6 @@
 #include <utils.hpp>
 #include <hashTable.hpp>
 
-using namespace std;
-
 namespace saint{
 
 	class BaitFile;
@@ -23,18 +21,18 @@ namespace saint{
 	
 	class BaitFileData{
 	private:
-		string ipName, baitName, tc;
+		std::string ipName, baitName, tc;
 	public:
-		BaitFileData(string);
+		BaitFileData(std::string);
 		
 		//properties
-		inline string getBaitName() const{
+		inline std::string getBaitName() const{
 			return baitName;
 		}
-		inline string getIPname() const{
+		inline std::string getIPname() const{
 			return ipName;
 		}
-		inline bool operator == (string comp) const{
+		inline bool operator == (std::string comp) const{
 			return ipName == comp;
 		}
 	};
@@ -42,11 +40,11 @@ namespace saint{
 	class BaitFile{
 	private:
 		hashTable::HashTable<BaitFileData>* dat;
-		string fname;
+		std::string fname;
 		
 	public:
 		//constructor
-		BaitFile(string _fname){
+		BaitFile(std::string _fname){
 			fname = _fname;
 			dat = new hashTable::HashTable<BaitFileData> (10);
 		}
@@ -58,7 +56,7 @@ namespace saint{
 		bool read();
 		
 		//properties
-		string getBaitName(string) const;
+		std::string getBaitName(std::string) const;
 	};
 }
 
