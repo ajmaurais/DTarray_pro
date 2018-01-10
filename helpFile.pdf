@@ -2022,7 +2022,7 @@ endobj
 endobj
 22 0 obj
 <<
-/Length 1194
+/Length 1836
 >>
 stream
 BT
@@ -2044,24 +2044,67 @@ BT
 [(DT)92(array)]TJ
 /TT2 1 Tf
 3.6849 0 TD
-[(,)-250(generating wide formatted protein and peptide output )]TJ
+[(,)-250(generating wide formatted protein and peptide \()]TJ
+/TT4 1 Tf
+19.604 0 TD
+(-p 2)Tj
+/TT2 1 Tf
+1.6392 0 TD
+[(\))-250(output )]TJ
 /TT5 1 Tf
-22.0767 0 TD
+3.3887 0 TD
 (Þ)Tj
 /TT2 1 Tf
 0.5562 0 TD
 (les.)Tj
 /TT4 1 Tf
--31.8347 -1.68 TD
+-34.3898 -1.68 TD
+[(DT)92(array -p 2 -g 2)]TJ
+/TT2 1 Tf
+3.6 -1.2 TD
+(Run)Tj
+/TT4 1 Tf
+2.0037 0 TD
+[(DT)92(array)]TJ
+/TT2 1 Tf
+3.6849 0 TD
+0.0867 Tw
+[(,)-336.7(generating wide formatted protein and peptide \()]TJ
+/TT4 1 Tf
+20.2109 0 TD
+0.0868 Tw
+(-p 2)Tj
+/TT2 1 Tf
+1.726 0 TD
+0 Tw
+[(\))-336.8(output )]TJ
+/TT5 1 Tf
+3.5623 0 TD
+(Þ)Tj
+/TT2 1 Tf
+0.5562 0 TD
+0.0868 Tw
+(les. Group)Tj
+-31.7438 -1.2 TD
+0 Tw
+[(peptides with the same sequence b)20(ut dif)25(ferent char)18(ge state onto the same line \()]TJ
+/TT4 1 Tf
+31.3423 0 TD
+(-g 2)Tj
+/TT2 1 Tf
+1.583 0 TD
+(\).)Tj
+/TT4 1 Tf
+-36.5253 -1.68 TD
 [(DT)92(array -u -s 1)]TJ
 /TT2 1 Tf
 3.6 -1.2 TD
 (Run)Tj
 /TT4 1 Tf
-1.92 0 TD
+1.9201 0 TD
 [(DT)92(array)]TJ
 /TT2 1 Tf
-3.9379 0 TD
+3.938 0 TD
 0.0031 Tw
 (and include spectral counts for unique peptides in output )Tj
 /TT5 1 Tf
@@ -2078,9 +2121,9 @@ BT
 (-u)Tj
 /TT2 1 Tf
 0.8892 0 TD
-0.0031 Tw
+0.003 Tw
 (\), grouping)Tj
--31.55 -1.2 TD
+-31.5502 -1.2 TD
 0 Tw
 (columns by spectral counts then unique peptide spectral counts \()Tj
 /TT4 1 Tf
@@ -2090,12 +2133,12 @@ BT
 1.4722 0 TD
 (\).)Tj
 /TT4 1 Tf
-10.95 0 0 10.95 72 638.4 Tm
+10.95 0 0 10.95 72 597.6 Tm
 [(A)50(UTHOR)]TJ
 /TT2 1 Tf
-10 0 0 10 108 626.4 Tm
+10 0 0 10 108 585.6 Tm
 [(DT)80(array_pro w)10(as written by Aaron Maurais. Email questions or b)20(ugs to: aaron.maurais@.bc.edu)]TJ
--3.6 -60.24 TD
+-3.6 -56.16 TD
 14.955 Tw
 [(DT)80(array_pro 9)-250(January )14955(2018)-19845(5)]TJ
 ET
@@ -2366,8 +2409,8 @@ endobj
 endobj
 32 0 obj
 <<
-/CreationDate (D:20180109200252-05'00')
-/ModDate (D:20180109200252-05'00')
+/CreationDate (D:20180110135102-05'00')
+/ModDate (D:20180110135102-05'00')
 /Producer (PSNormalizer.framework)
 >>
 endobj
@@ -2381,46 +2424,46 @@ endobj
 xref
 0 34
 0000000000 65535 f 
-0000032406 00000 n 
+0000033048 00000 n 
 0000000016 00000 n 
 0000009279 00000 n 
-0000030485 00000 n 
-0000030972 00000 n 
-0000031424 00000 n 
-0000031598 00000 n 
-0000032061 00000 n 
-0000029147 00000 n 
-0000032891 00000 n 
-0000032487 00000 n 
+0000031127 00000 n 
+0000031614 00000 n 
+0000032066 00000 n 
+0000032240 00000 n 
+0000032703 00000 n 
+0000029789 00000 n 
+0000033533 00000 n 
+0000033129 00000 n 
 0000009418 00000 n 
 0000015129 00000 n 
-0000032571 00000 n 
+0000033213 00000 n 
 0000015269 00000 n 
 0000022012 00000 n 
-0000032655 00000 n 
+0000033297 00000 n 
 0000022152 00000 n 
 0000027630 00000 n 
-0000032236 00000 n 
-0000032739 00000 n 
+0000032878 00000 n 
+0000033381 00000 n 
 0000027782 00000 n 
-0000029029 00000 n 
-0000029287 00000 n 
-0000029484 00000 n 
-0000029686 00000 n 
-0000029883 00000 n 
-0000030083 00000 n 
-0000030283 00000 n 
-0000032823 00000 n 
-0000032851 00000 n 
-0000033001 00000 n 
-0000033133 00000 n 
+0000029671 00000 n 
+0000029929 00000 n 
+0000030126 00000 n 
+0000030328 00000 n 
+0000030525 00000 n 
+0000030725 00000 n 
+0000030925 00000 n 
+0000033465 00000 n 
+0000033493 00000 n 
+0000033643 00000 n 
+0000033775 00000 n 
 trailer
 <<
 /Size 34
 /Root 33 0 R
 /Info 32 0 R
-/ID [<02137717d227b817f0b92c25f2f6c44d><02137717d227b817f0b92c25f2f6c44d>]
+/ID [<cc2bf8055e4bc3655cc6608413dff7bd><cc2bf8055e4bc3655cc6608413dff7bd>]
 >>
 startxref
-33203
+33845
 %%EOF
