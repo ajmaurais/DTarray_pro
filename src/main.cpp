@@ -80,11 +80,7 @@ int main(int argc, char* argv[])
 	}
 	//calculate mass of peptides or proteins from sequence and amino acid mass databases
 	if(par.calcMW)
-	{
-		if(!utils::fileExists(par.getwd() + par.staticModsFname))
-			if(!par.writeSmod(par.getwd()))
-				cerr << "Failed to write new smod file" << endl;
-		
+	{		
 		cerr << endl << "Getting protein sequences from " << par.mwDBFname << "...";
 		if(!proteins.readInMWdb(par.getwd(), par))
 		{

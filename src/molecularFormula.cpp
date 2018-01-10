@@ -6,7 +6,7 @@
 //  Copyright © 2018 Aaron Maurais. All rights reserved.
 //
 
-#include "molecularFormula.hpp"
+#include <molecularFormula.hpp>
 
 void molFormula::Residue::calcMasses()
 {
@@ -19,6 +19,20 @@ void molFormula::Residue::calcMasses()
 		
 		//add mass * count to *this masses
 		masses += ((*atomMassMap)[it->first] * it->second);
+	}
+}
+
+//removes atoms from atomCountMap which have count of 0
+void molFormula::Residue::removeZeros()
+{
+	AtomCountMapType::iterator it = atomCountMap.begin();
+	while(it != atomCountMap.end())
+	{
+		if(it->second == 0){
+			atomCountMap.erase(it ++);
+		} else {
+			++it;
+		}
 	}
 }
 
@@ -36,8 +50,8 @@ void molFormula::Residue::initalize(molFormula::AtomMassMapType* _atomMassMap,
 	for(size_t i = 0; i < len; i++)
 		atomCountMap[_header[i]] = utils::toInt(_elems[i]);
 	
-	//calculate residue mass
-	calcMasses();
+	calcMasses(); //calculate residue mass
+	removeZeros(); //remove 0 atom counts
 }
 
 double molFormula::Residue::getMass(char avg_mono) const{
@@ -134,7 +148,8 @@ bool molFormula::Residues::readAtomMassTable()
 		utils::split(line, IN_DELIM, elems);
 		utils::trimAll(elems);
 		
-		if(elems[0] == "H" || elems[0] == "A"){
+		if(elems[0] == "H" || elems[0] == "A")
+		{
 			if(elems.size() != 4)
 				throw std::runtime_error("Bad atom mass ");
 		
@@ -145,10 +160,10 @@ bool molFormula::Residues::readAtomMassTable()
 				atomMassMap[elems[1]] = molFormula::Species(utils::toDouble(elems[2]),
 															utils::toDouble(elems[3]));
 			}
-		}
-	}
+		}//end if
+	}//end while
 	return true;
-}
+}//end fxn
 
 bool molFormula::Residues::initalize(std::string _atomCountTableLoc, std::string _massTableLoc)
 {
@@ -166,7 +181,7 @@ bool molFormula::Residues::initalize()
 	return gootAtomMassTable && goodAtomCountTable;
 }
 
-double molFormula::Residues::getMass(std::string _seq, char avg_mono, bool _nterm, bool _cterm) const
+double molFormula::Residues::calcMass(std::string _seq, char avg_mono, bool _nterm, bool _cterm) const
 {
 	double mass = 0;
 	size_t len = _seq.length();
@@ -185,7 +200,7 @@ double molFormula::Residues::getMass(std::string _seq, char avg_mono, bool _nter
 		std::string aaTemp = std::string(1, _seq[i]);
 		it = residueMap.find(aaTemp);
 		if(it == residueMap.end())
-			throw std::runtime_error(aaTemp + " is not a valid amino acid!");
+			return -1;
 		mass += it->second.getMass(avg_mono);
 	}
 	
@@ -200,27 +215,11 @@ double molFormula::Residues::getMass(std::string _seq, char avg_mono, bool _nter
 	return mass;
 }
 
-std::string molFormula::Residues::getFormula(std::string _seq, bool _nterm, bool _cterm) const
+std::string molFormula::Residues::calcFormula(std::string _seq, bool unicode,
+											  bool _nterm, bool _cterm) const
 {
 	std::string formula = "";
 	ResidueMapType::const_iterator it;
-	
-	HeaderType atoms (FORMULA_RESIDUE_ORDER, FORMULA_RESIDUE_ORDER + FORMULA_RESIDUE_ORDER_LEN);
-	for(std::string::iterator it = _seq.begin(); it != _seq.end(); ++it)
-	{
-		std::string aaTemp = std::string(1, *it);
-		bool found = false;
-		for(size_t i = 0; i < FORMULA_RESIDUE_ORDER_LEN; i++)
-		{
-			if(FORMULA_RESIDUE_ORDER[i] == aaTemp)
-			{
-				found = true;
-				break;
-			}
-		}
-		if(!found)
-			atoms.push_back(aaTemp);
-	}
 	
 	AtomCountMapType atomCounts;
 	ResidueMapType::const_iterator resMapIt;
@@ -236,7 +235,7 @@ std::string molFormula::Residues::getFormula(std::string _seq, bool _nterm, bool
 		std::string aaTemp = std::string(1, *it);
 		resMapIt = residueMap.find(aaTemp);
 		if(resMapIt == residueMap.end())
-			throw std::runtime_error(aaTemp + " not foud in residue map!");
+			return BAD_AMINO_ACID;
 		resMapIt->second.combineAtomCountMap(atomCounts);
 	}
 	if(_cterm)
@@ -247,13 +246,69 @@ std::string molFormula::Residues::getFormula(std::string _seq, bool _nterm, bool
 		resMapIt->second.combineAtomCountMap(atomCounts);
 	}
 	
-	for(HeaderType::iterator it = atoms.begin(); it != atoms.end(); ++it)
+	return getFormulaFromMap(atomCounts, unicode);
+}
+
+std::string molFormula::toSubscript(int _num)
+{
+	std::string strNum = utils::toString(_num);
+	std::string ret = "";
+	
+	size_t len = strNum.length();
+	for(size_t i = 0; i < len; i++)
 	{
-		if(atomCounts[*it] == 0)
+		int tempInt = (int)strNum[i] - 48; //convert char to int
+		assert(tempInt >= 0 && tempInt <= 9); //check that tempInt will not overrun buffer
+		ret += SUBSCRIPT_MAP[tempInt];
+	}
+	return ret;
+}
+
+std::string molFormula::getFormulaFromMap(const molFormula::AtomCountMapType& atomCountMap, bool unicode)
+{
+	std::string formula;
+	
+	//make atom count map which can keep track of already printed atoms
+	typedef std::pair<int, bool> PairType;
+	typedef std::map<std::string, PairType > AtomCountGraphType;
+	AtomCountGraphType atomCountGraph;
+	for(AtomCountMapType::const_iterator it = atomCountMap.begin(); it != atomCountMap.end(); ++it)
+		atomCountGraph[it->first] =  PairType(it->second, false);
+	
+	//first print atoms in FORMULA_RESIDUE_ORDER
+	for(size_t i = 0; i < FORMULA_RESIDUE_ORDER_LEN; i++)
+	{
+		if(atomCountGraph[FORMULA_RESIDUE_ORDER[i]].first == 0)
+		{
+			atomCountGraph[FORMULA_RESIDUE_ORDER[i]].second = true;
 			continue;
-		else if(atomCounts[*it] == 1)
-			formula += *it;
-		else formula += *it + utils::toString(atomCounts[*it]);
+		}
+		else if(atomCountGraph[FORMULA_RESIDUE_ORDER[i]].first == 1) {
+			formula += FORMULA_RESIDUE_ORDER[i];
+		}
+		else {
+			formula += FORMULA_RESIDUE_ORDER[i];
+			if(unicode)
+				formula += toSubscript(atomCountGraph[FORMULA_RESIDUE_ORDER[i]].first);
+			else formula += utils::toString(atomCountGraph[FORMULA_RESIDUE_ORDER[i]].first);
+		}
+		atomCountGraph[FORMULA_RESIDUE_ORDER[i]].second = true;
+	}
+	
+	//next itterate through atomCountGraph and print atoms not added to formula
+	for(AtomCountGraphType::iterator it = atomCountGraph.begin();
+		it != atomCountGraph.end(); ++it)
+	{
+		if(it->second.second) //check if atom has already been added to formula
+			continue;
+		
+		formula += it->first;
+		if(it->second.first > 1) {
+			if(unicode)
+				formula += toSubscript(it->second.first);
+			else formula += utils::toString(it->second.first);
+		}
+		it->second.second = true;
 	}
 	
 	return formula;

@@ -116,8 +116,6 @@ namespace params{
 				}
 				if(!strcmp(argv[i], "flist"))
 					rewriteFlist = true;
-				else if(!strcmp(argv[i], "smod"))
-					rewriteSmod = true;
 				else{
 					cerr << argv[i] << PARAM_ERROR_MESSAGE << "rewrite" << endl;
 					return false;
@@ -157,12 +155,6 @@ namespace params{
 				getSeq = true;
 				continue;
 			}
-			if(!strcmp(argv[i], "-smod"))
-			{
-				if(!writeSmod(wd))
-					cerr << "Could not write new smod file!" << endl;
-				return false;
-			}
 			if(!strcmp(argv[i], "-mact") || !strcmp(argv[i], "--makeAtomCountTable"))
 			{
 				if(!writeAtomCountTable(wd))
@@ -182,6 +174,22 @@ namespace params{
 					cerr << atomCountTableFname << " does not exist!" << endl;
 					return false;
 				}
+				continue;
+			}
+			if(!strcmp(argv[i], "--unicode"))
+			{
+				if(!utils::isArg(argv[++i]))
+				{
+					usage();
+					return false;
+				}
+				if(!(!strcmp(argv[i], "0") || !strcmp(argv[i], "1")))
+				{
+					cerr << argv[i] << PARAM_ERROR_MESSAGE << "unicode" << endl;
+					return false;
+				}
+				unicode = utils::toInt(argv[i]);
+				continue;
 			}
 			if(!strcmp(argv[i], "-p") || !strcmp(argv[i], "--peptides"))
 			{
@@ -378,38 +386,13 @@ namespace params{
 		return true;
 	}
 	
-	bool Params::writeSmod(string _wd) const
-	{
-		if(_wd[_wd.length() - 1] != '/')
-			_wd += "/";
-		ofstream outF((_wd + DEFAULT_SMOD_NAME).c_str());
-		utils::File staticMods(PROG_STATIC_MOD_FNAME);
-		if(!outF || !staticMods.read())
-			return false;
-		
-		if(wdSpecified)
-			cerr << endl << "Generating " << _wd << DEFAULT_SMOD_NAME << endl;
-		else cerr << endl <<"Generating ./" << DEFAULT_SMOD_NAME << endl;
-		
-		outF << utils::COMMENT_SYMBOL << " Static modifications for DTarray_pro" << endl
-		<< utils::COMMENT_SYMBOL << " File generated on: " << utils::ascTime() << endl
-		<< "<staticModifications>" << endl;
-		
-		while(!staticMods.end())
-			outF << staticMods.getLine() << endl;
-		
-		outF << endl << "</staticModifications>" << endl;
-		
-		return true;
-	}
-	
 	bool Params::writeAtomCountTable(string _wd) const
 	{
 		
 		if(_wd[_wd.length() - 1] != '/')
 			_wd += "/";
 		ofstream outF((_wd + DEFAULT_ATOM_COUNT_TABLE_FNAME).c_str());
-		ifstream inF(PROG_ATOM_COUNT_TABLE_FNAME);
+		ifstream inF(PROG_ATOM_COUNT_TABLE_FNAME.c_str());
 		if(!inF || !outF)
 			return false;
 		
@@ -450,8 +433,8 @@ namespace params{
 			if(_wd[_wd.length() - 1] != '/')
 				_wd += "/";
 			
-			string deleteFiles [] = {DEFAULT_FLIST_NAME, DEFAULT_SMOD_NAME, DEFAULT_ATOM_COUNT_TABLE_FNAME, OFNAME, DB_OFNAME,
-				PEPTIDE_OFNAME, PEPTIDE_DB_OFNAME, SAINT_PREY_FILE,
+			string deleteFiles [] = {DEFAULT_FLIST_NAME, DEFAULT_ATOM_COUNT_TABLE_FNAME, OFNAME,
+				DB_OFNAME, PEPTIDE_OFNAME, PEPTIDE_DB_OFNAME, SAINT_PREY_FILE,
 				SAINT_INTERACTION_FILE, LOC_TABLE_FNAME, LOC_TABLE_LONG_FNAME};
 			
 			for(string* p = utils::begin(deleteFiles); p != utils::end(deleteFiles); ++p)

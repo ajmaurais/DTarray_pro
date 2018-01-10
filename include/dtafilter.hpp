@@ -27,6 +27,7 @@
 #include <calcMW.hpp>
 #include <saintOutput.hpp>
 #include <locReport.hpp>
+#include <molecularFormula.hpp>
 
 using namespace std;
 
@@ -76,8 +77,7 @@ class Peptide : public ProteinDataTemplate<SampleData_peptide> {
 	friend class Proteins;
 	friend class Peptides;
 public:
-	Peptide (params::Params* const par, mwDB::MWDB* const _mwdb) : ProteinDataTemplate <SampleData_peptide>(par)
-	{
+	Peptide (params::Params* const par, molFormula::Residues* const _mwdb) : ProteinDataTemplate <SampleData_peptide>(par){
 		mwdb = _mwdb;
 	}
 	Peptide () : ProteinDataTemplate <SampleData_peptide> () {}
@@ -101,18 +101,18 @@ private:
 	string proteinID, calcMH, fileName, protein, description, charge;
 	bool unique;
 	
-	static mwDB::MWDB* mwdb;
+	static molFormula::Residues* mwdb;
 
 	void parsePeptide(const string&);
 	void parseSequence(const string&);
 };
 
-mwDB::MWDB* Peptide::mwdb = nullptr;
+molFormula::Residues* Peptide::mwdb = nullptr;
 
 class Peptides : public DBTemplate<Peptide> {
 	friend class Proteins;
 private:
-	mwDB::MWDB* mwdb;
+	molFormula::Residues* mwdb;
 public:
 	Peptides(const params::Params& pars) : DBTemplate<Peptide>(pars, PEPTIDES_DATA_SIZE) {}
 	Peptides() : DBTemplate<Peptide>(){}

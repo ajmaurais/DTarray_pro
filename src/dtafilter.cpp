@@ -156,20 +156,21 @@ void Protein::calcMW()
 		sequence = SEQ_NOT_FOUND;
 		avgMass = -1;
 		monoMass = -1;
-		formula = "";
+		formula = "NA";
 		return;
 	}
 	
 	sequence = tmp_sequence;
-	avgMass = mwdb->calcMW(sequence, 0);
-	monoMass = mwdb->calcMW(sequence, 1);
-	//formula = mwdb->getFormula(sequence);
+	avgMass = mwdb->calcMW(sequence);
+	monoMass = mwdb->calcMono(sequence);
+	formula = mwdb->calcFormula(sequence, par->unicode);
 }
 
 void Peptide::calcMW()
 {
-	avgMass = mwdb->calcMW(calcSequence, 0);
-	monoMass = mwdb->calcMW(calcSequence, 1);
+	avgMass = mwdb->calcMW(calcSequence);
+	monoMass = mwdb->calcMono(calcSequence);
+	formula = mwdb->calcFormula(calcSequence, par->unicode);
 }
 
 //loop through protein header and peptide lines in DTA filter file and add data to Proteins
@@ -371,7 +372,7 @@ bool Proteins::readIn(params::Params* const par, Peptides* const peptides)
 bool Proteins::readInMWdb(string wd, const params::Params& par)
 {
 	mwdb = new mwDB::MWDB_Protein;
-	return mwdb->readIn(wd, par);
+	return mwdb->initalize(wd, par);
 }
 
 bool Proteins::readInSeqDB(string fname)
@@ -750,7 +751,7 @@ bool Proteins::writeOut(string ofname, const params::Params& par)
 		}
 
 		vector<string> ofColNames;
-		for(int i = 0; i < len; i ++)
+		for(int i = 0; i < len; i++)
 			ofColNames.push_back(headers[i]);
 		for(int i = 0; i <= par.supInfoNum; i++)
 		{

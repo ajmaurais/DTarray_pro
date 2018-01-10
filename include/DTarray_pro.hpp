@@ -19,7 +19,7 @@
 	#define PATH_MAX 1024
 #endif
 
-#define BIN_VERSION_NUM "1.63"
+#define BIN_VERSION_NUM "1.7"
 #define MIN_BIN_VERSION_NUM 1.60
 
 #include <gitVersion.hpp>

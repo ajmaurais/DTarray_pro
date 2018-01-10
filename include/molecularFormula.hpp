@@ -14,8 +14,9 @@
 #include <vector>
 #include <stdexcept>
 #include <cassert>
+#include <utility>
 
-#include "utils.hpp"
+#include <utils.hpp>
 
 namespace molFormula{
 	
@@ -27,11 +28,18 @@ namespace molFormula{
 	typedef std::map<std::string, Species> AtomMassMapType;
 	typedef std::map<std::string, int> AtomCountMapType;
 	
-	const std::string FORMULA_RESIDUE_ORDER [] = {"C", "(13)C", "H", "D", "Br", "Cl", "N", "(15)N",
-		"O", "(18)O", "P", "S", "Se"};
+	string const SUBSCRIPT_MAP [] = {"\u2080", "\u2081", "\u2082", "\u2083", "\u2084", "\u2085",
+		"\u2086", "\u2087", "\u2088", "\u2089"};
+	bool const UNICODE_AS_DEFAULT = true;
+	const std::string FORMULA_RESIDUE_ORDER [] = {"C", "(13)C", "H", "D", "Br", "Cl", "N",
+		"(15)N", "O", "(18)O", "P", "S", "Se"};
 	const size_t FORMULA_RESIDUE_ORDER_LEN = 13;
 	const std::string N_TERM_STR = "N_term";
 	const std::string C_TERM_STR = "C_term";
+	const std::string BAD_AMINO_ACID = "BAD_AA_IN_SEQ";
+	
+	std::string getFormulaFromMap(const AtomCountMapType&, bool unicode);
+	std::string toSubscript(int);
 	
 	class Species{
 	private:
@@ -74,6 +82,7 @@ namespace molFormula{
 		
 		Species masses;
 		void calcMasses();
+		void removeZeros();
 	public:
 		Residue (){
 			atomMassMap = new AtomMassMapType;
@@ -94,7 +103,9 @@ namespace molFormula{
 		//properties
 		void combineAtomCountMap(AtomCountMapType&) const;
 		int getCount(std::string) const;
-		std::string getFormula() const;
+		std::string getFormula(bool unicode = UNICODE_AS_DEFAULT) const{
+			return getFormulaFromMap(atomCountMap, unicode);
+		}
 		double getMass(char) const;
 		double getMono() const{
 			return masses.getMono();
@@ -127,14 +138,15 @@ namespace molFormula{
 		bool initalize();
 		bool initalize(std::string, std::string);
 		
-		std::string getFormula(std::string, bool _nterm = true, bool _cterm = true) const;
-		double getMass(std::string _seq, char avg_mono,
+		std::string calcFormula(std::string, bool unicode = UNICODE_AS_DEFAULT,
+								bool _nterm = true, bool _cterm = true) const;
+		double calcMass(std::string _seq, char avg_mono,
 					   bool _nterm = true, bool _cterm = true) const;
-		double getMW(std::string _seq, bool _nterm = true, bool _cterm = true) const{
-			return getMass(_seq, 'a', _nterm, _cterm);
+		double calcMW(std::string _seq, bool _nterm = true, bool _cterm = true) const{
+			return calcMass(_seq, 'a', _nterm, _cterm);
 		}
-		double getMono(std::string _seq, bool _nterm = true, bool _cterm = true) const{
-			return getMass(_seq, 'm', _nterm, _cterm);
+		double calcMono(std::string _seq, bool _nterm = true, bool _cterm = true) const{
+			return calcMass(_seq, 'm', _nterm, _cterm);
 		}
 	};
 }

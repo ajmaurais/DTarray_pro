@@ -41,9 +41,8 @@ namespace params{
 	const string PROG_LOC_DB_FNAME = PROG_WD_DB + "/humanLoc.tsv";
 	const string PROG_SEQ_DB_FNAME = PROG_WD_DB + "/humanProteome.fasta";
 	const string PROG_MW_DB_FNAME = PROG_SEQ_DB_FNAME;
-	const string PROG_AA_DB_FNAME = PROG_WD_DB + "/aaMasses.txt";
+	//const string PROG_AA_DB_FNAME = PROG_WD_DB + "/aaMasses.txt";
 	const string PROG_FXN_DB_FNAME = PROG_WD_DB + "/humanFxn.tsv";
-	const string PROG_STATIC_MOD_FNAME = PROG_WD_DB + "/staticModifications.txt";
 	const string PROG_ATOM_COUNT_TABLE_FNAME = PROG_WD_DB + "/defaultResidueAtoms.txt";
 	const string PROG_ATOM_MASS_TABLE_FNAME = PROG_WD_DB + "/atomMasses.txt";
 	const string PROG_HELP_FILE_FNAME = PROG_WD_DB + "/helpFile.man";
@@ -51,7 +50,6 @@ namespace params{
 	
 	//default file names
 	const string DEFAULT_FLIST_NAME = "dtarray_pro_flist.txt";
-	const string DEFAULT_SMOD_NAME = "staticModifications.txt";
 	const string DEFAULT_ATOM_COUNT_TABLE_FNAME = "atomCountTable.txt";
 	const string DTAFILTER_EXT = ".dtafilter";
 	const string OFNAME = "DTarray_pro.tsv";
@@ -118,11 +116,11 @@ namespace params{
 		bool includeUnique;
 		bool getSubCelluarLoc;
 		bool rewriteFlist;
-		bool rewriteSmod;
 		string locDBfname;
 		bool calcMW;
-		string aaDBfanme, mwDBFname, staticModsFname;
+		string mwDBFname;
 		string atomMassTableFname, atomCountTableFname;
+		bool unicode;
 		string ofname, dbOfname, dbPeptideOfFname, peptideOfFname;
 		bool getSeq;
 		string seqDBfname;
@@ -161,14 +159,12 @@ namespace params{
 			includeUnique = false;
 			getSubCelluarLoc = false;
 			rewriteFlist = false;
-			rewriteSmod = false;
 			locDBfname = PROG_LOC_DB_FNAME;
 			calcMW = false;
-			aaDBfanme = PROG_AA_DB_FNAME;
 			mwDBFname = PROG_MW_DB_FNAME;
-			staticModsFname = DEFAULT_SMOD_NAME;
 			atomMassTableFname = PROG_ATOM_MASS_TABLE_FNAME;
 			atomCountTableFname = PROG_ATOM_COUNT_TABLE_FNAME;
+			unicode = false;
 			ofname = OFNAME;
 			dbOfname = DB_OFNAME;
 			dbPeptideOfFname = PEPTIDE_DB_OFNAME;
@@ -207,7 +203,6 @@ namespace params{
 		//properties
 		bool writeFlist();
 		bool optionsCompatable() const;
-		bool writeSmod(string) const;
 		bool writeAtomCountTable(string) const;
 		string getFilePath(size_t index) const {
 			return file[index].getPath();
