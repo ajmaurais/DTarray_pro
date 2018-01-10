@@ -500,10 +500,13 @@ void Protein::writeProtein(ofstream& outF)
 	OUT_DELIM << length <<
 	OUT_DELIM << MW;
 	
+	std::streamsize ss = outF.precision();
+	outF.precision(5); //write floating point nums with 5 digits
 	if(par->calcMW)
 		outF << OUT_DELIM << std::fixed << avgMass <<
 		OUT_DELIM << std::fixed << monoMass <<
 		OUT_DELIM << formula;
+	outF.precision(ss);
 	
 	if(par->getSeq)
 		outF << OUT_DELIM << sequence;
@@ -1200,10 +1203,13 @@ void Peptide::write(ofstream& outF, int fxnNum)
 	
 	outF << OUT_DELIM << unique;
 	
+	std::streamsize ss = outF.precision();
+	outF.precision(6); //write floating point nums with 5 digits
 	if(par->calcMW)
 		outF << OUT_DELIM << std::fixed << avgMass
 		<< OUT_DELIM << std::fixed << monoMass
 		<< OUT_DELIM << formula;
+	outF.precision(ss);
 	
 	outF << OUT_DELIM << calcMH;
 	
