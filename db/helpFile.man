@@ -341,4 +341,4 @@ Run \fBDTarray\fR, generating wide formatted protein and peptide (\fB-p 2\fR) ou
 \fBDTarray -u -s 1\fR
 Run \fBDTarray\fR and include spectral counts for unique peptides in output file (\fB-u\fR), grouping columns by spectral counts then unique peptide spectral counts (\fB-s 1\fR).
 .SH AUTHOR
-DTarray_pro was written by Aaron Maurais. Email questions or bugs to: aaron.maurais@.bc.edu
+DTarray_pro was written by Aaron Maurais. Email questions or bugs to: aaron.maurais@bc.edu
