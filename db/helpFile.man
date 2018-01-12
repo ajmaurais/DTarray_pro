@@ -332,11 +332,11 @@ Display this help file.
 \fBDTarray\fR
 Run \fRDTarray\fR using default parameters.
 .TP
-\fBDTarray -p 2\fR
-Run \fBDTarray\fR, generating wide formatted protein and peptide (\fB-p 2\fR) output files.
+\fBDTarray -p 1\fR
+Run \fBDTarray\fR, generating wide formatted protein and peptide (\fB-p 1\fR) output files.
 .TP
-\fBDTarray -p 2 -g 2\fR
-Run \fBDTarray\fR, generating wide formatted protein and peptide (\fB-p 2\fR) output files. Group peptides with the same sequence but different charge state onto the same line (\fB-g 2\fR).
+\fBDTarray -p 1 -g 2\fR
+Run \fBDTarray\fR, generating wide formatted protein and peptide (\fB-p 1\fR) output files. Group peptides with the same sequence but different charge state onto the same line (\fB-g 2\fR).
 .TP
 \fBDTarray -u -s 1\fR
 Run \fBDTarray\fR and include spectral counts for unique peptides in output file (\fB-u\fR), grouping columns by spectral counts then unique peptide spectral counts (\fB-s 1\fR).
