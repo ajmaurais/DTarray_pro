@@ -249,20 +249,21 @@ std::string molFormula::Residues::calcFormula(std::string _seq, bool unicode,
 	return getFormulaFromMap(atomCounts, unicode);
 }
 
-std::string molFormula::toSubscript(int _num)
+/*std::string molFormula::symbolToUnicode(std::string _symbol)
 {
-	std::string strNum = utils::toString(_num);
-	std::string ret = "";
+	if(!(utils::strContains(")", _symbol) && _symbol[0] == '('))
+		return _symbol;
+	std::string ret;
 	
-	size_t len = strNum.length();
-	for(size_t i = 0; i < len; i++)
-	{
-		int tempInt = (int)strNum[i] - 48; //convert char to int
-		assert(tempInt >= 0 && tempInt <= 9); //check that tempInt will not overrun buffer
-		ret += SUBSCRIPT_MAP[tempInt];
-	}
+	size_t endParen = _symbol.find(")");
+	
+	std::string temp = _symbol.substr(1, endParen - 1);
+	
+	ret = utils::toSuperscript(utils::toInt(temp));
+	ret += _symbol.substr(endParen + 1);
+	
 	return ret;
-}
+}*/
 
 std::string molFormula::getFormulaFromMap(const molFormula::AtomCountMapType& atomCountMap, bool unicode)
 {
@@ -270,7 +271,7 @@ std::string molFormula::getFormulaFromMap(const molFormula::AtomCountMapType& at
 	
 	//make atom count map which can keep track of already printed atoms
 	typedef std::pair<int, bool> PairType;
-	typedef std::map<std::string, PairType > AtomCountGraphType;
+	typedef std::map<std::string, PairType> AtomCountGraphType;
 	AtomCountGraphType atomCountGraph;
 	for(AtomCountMapType::const_iterator it = atomCountMap.begin(); it != atomCountMap.end(); ++it)
 		atomCountGraph[it->first] =  PairType(it->second, false);
@@ -287,10 +288,15 @@ std::string molFormula::getFormulaFromMap(const molFormula::AtomCountMapType& at
 			formula += FORMULA_RESIDUE_ORDER[i];
 		}
 		else {
-			formula += FORMULA_RESIDUE_ORDER[i];
-			if(unicode)
-				formula += toSubscript(atomCountGraph[FORMULA_RESIDUE_ORDER[i]].first);
-			else formula += utils::toString(atomCountGraph[FORMULA_RESIDUE_ORDER[i]].first);
+			if(unicode){
+				//formula += molFormula::symbolToUnicode(FORMULA_RESIDUE_ORDER[i]);
+				formula += FORMULA_RESIDUE_ORDER[i];
+				formula += utils::toSubscript(atomCountGraph[FORMULA_RESIDUE_ORDER[i]].first);
+			}
+			else {
+				formula += FORMULA_RESIDUE_ORDER[i];
+				formula += utils::toString(atomCountGraph[FORMULA_RESIDUE_ORDER[i]].first);
+			}
 		}
 		atomCountGraph[FORMULA_RESIDUE_ORDER[i]].second = true;
 	}
@@ -305,7 +311,7 @@ std::string molFormula::getFormulaFromMap(const molFormula::AtomCountMapType& at
 		formula += it->first;
 		if(it->second.first > 1) {
 			if(unicode)
-				formula += toSubscript(it->second.first);
+				formula += utils::toSubscript(it->second.first);
 			else formula += utils::toString(it->second.first);
 		}
 		it->second.second = true;

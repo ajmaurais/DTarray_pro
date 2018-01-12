@@ -476,6 +476,36 @@ namespace utils{
 		return ret;
 	}
 	
+	std::string toSubscript(int _num)
+	{
+		std::string strNum = utils::toString(_num);
+		std::string ret = "";
+		
+		size_t len = strNum.length();
+		for(size_t i = 0; i < len; i++)
+		{
+			int tempInt = (int)strNum[i] - 48; //convert char to int
+			assert(tempInt >= 0 && tempInt <= 9); //check that tempInt will not overrun buffer
+			ret += SUBSCRIPT_MAP[tempInt];
+		}
+		return ret;
+	}
+	
+	/*std::string toSuperscript(int _num)
+	{
+		std::string strNum = utils::toString(_num);
+		std::string ret = "";
+		
+		size_t len = strNum.length();
+		for(size_t i = 0; i < len; i++)
+		{
+			int tempInt = (int)strNum[i] - 48; //convert char to int
+			assert(tempInt >= 0 && tempInt <= 9); //check that tempInt will not overrun buffer
+			ret += SUPERSCRIPT_MAP[tempInt];
+		}
+		return ret;
+	}*/
+	
 	/*********/
 	/* other */
 	/*********/

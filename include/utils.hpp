@@ -40,6 +40,10 @@ namespace utils{
 	char const DEFAULT_LINE_DELIM = '\n';
 	size_t const DEFAULT_BEGIN_LINE = 0;
 	bool const IGNORE_HIDDEN_FILES = true; //ignore hidden files in utils::ls
+	std::string const SUBSCRIPT_MAP [] = {"\u2080", "\u2081", "\u2082", "\u2083",
+		"\u2084", "\u2085", "\u2086", "\u2087", "\u2088", "\u2089"};
+	/*std::string const SUPERSCRIPT_MAP [] = {"\u00B0", "\u00B1", "\u00B2", "\u00B3",
+		"\u00B4", "\u00B5", "\u00B6", "\u00B7", "\u00B8", "\u00B9"};*/
 	
 	/******************************/
 	/*     class definitions     */
@@ -144,6 +148,8 @@ namespace utils{
 		char delim = DEFAULT_LINE_DELIM, size_t beginLine = DEFAULT_BEGIN_LINE);
 	inline void getLine(std::istream& is, std::string& line,
 		char delim = DEFAULT_LINE_DELIM, size_t beginLine = DEFAULT_BEGIN_LINE);
+	std::string toSubscript(int);
+	//std::string toSuperscript(int);
 	
 	//other
 	bool isFlag(const char*);
