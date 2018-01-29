@@ -2,7 +2,7 @@
 %‚„œ”
 2 0 obj
 <<
-/Length 9211
+/Length 9418
 >>
 stream
 BT
@@ -321,6 +321,29 @@ BT
 (<dir>)Tj
 /TT2 1 Tf
 2.5166 0 TD
+0.25 Tc
+(][)Tj
+/TT4 1 Tf
+0.916 0 TD
+0 Tc
+(-)Tj
+/TT9 1 Tf
+0.333 0 TD
+(ﬂ)Tj
+/TT4 1 Tf
+0.5562 0 TD
+(ist)Tj
+/TT7 1 Tf
+1.25 0 TD
+(<)Tj
+/TT8 1 Tf
+0.6748 0 TD
+(ﬁ)Tj
+/TT7 1 Tf
+0.5 0 TD
+(le>)Tj
+/TT2 1 Tf
+1.3965 0 TD
 0.25 Tc
 (][)Tj
 /TT4 1 Tf
@@ -763,15 +786,16 @@ endobj
 /TT5 6 0 R
 /TT7 7 0 R
 /TT8 8 0 R
+/TT9 9 0 R
 >>
 /ExtGState <<
-/GS1 9 0 R
+/GS1 10 0 R
 >>
 >>
 endobj
-12 0 obj
+13 0 obj
 <<
-/Length 5658
+/Length 5684
 >>
 stream
 BT
@@ -985,7 +1009,40 @@ T*
 0 Tw
 (directory is used.)Tj
 /TT4 1 Tf
--5.7 -2.88 TD
+-3.6 -1.68 TD
+(-)Tj
+/TT9 1 Tf
+0.333 0 TD
+(ﬂ)Tj
+/TT4 1 Tf
+0.5562 0 TD
+(ist)Tj
+/TT7 1 Tf
+1.25 0 TD
+(<)Tj
+/TT8 1 Tf
+0.6748 0 TD
+(ﬁ)Tj
+/TT7 1 Tf
+0.5 0 TD
+(le>)Tj
+/TT2 1 Tf
+0.286 -1.2 TD
+(Specify )Tj
+/TT5 1 Tf
+3.3047 0 TD
+(ﬁ)Tj
+/TT2 1 Tf
+0.5562 0 TD
+[(le list. By def)10(ault the automatically generated )]TJ
+/TT5 1 Tf
+18.428 0 TD
+(ﬁ)Tj
+/TT2 1 Tf
+0.5562 0 TD
+(le list is used.)Tj
+/TT4 1 Tf
+-28.545 -4.08 TD
 [(R)30(U)0(N)-250(SPECIFIC SUPPLEMENT)90(AR)35(Y)-250(INFORMA)95(TION)]TJ
 2.1 -1.2 TD
 (-u, --unique)Tj
@@ -1124,8 +1181,43 @@ T*
 /TT2 1 Tf
 0.5562 0 TD
 (le.)Tj
+-10.5618 -4.32 TD
+14.955 Tw
+[(DT)80(array_pro 9)-250(January )14955(2018)-19845(2)]TJ
+ET
+endstream
+endobj
+14 0 obj
+<<
+/ProcSet [/PDF /Text ]
+/Font <<
+/TT2 4 0 R
+/TT4 5 0 R
+/TT5 6 0 R
+/TT7 7 0 R
+/TT8 8 0 R
+/TT9 9 0 R
+>>
+/ExtGState <<
+/GS1 10 0 R
+>>
+>>
+endobj
+16 0 obj
+<<
+/Length 6739
+>>
+stream
+BT
+/TT2 1 Tf
+10 0 0 10 72 744 Tm
+0 g
+/GS1 gs
+0 Tc
+0 Tw
+[(DT)80(array_pro v1.7\(1\))-30188(DT)80(array_pro v1.7\(1\))]TJ
 /TT4 1 Tf
--6.9618 -1.68 TD
+3.6 -3.6 TD
 (-seq)Tj
 /TT2 1 Tf
 3.6002 0 TD
@@ -1146,42 +1238,8 @@ T*
 /TT2 1 Tf
 0.5562 0 TD
 (le.)Tj
--18.9759 -5.52 TD
-14.955 Tw
-[(DT)80(array_pro 9)-250(January )14955(2018)-19845(2)]TJ
-ET
-endstream
-endobj
-13 0 obj
-<<
-/ProcSet [/PDF /Text ]
-/Font <<
-/TT2 4 0 R
-/TT4 5 0 R
-/TT5 6 0 R
-/TT7 7 0 R
-/TT8 8 0 R
->>
-/ExtGState <<
-/GS1 9 0 R
->>
->>
-endobj
-15 0 obj
-<<
-/Length 6690
->>
-stream
-BT
-/TT2 1 Tf
-10 0 0 10 72 744 Tm
-0 g
-/GS1 gs
-0 Tc
-0 Tw
-[(DT)80(array_pro v1.7\(1\))-30188(DT)80(array_pro v1.7\(1\))]TJ
 /TT7 1 Tf
-9 -3.6 TD
+-9.9759 -1.68 TD
 (<fafsa_)Tj
 /TT8 1 Tf
 3.1196 0 TD
@@ -1573,8 +1631,42 @@ T*
 /TT2 1 Tf
 13.4625 0 TD
 (.)Tj
+-20.6625 -6.24 TD
+14.955 Tw
+[(DT)80(array_pro 9)-250(January )14955(2018)-19845(3)]TJ
+ET
+endstream
+endobj
+17 0 obj
+<<
+/ProcSet [/PDF /Text ]
+/Font <<
+/TT2 4 0 R
+/TT4 5 0 R
+/TT5 6 0 R
+/TT7 7 0 R
+/TT8 8 0 R
+>>
+/ExtGState <<
+/GS1 10 0 R
+>>
+>>
+endobj
+19 0 obj
+<<
+/Length 5573
+>>
+stream
+BT
+/TT2 1 Tf
+10 0 0 10 72 744 Tm
+0 g
+/GS1 gs
+0 Tc
+0 Tw
+[(DT)80(array_pro v1.7\(1\))-30188(DT)80(array_pro v1.7\(1\))]TJ
 /TT7 1 Tf
--11.6625 -1.68 TD
+9 -3.6 TD
 (<fafsa_)Tj
 /TT8 1 Tf
 3.1196 0 TD
@@ -1597,42 +1689,8 @@ T*
 -22.0913 -1.2 TD
 0 Tw
 (sequences.)Tj
--12.6 -5.04 TD
-14.955 Tw
-[(DT)80(array_pro 9)-250(January )14955(2018)-19845(3)]TJ
-ET
-endstream
-endobj
-16 0 obj
-<<
-/ProcSet [/PDF /Text ]
-/Font <<
-/TT2 4 0 R
-/TT4 5 0 R
-/TT5 6 0 R
-/TT7 7 0 R
-/TT8 8 0 R
->>
-/ExtGState <<
-/GS1 9 0 R
->>
->>
-endobj
-18 0 obj
-<<
-/Length 5425
->>
-stream
-BT
-/TT2 1 Tf
-10 0 0 10 72 744 Tm
-0 g
-/GS1 gs
-0 Tc
-0 Tw
-[(DT)80(array_pro v1.7\(1\))-30188(DT)80(array_pro v1.7\(1\))]TJ
 /TT4 1 Tf
-3.6 -3.6 TD
+-9 -1.68 TD
 [(-mact, -mak)10(eAtomCountT)92(able)]TJ
 /TT2 1 Tf
 3.6 -1.2 TD
@@ -1990,21 +2048,13 @@ T*
 /TT2 1 Tf
 0.5562 0 TD
 (le.)Tj
-/TT4 1 Tf
-10.95 0 0 10.95 72 115.2 Tm
-(EXAMPLES)Tj
-10 0 0 10 108 103.2 Tm
-[(DT)92(array)]TJ
-/TT2 1 Tf
-3.6 -1.2 TD
-[(Run DT)80(array using def)10(ault parameters.)]TJ
--7.2 -6.72 TD
+-14.7835 -7.92 TD
 14.955 Tw
 [(DT)80(array_pro 9)-250(January )14955(2018)-19845(4)]TJ
 ET
 endstream
 endobj
-19 0 obj
+20 0 obj
 <<
 /ProcSet [/PDF /Text ]
 /Font <<
@@ -2013,16 +2063,16 @@ endobj
 /TT5 6 0 R
 /TT7 7 0 R
 /TT8 8 0 R
-/TT9 20 0 R
+/TT9 9 0 R
 >>
 /ExtGState <<
-/GS1 9 0 R
+/GS1 10 0 R
 >>
 >>
 endobj
 22 0 obj
 <<
-/Length 1835
+/Length 1999
 >>
 stream
 BT
@@ -2034,7 +2084,15 @@ BT
 0 Tw
 [(DT)80(array_pro v1.7\(1\))-30188(DT)80(array_pro v1.7\(1\))]TJ
 /TT4 1 Tf
-3.6 -3.6 TD
+10.95 0 0 10.95 72 708 Tm
+(EXAMPLES)Tj
+10 0 0 10 108 696 Tm
+[(DT)92(array)]TJ
+/TT2 1 Tf
+3.6 -1.2 TD
+[(Run DT)80(array using def)10(ault parameters.)]TJ
+/TT4 1 Tf
+-3.6 -1.68 TD
 [(DT)92(array -p 1)]TJ
 /TT2 1 Tf
 3.6 -1.2 TD
@@ -2133,12 +2191,12 @@ BT
 1.4722 0 TD
 (\).)Tj
 /TT4 1 Tf
-10.95 0 0 10.95 72 597.6 Tm
+10.95 0 0 10.95 72 556.8 Tm
 [(A)50(UTHOR)]TJ
 /TT2 1 Tf
-10 0 0 10 108 585.6 Tm
+10 0 0 10 108 544.8 Tm
 [(DT)80(array_pro w)10(as written by Aaron Maurais. Email questions or b)20(ugs to: aaron.maurais@bc.edu)]TJ
--3.6 -56.16 TD
+-3.6 -52.08 TD
 14.955 Tw
 [(DT)80(array_pro 9)-250(January )14955(2018)-19845(5)]TJ
 ET
@@ -2153,11 +2211,11 @@ endobj
 /TT5 6 0 R
 >>
 /ExtGState <<
-/GS1 9 0 R
+/GS1 10 0 R
 >>
 >>
 endobj
-9 0 obj
+10 0 obj
 <<
 /Type /ExtGState
 /SA false
@@ -2337,7 +2395,7 @@ endobj
 /FontDescriptor 28 0 R
 >>
 endobj
-20 0 obj
+9 0 obj
 <<
 /Type /Font
 /Subtype /TrueType
@@ -2352,39 +2410,39 @@ endobj
 1 0 obj
 <<
 /Type /Page
-/Parent 10 0 R
+/Parent 11 0 R
 /Resources 3 0 R
 /Contents 2 0 R
 >>
 endobj
-11 0 obj
+12 0 obj
 <<
 /Type /Page
-/Parent 10 0 R
-/Resources 13 0 R
-/Contents 12 0 R
+/Parent 11 0 R
+/Resources 14 0 R
+/Contents 13 0 R
 >>
 endobj
-14 0 obj
+15 0 obj
 <<
 /Type /Page
-/Parent 10 0 R
-/Resources 16 0 R
-/Contents 15 0 R
+/Parent 11 0 R
+/Resources 17 0 R
+/Contents 16 0 R
 >>
 endobj
-17 0 obj
+18 0 obj
 <<
 /Type /Page
-/Parent 10 0 R
-/Resources 19 0 R
-/Contents 18 0 R
+/Parent 11 0 R
+/Resources 20 0 R
+/Contents 19 0 R
 >>
 endobj
 21 0 obj
 <<
 /Type /Page
-/Parent 10 0 R
+/Parent 11 0 R
 /Resources 23 0 R
 /Contents 22 0 R
 >>
@@ -2399,71 +2457,71 @@ endobj
 /Nums [0 30 0 R ]
 >>
 endobj
-10 0 obj
+11 0 obj
 <<
 /Type /Pages
-/Kids [1 0 R 11 0 R 14 0 R 17 0 R 21 0 R]
+/Kids [1 0 R 12 0 R 15 0 R 18 0 R 21 0 R]
 /Count 5
 /MediaBox [0 0 612 792]
 >>
 endobj
 32 0 obj
 <<
-/CreationDate (D:20180112142649-05'00')
-/ModDate (D:20180112142649-05'00')
+/CreationDate (D:20180128204249-05'00')
+/ModDate (D:20180128204249-05'00')
 /Producer (PSNormalizer.framework)
 >>
 endobj
 33 0 obj
 <<
 /Type /Catalog
-/Pages 10 0 R
+/Pages 11 0 R
 /PageLabels 31 0 R
 >>
 endobj
 xref
 0 34
 0000000000 65535 f 
-0000033047 00000 n 
+0000033667 00000 n 
 0000000016 00000 n 
-0000009279 00000 n 
-0000031126 00000 n 
-0000031613 00000 n 
-0000032065 00000 n 
-0000032239 00000 n 
-0000032702 00000 n 
-0000029788 00000 n 
-0000033532 00000 n 
-0000033128 00000 n 
-0000009418 00000 n 
-0000015129 00000 n 
-0000033212 00000 n 
-0000015269 00000 n 
-0000022012 00000 n 
-0000033296 00000 n 
-0000022152 00000 n 
-0000027630 00000 n 
-0000032877 00000 n 
-0000033380 00000 n 
-0000027782 00000 n 
-0000029670 00000 n 
-0000029928 00000 n 
-0000030125 00000 n 
-0000030327 00000 n 
-0000030524 00000 n 
-0000030724 00000 n 
-0000030924 00000 n 
-0000033464 00000 n 
-0000033492 00000 n 
-0000033642 00000 n 
-0000033774 00000 n 
+0000009486 00000 n 
+0000031747 00000 n 
+0000032234 00000 n 
+0000032686 00000 n 
+0000032860 00000 n 
+0000033323 00000 n 
+0000033498 00000 n 
+0000030408 00000 n 
+0000034152 00000 n 
+0000033748 00000 n 
+0000009637 00000 n 
+0000015374 00000 n 
+0000033832 00000 n 
+0000015526 00000 n 
+0000022318 00000 n 
+0000033916 00000 n 
+0000022459 00000 n 
+0000028085 00000 n 
+0000034000 00000 n 
+0000028237 00000 n 
+0000030289 00000 n 
+0000030549 00000 n 
+0000030746 00000 n 
+0000030948 00000 n 
+0000031145 00000 n 
+0000031345 00000 n 
+0000031545 00000 n 
+0000034084 00000 n 
+0000034112 00000 n 
+0000034262 00000 n 
+0000034394 00000 n 
 trailer
 <<
 /Size 34
 /Root 33 0 R
 /Info 32 0 R
-/ID [<03092f0f755800820249fadee8b40827><03092f0f755800820249fadee8b40827>]
+/ID [<04f409d9b4ff83ddb46f1def650e8fe3><04f409d9b4ff83ddb46f1def650e8fe3>]
 >>
 startxref
-33844
+34464
 %%EOF

@@ -35,6 +35,7 @@ DTarray_pro - Combine DTASelect-filter files.
 [\fB-seq\fR [\fI<fasta_file>\fR]]
 [\fB-f\fR [\fI<prefix>\fR]]
 [\fB-d\fR \fI<dir>\fR]
+[\fB-flist\fR \fI<file>\fR]
 [\fB-rw\fR \fI<arg>\fP]
 [\fB--purge\fR]
 [\fB-h\fR, \fB--help\fR]
@@ -148,6 +149,10 @@ Generate input files for saintExpress. \fI<bait_file>\fP should be a text file w
 .TP
 \fB-d, --dir\fI <dir>\fP
 Specify parent directory from which to run program. By default, the current working directory is used.
+.TP
+\fB-flist \fI<file>\fP
+Specify file list. By default the automatically generated file list is used.
+
 
 .SS RUN SPECIFIC SUPPLEMENTARY INFORMATION
 .TP
