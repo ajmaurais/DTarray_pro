@@ -48,7 +48,7 @@ int main(int argc, char* argv[])
 	//read saint bait file
 	if(par.includeSaint)
 	{
-		if(!proteins.readBaitFile(par.saintBaitFile))
+		if(!proteins.readBaitFile(par.getwd() + par.saintBaitFile))
 		{
 			std::cerr << std::endl << "Could not read bait file! Exiting..." << std::endl;
 			return -1;
@@ -79,18 +79,18 @@ int main(int argc, char* argv[])
 	//calculate mass of peptides or proteins from sequence and amino acid mass databases
 	if(par.calcMW)
 	{		
-		std::cerr << std::endl << "Getting protein sequences from " << par.mwDBFname << "...";
-		if(!proteins.readInMWdb(par.getwd(), par))
+		std::cerr << std::endl << "Getting protein sequences from " << par.getmwDBFname() << "...";
+		if(!proteins.readInMWdb(par))
 		{
 			std::cerr << "Failed to read mwDB files! Exiting..." << std::endl;
 			return -1;
 		}
 		std::cerr << " done!" << std::endl;
 	}
-	if((!par.calcMW && par.getSeq ) || (par.calcMW  && (par.seqDBfname != par.mwDBFname)))
+	if((!par.calcMW && par.getSeq ) || (par.calcMW  && (par.getSeqDBfname() != par.getmwDBFname())))
 	{
-		std::cerr << std::endl << "Getting protein sequences from " << par.seqDBfname << "...";
-		if(!proteins.readInSeqDB(par.seqDBfname))
+		std::cerr << std::endl << "Getting protein sequences from " << par.getSeqDBfname() << "...";
+		if(!proteins.readInSeqDB(par.getSeqDBfname()))
 		{
 			std::cerr << "Failed to read seqDB file! Exiting..." << std::endl;
 			return -1;

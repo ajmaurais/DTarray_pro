@@ -234,7 +234,7 @@ public:
 	}
 	
 	bool readInLocDB(std::string);
-	bool readInMWdb(std::string, const params::Params&);
+	bool readInMWdb(const params::Params&);
 	bool readInSeqDB(std::string);
 	bool readInFxnDB(std::string);
 	bool readBaitFile(std::string);

@@ -41,9 +41,9 @@ namespace mwDB{
 		return true;
 	}//end fxn
 	
-	bool MWDB_Protein::initalize(std::string wd, const params::Params& params)
+	bool MWDB_Protein::initalize(const params::Params& params)
 	{
-		bool val1 = seqDB->readIn(params.mwDBFname);
+		bool val1 = seqDB->readIn(params.getmwDBFname());
 		bool val2 = molFormula::Residues::initalize(params.atomCountTableFname,
 													params.atomMassTableFname);
 		

@@ -44,7 +44,7 @@ namespace mwDB{
 			delete seqDB;
 		}
 		
-		bool initalize(std::string wd, const params::Params&);
+		bool initalize(const params::Params&);
 	};
 }
 

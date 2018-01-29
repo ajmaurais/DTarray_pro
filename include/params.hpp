@@ -37,7 +37,7 @@ namespace params{
 	const std::string PROG_WD_HOME = std::string(getenv("HOME")) + "/scripts/DTarray_pro";
 	const std::string PROG_WD_DB = PROG_WD_HOME + "/db";
 	const std::string PROG_LOC_DB_FNAME = PROG_WD_DB + "/humanLoc.tsv";
-	const std::string PROG_SEQ_DB_FNAME = PROG_WD_DB + "/humanProteome.fasta";
+	const std::string PROG_SEQ_DB_FNAME = "/humanProteome.fasta";
 	const std::string PROG_MW_DB_FNAME = PROG_SEQ_DB_FNAME;
 	//const std::string PROG_AA_DB_FNAME = PROG_WD_DB + "/aaMasses.txt";
 	const std::string PROG_FXN_DB_FNAME = PROG_WD_DB + "/humanFxn.tsv";
@@ -102,6 +102,10 @@ namespace params{
 		void purgeDir(std::string) const;
 		
 		std::string wd;
+		std::string mwDBFname;
+		std::string seqDBfname;
+		bool mwDBFnameSpecified, seqDBFnameSpecified;
+		
 		int numFiles;
 		
 	public:
@@ -116,12 +120,10 @@ namespace params{
 		bool rewriteFlist;
 		std::string locDBfname;
 		bool calcMW;
-		std::string mwDBFname;
 		std::string atomMassTableFname, atomCountTableFname;
 		bool unicode;
 		std::string ofname, dbOfname, dbPeptideOfFname, peptideOfFname;
 		bool getSeq;
-		std::string seqDBfname;
 		bool includeCoverage;
 		bool includeSequenceCount;
 		bool includePeptides;
@@ -160,6 +162,8 @@ namespace params{
 			locDBfname = PROG_LOC_DB_FNAME;
 			calcMW = false;
 			mwDBFname = PROG_MW_DB_FNAME;
+			mwDBFnameSpecified = false;
+			seqDBFnameSpecified = false;
 			atomMassTableFname = PROG_ATOM_MASS_TABLE_FNAME;
 			atomCountTableFname = PROG_ATOM_COUNT_TABLE_FNAME;
 			unicode = false;
@@ -214,6 +218,22 @@ namespace params{
 		}
 		std::string getwd() const{
 			return wd;
+		}
+		std::string getmwDBFname() const{
+			/*return (mwDBFnameSpecified ? PROG_WD_DB + mwDBFname :
+					getwd() + mwDBFname);*/
+			
+			std::string ret = (mwDBFnameSpecified ? getwd() + mwDBFname :
+							   PROG_WD_DB + mwDBFname);
+			return ret;
+		}
+		std::string getSeqDBfname() const{
+			/*return (seqDBFnameSpecified ? PROG_WD_DB + seqDBfname :
+					getwd() + seqDBfname);*/
+			
+			std::string ret = (seqDBFnameSpecified ? getwd() + seqDBfname :
+							   PROG_WD_DB + seqDBfname);
+			return ret;
 		}
 	};
 	

@@ -369,10 +369,10 @@ bool Proteins::readIn(params::Params* const par, Peptides* const peptides)
 	return true;
 }
 
-bool Proteins::readInMWdb(std::string wd, const params::Params& par)
+bool Proteins::readInMWdb(const params::Params& par)
 {
 	mwdb = new mwDB::MWDB_Protein;
-	return mwdb->initalize(wd, par);
+	return mwdb->initalize(par);
 }
 
 bool Proteins::readInSeqDB(std::string fname)

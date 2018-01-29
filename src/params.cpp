@@ -107,6 +107,16 @@ namespace params{
 				}
 				continue;
 			}
+			if(!strcmp(argv[i], "-flist"))
+			{
+				if(!utils::isArg(argv[++i]))
+				{
+					usage();
+					return false;
+				}
+				flistName = std::string(argv[i]);
+				continue;
+			}
 			if(!strcmp(argv[i], "-rw"))
 			{
 				if(!utils::isArg(argv[++i]))
@@ -137,20 +147,24 @@ namespace params{
 				if(!utils::isArg(argv[i+1]))
 				{
 					mwDBFname = seqDBfname;
-					useDefaultSeqDB = true;
 				}
-				else if(utils::isArg(argv[i+1]))
-					mwDBFname = utils::absPath(argv[++i]);
+				else if(utils::isArg(argv[i+1])){
+					mwDBFname = std::string(argv[++i]);
+					mwDBFnameSpecified = true;
+				}
 				else throw std::runtime_error("bad opts!");
 				calcMW = true;
 				continue;
 			}
 			if(!strcmp(argv[i], "-seq"))
 			{
-				if(!utils::isArg(argv[i+1]))
+				if(!utils::isArg(argv[i+1])){
 					seqDBfname = PROG_SEQ_DB_FNAME;
-				else if(utils::isArg(argv[i+1]))
-					seqDBfname = utils::absPath(argv[++i]);
+				}
+				else if(utils::isArg(argv[i+1])){
+					seqDBfname = argv[++i];
+					seqDBFnameSpecified = true;
+				}
 				else throw std::runtime_error("bad opts!");
 				getSeq = true;
 				continue;
@@ -168,12 +182,7 @@ namespace params{
 					usage();
 					return false;
 				}
-				atomCountTableFname = utils::absPath(argv[i]);
-				if(!utils::dirExists(wd))
-				{
-					std::cerr << atomCountTableFname << " does not exist!" << std::endl;
-					return false;
-				}
+				atomCountTableFname = std::string(argv[i]);
 				continue;
 			}
 			if(!strcmp(argv[i], "--unicode"))
@@ -310,7 +319,7 @@ namespace params{
 					return false;
 				}
 				includeSaint = true;
-				saintBaitFile = utils::absPath(argv[i]);
+				saintBaitFile = std::string(argv[i]);
 				continue;
 			}
 			if(!strcmp(argv[i], "-rev"))
