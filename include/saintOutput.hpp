@@ -11,46 +11,28 @@
 
 #include <iostream>
 #include <vector>
+#include <map>
+#include <cassert>
+
 #include <utils.hpp>
-#include <hashTable.hpp>
 
 namespace saint{
 
 	class BaitFile;
-	class BaitFileData;
-	
-	class BaitFileData{
-	private:
-		std::string ipName, baitName, tc;
-	public:
-		BaitFileData(std::string);
-		
-		//properties
-		inline std::string getBaitName() const{
-			return baitName;
-		}
-		inline std::string getIPname() const{
-			return ipName;
-		}
-		inline bool operator == (std::string comp) const{
-			return ipName == comp;
-		}
-	};
 
 	class BaitFile{
 	private:
-		hashTable::HashTable<BaitFileData>* dat;
+		//hashTable::HashTable<BaitFileData>* dat;
+		typedef std::map<std::string, std::string> DatType;
+		DatType dat;
 		std::string fname;
 		
 	public:
 		//constructor
 		BaitFile(std::string _fname){
 			fname = _fname;
-			dat = new hashTable::HashTable<BaitFileData> (10);
 		}
-		~BaitFile(){
-			delete dat;
-		}
+		~BaitFile(){}
 		
 		//modifiers
 		bool read();

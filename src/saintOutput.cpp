@@ -10,16 +10,6 @@
 
 namespace saint{
 	
-	BaitFileData::BaitFileData(std::string line)
-	{
-		std::vector<std::string> elems;
-		utils::split(line, '\t', elems);
-		assert(elems.size() == 3);
-		ipName = elems[0];
-		baitName = elems[1];
-		tc = elems[2];
-	}
-	
 	bool BaitFile::read()
 	{
 		utils::File file(fname);
@@ -27,21 +17,27 @@ namespace saint{
 			return false;
 		
 		std::string line;
+		std::vector<std::string> elems;
 		
 		while(!file.end())
 		{
 			line = file.getLine();
-			BaitFileData newBaitDat(line);
-			dat->insert(newBaitDat, newBaitDat.getIPname());
+			utils::split(line, '\t', elems);
+			assert(elems.size() == 3);
+			
+			std::string ipName = elems[0];
+			std::string baitName = elems[1];
+			
+			dat[ipName] = baitName;
 		}
 		return true;
 	}
 	
 	std::string BaitFile::getBaitName(std::string _key) const
 	{	
-		BaitFileData* item = dat->getItem(_key);
-		if(item == nullptr)
+		DatType::const_iterator it = dat.find(_key);
+		if(it == dat.end())
 			return "BAIT_NOT_FOUND";
-		return item->getBaitName();
+		else return it->second;
 	}
 }
