@@ -183,6 +183,14 @@ namespace utils{
 		return(absPath(_fname.c_str()));
 	}
 	
+	//returns true if _fname is absolute file path
+	bool isAbsPath(std::string _fname){
+		return _fname[0] == '/';
+	}
+	bool isAbsPath(const char* _fname){
+		return _fname[0] == '/';
+	}
+	
 	bool ls(const char* path, std::vector<std::string>& files)
 	{
 		files.clear();

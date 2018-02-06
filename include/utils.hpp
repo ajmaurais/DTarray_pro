@@ -113,6 +113,8 @@ namespace utils{
 	std::string pwd();
 	std::string absPath(std::string);
 	std::string absPath(const char*);
+	bool isAbsPath(const std::string&);
+	bool isAbsPath(const char*);
 	bool ls(const char*, std::vector<std::string>&);
 	bool ls(const char*, std::vector<std::string>&, std::string);
 	bool mkdir(std::string);
