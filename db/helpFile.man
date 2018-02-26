@@ -262,10 +262,10 @@ The user can optionally specify a fafsa formatted file to lookup protein sequenc
 .in
 .TP
 \fB-mact, -makeAtomCountTable\fR
-Copy default atom count file file to working directory and exit program.
+Copy default atom count file to working directory and exit program.
 .TP
 \fB-act, -atomCountTable\fR \fI<file>
-Use user specified ion atom count table. If the \fB-mw\fP option is not also specified, this option will be ignored.  
+Use user specified atom count table. If the \fB-mw\fP option is not also specified, this option will be ignored.  
 .TP
 \fB--unicode\fR \fI<0/1>\fR
 Specify whether to use UTF-8 encoding to write molecular formulas with subscripts in output files. If the \fB-mw\fP option is not also specified, this option will be ignored. \fB0\fR is the default. 
