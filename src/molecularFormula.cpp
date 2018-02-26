@@ -29,7 +29,7 @@ void molFormula::Residue::removeZeros()
 	while(it != atomCountMap.end())
 	{
 		if(it->second == 0){
-			atomCountMap.erase(it ++);
+			atomCountMap.erase(it++);
 		} else {
 			++it;
 		}

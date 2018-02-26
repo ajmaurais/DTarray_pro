@@ -1354,7 +1354,7 @@ bool Peptides::writeOut(std::string ofname, const params::Params& pars)
 		int len = int(headers.size());
 		if(pars.supInfoOutput == 1)
 		{
-			assert(pars.peptideSupInfoNum >= 1 && pars.peptideSupInfoNum <= 1);
+			//assert(pars.peptideSupInfoNum >= 1 && pars.peptideSupInfoNum <= 1);
 			std::string preBuffer = utils::repeat(std::string(1, OUT_DELIM), len);
 			std::string postBuffer = utils::repeat(std::string(1, OUT_DELIM), colNames.size());
 			
