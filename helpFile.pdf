@@ -2,7 +2,7 @@
 %‚„œ”
 2 0 obj
 <<
-/Length 9418
+/Length 9417
 >>
 stream
 BT
@@ -773,7 +773,7 @@ T*
 (Use long output format.)Tj
 -12.6 -7.2 TD
 14.955 Tw
-[(DT)80(array_pro 9)-250(January )14955(2018)-19845(1)]TJ
+[(DT)80(array_pro 13)-250(March )14955(2018)-19845(1)]TJ
 ET
 endstream
 endobj
@@ -795,7 +795,7 @@ endobj
 endobj
 13 0 obj
 <<
-/Length 5684
+/Length 5683
 >>
 stream
 BT
@@ -1183,7 +1183,7 @@ T*
 (le.)Tj
 -10.5618 -4.32 TD
 14.955 Tw
-[(DT)80(array_pro 9)-250(January )14955(2018)-19845(2)]TJ
+[(DT)80(array_pro 13)-250(March )14955(2018)-19845(2)]TJ
 ET
 endstream
 endobj
@@ -1205,7 +1205,7 @@ endobj
 endobj
 16 0 obj
 <<
-/Length 6739
+/Length 6814
 >>
 stream
 BT
@@ -1511,41 +1511,46 @@ T*
 (-modS)Tj
 /TT2 1 Tf
 3.6003 0 TD
-0.0812 Tw
+0.0358 Tw
 (Include information about number of modi)Tj
 /TT5 1 Tf
-17.5408 0 TD
+17.3138 0 TD
 0 Tw
 (ﬁ)Tj
 /TT2 1 Tf
 0.5562 0 TD
-0.0812 Tw
-(ed peptides. Columns for number and spec-)Tj
--18.0972 -1.2 TD
-0 Tw
-(tral counts for modi)Tj
+0.0358 Tw
+(ed peptides. Seperate columns for number of)Tj
+-17.8702 -1.2 TD
+0.0751 Tw
+(spectral counts for modi)Tj
 /TT5 1 Tf
-7.915 0 TD
+9.9172 0 TD
+0 Tw
 (ﬁ)Tj
 /TT2 1 Tf
 0.5562 0 TD
-(ed peptides will be included in protein and peptide output )Tj
+0.0751 Tw
+(ed peptides and total spectral conts will be included in protein)Tj
+-10.4733 -1.2 TD
+0 Tw
+(and peptide output )Tj
 /TT5 1 Tf
-23.2725 0 TD
+7.6929 0 TD
 (ﬁ)Tj
 /TT2 1 Tf
 0.5562 0 TD
 (les.)Tj
 /TT4 1 Tf
--35.8998 -1.68 TD
+-11.849 -1.68 TD
 (-mw)Tj
 /TT2 1 Tf
 3.6002 0 TD
 0.1609 Tw
 (Calculate protein/peptide molecular weights and molecular formulas. Columns will be)Tj
 -0.0002 -1.2 TD
-0.1216 Tw
-[(included for a)20(v)15(erage mass, monoisotopic mass and moledular formula.)-621.7(Peptide/protein)]TJ
+0.1217 Tw
+[(included for a)20(v)15(erage mass, monoisotopic mass and moledular formula.)-621.6(Peptide/protein)]TJ
 T*
 0.0529 Tw
 (masses and formulas are calculated from)Tj
@@ -1561,31 +1566,31 @@ T*
 0.2306 Tw
 (and types of atoms found in each amino acid and a table located at)Tj
 /TT7 1 Tf
-30.0521 0 TD
+30.052 0 TD
 0 Tw
 [(ò/scripts/DT)92(ar)20(-)]TJ
--30.0521 -1.2 TD
+-30.052 -1.2 TD
 [(r)15(ay_pr)45(o/db/atomCountT)92(able)15(.txt)]TJ
 /TT2 1 Tf
 12.8898 0 TD
 0.0568 Tw
 [(containing the masses of each atom. By def)10(ault the atom)]TJ
 -12.8898 -1.2 TD
-0.1863 Tw
+0.1864 Tw
 (count table at)Tj
 /TT7 1 Tf
-6.1956 0 TD
+6.1959 0 TD
 0 Tw
 [(ò/scripts/DT)92(arr)15(ay_pr)45(o/db/atomCountT)92(able)15(.txt)]TJ
 /TT2 1 Tf
 18.6504 0 TD
-0.1864 Tw
+0.1863 Tw
 (is used. The user can also)Tj
--24.8461 -1.2 TD
-0.058 Tw
+-24.8464 -1.2 TD
+0.0579 Tw
 (supply a custom)Tj
 /TT7 1 Tf
-6.9234 0 TD
+6.9232 0 TD
 0 Tw
 [(atomCountT)92(able)15(.txt)]TJ
 /TT5 1 Tf
@@ -1603,11 +1608,11 @@ T*
 1.9178 0 TD
 0.0579 Tw
 (option. Protein sequence informa-)Tj
--22.2153 -1.2 TD
+-22.2151 -1.2 TD
 0.2839 Tw
 [(tion is stored in a f)10(asta formatted )]TJ
 /TT5 1 Tf
-15.3904 0 TD
+15.3909 0 TD
 0 Tw
 (ﬁ)Tj
 /TT2 1 Tf
@@ -1615,25 +1620,25 @@ T*
 0.2839 Tw
 [(le. The def)10(ault sequence )]TJ
 /TT5 1 Tf
-11.0931 0 TD
+11.0929 0 TD
 0 Tw
 (ﬁ)Tj
 /TT2 1 Tf
 0.5562 0 TD
-0.284 Tw
+0.2839 Tw
 (le is)Tj
 /TT7 1 Tf
-2.4567 0 TD
+2.4565 0 TD
 0 Tw
 [(ò/scripts/DT)92(ar)20(-)]TJ
--30.0524 -1.2 TD
+-30.0525 -1.2 TD
 [(r)15(ay_pr)45(o/db/humanPr)45(oteome)15(.fasta)]TJ
 /TT2 1 Tf
 13.4625 0 TD
 (.)Tj
--20.6625 -6.24 TD
+-20.6625 -5.04 TD
 14.955 Tw
-[(DT)80(array_pro 9)-250(January )14955(2018)-19845(3)]TJ
+[(DT)80(array_pro 13)-250(March )14955(2018)-19845(3)]TJ
 ET
 endstream
 endobj
@@ -1654,7 +1659,7 @@ endobj
 endobj
 19 0 obj
 <<
-/Length 5507
+/Length 5606
 >>
 stream
 BT
@@ -1715,33 +1720,33 @@ BT
 (le>)Tj
 /TT2 1 Tf
 -7.454 -1.2 TD
-0.0909 Tw
+0.091 Tw
 (Use user speci)Tj
 /TT5 1 Tf
-5.9577 0 TD
+5.9579 0 TD
 0 Tw
 (ﬁ)Tj
 /TT2 1 Tf
 0.5562 0 TD
-0.0909 Tw
+0.091 Tw
 (ed atom count table. If the)Tj
 /TT4 1 Tf
-11.2915 0 TD
+11.292 0 TD
 0 Tw
 (-mw)Tj
 /TT2 1 Tf
 2.2291 0 TD
-0.091 Tw
+0.0909 Tw
 (option is not also speci)Tj
 /TT5 1 Tf
-9.53 0 TD
+9.5296 0 TD
 0 Tw
 (ﬁ)Tj
 /TT2 1 Tf
 0.5562 0 TD
-0.091 Tw
+0.0909 Tw
 (ed, this option)Tj
--30.1206 -1.2 TD
+-30.1209 -1.2 TD
 0 Tw
 (will be ignored.)Tj
 /TT4 1 Tf
@@ -1786,7 +1791,7 @@ T*
 (0)Tj
 /TT2 1 Tf
 0.8317 0 TD
-0.0818 Tw
+0.0817 Tw
 (is the)Tj
 -33.7764 -1.2 TD
 0 Tw
@@ -1826,15 +1831,18 @@ T*
 0 Tw
 (put )Tj
 /TT5 1 Tf
-1.5443 0 TD
+1.5602 0 TD
 (ﬁ)Tj
 /TT2 1 Tf
 0.5562 0 TD
-0.0164 Tw
-[(les. The v)25(alue for replicate number is tak)10(en as: <number> where the sample name is)]TJ
--2.1005 -1.2 TD
+0.0324 Tw
+[(les. If the sample name is in the format <sample name>_<number> all te)15(xt after the)]TJ
+-2.1164 -1.2 TD
+0.1005 Tw
+[(last underscore \(with the e)15(xception of the e)15(xtension\) in the sample name is used as the)]TJ
+T*
 0 Tw
-(in the format <sample name>_<number>.)Tj
+[(replicate number)55(.)]TJ
 /TT7 1 Tf
 1.8 -1.68 TD
 [(<pr)37(e)]TJ
@@ -2042,9 +2050,9 @@ T*
 /TT2 1 Tf
 0.5562 0 TD
 (le.)Tj
--14.7835 -7.92 TD
+-14.7835 -6.72 TD
 14.955 Tw
-[(DT)80(array_pro 9)-250(January )14955(2018)-19845(4)]TJ
+[(DT)80(array_pro 13)-250(March )14955(2018)-19845(4)]TJ
 ET
 endstream
 endobj
@@ -2066,7 +2074,7 @@ endobj
 endobj
 22 0 obj
 <<
-/Length 1999
+/Length 1998
 >>
 stream
 BT
@@ -2192,7 +2200,7 @@ BT
 [(DT)80(array_pro w)10(as written by Aaron Maurais. Email questions or b)20(ugs to: aaron.maurais@bc.edu)]TJ
 -3.6 -52.08 TD
 14.955 Tw
-[(DT)80(array_pro 9)-250(January )14955(2018)-19845(5)]TJ
+[(DT)80(array_pro 13)-250(March )14955(2018)-19845(5)]TJ
 ET
 endstream
 endobj
@@ -2320,7 +2328,7 @@ endobj
 /FirstChar 32
 /LastChar 122
 /Widths [250 0 0 0 0 0 0 0 333 333 0 0 250 333 250 278 
-500 500 500 500 500 500 0 500 500 500 278 0 564 0 564 0 
+500 500 500 500 500 500 0 500 500 0 278 0 564 0 564 0 
 921 722 667 667 722 611 556 722 722 333 389 0 611 889 0 722 
 556 0 667 556 611 722 722 944 0 0 0 333 0 333 0 500 
 0 444 500 444 500 444 333 500 500 278 0 500 278 778 500 500 
@@ -2461,8 +2469,8 @@ endobj
 endobj
 32 0 obj
 <<
-/CreationDate (D:20180222141724-05'00')
-/ModDate (D:20180222141724-05'00')
+/CreationDate (D:20180313125116-04'00')
+/ModDate (D:20180313125116-04'00')
 /Producer (PSNormalizer.framework)
 >>
 endobj
@@ -2476,46 +2484,46 @@ endobj
 xref
 0 34
 0000000000 65535 f 
-0000033601 00000 n 
+0000033770 00000 n 
 0000000016 00000 n 
-0000009486 00000 n 
-0000031681 00000 n 
-0000032168 00000 n 
-0000032620 00000 n 
-0000032794 00000 n 
-0000033257 00000 n 
-0000033432 00000 n 
-0000030342 00000 n 
-0000034086 00000 n 
-0000033682 00000 n 
-0000009637 00000 n 
-0000015374 00000 n 
-0000033766 00000 n 
-0000015526 00000 n 
-0000022318 00000 n 
-0000033850 00000 n 
-0000022459 00000 n 
-0000028019 00000 n 
-0000033934 00000 n 
-0000028171 00000 n 
-0000030223 00000 n 
-0000030483 00000 n 
-0000030680 00000 n 
-0000030882 00000 n 
-0000031079 00000 n 
-0000031279 00000 n 
-0000031479 00000 n 
-0000034018 00000 n 
-0000034046 00000 n 
-0000034196 00000 n 
-0000034328 00000 n 
+0000009485 00000 n 
+0000031852 00000 n 
+0000032337 00000 n 
+0000032789 00000 n 
+0000032963 00000 n 
+0000033426 00000 n 
+0000033601 00000 n 
+0000030513 00000 n 
+0000034255 00000 n 
+0000033851 00000 n 
+0000009636 00000 n 
+0000015372 00000 n 
+0000033935 00000 n 
+0000015524 00000 n 
+0000022391 00000 n 
+0000034019 00000 n 
+0000022532 00000 n 
+0000028191 00000 n 
+0000034103 00000 n 
+0000028343 00000 n 
+0000030394 00000 n 
+0000030654 00000 n 
+0000030851 00000 n 
+0000031053 00000 n 
+0000031250 00000 n 
+0000031450 00000 n 
+0000031650 00000 n 
+0000034187 00000 n 
+0000034215 00000 n 
+0000034365 00000 n 
+0000034497 00000 n 
 trailer
 <<
 /Size 34
 /Root 33 0 R
 /Info 32 0 R
-/ID [<7121b02a8a2ce59e2c5300d2c9f4ee7d><7121b02a8a2ce59e2c5300d2c9f4ee7d>]
+/ID [<33dd768e2df961e00da017b605e577e1><33dd768e2df961e00da017b605e577e1>]
 >>
 startxref
-34398
+34567
 %%EOF

@@ -7,7 +7,7 @@
 .ds DEFAULT_ACT_LOC \fI\*[PROG_WD_DB]\fI/\fI\*[ACT_FNAME]\fR
 .ds AMT_LOC \fI\*[PROG_WD_DB]\fI/atomMasses.txt\fR
 .ds FLIST_FNAME \fIdtarray_pro_flist.txt\fR
-.TH "DTarray_pro v1.7" 1 "9 January 2018" "DTarray_pro"
+.TH "DTarray_pro v1.7" 1 "13 March 2018" "DTarray_pro"
 .SH NAME
 DTarray_pro - Combine DTASelect-filter files.
 .SH SYNOPSIS
@@ -250,7 +250,7 @@ Include peptides with 0 spectral counts in output file.
 .SS PROTEIN AND PEPTIDE COMPATABLE OPTIONS
 .TP
 \fB-modS\fR
-Include information about number of modified peptides. Columns for number and spectral counts for modified peptides will be included in protein and peptide output files.
+Include information about number of modified peptides. Seperate columns for number of spectral counts for modified peptides and total spectral conts will be included in protein and peptide output files.
 .TP
 \fB-mw
 Calculate protein/peptide molecular weights and molecular formulas. Columns will be included for average mass, monoisotopic mass and moledular formula.  Peptide/protein masses and formulas are calculated from \*[ACT_FNAME] which contains the number and types of atoms found in each amino acid and a table located at \*[DEFAULT_ACT_LOC] containing the masses of each atom. By default the atom count table at \*[DEFAULT_ACT_LOC] is used. The user can also supply a custom \*[ACT_FNAME] file with the \fB-act\fP option. Protein sequence information is stored in a fasta formatted file. The default sequence file is \*[SEQ_DB_FNAME].
@@ -283,7 +283,7 @@ Write molecular formulas with subscripts. Output files must be imported as UTF-8
 .in
 .TP
 \fB-f\fR
-Include columns for sample name and replicate number in long protein and peptide output files. The value for replicate number is taken as: <number> where the sample name is in the format <sample name>_<number>.
+Include columns for sample name and replicate number in long protein and peptide output files. If the sample name is in the format <sample name>_<number> all text after the last underscore (with the exception of the extension) in the sample name is used as the replicate number.
 .TP
 .in +0.75i
 \fI<prefix>\fP
