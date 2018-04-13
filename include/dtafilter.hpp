@@ -34,25 +34,28 @@
 /*****************************/
 
 bool const INCLUDE_FULL_DESCRIPTION = true;
-std::string const DEFAULT_COL_NAMES [] = {"Full_description", "ID", "Protein", "Description", "pI", "Length(aa)", "Mass(Da)"};
+std::string const DEFAULT_COL_NAMES [] = {"Full_description", "ID", "Protein", "Description", "pI",
+	"Length(aa)", "Mass(Da)"};
 size_t const DEFAULT_COL_NAMES_LENGTH = 7;
 std::string const SEQ_NOT_FOUND = "SEQUENCE_NOT_FOUND_IN_DB";
 size_t const PROTEINS_DATA_SIZE = 500;
 size_t const PEPTIDES_DATA_SIZE = 2500;
-std::string const DEFAULT_COL_NAMES_DB [] = {"Full_description", "ID", "Protein", "Description", "pI", "Length(aa)", "Mass(Da)",
-	"Long_sample_name", "Spectral_counts"};
+std::string const DEFAULT_COL_NAMES_DB [] = {"Full_description", "ID", "Protein", "Description",
+	"pI", "Length(aa)", "Mass(Da)",	"Long_sample_name", "Spectral_counts"};
 size_t const DEFAULT_COL_NAMES_DB_LENGTH = 9;
 std::string const PARSE_SAMPLE_NAME_HEADERS [] = {"Sample", "Replicate"};
 size_t const PARSE_SAMPLE_NAME_HEADERS_LEN = 2;
-std::string const SUP_INFO_HEADERS[] = {"SC", "Unique_pep_SC", "Coverage", "Sequence_count", "Num_mod_pep", "SC_mod_pep"};
+std::string const SUP_INFO_HEADERS[] = {"SC", "Unique_pep_SC", "Coverage", "Sequence_count",
+	"Num_mod_pep", "SC_mod_pep"};
 size_t const SUP_INFO_HEADERS_LEN = 6;
 std::string const PEP_SUP_INFO_HEADERS[] = {"SC", "Mod_pep_SC"};
 size_t const PEP_SUP_INFO_HEADERS_LEN = 2;
 std::string const MWCALC_HEADERS [] = {"Avg_mass", "Monoisotopic_mass", "Formula", "Sequence"};
 size_t const MWCALC_HEADERS_LENGTH = 3;
-std::string const DEFALUT_PEPTIDE_COLNAMES [] = {"Protein_ID", "Parent_protein", "Protein_description", "Sequence", "Length(aa)", "Unique", "CalcMH"};
-std::string const DEFALUT_PEPTIDE_DB_COLNAMES [] = {"Protein_ID", "Parent_protein", "Protein_description", "Sequence", "Length(aa)", "Unique",
-	"CalcMH", "Long_sample_name", "Spectral_counts", "Sample", "Replicate"};
+std::string const DEFALUT_PEPTIDE_COLNAMES [] = {"Protein_ID", "Parent_protein", "Protein_description",
+	"Sequence", "Length(aa)", "Unique", "CalcMH"};
+std::string const DEFALUT_PEPTIDE_DB_COLNAMES [] = {"Protein_ID", "Parent_protein", "Protein_description", "Sequence", "Length(aa)", "Unique", "CalcMH", "Long_sample_name", "Spectral_counts", "Sample",
+	"Replicate"};
 size_t const DEFALUT_PEPTIDE_DB_COLNAMES_LEN = 9;
 std::string const REVERSE_MATCH = "Reverse_";
 

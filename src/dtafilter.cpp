@@ -27,6 +27,7 @@ void Peptide::consolidate(const Peptide& toAdd)
 	col[*toAdd.colIndex].parentFile = toAdd.col[*toAdd.colIndex].parentFile;
 	col[*toAdd.colIndex].obsMH = toAdd.col[*toAdd.colIndex].obsMH;
 	col[*toAdd.colIndex].modPeptidesSC += toAdd.col[*toAdd.colIndex].modPeptidesSC;
+	col[*toAdd.colIndex].xCorr = toAdd.col[*toAdd.colIndex].xCorr;
 }
 
 template <class _Tp>
@@ -284,6 +285,7 @@ void Peptide::parsePeptide(const std::string& line)
 	sequence = elems[12];
 	col[*colIndex].obsMH = elems[5];
 	col[*colIndex].count = utils::toInt(elems[11]);
+	col[*colIndex].xCorr = elems[2];
 	
 	if(par->includeModStat)
 		col[*colIndex].modPeptidesSC += parseModPeptide(line);
@@ -1241,6 +1243,7 @@ void Peptide::write(std::ofstream& outF, int fxnNum)
 	{
 		if(par->peptideGroupMethod != params::byCharge)
 			outF << OUT_DELIM << col[*colIndex].obsMH
+			<< OUT_DELIM << col[*colIndex].xCorr
 			<< OUT_DELIM << col[*colIndex].scan
 			<< OUT_DELIM <<	col[*colIndex].parentFile;
 		
@@ -1414,7 +1417,7 @@ bool Peptides::writeOutDB(std::string ofname, const params::Params& pars)
 	if(pars.peptideGroupMethod != params::byCharge)
 	{
 		//headers to add
-		std::string add [] = {"ObsMH", "Scan", "Parent_file"};
+		std::string add [] = {"ObsMH", "xCorr", "Scan", "Parent_file"};
 		for(it = headers.begin(); it != headers.end(); it++)
 		{
 			if(*it == "Length(aa)")

@@ -126,18 +126,20 @@ public:
 
 class SampleData_peptide : public SampleData {
 public:
-	std::string parentFile, scan, obsMH;
+	std::string parentFile, scan, obsMH, xCorr;
 	
 	SampleData_peptide(std::string colName) : SampleData(colName)
 	{
 		parentFile = BLANK_STR;
 		scan = BLANK_VAL;
 		obsMH = BLANK_VAL;
+		xCorr = BLANK_VAL;
 	}
 	SampleData_peptide() : SampleData() {
 		parentFile = BLANK_STR;
 		scan = BLANK_VAL;
 		obsMH = BLANK_VAL;
+		xCorr = BLANK_VAL;
 	}
 	~SampleData_peptide() {}
 };
