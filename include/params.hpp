@@ -25,7 +25,7 @@ namespace params{
 	/* namespace scoped constants */
 	/******************************/
 	
-	std::string const PARAM_ERROR_MESSAGE = " is an invalid arguement for: ";
+	const std::string  PARAM_ERROR_MESSAGE = " is an invalid arguement for: ";
 	const std::string INVALID_ARG = " is an invalid option! Exiting...\nUse DTarray -h for help.";
 	enum OutputFormat {none, wideFormat, longFormat, both};
 	enum PeptideGroupFormat {byScan, byProtein, byCharge};
@@ -34,7 +34,7 @@ namespace params{
 	const std::string DTAFILTER_NAME = "DTASelect-filter.txt";
 	
 	//default file locations
-	const std::string PROG_WD_HOME = std::string(getenv("HOME")) + "/scripts/DTarray_pro";
+	const std::string PROG_WD_HOME = std::string(getenv("HOME")) + "/local/DTarray_pro";
 	const std::string PROG_WD_DB = PROG_WD_HOME + "/db";
 	const std::string PROG_LOC_DB_FNAME = PROG_WD_DB + "/humanLoc.tsv";
 	const std::string PROG_SEQ_DB_FNAME = "/humanProteome.fasta";
