@@ -10,7 +10,8 @@
 #define parentClasses_hpp
 
 #include <params.hpp>
-#include <hashTable.hpp>
+#include <map>
+//#include <hashTable.hpp>
 
 size_t const DATA_SIZE = 500;
 std::string const BLANK_STR = "null";
@@ -76,23 +77,25 @@ template<class _Tp>
 class DBTemplate{
 protected:
 	static size_t colIndex;
-	hashTable::HashTable <_Tp>* data;
+	//hashTable::HashTable <_Tp>* data;
+	typedef std::map<std::string, _Tp> DataType;
+	DataType data;
 	
 public:
 	std::vector<std::string> colNames;
 	
 	//constructor
 	DBTemplate(){
-		data = new hashTable::HashTable <_Tp>(DATA_SIZE);
+		//data = new hashTable::HashTable <_Tp>(DATA_SIZE);
 	}
 	DBTemplate(const params::Params& par, size_t dataSize){
-		data = new hashTable::HashTable <_Tp>(dataSize);
+		//data = new hashTable::HashTable <_Tp>(dataSize);
 		
 		for(int i = 0; i < par.getNumFiles(); i++)
 			colNames.push_back(par.getFileColname(i));
 	}
 	~DBTemplate(){
-		delete data;
+		//delete data;
 	}
 };
 

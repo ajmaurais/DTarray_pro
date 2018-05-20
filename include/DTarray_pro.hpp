@@ -24,7 +24,7 @@
 
 #include <gitVersion.hpp>
 #include <dtafilter.hpp>
-#include "../src/hashTable.cpp"
+//#include "../src/hashTable.cpp"
 #include "../src/utils.cpp"
 #include "../src/params.cpp"
 #include "../src/dtafilter.cpp"

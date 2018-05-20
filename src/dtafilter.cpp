@@ -185,12 +185,12 @@ bool Proteins::readIn(params::Params* const pars,
 	if(!file.read(fname))
 		return false;
 	
-	Protein* proteinIndex = nullptr;
+	DataType::iterator proteinIndex;
 	bool inProtein = false;
 	bool getNewLine = true;
 	bool foundHeader = false;
 	std::string line;
-	Peptide* peptidesIndex = nullptr;
+	std::map<std::string, Peptide>::iterator peptidesIndex;
 	size_t colNamesLen = pars->getNumFiles();
 	
 	while(!file.end()){
@@ -215,7 +215,15 @@ bool Proteins::readIn(params::Params* const pars,
 				inProtein = true; //used to determine if it is valid to loop through peptide lines below protein
 								  //header line to extract unique peptide spectral counts
 					
-				proteinIndex = data->consolidate(newProtein, newProtein.ID); //insert new protein into proteins list
+				//proteinIndex = data->consolidate(newProtein, newProtein.ID); //insert new protein into proteins list
+				proteinIndex = data.find(newProtein.getID());
+				if(proteinIndex == data.end()){
+					data[newProtein.getID()] = newProtein;
+				}
+				else{
+					data[newProtein.getID()].consolidate(newProtein);
+				}
+				proteinIndex = data.find(newProtein.getID());
 				
 				//get peptide data if applicable
 				if((pars->includeUnique || pars->includePeptides || pars->includeModStat) && inProtein)
@@ -224,7 +232,6 @@ bool Proteins::readIn(params::Params* const pars,
 					getNewLine = false;
 					while(!file.end())
 					{
-						//Peptide newPeptide(pars, mwdb);
 						if(getNewLine)
 							line = file.getLine();
 						getNewLine = true;
@@ -243,22 +250,31 @@ bool Proteins::readIn(params::Params* const pars,
 							newPeptide.matchDirrection = newProtein.matchDirrection;
 							newPeptide.parsePeptide(line);
 							
-							if(pars->peptideGroupMethod == params::byScan)
-								peptides->data->insert(newPeptide, newPeptide.key);
-							else peptidesIndex = peptides->data->consolidate(newPeptide, newPeptide.key);
+							if(pars->peptideGroupMethod == params::byScan){
+								peptides->data[newPeptide.key] = newPeptide;
+							}
+							else{
+								peptidesIndex = peptides->data.find(newPeptide.key);
+								if(peptidesIndex == peptides->data.end()){
+									peptides->data[newPeptide.key] = newPeptide;
+								}
+								else{
+									peptides->data[newPeptide.key].consolidate(newPeptide);
+								}
+							}
 						}
 						if(pars->includeUnique)
 						{
 							if(line[0] == '*')
-								proteinIndex->col[colIndex].uniquePeptides += parsePeptideSC(line);
+								proteinIndex->second.col[colIndex].uniquePeptides += parsePeptideSC(line);
 						}
 						if(pars->includeModStat)
 						{
 							int modPeptideSC = parseModPeptide(line);
 							if(modPeptideSC > 0)
 							{
-								proteinIndex->col[colIndex].modPeptidesSC += modPeptideSC;
-								proteinIndex->col[colIndex].modPeptides++;
+								proteinIndex->second.col[colIndex].modPeptidesSC += modPeptideSC;
+								proteinIndex->second.col[colIndex].modPeptides++;
 							}
 							
 						}
@@ -401,19 +417,6 @@ bool Proteins::readBaitFile(std::string fname)
 	return baitFile->read();
 }
 
-void Protein::write(std::ofstream& outF, int fxnNum)
-{
-	switch(fxnNum) {
-		case 0 : writeProtein(outF);
-			break;
-		case 1 : writePrey(outF);
-			break;
-		case 2 : writeInteractions(outF);
-			break;
-		default : throw std::runtime_error("Function does not exist!");
-	}
-}
-
 locReport::LocDat Protein::toLocDat(const std::string& _loc) const
 {
 	locReport::LocDat newLocDat(_loc, matchDirrection, colSize, par);
@@ -436,14 +439,14 @@ void Protein::addLocToTable()
 		locTable->addLoc(toLocDat(*it));
 }
 
-void Protein::apply(int fxnNum)
+/*void Protein::apply(int fxnNum)
 {
 	switch(fxnNum){
 		case 0 : addLocToTable();
 			break;
 		default : throw std::runtime_error("Function does not exist!");
 	}
-}
+}*/
 
 void Protein::writePrey(std::ofstream& outF) const
 {
@@ -774,7 +777,10 @@ bool Proteins::writeOut(std::string ofname, const params::Params& par)
 	}
 	
 	//print proteins and spectral counts
-	data->write(outF);
+	//data->write(outF);
+	for(DataType::iterator it = data.begin(); it != data.end(); ++it){
+		it->second.writeProtein(outF);
+	}
 	
 	par.outputFormat = outputFormat;
 	
@@ -916,22 +922,32 @@ bool Proteins::writeOutDB(std::string ofname, const params::Params& par)
 	
 	Protein::colIndex = &colIndex;
 	//print proteins and spectral counts
-	for(colIndex = 0; colIndex < par.getNumFiles(); colIndex++)
-		data->write(outF, 0);
+	for(DataType::iterator it = data.begin(); it != data.end(); ++it){
+		for(colIndex = 0; colIndex < par.getNumFiles(); colIndex++){
+			it->second.writeProtein(outF);
+		}
+	}
 	
 	par.outputFormat = outputFormat;
 	
 	return true;
 }
 
-bool Proteins::writeSaint(std::string fname, int file) const
+bool Proteins::writeSaint(std::string fname, OutputFiles file) const
 {
 	std::ofstream outF(fname.c_str());
 	
 	if(!outF)
 		return false;
 	
-	data->write(outF, file);
+	if(file == preyFile){
+		for(DataType::const_iterator it = data.begin(); it != data.end(); ++it)
+			it->second.writePrey(outF);
+	}
+	else if(file == interactionFile){
+		for(DataType::const_iterator it = data.begin(); it != data.end(); ++it)
+			it->second.writeInteractions(outF);
+	}
 	
 	return true;
 }
@@ -941,7 +957,9 @@ void Proteins::buildLocTable()
 	//apply loc build fxn across data hash table
 	locTable = new locReport::LocDB;
 	Protein::locTable = locTable;
-	data->apply(0);
+	//data->apply(0);
+	for(DataType::iterator it = data.begin(); it != data.end(); ++it)
+		it->second.addLocToTable();
 }
 
 bool Proteins::writeLongLocTable(std::string fname, const params::Params& pars) const
@@ -1173,9 +1191,8 @@ inline void Peptide::parseSequence(const std::string& str)
 			calcSequence = utils::removeChars(*p, calcSequence);
 }
 
-void Peptide::write(std::ofstream& outF, int fxnNum)
+void Peptide::write(std::ofstream& outF)
 {
-	assert(fxnNum == 0);
 	if(!outF)
 		throw std::runtime_error("Bad std::ofstream!");
 	
@@ -1386,7 +1403,9 @@ bool Peptides::writeOut(std::string ofname, const params::Params& pars)
 	}
 	
 	//print peptides and spectral counts
-	data->write(outF, 0);
+	for(DataType::iterator it = data.begin(); it != data.end(); ++it){
+		it->second.write(outF);
+	}
 	
 	pars.outputFormat = outputFormat;
 	
@@ -1464,8 +1483,11 @@ bool Peptides::writeOutDB(std::string ofname, const params::Params& pars)
 	outF << std::endl;
 	
 	Peptide::colIndex = &colIndex;
-	for(colIndex = 0; colIndex < pars.getNumFiles(); colIndex++)
-		data->write(outF, 0);
+	for(DataType::iterator it = data.begin(); it != data.end(); ++it){
+		for(colIndex = 0; colIndex < pars.getNumFiles(); colIndex++){
+			it->second.write(outF);
+		}
+	}
 	
 	pars.outputFormat = outputFormat;
 	

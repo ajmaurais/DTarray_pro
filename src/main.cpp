@@ -170,12 +170,12 @@ int main(int argc, char* argv[])
 	if(par.includeSaint)
 	{
 		std::cerr << std::endl << "Writing saint output files...";
-		if(!proteins.writeSaint(par.getwd() + par.saintPreyFname, 1))
+		if(!proteins.writeSaint(par.getwd() + par.saintPreyFname, Proteins::preyFile))
 		{
 			std::cerr << "Could not write prey file! Exiting..." << std::endl;
 			return -1;
 		}
-		if(!proteins.writeSaint(par.getwd() + par.saintInteractionFname, 2))
+		if(!proteins.writeSaint(par.getwd() + par.saintInteractionFname, Proteins::interactionFile))
 		{
 			std::cerr << "Could not write interaction file! Exiting..." << std::endl;
 			return -1;

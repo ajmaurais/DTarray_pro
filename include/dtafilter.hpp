@@ -95,7 +95,7 @@ public:
 	}
 	std::string makeKey() const;
 	void consolidate(const Peptide&);
-	void write(std::ofstream&, int);
+	void write(std::ofstream&);
 	
 private:
 	std::string key, calcSequence;
@@ -156,10 +156,6 @@ private:
 	void writeSequenceCount(std::ofstream&) const;
 	void writeModStat(std::ofstream&) const;
 	
-	void writeProtein(std::ofstream&); //write fxn 0
-	void writePrey(std::ofstream&) const; //write fxn 1
-	void writeInteractions(std::ofstream&) const; //write fxn 2
-	
 public:
 	Protein(params::Params* const pars,
 			Dbase* const _locDB,
@@ -182,8 +178,10 @@ public:
 	void operator = (const Protein&);
 	
 	void consolidate(const Protein&);
-	void write(std::ofstream&, int);
-	void apply(int);
+	//void apply(int);
+	void writeProtein(std::ofstream&);
+	void writePrey(std::ofstream&) const;
+	void writeInteractions(std::ofstream&) const;
 	locReport::LocDat toLocDat(const std::string&) const;
 };
 
@@ -210,6 +208,8 @@ class Proteins : public DBTemplate<Protein>{
 				const std::vector<SampleData_peptide>&,
 				Peptides* const);
 public:
+	enum OutputFiles {preyFile, interactionFile};
+	
 	//constructor
 	Proteins(const params::Params& pars) : DBTemplate<Protein>(pars, PROTEINS_DATA_SIZE){
 		locDB = nullptr;
@@ -246,7 +246,7 @@ public:
 	//properities
 	bool writeOut(std::string, const params::Params&);
 	bool writeOutDB(std::string, const params::Params&);
-	bool writeSaint(std::string, int) const;
+	bool writeSaint(std::string, OutputFiles) const;
 	bool writeWideLocTable(std::string, const params::Params&) const;
 	bool writeLongLocTable(std::string, const params::Params&) const;
 	
