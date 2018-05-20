@@ -60,17 +60,25 @@ bool Dbase::readIn(std::string fname)
 	while(!file.end()){
 		line = file.getLine_skip_trim();
 		DBProtein newDBProtein(line);
-		if (newDBProtein.getID() != "ID") //skip line if it is header line
-			db->insert(newDBProtein, newDBProtein.getID());
+		if (newDBProtein.getID() != "ID")  //skip line if it is header line
+		{
+			//db->insert(newDBProtein, newDBProtein.getID());
+			db[newDBProtein.getID()] = newDBProtein;
+		}
 	}
 	return true;
 }
 
 std::string Dbase::getDat(std::string key) const
 {
-	DBProtein* const tempNode = db->getItem(key);
+	/*DBProtein* const tempNode = db->getItem(key);
 	if(tempNode == nullptr)
 		return DAT_NOT_FOUND;
-	else return tempNode->getDat();
+	else return tempNode->getDat();*/
+	
+	DbType::const_iterator foundIt = db.find(key);
+	if(foundIt == db.end())
+		return DAT_NOT_FOUND;
+	else return foundIt->second.getDat();
 }
 

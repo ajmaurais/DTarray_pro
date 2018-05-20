@@ -9,8 +9,8 @@
 #ifndef dbase_hpp
 #define dbase_hpp
 
+#include <map>
 #include <baseClasses.hpp>
-#include <hashTable.hpp>
 #include <utils.hpp>
 
 std::string const DAT_NOT_FOUND = "NOT_FOUND_IN_DB";
@@ -41,15 +41,17 @@ public:
 
 class Dbase{
 private:
-	hashTable::HashTable<DBProtein>* db;
+	//hashTable::HashTable<DBProtein>* db;
+	typedef std::map<std::string, DBProtein> DbType;
+	DbType db;
 	
 public:
 	
 	Dbase() {
-		db = new hashTable::HashTable<DBProtein> (DB_DBASE_SIZE);
+		//db = new hashTable::HashTable<DBProtein> (DB_DBASE_SIZE);
 	}
 	~Dbase() {
-		delete db;
+		//delete db;
 	}
 	
 	bool readIn(std::string);

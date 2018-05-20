@@ -12,9 +12,9 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
+#include <map>
 
 #include <params.hpp>
-#include <hashTable.hpp>
 #include <utils.hpp>
 
 namespace locReport{
@@ -124,22 +124,22 @@ namespace locReport{
 	
 	class LocDB{
 	private:
-		hashTable::HashTable<LocDat>* locTable;
+		//hashTable::HashTable<LocDat>* locTable;
+		typedef std::map<std::string, LocDat> LocTableType;
+		LocTableType locTable;
 		
 	public:
 		LocDB(){
-			locTable = new hashTable::HashTable<LocDat>(LOC_TABLE_SIZE);
+			//locTable = new hashTable::HashTable<LocDat>(LOC_TABLE_SIZE);
 		}
 		~LocDB(){
-			delete locTable;
+			//delete locTable;
 		}
 		
 		void addLoc(LocDat newLoc){
-			locTable->consolidate(newLoc, newLoc.getKey());
+			locTable[newLoc.getKey()].consolidate(newLoc);
 		}
-		void writeLocReport(std::ofstream& outF, int fxnNum){
-			locTable->write(outF, fxnNum);
-		}
+		void writeLocReport(std::ofstream& outF, int fxnNum);
 	};
 }
 

@@ -22,7 +22,6 @@ namespace saint{
 
 	class BaitFile{
 	private:
-		//hashTable::HashTable<BaitFileData>* dat;
 		typedef std::map<std::string, std::string> DatType;
 		DatType dat;
 		std::string fname;
