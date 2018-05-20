@@ -1,4 +1,4 @@
-H		C	H	O	N	S	P	(15)N	D	(13)C	Se	Cl	Br	
+H	residue	C	H	O	N	S	P	(15)N	D	(13)C	Se	Cl	Br	
 R	A	3	5	1	1	0	0	0	0	0	0	0	0	
 R	C	5	8	2	2	1	0	0	0	0	0	0	0	;Includes IA cap
 R	D	4	5	3	1	0	0	0	0	0	0	0	0	
