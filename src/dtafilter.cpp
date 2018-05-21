@@ -422,7 +422,8 @@ locReport::LocDat Protein::toLocDat(const std::string& _loc) const
 	locReport::LocDat newLocDat(_loc, matchDirrection, colSize, par);
 	
 	for(size_t i = 0; i < colSize; i++)
-		newLocDat.initializeCol(i, col[i].colname, (col[i].count > 0), col[i].count, col[i].uniquePeptides, utils::toInt(col[i].sequenceCount));
+		newLocDat.initializeCol(i, col[i].colname, (col[i].count > 0), col[i].count,
+							col[i].uniquePeptides, utils::toInt(col[i].sequenceCount));
 	
 	return newLocDat;
 }
