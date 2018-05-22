@@ -172,6 +172,7 @@ namespace utils{
 	//resolves relative and symbolic file references
 	std::string absPath(const char* _fname)
 	{
+		assert(utils::fileExists(_fname));
 		char fbuff [PATH_MAX + 1];
 		realpath(_fname, fbuff);
 		return std::string(fbuff);
