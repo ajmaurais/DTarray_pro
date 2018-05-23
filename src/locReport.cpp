@@ -27,6 +27,17 @@ namespace locReport{
 			col[i].consolidate(toAdd.col[i]);
 	}
 	
+	void LocDB::addLoc(LocDat newLoc)
+	{
+		LocTableType::iterator it = locTable.find(newLoc.getKey());
+		if(it == locTable.end()){
+			locTable[newLoc.getKey()] = newLoc;
+		}
+		else{
+			locTable[newLoc.getKey()].consolidate(newLoc);
+		}
+	}
+	
 	inline void Loc::initializeCol(std::string _sampleName, unsigned int _count, unsigned int _specSum,
 								   unsigned int _uniqSpecSum, unsigned int _seqCount)
 	{

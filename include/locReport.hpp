@@ -136,9 +136,7 @@ namespace locReport{
 			//delete locTable;
 		}
 		
-		void addLoc(LocDat newLoc){
-			locTable[newLoc.getKey()].consolidate(newLoc);
-		}
+		void addLoc(LocDat newLoc);
 		void writeLocReport(std::ofstream& outF, int fxnNum);
 	};
 }
