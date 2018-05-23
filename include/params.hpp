@@ -34,6 +34,7 @@ namespace params{
 	const std::string DTAFILTER_NAME = "DTASelect-filter.txt";
 	
 	//default file locations
+	//const std::string PROG_SRC_DIR = "";
 	const std::string PROG_WD_HOME = std::string(getenv("HOME")) + "/local/DTarray_pro";
 	const std::string PROG_WD_DB = PROG_WD_HOME + "/db";
 	const std::string PROG_LOC_DB_FNAME = PROG_WD_DB + "/humanLoc.tsv";

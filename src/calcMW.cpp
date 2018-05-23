@@ -18,6 +18,13 @@ namespace mwDB{
 		else return it->second;
 	}
 	
+	std::string getID(std::string str)
+	{
+		size_t firstBar = str.find("|");
+		size_t secBar = str.find("|", firstBar+1);
+		return str.substr(firstBar+1, secBar-firstBar-1);
+	}
+	
 	bool SeqDB::readIn(std::string fname)
 	{
 		utils::File data(fname);
@@ -31,7 +38,7 @@ namespace mwDB{
 			line = data.getLine_skip_trim();
 			if(line[0] == '>' && !utils::strContains("Reverse", line))
 			{
-				tempID = getID(line);
+				tempID = mwDB::getID(line);
 				line = data.getLine_skip_trim();
 				if(line[0] == '>')
 					return false;

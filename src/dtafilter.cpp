@@ -64,6 +64,7 @@ void Protein::operator = (const Protein& _p)
 	description = _p.description;
 	MW = _p.MW;
 	pI = _p.pI;
+	length = _p.length;
 	loc = _p.loc;
 	fxn = _p.fxn;
 	fullDescription = _p.fullDescription;
@@ -101,6 +102,9 @@ void Protein::getProteinData(std::string line)
 	utils::split(line, IN_DELIM, elems);
 	assert(elems.size() == 9);
 	
+	//parse elem[0]
+	parse_matchDir_ID_Protein(elems[0]);
+	
 	//keep fullDescription but seperate by spaces instead of tabs
 	fullDescription = elems[0];
 	for(int i = 1; i < 9; i++)
@@ -113,13 +117,13 @@ void Protein::getProteinData(std::string line)
 	length = elems[4];
 	
 	//extract matchDirrection
-	size_t firstBar = elems[0].find("|");
-	matchDirrection = line.substr(0, firstBar);
+	//size_t firstBar = elems[0].find("|");
+	//matchDirrection = line.substr(0, firstBar);
 	
 	//Extract uniprotID
-	ID = ::getID(elems[0]);
-	if(utils::strContains(REVERSE_MATCH, matchDirrection))
-		ID = "reverse_" + ID;
+	//ID = ::getID(elems[0]);
+	//if(utils::strContains(REVERSE_MATCH, matchDirrection))
+		//ID = "reverse_" + ID;
 	
 	//extract MW
 	MW = elems[5];
@@ -127,7 +131,7 @@ void Protein::getProteinData(std::string line)
 	//extract shortened protein name and description
 	size_t endOfDescription = elems[8].find(" [");
 	description = elems[8].substr(0, endOfDescription);
-	getProtein(description);
+	//getProtein(description);
 	
 	//add spectrum count, coverage and sequence count for *this protein to colname
 	col[*colIndex].count = utils::toInt(elems[2]);
@@ -137,15 +141,20 @@ void Protein::getProteinData(std::string line)
 	col[*colIndex].sequenceCount = elems[1];
 }
 
-void Protein::getProtein(std::string str)
+void Protein::parse_matchDir_ID_Protein(std::string str)
 {
-	size_t firstSpace = str.find(" ");
+	std::vector<std::string> elems;
+	utils::split(str, '|', elems);
+	assert(elems.size() == 3);
 	
-	if(firstSpace == std::string::npos)
-		protein = str;
-	else{
-		protein = str.substr(0, firstSpace);
-	}
+	matchDirrection = elems[0];
+	ID = elems[1];
+	
+	if(utils::strContains(REVERSE_MATCH, matchDirrection))
+		ID = "reverse_" + ID;
+	
+	size_t underScoreI = elems[2].find_last_of("_");
+	protein = elems[2].substr(0, underScoreI);
 }
 
 void Protein::calcMW()
@@ -1169,13 +1178,6 @@ int parseModPeptide(std::string line)
 			return utils::toInt(elems[11]);
 	
 	return 0;
-}
-
-std::string getID(std::string str)
-{
-	size_t firstBar = str.find("|");
-	size_t secBar = str.find("|", firstBar+1);
-	return str.substr(firstBar+1, secBar-firstBar-1);
 }
 
 inline void Peptide::parseSequence(const std::string& str)

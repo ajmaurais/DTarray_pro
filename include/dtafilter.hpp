@@ -141,7 +141,7 @@ private:
 	
 	//modifier
 	void getProteinData(std::string);
-	void getProtein(std::string);
+	void parse_matchDir_ID_Protein(std::string);
 	void clear();
 	void calcMW();
 	void addSeq();
@@ -262,8 +262,8 @@ std::string parseSample(std::string, std::string, bool, bool);
 int parsePeptideSC(std::string);
 int parseModPeptide(std::string);
 std::string parseReplicate(std::string);
-std::string getID(std::string);
-inline std::string parseSequence(std::string);
+//std::string getID(std::string);
+//inline std::string parseSequence(std::string);
 
 #endif /* dtafilter_hpp */
 

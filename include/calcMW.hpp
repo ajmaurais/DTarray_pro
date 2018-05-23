@@ -46,6 +46,8 @@ namespace mwDB{
 		
 		bool initalize(const params::Params&);
 	};
+	
+	std::string getID(std::string str);
 }
 
 #endif /* calcMW_h */
