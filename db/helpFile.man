@@ -1,4 +1,4 @@
-.ds PROG_WD_HOME \fI~/scripts/DTarray_pro\fR
+.ds PROG_WD_HOME \fI~/local/DTarray_pro\fR
 .ds PROG_WD_DB \fI\*[PROG_WD_HOME]\fI/db\fR
 .ds FXN_DB_FNAME \fI\*[PROG_WD_DB]\fI/humanFxn.tsv\fR
 .ds LOC_DB_FNAME \fI\*[PROG_WD_DB]\fI/humanLoc.tsv\fR

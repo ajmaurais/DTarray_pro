@@ -795,7 +795,7 @@ endobj
 endobj
 13 0 obj
 <<
-/Length 5683
+/Length 5677
 >>
 stream
 BT
@@ -1136,24 +1136,24 @@ T*
 3.5997 0 TD
 (Use)Tj
 /TT7 1 Tf
-2.0022 0 TD
-[(˜/scripts/DT)92(arr)15(ay_pr)45(o/db/humanLoc.tsv)]TJ
+1.9095 0 TD
+[(˜/local/DT)92(arr)15(ay_pr)45(o/db/humanLoc.tsv)]TJ
 /TT2 1 Tf
-16.379 0 TD
-0.197 Tw
-(to lookup subcelluar localization informa-)Tj
--18.3808 -1.2 TD
-0.0381 Tw
-(tion for proteins in output )Tj
+15.6188 0 TD
+0.1043 Tw
+(to lookup subcelluar localization information)Tj
+-17.528 -1.2 TD
+0.2225 Tw
+(for proteins in output )Tj
 /TT5 1 Tf
-10.7174 0 TD
+9.6112 0 TD
 0 Tw
 (Þ)Tj
 /TT2 1 Tf
 0.5562 0 TD
-0.0381 Tw
+0.2225 Tw
 (le. humanLoc.tsv contains Uniprot annotations for subcelluar)Tj
--11.2735 -1.2 TD
+-10.1673 -1.2 TD
 0.0481 Tw
 [(localization by Uniprot ID, updated as of Jan 18 2017. Currently)65(,)-298.1(sub cell location infor)20(-)]TJ
 T*
@@ -1166,13 +1166,13 @@ T*
 3.6002 0 TD
 (Use)Tj
 /TT7 1 Tf
-1.9481 0 TD
-[(˜/scripts/DT)92(arr)15(ay_pr)45(o/db/humanFxn.tsv)]TJ
+2.0315 0 TD
+[(˜/local/DT)92(arr)15(ay_pr)45(o/db/humanFxn.tsv)]TJ
 /TT2 1 Tf
-16.3796 0 TD
-0.1428 Tw
+15.7955 0 TD
+0.2262 Tw
 [(to include panther cate)15(gory for proteins in)]TJ
--18.3278 -1.2 TD
+-17.8271 -1.2 TD
 0 Tw
 (output )Tj
 /TT5 1 Tf
@@ -1205,7 +1205,7 @@ endobj
 endobj
 16 0 obj
 <<
-/Length 6814
+/Length 6810
 >>
 stream
 BT
@@ -1221,16 +1221,16 @@ BT
 (-seq)Tj
 /TT2 1 Tf
 3.6002 0 TD
-0.119 Tw
+0.2301 Tw
 (Use sequence information in)Tj
 /TT7 1 Tf
-12.1948 0 TD
+12.6392 0 TD
 0 Tw
-[(˜/scripts/DT)92(arr)15(ay_pr)45(o/db/humanPr)45(oteome)15(.fasta)]TJ
+[(˜/local/DT)92(arr)15(ay_pr)45(o/db/humanPr)45(oteome)15(.fasta)]TJ
 /TT2 1 Tf
-19.0937 0 TD
-[(,)-369(t)0(o)-369(include)]TJ
--31.2886 -1.2 TD
+18.4262 0 TD
+[(,)-480.2(t)0(o)-480.2(include)]TJ
+-31.0656 -1.2 TD
 (protein sequences in output )Tj
 /TT5 1 Tf
 11.2197 0 TD
@@ -1563,75 +1563,75 @@ T*
 0.0529 Tw
 (which contains the number)Tj
 -25.0343 -1.2 TD
-0.2306 Tw
+0.2782 Tw
 (and types of atoms found in each amino acid and a table located at)Tj
 /TT7 1 Tf
-30.052 0 TD
+30.7185 0 TD
 0 Tw
-[(˜/scripts/DT)92(ar)20(-)]TJ
--30.052 -1.2 TD
+[(˜/local/DT)92(ar)20(-)]TJ
+-30.7185 -1.2 TD
 [(r)15(ay_pr)45(o/db/atomCountT)92(able)15(.txt)]TJ
 /TT2 1 Tf
 12.8898 0 TD
 0.0568 Tw
 [(containing the masses of each atom. By def)10(ault the atom)]TJ
 -12.8898 -1.2 TD
-0.1864 Tw
+0.0372 Tw
 (count table at)Tj
 /TT7 1 Tf
-6.1959 0 TD
+5.7483 0 TD
 0 Tw
-[(˜/scripts/DT)92(arr)15(ay_pr)45(o/db/atomCountT)92(able)15(.txt)]TJ
+[(˜/local/DT)92(arr)15(ay_pr)45(o/db/atomCountT)92(able)15(.txt)]TJ
 /TT2 1 Tf
-18.6504 0 TD
-0.1863 Tw
-(is used. The user can also)Tj
--24.8464 -1.2 TD
-0.0579 Tw
-(supply a custom)Tj
+17.8339 0 TD
+0.0372 Tw
+(is used. The user can also sup-)Tj
+-23.5822 -1.2 TD
+0.073 Tw
+(ply a custom)Tj
 /TT7 1 Tf
-6.9232 0 TD
+5.5794 0 TD
 0 Tw
 [(atomCountT)92(able)15(.txt)]TJ
 /TT5 1 Tf
-8.1731 0 TD
+8.1882 0 TD
 (Þ)Tj
 /TT2 1 Tf
 0.5562 0 TD
-0.0579 Tw
+0.073 Tw
 (le with the)Tj
 /TT4 1 Tf
-4.6449 0 TD
+4.6902 0 TD
 0 Tw
 (-act)Tj
 /TT2 1 Tf
-1.9178 0 TD
-0.0579 Tw
-(option. Protein sequence informa-)Tj
--22.2151 -1.2 TD
-0.2839 Tw
-[(tion is stored in a f)10(asta formatted )]TJ
+1.9329 0 TD
+0.073 Tw
+(option. Protein sequence information)Tj
+-20.9467 -1.2 TD
+0.5137 Tw
+[(is stored in a f)10(asta formatted )]TJ
 /TT5 1 Tf
-15.3909 0 TD
+14.6796 0 TD
 0 Tw
 (Þ)Tj
 /TT2 1 Tf
 0.5562 0 TD
-0.2839 Tw
+0.5136 Tw
 [(le. The def)10(ault sequence )]TJ
 /TT5 1 Tf
-11.0929 0 TD
+12.0119 0 TD
 0 Tw
 (Þ)Tj
 /TT2 1 Tf
 0.5562 0 TD
-0.2839 Tw
+0.5136 Tw
 (le is)Tj
 /TT7 1 Tf
-2.4565 0 TD
+2.9159 0 TD
 0 Tw
-[(˜/scripts/DT)92(ar)20(-)]TJ
--30.0525 -1.2 TD
+[(˜/local/DT)92(ar)20(-)]TJ
+-30.7197 -1.2 TD
 [(r)15(ay_pr)45(o/db/humanPr)45(oteome)15(.fasta)]TJ
 /TT2 1 Tf
 13.4625 0 TD
@@ -2469,8 +2469,8 @@ endobj
 endobj
 32 0 obj
 <<
-/CreationDate (D:20180523195820-04'00')
-/ModDate (D:20180523195820-04'00')
+/CreationDate (D:20180629184533-04'00')
+/ModDate (D:20180629184533-04'00')
 /Producer (PSNormalizer.framework)
 >>
 endobj
@@ -2484,46 +2484,46 @@ endobj
 xref
 0 34
 0000000000 65535 f 
-0000033770 00000 n 
+0000033760 00000 n 
 0000000016 00000 n 
 0000009485 00000 n 
-0000031852 00000 n 
-0000032337 00000 n 
-0000032789 00000 n 
-0000032963 00000 n 
-0000033426 00000 n 
-0000033601 00000 n 
-0000030513 00000 n 
-0000034255 00000 n 
-0000033851 00000 n 
+0000031842 00000 n 
+0000032327 00000 n 
+0000032779 00000 n 
+0000032953 00000 n 
+0000033416 00000 n 
+0000033591 00000 n 
+0000030503 00000 n 
+0000034245 00000 n 
+0000033841 00000 n 
 0000009636 00000 n 
-0000015372 00000 n 
-0000033935 00000 n 
-0000015524 00000 n 
-0000022391 00000 n 
-0000034019 00000 n 
-0000022532 00000 n 
-0000028191 00000 n 
-0000034103 00000 n 
-0000028343 00000 n 
-0000030394 00000 n 
-0000030654 00000 n 
-0000030851 00000 n 
-0000031053 00000 n 
-0000031250 00000 n 
-0000031450 00000 n 
-0000031650 00000 n 
-0000034187 00000 n 
-0000034215 00000 n 
-0000034365 00000 n 
-0000034497 00000 n 
+0000015366 00000 n 
+0000033925 00000 n 
+0000015518 00000 n 
+0000022381 00000 n 
+0000034009 00000 n 
+0000022522 00000 n 
+0000028181 00000 n 
+0000034093 00000 n 
+0000028333 00000 n 
+0000030384 00000 n 
+0000030644 00000 n 
+0000030841 00000 n 
+0000031043 00000 n 
+0000031240 00000 n 
+0000031440 00000 n 
+0000031640 00000 n 
+0000034177 00000 n 
+0000034205 00000 n 
+0000034355 00000 n 
+0000034487 00000 n 
 trailer
 <<
 /Size 34
 /Root 33 0 R
 /Info 32 0 R
-/ID [<cc1ed6b2418e8d1f3183a7af3308da37><cc1ed6b2418e8d1f3183a7af3308da37>]
+/ID [<07d8abbf4c174bef0a7702bce7592711><07d8abbf4c174bef0a7702bce7592711>]
 >>
 startxref
-34567
+34557
 %%EOF
