@@ -95,7 +95,7 @@ void Peptide::operator = (const Peptide& _p)
 }
 
 //parse proten header line and extract desired data
-void Protein::getProteinData(std::string line)
+bool Protein::getProteinData(std::string line)
 {
 	//split line by tabs
 	std::vector<std::string> elems;
@@ -103,7 +103,7 @@ void Protein::getProteinData(std::string line)
 	assert(elems.size() == 9);
 	
 	//parse elem[0]
-	parse_matchDir_ID_Protein(elems[0]);
+	if(!parse_matchDir_ID_Protein(elems[0])) return false;
 	
 	//keep fullDescription but seperate by spaces instead of tabs
 	fullDescription = elems[0];
@@ -139,22 +139,36 @@ void Protein::getProteinData(std::string line)
 	coverageTemp = coverageTemp.substr(0, coverageTemp.find("%"));
 	col[*colIndex].coverage = coverageTemp;
 	col[*colIndex].sequenceCount = elems[1];
+	
+	return true;
 }
 
-void Protein::parse_matchDir_ID_Protein(std::string str)
+bool Protein::parse_matchDir_ID_Protein(std::string str)
 {
 	std::vector<std::string> elems;
 	utils::split(str, '|', elems);
-	assert(elems.size() == 3);
 	
-	matchDirrection = elems[0];
-	ID = elems[1];
+	try{
+		if(elems.size() == 3){
+			matchDirrection = elems.at(0);
+			ID = elems.at(1);
+			
+			size_t underScoreI = elems.at(2).find_last_of("_");
+			protein = elems.at(2).substr(0, underScoreI);
+		}
+		else{
+			matchDirrection = elems.at(0);
+			ID = elems.at(0);
+			protein = elems.at(0);
+		}
+	} catch(std::out_of_range& e){
+		std::cerr << "\n Error parsing protein id for " << str <<"\n Skipping...\n";
+		return false;
+	}
 	
 	if(utils::strContains(REVERSE_MATCH, matchDirrection))
 		ID = "reverse_" + ID;
-	
-	size_t underScoreI = elems[2].find_last_of("_");
-	protein = elems[2].substr(0, underScoreI);
+	return true;
 }
 
 void Protein::calcMW()
@@ -220,7 +234,9 @@ bool Proteins::readIn(params::Params* const pars,
 				//initalize Protein to hold data for current line
 				Protein newProtein(pars, locDB, fxnDB, mwdb, seqDB, baitFile, locTable);
 				newProtein.initialize(colNamesTemp, colNamesLen, &colIndex);
-				newProtein.getProteinData(line);
+				
+				//parse protein header line and skip if error
+				if(!newProtein.getProteinData(line)) continue;
 				inProtein = true; //used to determine if it is valid to loop through peptide lines below protein
 								  //header line to extract unique peptide spectral counts
 					

@@ -140,8 +140,8 @@ private:
 	static locReport::LocDB* locTable;
 	
 	//modifier
-	void getProteinData(std::string);
-	void parse_matchDir_ID_Protein(std::string);
+	bool getProteinData(std::string);
+	bool parse_matchDir_ID_Protein(std::string);
 	void clear();
 	void calcMW();
 	void addSeq();
