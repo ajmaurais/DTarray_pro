@@ -23,14 +23,14 @@
 #define MIN_BIN_VERSION_NUM 1.60
 
 #include <gitVersion.hpp>
+#include <utils.hpp>
+#include <params.hpp>
 #include <dtafilter.hpp>
-#include "../src/utils.cpp"
-#include "../src/params.cpp"
-#include "../src/dtafilter.cpp"
-#include "../src/calcMW.cpp"
-#include "../src/dbase.cpp"
-#include "../src/saintOutput.cpp"
-#include "../src/locReport.cpp"
-#include "../src/molecularFormula.cpp"
+#include <calcMW.hpp>
+#include <dbase.hpp>
+#include <saintOutput.hpp>
+#include <locReport.hpp>
+#include <molecularFormula.hpp>
+#include <dtafilter.hpp>
 
 #endif /* DTarray_pro.hpp */
