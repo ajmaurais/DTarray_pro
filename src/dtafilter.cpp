@@ -8,6 +8,18 @@
 
 #include <dtafilter.hpp>
 
+Dbase* Protein::locDB = nullptr;
+Dbase* Protein::fxnDB = nullptr;
+mwDB::MWDB_Protein* Protein::mwdb = nullptr;
+mwDB::SeqDB* Protein::seqDB = nullptr;
+saint::BaitFile* Protein::baitFile = nullptr;
+locReport::LocDB* Protein::locTable = nullptr;
+
+molFormula::Residues* Peptide::mwdb = nullptr;
+
+//diffmod symbols to search for
+const char* DIFFMODS = "*";
+
 void Protein::consolidate(const Protein& toAdd)
 {
 	col[*toAdd.colIndex].colname = toAdd.col[*toAdd.colIndex].colname;
@@ -175,9 +187,9 @@ void Protein::calcMW()
 {
 	std::string tmp_sequence = mwdb->seqDB->getSequence(ID);
 	
-	if(tmp_sequence == SEQ_NOT_FOUND)
+	if(tmp_sequence == mwDB::SEQ_NOT_FOUND)
 	{
-		sequence = SEQ_NOT_FOUND;
+		sequence = mwDB::SEQ_NOT_FOUND;
 		avgMass = -1;
 		monoMass = -1;
 		formula = "NA";
@@ -322,7 +334,7 @@ void Peptide::parsePeptide(const std::string& line)
 	
 	unique = elems[0] == "*";
 	parseSequence(elems[12]); //get calcSequence
-	length = utils::toString(calcSequence.length());
+	length = std::to_string(calcSequence.length());
 	sequence = elems[12];
 	col[*colIndex].obsMH = elems[5];
 	col[*colIndex].count = utils::toInt(elems[11]);

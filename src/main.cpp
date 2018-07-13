@@ -6,7 +6,7 @@
 //  Copyright © 2016 Aaron Maurais. All rights reserved.
 //
 
-#include <DTarray_pro.hpp>
+#include <main.hpp>
 
 int main(int argc, char* argv[])
 {	

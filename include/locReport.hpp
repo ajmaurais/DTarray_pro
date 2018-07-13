@@ -6,14 +6,14 @@
 //  Copyright © 2017 Aaron Maurais. All rights reserved.
 //
 
-#ifndef locReport_hpp
-#define locReport_hpp
+#pragma once
 
 #include <iostream>
 #include <fstream>
 #include <vector>
 #include <map>
 
+#include <dtarray_pro.hpp>
 #include <params.hpp>
 #include <utils.hpp>
 
@@ -54,7 +54,7 @@ namespace locReport{
 		}
 		
 		inline void consolidate(const Loc&);
-		inline void initializeCol(std::string, unsigned int, unsigned int, unsigned int, unsigned int);
+		void initializeCol(std::string, unsigned int, unsigned int, unsigned int, unsigned int);
 		
 		inline std::string getSampleName() const{
 			return sampleName;
@@ -119,9 +119,6 @@ namespace locReport{
 		void writeLong(std::ofstream&) const;
 	};
 	
-	size_t LocDat::colSize = 0;
-	params::Params* LocDat::pars = nullptr;
-	
 	class LocDB{
 	private:
 		//hashTable::HashTable<LocDat>* locTable;
@@ -141,4 +138,4 @@ namespace locReport{
 	};
 }
 
-#endif /* locReport_hpp */
+/* locReport_hpp */

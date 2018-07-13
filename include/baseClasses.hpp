@@ -6,8 +6,7 @@
 //  Copyright © 2016 Aaron Maurais. All rights reserved.
 //
 
-#ifndef parentClasses_hpp
-#define parentClasses_hpp
+#pragma once
 
 #include <params.hpp>
 #include <map>
@@ -169,4 +168,4 @@ public:
 	~SampleData_protein() {}
 };
 
-#endif /* parentClasses_hpp */
+/* parentClasses_hpp */

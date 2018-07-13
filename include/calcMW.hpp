@@ -6,8 +6,7 @@
 //  Copyright © 2016 Aaron Maurais. All rights reserved.
 //
 
-#ifndef calcMW_h
-#define calcMW_h
+#pragma once
 
 #include <map>
 
@@ -20,6 +19,8 @@ namespace mwDB{
 	/*size_t const SEQ_LIB_SIZE = 10000;
 	size_t const AA_DB_SIZE = 20;
 	size_t const MAX_PARAM_ITTERATIONS = 100;*/
+	
+	std::string const SEQ_NOT_FOUND = "SEQUENCE_NOT_FOUND_IN_DB";
 	
 	class SeqDB{
 		typedef std::map<std::string, std::string> seqLibraryType;
@@ -50,4 +51,4 @@ namespace mwDB{
 	std::string getID(std::string str);
 }
 
-#endif /* calcMW_h */
+/* calcMW_h */

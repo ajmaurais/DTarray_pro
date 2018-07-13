@@ -6,8 +6,7 @@
 //  Copyright © 2018 Aaron Maurais. All rights reserved.
 //
 
-#ifndef molecularFormula_hpp
-#define molecularFormula_hpp
+#pragma once
 
 #include <iostream>
 #include <map>
@@ -16,6 +15,7 @@
 #include <cassert>
 #include <utility>
 
+#include <dtarray_pro.hpp>
 #include <utils.hpp>
 
 namespace molFormula{
@@ -149,5 +149,5 @@ namespace molFormula{
 	};
 }
 
-#endif /* molecularFormula_hpp */
+/* molecularFormula_hpp */
 

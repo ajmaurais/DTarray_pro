@@ -6,11 +6,7 @@
 //  Copyright © 2016 Aaron Maurais. All rights reserved.
 //
 
-#ifndef dtafilter_hpp
-#define dtafilter_hpp
-
-#define OUT_DELIM '\t'
-#define IN_DELIM '\t'
+#pragma once
 
 #include <iostream>
 #include <vector>
@@ -20,6 +16,7 @@
 #include <algorithm>
 #include <stdexcept>
 
+#include <dtarray_pro.hpp>
 #include <baseClasses.hpp>
 #include <dbase.hpp>
 #include <utils.hpp>
@@ -37,7 +34,6 @@ bool const INCLUDE_FULL_DESCRIPTION = true;
 std::string const DEFAULT_COL_NAMES [] = {"Full_description", "ID", "Protein", "Description", "pI",
 	"Length(aa)", "Mass(Da)"};
 size_t const DEFAULT_COL_NAMES_LENGTH = 7;
-std::string const SEQ_NOT_FOUND = "SEQUENCE_NOT_FOUND_IN_DB";
 size_t const PROTEINS_DATA_SIZE = 500;
 size_t const PEPTIDES_DATA_SIZE = 2500;
 std::string const DEFAULT_COL_NAMES_DB [] = {"Full_description", "ID", "Protein", "Description",
@@ -57,10 +53,6 @@ std::string const DEFALUT_PEPTIDE_COLNAMES [] = {"Protein_ID", "Parent_protein",
 std::string const DEFALUT_PEPTIDE_DB_COLNAMES [] = {"Protein_ID", "Parent_protein", "Protein_description", "Sequence", "Length(aa)", "Unique", "CalcMH", "Long_sample_name", "Spectral_counts", "Sample",
 	"Replicate"};
 size_t const DEFALUT_PEPTIDE_DB_COLNAMES_LEN = 9;
-std::string const REVERSE_MATCH = "Reverse_";
-
-//diffmod symbols to search for
-const char* DIFFMODS = "*";
 
 char const DB_DELIM = ';';
 std::string const LOC_REPORT_HEADERS [] = {"Count", "Sum_SC", "Sum_seq_count"};
@@ -107,8 +99,6 @@ private:
 	void parsePeptide(const std::string&);
 	void parseSequence(const std::string&);
 };
-
-molFormula::Residues* Peptide::mwdb = nullptr;
 
 class Peptides : public DBTemplate<Peptide> {
 	friend class Proteins;
@@ -185,13 +175,6 @@ public:
 	locReport::LocDat toLocDat(const std::string&) const;
 };
 
-Dbase* Protein::locDB = nullptr;
-Dbase* Protein::fxnDB = nullptr;
-mwDB::MWDB_Protein* Protein::mwdb = nullptr;
-mwDB::SeqDB* Protein::seqDB = nullptr;
-saint::BaitFile* Protein::baitFile = nullptr;
-locReport::LocDB* Protein::locTable = nullptr;
-
 //stores data for all proteins found in DTA filter files
 class Proteins : public DBTemplate<Protein>{
 	friend class saint::BaitFile;
@@ -258,12 +241,10 @@ public:
 /* functions */
 /*************/
 
-std::string parseSample(std::string, std::string, bool, bool);
 int parsePeptideSC(std::string);
 int parseModPeptide(std::string);
-std::string parseReplicate(std::string);
 //std::string getID(std::string);
 //inline std::string parseSequence(std::string);
 
-#endif /* dtafilter_hpp */
+/* dtafilter_hpp */
 

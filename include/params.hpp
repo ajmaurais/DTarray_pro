@@ -6,8 +6,7 @@
 //  Copyright © 2016 Aaron Maurais. All rights reserved.
 //
 
-#ifndef params_hpp
-#define params_hpp
+#pragma once
 
 #include <cassert>
 #include <vector>
@@ -16,8 +15,8 @@
 #include <cstdlib>
 #include <ctime>
 
+#include <dtarray_pro.hpp>
 #include <utils.hpp>
-#include <dtafilter.hpp>
 
 namespace params{
 	
@@ -238,13 +237,9 @@ namespace params{
 		}
 	};
 	
-	OutputFormat Params::outputFormat = wideFormat;
-	OutputFormat Params::peptideOutput = none;
-	OutputFormat Params::locOutput = none;
-	
 	OutputFormat intToOutputFormat(int);
 	PeptideGroupFormat intToGroupFormat(int);
 	std::string groupFormatString(PeptideGroupFormat);
 }
 
-#endif /* params_hpp */
+/* params_hpp */

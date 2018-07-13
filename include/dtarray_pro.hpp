@@ -1,13 +1,15 @@
 //
-//  DTarray_pro.hpp
+//  dtarray_pro.hpp
 //  DTarray_pro
 //
 //  Created by Aaron Maurais on 1/2/17.
 //  Copyright © 2017 Aaron Maurais. All rights reserved.
 //
 
-#ifndef DTarray_pro_hpp
-#define DTarray_pro_hpp
+#pragma once
+
+#include <stdio.h>
+#include <string>
 
 //deal with older c++ compilers
 #if (__cplusplus == 199711L || __cplusplus == 1)
@@ -22,15 +24,17 @@
 #define BIN_VERSION_NUM "1.7"
 #define MIN_BIN_VERSION_NUM 1.60
 
-#include <gitVersion.hpp>
-#include <utils.hpp>
-#include <params.hpp>
-#include <dtafilter.hpp>
-#include <calcMW.hpp>
-#include <dbase.hpp>
-#include <saintOutput.hpp>
-#include <locReport.hpp>
-#include <molecularFormula.hpp>
-#include <dtafilter.hpp>
+#ifndef OUT_DELIM
+#define OUT_DELIM '\t'
+#endif
 
-#endif /* DTarray_pro.hpp */
+#ifndef IN_DELIM
+#define IN_DELIM '\t'
+#endif
+
+std::string const REVERSE_MATCH = "Reverse_";
+
+std::string parseReplicate(std::string);
+std::string parseSample(std::string, std::string, bool, bool);
+
+/* dtarray_pro.hpp */

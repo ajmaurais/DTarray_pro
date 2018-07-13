@@ -7,6 +7,7 @@
 //
 
 #include <params.hpp>
+#include <gitVersion.hpp>
 
 namespace params{
 	
@@ -49,6 +50,10 @@ namespace params{
 				break;
 		}
 	}
+	
+	OutputFormat Params::outputFormat = wideFormat;
+	OutputFormat Params::peptideOutput = none;
+	OutputFormat Params::locOutput = none;
 	
 	bool Params::getOpts(int argc, const char* const argv [])
 	{

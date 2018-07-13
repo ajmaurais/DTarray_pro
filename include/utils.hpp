@@ -6,8 +6,7 @@
 //  Copyright © 2017 Aaron Maurais. All rights reserved.
 //
 
-#ifndef utils_hpp
-#define utils_hpp
+#pragma once
 
 #include <cassert>
 #include <sstream>
@@ -77,23 +76,23 @@ namespace utils{
 		//modifers
 		bool read(std::string);
 		bool read();
-		inline std::string getLine();
-		inline std::string getLine_skip();
-		inline std::string getLine_trim();
-		inline std::string getLine_skip_trim();
-		inline std::string getLine_trim_skip();
+		std::string getLine();
+		std::string getLine_skip();
+		std::string getLine_trim();
+		std::string getLine_skip_trim();
+		std::string getLine_trim_skip();
 		
 		//properties
-		inline bool end(){
+		bool end(){
 			return (ss.tellg() >= slen);
 		}
-		inline std::string getFname() const{
+		std::string getFname() const{
 			return fname;
 		}
-		inline char getDelim() const{
+		char getDelim() const{
 			return delim;
 		}
-		inline newline_type getNewLineType() const{
+		newline_type getNewLineType() const{
 			return delimType;
 		}
 	};
@@ -125,31 +124,32 @@ namespace utils{
 	std::string getExtension(const std::string&);
 	
 	//type conversions
-	template <typename _Tp> inline std::string toString(_Tp);
-	inline int toInt(std::string);
-	inline double toDouble(std::string);
+	template <typename _Tp> std::string toString(_Tp num);
+	int toInt(std::string);
+	double toDouble(std::string);
 	bool isInteger(std::string);
+	bool isDouble(std::string);
 	
 	//std::string utils
-	inline bool strContains(std::string, std::string);
-	inline bool strContains(char, std::string);
-	inline bool startsWith(std::string whithinStr, std::string findStr);
-	inline bool endsWith(std::string whithinStr, std::string findStr);
-	inline void split (const std::string&, const char, std::vector<std::string>&);
+	bool strContains(std::string, std::string);
+	bool strContains(char, std::string);
+	bool startsWith(std::string whithinStr, std::string findStr);
+	bool endsWith(std::string whithinStr, std::string findStr);
+	void split (const std::string&, const char, std::vector<std::string>&);
 	std::string trimTraling(const std::string&);
 	std::string trimLeading(const std::string&);
 	std::string trim(const std::string&);
 	void trimAll(std::vector<std::string>&);
 	void removeBlanks(std::vector<std::string>&);
 	bool isCommentLine(std::string);
-	inline std::string removeSubstr(std::string, std::string);
-	inline std::string removeChars(char, std::string);
+	std::string removeSubstr(std::string, std::string);
+	std::string removeChars(char, std::string);
 	std::string toLower(std::string);
 	std::string repeat(std::string, size_t);
-	inline void getLineTrim(std::istream& is, std::string& line,
-		char delim = DEFAULT_LINE_DELIM, size_t beginLine = DEFAULT_BEGIN_LINE);
-	inline void getLine(std::istream& is, std::string& line,
-		char delim = DEFAULT_LINE_DELIM, size_t beginLine = DEFAULT_BEGIN_LINE);
+	void getLineTrim(std::istream& is, std::string& line,
+		char delim = DEFAULT_LINE_DELIM, size_t beg= DEFAULT_BEGIN_LINE);
+	void getLine(std::istream& is, std::string& line,
+		char delim = DEFAULT_LINE_DELIM, size_t beg= DEFAULT_BEGIN_LINE);
 	std::string toSubscript(int);
 	//std::string toSuperscript(int);
 	
@@ -165,4 +165,4 @@ namespace utils{
 	}
 }
 
-#endif /* utils_hpp */
+/* utils_hpp */

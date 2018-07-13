@@ -10,6 +10,9 @@
 
 namespace locReport{
 	
+	size_t LocDat::colSize = 0;
+	params::Params* LocDat::pars = nullptr;
+	
 	void Loc::consolidate(const Loc& toAdd)
 	{
 		count += toAdd.count;
@@ -38,7 +41,7 @@ namespace locReport{
 		}
 	}
 	
-	inline void Loc::initializeCol(std::string _sampleName, unsigned int _count, unsigned int _specSum,
+	void Loc::initializeCol(std::string _sampleName, unsigned int _count, unsigned int _specSum,
 								   unsigned int _uniqSpecSum, unsigned int _seqCount)
 	{
 		sampleName = _sampleName;

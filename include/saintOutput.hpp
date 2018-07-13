@@ -6,8 +6,7 @@
 //  Copyright © 2017 Aaron Maurais. All rights reserved.
 //
 
-#ifndef saintOutput_hpp
-#define saintOutput_hpp
+#pragma once
 
 #include <iostream>
 #include <vector>
@@ -41,4 +40,4 @@ namespace saint{
 	};
 }
 
-#endif /* saintOutput_hpp */
+/* saintOutput_hpp */

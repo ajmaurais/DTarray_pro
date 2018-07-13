@@ -6,8 +6,7 @@
 //  Copyright © 2016 Aaron Maurais. All rights reserved.
 //
 
-#ifndef dbase_hpp
-#define dbase_hpp
+#pragma once
 
 #include <map>
 #include <baseClasses.hpp>
@@ -58,5 +57,4 @@ public:
 	std::string getDat(std::string) const;
 };
 
-
-#endif /* dbase_hpp */
+/* dbase_hpp */
