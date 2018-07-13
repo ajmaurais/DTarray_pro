@@ -38,6 +38,10 @@ OBJDIR := obj
 BINDIR := bin
 #
 #
+#   Install dirrectory
+INSTALL_DIR := /usr/local/bin/
+#
+#
 ################################################################################
 
 HEADERS := $(wildcard $(HEADERDIR)/*.h)
@@ -47,9 +51,9 @@ OBJS := $(subst $(SRCDIR)/,$(OBJDIR)/,$(SRCS:.cpp=.o))
 CXXFLAGS += $(INCLUDEFLAGS) -I$(HEADERDIR)
 LDFLAGS += $(LIBFLAGS)
 
-.PHONY: all clean distclean
+.PHONY: all clean distclean install
 
-all: $(BINDIR)/$(EXE)
+all: $(BINDIR)/$(EXE) helpFile.pdf
 
 $(BINDIR)/$(EXE): $(OBJS)
 	mkdir -p $(BINDIR)
@@ -59,7 +63,14 @@ $(OBJDIR)/%.o: $(SRCDIR)/%.cpp
 	mkdir -p $(OBJDIR)
 	$(CXX) $(CXXFLAGS) $< -o $@
 
+helpFile.pdf : db/helpFile.man
+	bash updateMan.sh
+
 clean:
 	rm -f $(OBJDIR)/*.o $(BINDIR)/$(EXE)
+	rm -f helpFile.pdf
+
+install: $(BINDIR)/$(EXE)
+	cp $(BINDIR)/$(EXE) $(INSTALL_DIR)$(EXE)
 
 distclean: clean

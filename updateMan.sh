@@ -1,2 +1,3 @@
 groff -mandoc > temp.ps `man -w ./db/helpFile.man`
-open temp.ps
+ps2pdf temp.ps helpFile.pdf
+rm temp.ps
