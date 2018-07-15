@@ -1,11 +1,11 @@
 
-#recompile DTarray_pro
+#update gitVersion.hpp if dir is under version control.
 
 GIT_VERSION_HPP="include/gitVersion.hpp"
 
 #if dir is under git versioning, get updated git info
 if [ -d .git ] ; then
-	echo "Getting git version number..."
+	echo "Updateing gitVersion.hpp..."
 	gitDate=$(git log -1 --format=%cd --date=local)
 	gitCommit=$(git rev-parse HEAD)
 	echo -e "\n#ifndef gitVersion_hpp" > $GIT_VERSION_HPP
@@ -15,8 +15,4 @@ if [ -d .git ] ; then
 	echo -e "\n#endif /* gitVersion_hpp */" >> $GIT_VERSION_HPP
 fi
 
-echo "Recompiling DTarray_pro..."
 
-g++ -I./include/ -o bin/DTarray_pro src/main.cpp
-
-echo "Done!"

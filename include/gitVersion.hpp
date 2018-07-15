@@ -1,7 +1,8 @@
 
-#pragma once
+#ifndef gitVersion_hpp
+#define gitVersion_hpp
 
-const char* GIT_DATE = "Fri Jun 29 18:48:59 2018";
-const char* GIT_COMMIT = "15366e72ef99dd211f79f0010ef183e43b429a66";
+const char* GIT_DATE = "Fri Jul 13 17:51:25 2018";
+const char* GIT_COMMIT = "29dc874bb44629cc9cf7e7f9e30f04a86061c765";
 
-/* gitVersion_hpp */
+#endif /* gitVersion_hpp */

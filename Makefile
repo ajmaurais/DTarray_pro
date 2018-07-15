@@ -20,13 +20,22 @@ INCLUDEFLAGS :=
 #
 #
 # Program name
-EXE := DTarray_pro
+EXE := DTarray
 #
 #
 # Directories
 #
 #   Headers
 HEADERDIR := include
+#
+#   .git
+GITDIR := .git
+#
+#   git_version
+if [ -a $(GITDIR) ] ; \
+then \
+     GIT_VERSION := gitVersion.hpp ; \
+fi;
 #
 #   Sources
 SRCDIR := src
@@ -37,6 +46,8 @@ OBJDIR := obj
 #   Binary
 BINDIR := bin
 #
+#   Build scripts
+SCRIPTS := scripts
 #
 #   Install dirrectory
 INSTALL_DIR := /usr/local/bin/
@@ -51,9 +62,12 @@ OBJS := $(subst $(SRCDIR)/,$(OBJDIR)/,$(SRCS:.cpp=.o))
 CXXFLAGS += $(INCLUDEFLAGS) -I$(HEADERDIR)
 LDFLAGS += $(LIBFLAGS)
 
-.PHONY: all clean distclean install
+.PHONY: all clean distclean install uninstall
 
-all: $(BINDIR)/$(EXE) helpFile.pdf
+all: $(HEADERS)/$(GIT_VERSION) $(BINDIR)/$(EXE) helpFile.pdf
+
+$(HEADERS)/$(GIT_VERSION): .git
+	bash $(SCRIPTS)/makeGitVersion.sh
 
 $(BINDIR)/$(EXE): $(OBJS)
 	mkdir -p $(BINDIR)
@@ -64,13 +78,16 @@ $(OBJDIR)/%.o: $(SRCDIR)/%.cpp
 	$(CXX) $(CXXFLAGS) $< -o $@
 
 helpFile.pdf : db/helpFile.man
-	bash updateMan.sh
+	bash $(SCRIPTS)/updateMan.sh
 
 clean:
 	rm -f $(OBJDIR)/*.o $(BINDIR)/$(EXE)
 	rm -f helpFile.pdf
 
 install: $(BINDIR)/$(EXE)
-	cp $(BINDIR)/$(EXE) $(INSTALL_DIR)$(EXE)
+	cp $(BINDIR)/$(EXE) $(INSTALL_DIR)/$(EXE)
+
+uninstall:
+	rm -fv $(INSTALL_DIR)/$(EXE)
 
 distclean: clean
