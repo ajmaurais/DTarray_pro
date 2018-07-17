@@ -352,7 +352,7 @@ void Peptide::parsePeptide(const std::string& line)
 	
 	unique = elems[0] == "*";
 	parseSequence(elems[12]); //get calcSequence
-	length = std::to_string(calcSequence.length());
+	length = utils::toString(calcSequence.length());
 	sequence = elems[12];
 	col[*colIndex].obsMH = elems[5];
 	col[*colIndex].count = utils::toInt(elems[11]);

@@ -142,7 +142,16 @@ namespace utils{
 	std::string getExtension(const std::string&);
 	
 	//type conversions
-	template <typename _Tp> std::string toString(_Tp num);
+	template <typename _Tp> std::string toString(_Tp num)
+	{
+		std::string str;
+		std::stringstream convert;
+		
+		convert << num;
+		convert >> str;
+		
+		return str;
+	}
 	int toInt(std::string);
 	double toDouble(std::string);
 	bool isInteger(std::string);

@@ -300,7 +300,7 @@ std::string utils::getExtension(const std::string& filename)
 /*********************/
 
 //converts num to std::string because to_std::string does not work with stl 98
-template <typename _Tp> std::string utils::toString(_Tp num)
+/*template <typename _Tp> std::string utils::toString(_Tp num)
 {
 	std::string str;
 	std::stringstream convert;
@@ -309,7 +309,7 @@ template <typename _Tp> std::string utils::toString(_Tp num)
 	convert >> str;
 	
 	return str;
-}
+}*/
 
 //converts std::string to int because atoi does not work with stl 98
 //Pre: str must be a std::string with a valid interger conversion
