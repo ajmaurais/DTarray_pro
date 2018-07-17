@@ -32,10 +32,9 @@ HEADERDIR := include
 GITDIR := .git
 #
 #   git_version
-if [ -a $(GITDIR) ] ; \
-then \
-     GIT_VERSION := gitVersion.hpp ; \
-fi;
+#ifneq ("$(wildcard $(GITDIR))","")
+GIT_VERSION := gitVersion.hpp
+#endif
 #
 #   Sources
 SRCDIR := src
@@ -62,11 +61,11 @@ OBJS := $(subst $(SRCDIR)/,$(OBJDIR)/,$(SRCS:.cpp=.o))
 CXXFLAGS += $(INCLUDEFLAGS) -I$(HEADERDIR)
 LDFLAGS += $(LIBFLAGS)
 
-.PHONY: all clean distclean install uninstall
+.PHONY: all gitVersion clean distclean install uninstall
 
-all: $(HEADERS)/$(GIT_VERSION) $(BINDIR)/$(EXE) helpFile.pdf
+all: gitVersion $(BINDIR)/$(EXE) helpFile.pdf
 
-$(HEADERS)/$(GIT_VERSION): .git
+gitVersion:
 	bash $(SCRIPTS)/makeGitVersion.sh
 
 $(BINDIR)/$(EXE): $(OBJS)

@@ -17,7 +17,7 @@ Download tarball from latest release to `~/local`.
 ```bash
 cd ~/local
 bash
-curl -L $(curl -s https://api.github.com/repos/ajmaurais/DTarray_pro/releases|grep tarball_url|sed s/'\s*"tarball_url": "'//|sed s/'",$'//) -o DTarray.tar.gz'
+curl -L $(curl -s https://api.github.com/repos/ajmaurais/DTarray_pro/releases|grep tarball_url|sed s/'\s*"tarball_url": "'//|sed s/'",$'//) -o DTarray.tar.gz
 exit
 ```
 
