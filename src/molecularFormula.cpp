@@ -237,14 +237,12 @@ std::string molFormula::Residues::calcFormula(std::string _seq, bool unicode,
 											  bool _nterm, bool _cterm) const
 {
 	std::string formula = "";
-	ResidueMapType::const_iterator it;
-	
 	AtomCountMapType atomCounts;
 	ResidueMapType::const_iterator resMapIt;
 	if(_nterm)
 	{
 		resMapIt = residueMap.find(N_TERM_STR);
-		if(it == residueMap.end())
+		if(resMapIt == residueMap.end())
 			throw std::runtime_error(N_TERM_STR + " not found in residueMap");
 		resMapIt->second.combineAtomCountMap(atomCounts);
 	}
@@ -259,7 +257,7 @@ std::string molFormula::Residues::calcFormula(std::string _seq, bool unicode,
 	if(_cterm)
 	{
 		resMapIt = residueMap.find(C_TERM_STR);
-		if(it == residueMap.end())
+		if(resMapIt == residueMap.end())
 			throw std::runtime_error(C_TERM_STR + " not found in residueMap");
 		resMapIt->second.combineAtomCountMap(atomCounts);
 	}
