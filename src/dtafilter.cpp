@@ -110,6 +110,7 @@ void Peptide::operator = (const Peptide& _p)
 {
 	key = _p.key;
 	calcSequence = _p.calcSequence;
+	length = _p.length;
 	proteinID = _p.proteinID;
 	calcMH = _p.calcMH;
 	fileName = _p.fileName;

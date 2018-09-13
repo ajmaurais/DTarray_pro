@@ -120,8 +120,6 @@ private:
 
 class Peptides : public DBTemplate<Peptide> {
 	friend class Proteins;
-private:
-	molFormula::Residues* mwdb;
 public:
 	Peptides(const params::Params& pars) : DBTemplate<Peptide>(pars, PEPTIDES_DATA_SIZE) {}
 	Peptides() : DBTemplate<Peptide>(){}
