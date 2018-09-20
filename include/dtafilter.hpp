@@ -67,7 +67,7 @@ size_t const PEP_SUP_INFO_HEADERS_LEN = 2;
 std::string const MWCALC_HEADERS [] = {"Avg_mass", "Monoisotopic_mass", "Formula", "Sequence"};
 size_t const MWCALC_HEADERS_LENGTH = 3;
 std::string const DEFALUT_PEPTIDE_COLNAMES [] = {"Protein_ID", "Parent_protein", "Protein_description",
-	"Sequence", "Length(aa)", "Unique", "CalcMH"};
+	"Flanking_sequence", "Sequence", "Length(aa)", "Unique", "CalcMH"};
 std::string const DEFALUT_PEPTIDE_DB_COLNAMES [] = {"Protein_ID", "Parent_protein", "Protein_description", "Sequence", "Length(aa)", "Unique", "CalcMH", "Long_sample_name", "Spectral_counts", "Sample",
 	"Replicate"};
 size_t const DEFALUT_PEPTIDE_DB_COLNAMES_LEN = 9;

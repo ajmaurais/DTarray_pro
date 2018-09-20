@@ -1264,6 +1264,7 @@ void Peptide::write(std::ofstream& outF)
 	outF << proteinID
 	<< OUT_DELIM <<	protein
 	<< OUT_DELIM <<	description
+	<< OUT_DELIM << sequence
 	<< OUT_DELIM <<	calcSequence
 	<< OUT_DELIM <<	length;
 	
