@@ -120,10 +120,23 @@ private:
 
 class Peptides : public DBTemplate<Peptide> {
 	friend class Proteins;
+private:
+	molFormula::Residues* _mwdb;
+	
 public:
-	Peptides(const params::Params& pars) : DBTemplate<Peptide>(pars, PEPTIDES_DATA_SIZE) {}
+	Peptides(const params::Params& pars) : DBTemplate<Peptide>(pars, PEPTIDES_DATA_SIZE){
+		_mwdb = nullptr;
+	}
 	Peptides() : DBTemplate<Peptide>(){}
-	~Peptides(){}
+	~Peptides(){
+		//delete _mwdb;
+	}
+	
+	//modifers
+	bool readInMWdb(const params::Params&);
+	void setMWdb(molFormula::Residues* const mwdb){
+		_mwdb = mwdb;
+	}
 	
 	//properities
 	bool writeOut(std::string, const params::Params&);
@@ -243,6 +256,9 @@ public:
 	void buildLocTable();
 	
 	//properities
+	molFormula::Residues* get_mwdb() const{
+		return mwdb;
+	}
 	bool writeOut(std::string, const params::Params&);
 	bool writeOutDB(std::string, const params::Params&);
 	bool writeSaint(std::string, OutputFiles) const;

@@ -72,49 +72,66 @@ int main(int argc, char* argv[])
 			return -1;
 		}
 	}
-	//read in subcellular locations database
-	if(par.getSubCelluarLoc)
+	
+	//only do this stuff if peptide output file is to be generated
+	if(par.includeProteins)
 	{
-		std::cerr << std::endl << "Reading subcellular locations database...";
-		if(!proteins.readInLocDB(par.locDBfname))
+		//read in subcellular locations database
+		if(par.getSubCelluarLoc)
 		{
-			std::cerr <<"Failed to read protein location DB file! Exiting..." << std::endl;
-			return -1;
+			std::cerr << std::endl << "Reading subcellular locations database...";
+			if(!proteins.readInLocDB(par.locDBfname))
+			{
+				std::cerr <<"Failed to read protein location DB file! Exiting..." << std::endl;
+				return -1;
+			}
+			std::cerr << " done!" << std::endl;
 		}
-		std::cerr << " done!" << std::endl;
+		//read in fxn database
+		if(par.getFxn)
+		{
+			std::cerr << std::endl << "Reading protein function database...";
+			if(!proteins.readInFxnDB(par.fxnDBfname))
+			{
+				std::cerr <<"Failed to read protein function DB file! Exiting..." << std::endl;
+				return -1;
+			}
+			std::cerr << " done!" << std::endl;
+		}
+		//calculate mass of peptides or proteins from sequence and amino acid mass databases
+		if(par.calcMW)
+		{
+			std::cerr << std::endl << "Getting protein sequences from " << par.getmwDBFname() << "...";
+			if(!proteins.readInMWdb(par))
+			{
+				std::cerr << "Failed to read mwDB files! Exiting..." << std::endl;
+				return -1;
+			}
+			std::cerr << " done!" << std::endl;
+			peptides.setMWdb(proteins.get_mwdb());
+		}
+		if((!par.calcMW && par.getSeq ) || (par.calcMW  && (par.getSeqDBfname() != par.getmwDBFname())))
+		{
+			std::cerr << std::endl << "Getting protein sequences from " << par.getSeqDBfname() << "...";
+			if(!proteins.readInSeqDB(par.getSeqDBfname()))
+			{
+				std::cerr << "Failed to read seqDB file! Exiting..." << std::endl;
+				return -1;
+			}
+			std::cerr << " done!" << std::endl;
+		}
 	}
-	//read in fxn database
-	if(par.getFxn)
+	else if(par.calcMW) //read mwdb for peptides if skipped for proteins
 	{
-		std::cerr << std::endl << "Reading protein function database...";
-		if(!proteins.readInFxnDB(par.fxnDBfname))
-		{
-			std::cerr <<"Failed to read protein function DB file! Exiting..." << std::endl;
-			return -1;
-		}
-		std::cerr << " done!" << std::endl;
-	}
-	//calculate mass of peptides or proteins from sequence and amino acid mass databases
-	if(par.calcMW)
-	{		
-		std::cerr << std::endl << "Getting protein sequences from " << par.getmwDBFname() << "...";
-		if(!proteins.readInMWdb(par))
+		std::cerr << std::endl << "Getting residue formulas from " << par.atomCountTableFname << "...";
+		if(!peptides.readInMWdb(par))
 		{
 			std::cerr << "Failed to read mwDB files! Exiting..." << std::endl;
 			return -1;
 		}
 		std::cerr << " done!" << std::endl;
-	}
-	if((!par.calcMW && par.getSeq ) || (par.calcMW  && (par.getSeqDBfname() != par.getmwDBFname())))
-	{
-		std::cerr << std::endl << "Getting protein sequences from " << par.getSeqDBfname() << "...";
-		if(!proteins.readInSeqDB(par.getSeqDBfname()))
-		{
-			std::cerr << "Failed to read seqDB file! Exiting..." << std::endl;
-			return -1;
-		}
-		std::cerr << " done!" << std::endl;
-	}
+	}//end if par.includeProteins
+	
 	if(!par.includeReverse)
 		std::cerr << std::endl << "Skipping reverse matches..." << std::endl;
 	

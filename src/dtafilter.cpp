@@ -271,7 +271,7 @@ bool Proteins::readIn(params::Params* const pars,
 				inProtein = true; //used to determine if it is valid to loop through peptide lines below protein
 								  //header line to extract unique peptide spectral counts
 					
-				//proteinIndex = data->consolidate(newProtein, newProtein.ID); //insert new protein into proteins list
+				//insert new protein into proteins list
 				proteinIndex = data.find(newProtein.getID());
 				if(proteinIndex == data.end()){
 					data[newProtein.getID()] = newProtein;
@@ -298,7 +298,7 @@ bool Proteins::readIn(params::Params* const pars,
 						
 						if(pars->includePeptides)
 						{
-							Peptide newPeptide(pars, mwdb);
+							Peptide newPeptide(pars, peptides->_mwdb);
 							newPeptide.initialize(pColNamesTemp, colNamesLen, &peptides->colIndex);
 							newPeptide.proteinID = newProtein.ID;
 							newPeptide.protein = newProtein.protein;
@@ -471,6 +471,13 @@ bool Proteins::readBaitFile(std::string fname)
 {
 	baitFile = new saint::BaitFile(fname);
 	return baitFile->read();
+}
+
+bool Peptides::readInMWdb(const params::Params& par)
+{
+	_mwdb = new molFormula::Residues();
+	return _mwdb->initalize(par.atomCountTableFname,
+							par.atomMassTableFname);
 }
 
 locReport::LocDat Protein::toLocDat(const std::string& _loc) const
