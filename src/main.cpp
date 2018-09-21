@@ -108,6 +108,7 @@ int main(int argc, char* argv[])
 				return -1;
 			}
 			std::cerr << " done!" << std::endl;
+			peptides.setMWdb(proteins.get_mwdb());
 		}
 		if((!par.calcMW && par.getSeq ) || (par.calcMW  && (par.getSeqDBfname() != par.getmwDBFname())))
 		{
@@ -119,6 +120,16 @@ int main(int argc, char* argv[])
 			}
 			std::cerr << " done!" << std::endl;
 		}
+	}
+	else if(par.calcMW) //read mwdb for peptides if skipped for proteins
+	{
+		std::cerr << std::endl << "Getting residue formulas from " << par.atomCountTableFname << "...";
+		if(!peptides.readInMWdb(par))
+		{
+			std::cerr << "Failed to read mwDB files! Exiting..." << std::endl;
+			return -1;
+		}
+		std::cerr << " done!" << std::endl;
 	}//end if par.includeProteins
 	
 	if(!par.includeReverse)
