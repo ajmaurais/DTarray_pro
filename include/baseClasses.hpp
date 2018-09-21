@@ -43,145 +43,140 @@ class SampleData_protein;
 
 class ProteinTemplate{
 protected:
-	std::string ID, protein, description;
+	std::string _ID, _protein, _description;
 	
 public:
 	ProteinTemplate() {}
 	~ProteinTemplate() {}
 	
 	inline bool operator == (const ProteinTemplate& comp) const{
-		return comp.ID == ID;
+		return comp._ID == _ID;
 	}
 	inline bool operator == (std::string comp) const{
-		return comp == ID;
+		return comp == _ID;
 	}
 	
 	std::string getID(){
-		return ID;
+		return _ID;
 	}
 };
 
 template <class _Tp>
 class ProteinDataTemplate{
 public:
-	ProteinDataTemplate(params::Params* const _par) {
-		par = _par;
-		supDataAdded = false;
+	ProteinDataTemplate(params::Params* const par) {
+		_par = par;
+		_supDataAdded = false;
 	}
 	void initialize(const std::vector<_Tp>&, size_t, size_t*);
 	ProteinDataTemplate(){}
 	~ProteinDataTemplate(){}
 	
 protected:
-	static size_t colSize;
-	static params::Params* par;
+	static size_t _colSize;
+	static params::Params* _par;
 	
-	std::vector<_Tp> col;
-	double avgMass, monoMass;
-	std::string formula;
-	std::string length;
-	std::string sequence;
-	std::string matchDirrection;
-	static size_t* colIndex;
-	bool supDataAdded;
+	std::vector<_Tp> _col;
+	double _avgMass, _monoMass;
+	std::string _formula;
+	std::string _length;
+	std::string _sequence;
+	std::string _matchDirrection;
+	static size_t* _colIndex;
+	bool _supDataAdded;
 };
 
-template <class _Tp> size_t* ProteinDataTemplate<_Tp>::colIndex = nullptr;
-template <class _Tp> size_t ProteinDataTemplate<_Tp>::colSize = 0;
-template <class _Tp> params::Params* ProteinDataTemplate<_Tp>::par = nullptr;
+template <class _Tp> size_t* ProteinDataTemplate<_Tp>::_colIndex = nullptr;
+template <class _Tp> size_t ProteinDataTemplate<_Tp>::_colSize = 0;
+template <class _Tp> params::Params* ProteinDataTemplate<_Tp>::_par = nullptr;
 
 template<class _Tp>
 class DBTemplate{
 protected:
-	static size_t colIndex;
+	static size_t _colIndex;
 	//hashTable::HashTable <_Tp>* data;
 	typedef std::map<std::string, _Tp> DataType;
 	DataType data;
 	
 public:
-	std::vector<std::string> colNames;
+	std::vector<std::string> _colNames;
 	
 	//constructor
-	DBTemplate(){
-		//data = new hashTable::HashTable <_Tp>(DATA_SIZE);
-	}
-	DBTemplate(const params::Params& par, size_t dataSize){
-		//data = new hashTable::HashTable <_Tp>(dataSize);
-		
+	DBTemplate(){}
+	DBTemplate(const params::Params& par)
+	{
 		for(int i = 0; i < par.getNumFiles(); i++)
-			colNames.push_back(par.getFileColname(i));
+			_colNames.push_back(par.getFileColname(i));
 	}
-	~DBTemplate(){
-		//delete data;
-	}
+	~DBTemplate(){}
 };
 
-template <class _Tp> size_t DBTemplate<_Tp>::colIndex = 0;
+template <class _Tp> size_t DBTemplate<_Tp>::_colIndex = 0;
 
 //stores the data pertaining to a specific filter file (or MS run) for each protein
 class SampleData{
 public:
-	std::string colname;
-	int count;
-	int modPeptidesSC;
+	std::string _colname;
+	int _count;
+	int _modPeptidesSC;
 	
 	//constructor
 	SampleData (std::string _colName)
 	{
-		colname = _colName;
-		count = 0;
-		modPeptidesSC = 0;
+		_colname = _colName;
+		_count = 0;
+		_modPeptidesSC = 0;
 	}
 	SampleData(){
-		colname = BLANK_STR;
-		count = 0;
-		modPeptidesSC = 0;
+		_colname = BLANK_STR;
+		_count = 0;
+		_modPeptidesSC = 0;
 	}
 	~SampleData() {}
 	
 	inline bool isNull() const{
-		return count == 0;
+		return _count == 0;
 	}
 };
 
 class SampleData_peptide : public SampleData {
 public:
-	std::string parentFile, scan, obsMH, xCorr;
+	std::string _parentFile, _scan, _obsMH, _xCorr;
 	
 	SampleData_peptide(std::string colName) : SampleData(colName)
 	{
-		parentFile = BLANK_STR;
-		scan = BLANK_VAL;
-		obsMH = BLANK_VAL;
-		xCorr = BLANK_VAL;
+		_parentFile = BLANK_STR;
+		_scan = BLANK_VAL;
+		_obsMH = BLANK_VAL;
+		_xCorr = BLANK_VAL;
 	}
 	SampleData_peptide() : SampleData() {
-		parentFile = BLANK_STR;
-		scan = BLANK_VAL;
-		obsMH = BLANK_VAL;
-		xCorr = BLANK_VAL;
+		_parentFile = BLANK_STR;
+		_scan = BLANK_VAL;
+		_obsMH = BLANK_VAL;
+		_xCorr = BLANK_VAL;
 	}
 	~SampleData_peptide() {}
 };
 
 class SampleData_protein : public SampleData {
 public:
-	std::string coverage, sequenceCount;
-	unsigned int modPeptides, uniquePeptides;
+	std::string _coverage, sequenceCount;
+	int _modPeptides, _uniquePeptides;
 	
 	SampleData_protein(std::string colName) : SampleData(colName){
 		
-		coverage = "0";
+		_coverage = "0";
 		sequenceCount = "0";
-		modPeptides = 0;
-		uniquePeptides = 0;
+		_modPeptides = 0;
+		_uniquePeptides = 0;
 		
 	}
 	SampleData_protein() : SampleData(){
-		coverage = "0";
+		_coverage = "0";
 		sequenceCount = "0";
-		modPeptides = 0;
-		uniquePeptides = 0;
+		_modPeptides = 0;
+		_uniquePeptides = 0;
 	}
 	~SampleData_protein() {}
 };
