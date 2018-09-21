@@ -58,18 +58,13 @@ public:
 
 class Dbase{
 private:
-	//hashTable::HashTable<DBProtein>* db;
 	typedef std::map<std::string, DBProtein> DbType;
 	DbType db;
 	
 public:
 	
-	Dbase() {
-		//db = new hashTable::HashTable<DBProtein> (DB_DBASE_SIZE);
-	}
-	~Dbase() {
-		//delete db;
-	}
+	Dbase() {}
+	~Dbase() {}
 	
 	bool readIn(std::string);
 	std::string getDat(std::string) const;

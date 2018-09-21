@@ -69,7 +69,7 @@ namespace locReport{
 		seqCount = _seqCount;
 	}
 	
-	void LocDB::writeLocReport(std::ofstream& outF, int fxnNum)
+	void LocDB::writeLocReport(std::ofstream& outF, int fxnNum) const
 	{
 		for(LocTableType::const_iterator it = locTable.begin(); it != locTable.end(); ++it)
 		{

@@ -28,17 +28,17 @@
 
 DBProtein::DBProtein()
 {
-	ID = "";
-	protein = "";
-	description = "";
+	_ID = "";
+	_protein = "";
+	_description = "";
 	dat = "";
 }
 
 void DBProtein::clear()
 {
-	ID.clear();
-	protein.clear();
-	description.clear();
+	_ID.clear();
+	_protein.clear();
+	_description.clear();
 	dat.clear();
 }
 
@@ -52,18 +52,18 @@ DBProtein::DBProtein(std::string line)
 		utils::split(line, '\t', elems);
 		assert(elems.size() == 4);
 		
-		ID = elems[0];
-		protein = elems[1];
-		description = elems[2];
+		_ID = elems[0];
+		_protein = elems[1];
+		_description = elems[2];
 		dat = elems[3];
 	}
 }
 
 void DBProtein::operator = (const DBProtein& pget)
 {
-	ID = pget.ID;
-	protein = pget.protein;
-	description = pget.description;
+	_ID = pget._ID;
+	_protein = pget._protein;
+	_description = pget._description;
 	dat = pget.dat;
 }
 

@@ -41,17 +41,20 @@ namespace saint{
 	private:
 		typedef std::map<std::string, std::string> DatType;
 		DatType dat;
-		std::string fname;
+		std::string _fname;
 		
 	public:
 		//constructor
-		BaitFile(std::string _fname){
-			fname = _fname;
+		BaitFile(std::string fname){
+			_fname = fname;
 		}
+		BaitFile() {}
+		
 		~BaitFile(){}
 		
 		//modifiers
 		bool read();
+		bool read(std::string fname);
 		
 		//properties
 		std::string getBaitName(std::string) const;

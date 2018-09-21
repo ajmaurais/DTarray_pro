@@ -52,8 +52,6 @@ bool const INCLUDE_FULL_DESCRIPTION = true;
 std::string const DEFAULT_COL_NAMES [] = {"Full_description", "ID", "Protein", "Description", "pI",
 	"Length(aa)", "Mass(Da)"};
 size_t const DEFAULT_COL_NAMES_LENGTH = 7;
-size_t const PROTEINS_DATA_SIZE = 500;
-size_t const PEPTIDES_DATA_SIZE = 2500;
 std::string const DEFAULT_COL_NAMES_DB [] = {"Full_description", "ID", "Protein", "Description",
 	"pI", "Length(aa)", "Mass(Da)",	"Long_sample_name", "Spectral_counts"};
 size_t const DEFAULT_COL_NAMES_DB_LENGTH = 9;
@@ -120,10 +118,19 @@ private:
 
 class Peptides : public DBTemplate<Peptide> {
 	friend class Proteins;
+private:
+	molFormula::Residues _mwdb;
+	
 public:
-	Peptides(const params::Params& pars) : DBTemplate<Peptide>(pars, PEPTIDES_DATA_SIZE) {}
+	Peptides(const params::Params& pars) : DBTemplate<Peptide>(pars){}
 	Peptides() : DBTemplate<Peptide>(){}
 	~Peptides(){}
+	
+	//modifers
+	bool readInMWdb(const params::Params&);
+	void setMWdb(molFormula::Residues mwdb){
+		_mwdb = mwdb;
+	}
 	
 	//properities
 	bool writeOut(std::string, const params::Params&);
@@ -138,12 +145,12 @@ private:
 	std::string fullDescription, pI;
 	
 	//pointers to Proteins data
-	static Dbase* locDB;
-	static mwDB::MWDB_Protein* mwdb;
-	static mwDB::SeqDB* seqDB;
-	static Dbase* fxnDB;
-	static saint::BaitFile* baitFile;
-	static locReport::LocDB* locTable;
+	static Dbase* _locDB;
+	static mwDB::MWDB_Protein* _mwdb;
+	static mwDB::SeqDB* _seqDB;
+	static Dbase* _fxnDB;
+	static saint::BaitFile* _baitFile;
+	static locReport::LocDB* _locTable;
 	
 	//modifier
 	bool getProteinData(std::string);
@@ -164,19 +171,19 @@ private:
 	
 public:
 	Protein(params::Params* const pars,
-			Dbase* const _locDB,
-			Dbase* const _fxnDB,
-			mwDB::MWDB_Protein* const _mwdb,
-			mwDB::SeqDB* const _seqDB,
-			saint::BaitFile* const _baitFile,
-			locReport::LocDB* const _locTable)
+			Dbase* const locDB,
+			Dbase* const fxnDB,
+			mwDB::MWDB_Protein* const mwdb,
+			mwDB::SeqDB* const seqDB,
+			saint::BaitFile* const baitFile,
+			locReport::LocDB* const locTable)
 		: ProteinDataTemplate<SampleData_protein>(pars) {
-		locDB = _locDB;
-		mwdb = _mwdb;
-		seqDB = _seqDB;
-		fxnDB = _fxnDB;
-		baitFile = _baitFile;
-		locTable = _locTable;
+		_locDB = locDB;
+		_mwdb = mwdb;
+		_seqDB = seqDB;
+		_fxnDB = fxnDB;
+		_baitFile = baitFile;
+		_locTable = locTable;
 	}
 	Protein() : ProteinDataTemplate<SampleData_protein>() {}
 	~Protein(){}
@@ -194,12 +201,12 @@ public:
 //stores data for all proteins found in DTA filter files
 class Proteins : public DBTemplate<Protein>{
 	friend class saint::BaitFile;
-	Dbase* locDB;
-	Dbase* fxnDB;
-	mwDB::MWDB_Protein* mwdb;
-	mwDB::SeqDB* seqDB;
-	saint::BaitFile* baitFile;
-	locReport::LocDB* locTable;
+	Dbase _locDB;
+	Dbase _fxnDB;
+	mwDB::MWDB_Protein _mwdb;
+	mwDB::SeqDB _seqDB;
+	saint::BaitFile _baitFile;
+	locReport::LocDB _locTable;
 	
 	//modifers
 	bool readIn(params::Params* const,
@@ -210,30 +217,9 @@ public:
 	enum OutputFiles {preyFile, interactionFile};
 	
 	//constructor
-	Proteins(const params::Params& pars) : DBTemplate<Protein>(pars, PROTEINS_DATA_SIZE){
-		locDB = nullptr;
-		seqDB = nullptr;
-		mwdb = nullptr;
-		fxnDB = nullptr;
-		baitFile = nullptr;
-		locTable = nullptr;
-	}
-	Proteins() : DBTemplate<Protein>(){
-		locDB = nullptr;
-		seqDB = nullptr;
-		mwdb = nullptr;
-		fxnDB = nullptr;
-		baitFile = nullptr;
-		locTable = nullptr;
-	}
-	~Proteins(){
-		delete locDB;
-		delete mwdb;
-		delete seqDB;
-		delete fxnDB;
-		delete baitFile;
-		delete locTable;
-	}
+	Proteins(const params::Params& pars) : DBTemplate<Protein>(pars){}
+	Proteins() : DBTemplate<Protein>(){}
+	~Proteins(){}
 	
 	bool readInLocDB(std::string);
 	bool readInMWdb(const params::Params&);
@@ -243,6 +229,9 @@ public:
 	void buildLocTable();
 	
 	//properities
+	molFormula::Residues get_mwdb() const{
+		return _mwdb;
+	}
 	bool writeOut(std::string, const params::Params&);
 	bool writeOutDB(std::string, const params::Params&);
 	bool writeSaint(std::string, OutputFiles) const;
