@@ -152,7 +152,7 @@ namespace locReport{
 		}
 		
 		void addLoc(LocDat newLoc);
-		void writeLocReport(std::ofstream& outF, int fxnNum);
+		void writeLocReport(std::ofstream& outF, int fxnNum) const;
 	};
 }
 

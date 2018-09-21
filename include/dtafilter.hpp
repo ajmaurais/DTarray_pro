@@ -119,20 +119,16 @@ private:
 class Peptides : public DBTemplate<Peptide> {
 	friend class Proteins;
 private:
-	molFormula::Residues* _mwdb;
+	molFormula::Residues _mwdb;
 	
 public:
-	Peptides(const params::Params& pars) : DBTemplate<Peptide>(pars){
-		_mwdb = nullptr;
-	}
+	Peptides(const params::Params& pars) : DBTemplate<Peptide>(pars){}
 	Peptides() : DBTemplate<Peptide>(){}
-	~Peptides(){
-		//delete _mwdb;
-	}
+	~Peptides(){}
 	
 	//modifers
 	bool readInMWdb(const params::Params&);
-	void setMWdb(molFormula::Residues* const mwdb){
+	void setMWdb(molFormula::Residues mwdb){
 		_mwdb = mwdb;
 	}
 	
@@ -205,12 +201,12 @@ public:
 //stores data for all proteins found in DTA filter files
 class Proteins : public DBTemplate<Protein>{
 	friend class saint::BaitFile;
-	Dbase* _locDB;
-	Dbase* _fxnDB;
-	mwDB::MWDB_Protein* _mwdb;
-	mwDB::SeqDB* _seqDB;
-	saint::BaitFile* _baitFile;
-	locReport::LocDB* _locTable;
+	Dbase _locDB;
+	Dbase _fxnDB;
+	mwDB::MWDB_Protein _mwdb;
+	mwDB::SeqDB _seqDB;
+	saint::BaitFile _baitFile;
+	locReport::LocDB _locTable;
 	
 	//modifers
 	bool readIn(params::Params* const,
@@ -221,30 +217,9 @@ public:
 	enum OutputFiles {preyFile, interactionFile};
 	
 	//constructor
-	Proteins(const params::Params& pars) : DBTemplate<Protein>(pars){
-		_locDB = nullptr;
-		_seqDB = nullptr;
-		_mwdb = nullptr;
-		_fxnDB = nullptr;
-		_baitFile = nullptr;
-		_locTable = nullptr;
-	}
-	Proteins() : DBTemplate<Protein>(){
-		_locDB = nullptr;
-		_seqDB = nullptr;
-		_mwdb = nullptr;
-		_fxnDB = nullptr;
-		_baitFile = nullptr;
-		_locTable = nullptr;
-	}
-	~Proteins(){
-		delete _locDB;
-		delete _mwdb;
-		delete _seqDB;
-		delete _fxnDB;
-		delete _baitFile;
-		delete _locTable;
-	}
+	Proteins(const params::Params& pars) : DBTemplate<Protein>(pars){}
+	Proteins() : DBTemplate<Protein>(){}
+	~Proteins(){}
 	
 	bool readInLocDB(std::string);
 	bool readInMWdb(const params::Params&);
@@ -254,7 +229,7 @@ public:
 	void buildLocTable();
 	
 	//properities
-	molFormula::Residues* get_mwdb() const{
+	molFormula::Residues get_mwdb() const{
 		return _mwdb;
 	}
 	bool writeOut(std::string, const params::Params&);

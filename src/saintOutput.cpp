@@ -28,9 +28,21 @@
 
 namespace saint{
 	
+	bool BaitFile::read(std::string fname)
+	{
+		_fname = fname;
+		return read();
+	}
+	
 	bool BaitFile::read()
 	{
-		utils::File file(fname);
+		if(_fname.empty())
+		{
+			std::cerr << "\nBaitFile fname not specified!\n";
+			return false;
+		}
+		
+		utils::File file(_fname);
 		if(!file.read())
 			return false;
 		

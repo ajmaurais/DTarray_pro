@@ -263,7 +263,7 @@ bool Proteins::readIn(params::Params* const pars,
 			}
 			else{
 				//initalize Protein to hold data for current line
-				Protein newProtein(pars, _locDB, _fxnDB, _mwdb, _seqDB, _baitFile, _locTable);
+				Protein newProtein(pars, &_locDB, &_fxnDB, &_mwdb, &_seqDB, &_baitFile, &_locTable);
 				newProtein.initialize(colNamesTemp, colNamesLen, &_colIndex);
 				
 				//parse protein header line and skip if error
@@ -298,7 +298,7 @@ bool Proteins::readIn(params::Params* const pars,
 						
 						if(pars->includePeptides)
 						{
-							Peptide newPeptide(pars, peptides->_mwdb);
+							Peptide newPeptide(pars, &peptides->_mwdb);
 							newPeptide.initialize(pColNamesTemp, colNamesLen, &peptides->_colIndex);
 							newPeptide.proteinID = newProtein._ID;
 							newPeptide.protein = newProtein._protein;
@@ -445,38 +445,32 @@ bool Proteins::readIn(params::Params* const par, Peptides* const peptides)
 
 bool Proteins::readInMWdb(const params::Params& par)
 {
-	_mwdb = new mwDB::MWDB_Protein;
-	return _mwdb->initalize(par);
+	return _mwdb.initalize(par);
 }
 
 bool Proteins::readInSeqDB(std::string fname)
 {
-	_seqDB = new mwDB::SeqDB;
-	return _seqDB->readIn(fname);
+	return _seqDB.readIn(fname);
 }
 
 bool Proteins::readInFxnDB(std::string fname)
 {
-	_fxnDB = new Dbase;
-	return _fxnDB->readIn(fname);
+	return _fxnDB.readIn(fname);
 }
 
 bool Proteins::readInLocDB(std::string fname)
 {
-	_locDB = new Dbase;
-	return _locDB->readIn(fname);
+	return _locDB.readIn(fname);
 }
 
 bool Proteins::readBaitFile(std::string fname)
 {
-	_baitFile = new saint::BaitFile(fname);
-	return _baitFile->read();
+	return _baitFile.read();
 }
 
 bool Peptides::readInMWdb(const params::Params& par)
 {
-	_mwdb = new molFormula::Residues();
-	return _mwdb->initalize(par.atomCountTableFname,
+	return _mwdb.initalize(par.atomCountTableFname,
 							par.atomMassTableFname);
 }
 
@@ -1019,9 +1013,7 @@ bool Proteins::writeSaint(std::string fname, OutputFiles file) const
 void Proteins::buildLocTable()
 {
 	//apply loc build fxn across data hash table
-	_locTable = new locReport::LocDB;
-	Protein::_locTable = _locTable;
-	//data->apply(0);
+	Protein::_locTable = &_locTable;
 	for(DataType::iterator it = data.begin(); it != data.end(); ++it)
 		it->second.addLocToTable();
 }
@@ -1069,7 +1061,7 @@ bool Proteins::writeLongLocTable(std::string fname, const params::Params& pars) 
 	}
 	outF << std::endl;
 	
-	_locTable->writeLocReport(outF, 1);
+	_locTable.writeLocReport(outF, 1);
 	
 	return true;
 }
@@ -1176,7 +1168,7 @@ bool Proteins::writeWideLocTable(std::string fname, const params::Params& pars) 
 		outF << std::endl;
 	}
 	
-	_locTable->writeLocReport(outF, 0);
+	_locTable.writeLocReport(outF, 0);
 	
 	return true;
 }
