@@ -107,7 +107,7 @@ public:
 	
 private:
 	std::string key, calcSequence;
-	std::string proteinID, calcMH, fileName, protein, description, charge;
+	std::string _proteinID, _calcMH, _fileName, _protein, _description, _charge;
 	bool unique;
 	
 	static molFormula::Residues* mwdb;

@@ -111,12 +111,12 @@ void Peptide::operator = (const Peptide& p)
 	key = p.key;
 	calcSequence = p.calcSequence;
 	_length = p._length;
-	proteinID = p.proteinID;
-	calcMH = p.calcMH;
-	fileName = p.fileName;
-	protein = p.protein;
-	description = p.description;
-	charge = p.charge;
+	_proteinID = p._proteinID;
+	_calcMH = p._calcMH;
+	_fileName = p._fileName;
+	_protein = p._protein;
+	_description = p._description;
+	_charge = p._charge;
 	unique = p.unique;
 	_col.insert(_col.begin(), p._col.begin(), p._col.end());
 	_avgMass = p._avgMass;
@@ -300,9 +300,9 @@ bool Proteins::readIn(params::Params* const pars,
 						{
 							Peptide newPeptide(pars, &peptides->_mwdb);
 							newPeptide.initialize(pColNamesTemp, colNamesLen, &peptides->_colIndex);
-							newPeptide.proteinID = newProtein._ID;
-							newPeptide.protein = newProtein._protein;
-							newPeptide.description = newProtein._description;
+							newPeptide._proteinID = newProtein._ID;
+							newPeptide._protein = newProtein._protein;
+							newPeptide._description = newProtein._description;
 							newPeptide._matchDirrection = newProtein._matchDirrection;
 							newPeptide.parsePeptide(line);
 							
@@ -362,13 +362,13 @@ void Peptide::parsePeptide(const std::string& line)
 	if(_par->includeModStat)
 		_col[*_colIndex]._modPeptidesSC += parseModPeptide(line);
 	
-	calcMH = elems[6];
-	fileName = elems[1];
+	_calcMH = elems[6];
+	_fileName = elems[1];
 	
 	std::string temp = elems[1];
 	elems.clear();
 	utils::split(temp, '.', elems);
-	charge = elems[3];
+	_charge = elems[3];
 	key = makeKey();
 	_col[*_colIndex]._scan = elems[2];
 	_col[*_colIndex]._parentFile = elems[0];
@@ -376,11 +376,11 @@ void Peptide::parsePeptide(const std::string& line)
 
 std::string Peptide::makeKey() const {
 	switch(_par->peptideGroupMethod){
-		case params::byScan : return fileName;
+		case params::byScan : return _fileName;
 			break;
-		case params::byProtein : return proteinID + "_" + calcSequence + "_" + charge;
+		case params::byProtein : return _proteinID + "_" + calcSequence + "_" + _charge;
 			break;
-		case params::byCharge : return proteinID + "_" + calcSequence;
+		case params::byCharge : return _proteinID + "_" + calcSequence;
 			break;
 		default : throw std::runtime_error("Invalid type");
 	}
@@ -405,12 +405,12 @@ void Peptide::clear()
 {
 	_col.clear();
 	unique = 0;
-	calcMH.clear();
+	_calcMH.clear();
 	key.clear();
-	fileName.clear();
+	_fileName.clear();
 	_avgMass = 0;
 	_monoMass = 0;
-	proteinID.clear();
+	_proteinID.clear();
 }
 
 //public Proteins::readIn function which adds all files in filterFileParams to Proteins
@@ -1260,15 +1260,15 @@ void Peptide::write(std::ofstream& outF)
 		if(!_par->includeNullPeptides && _col[*_colIndex].isNull())
 			return;
 	
-	outF << proteinID
-	<< OUT_DELIM <<	protein
-	<< OUT_DELIM <<	description
-	<< OUT_DELIM << sequence
+	outF << _proteinID
+	<< OUT_DELIM <<	_protein
+	<< OUT_DELIM <<	_description
+	<< OUT_DELIM << _sequence
 	<< OUT_DELIM <<	calcSequence
 	<< OUT_DELIM <<	_length;
 	
 	if(_par->peptideGroupMethod != params::byCharge)
-		outF << OUT_DELIM << charge;
+		outF << OUT_DELIM << _charge;
 	
 	outF << OUT_DELIM << unique;
 	
@@ -1280,7 +1280,7 @@ void Peptide::write(std::ofstream& outF)
 		<< OUT_DELIM << _formula;
 	outF.precision(ss);
 	
-	outF << OUT_DELIM << calcMH;
+	outF << OUT_DELIM << _calcMH;
 	
 	if(_par->outputFormat == 1)
 	{
