@@ -124,7 +124,7 @@ namespace params{
 		std::string seqDBfname;
 		bool mwDBFnameSpecified, seqDBFnameSpecified;
 		
-		int numFiles;
+		size_t numFiles;
 		
 	public:
 		std::string flistName;
@@ -231,7 +231,7 @@ namespace params{
 			return file[index].getColname();
 		}
 		
-		int getNumFiles() const{
+		size_t getNumFiles() const{
 			return numFiles;
 		}
 		std::string getwd() const{
