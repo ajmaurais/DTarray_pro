@@ -35,6 +35,7 @@
 
 #include <dtarray_pro.hpp>
 #include <utils.hpp>
+#include <config.hpp>
 
 namespace params{
 	
@@ -51,7 +52,7 @@ namespace params{
 	const std::string DTAFILTER_NAME = "DTASelect-filter.txt";
 	
 	//default file locations
-	const std::string PROG_WD_HOME = std::string(getenv("HOME")) + "/local/DTarray_pro";
+    const std::string PROG_WD_HOME = CONFIG_PROG_WD_DIR;
 	const std::string PROG_WD_DB = PROG_WD_HOME + "/db";
 	const std::string PROG_LOC_DB_FNAME = PROG_WD_DB + "/humanLoc.tsv";
 	const std::string PROG_SEQ_DB_FNAME = "/humanProteome.fasta";

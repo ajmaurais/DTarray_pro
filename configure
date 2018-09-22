@@ -7,7 +7,7 @@ CONFIG_HPP="include/config.hpp"
 echo "Updateing gitVersion.hpp..."
 echo -e "\n#ifndef config_hpp" > $CONFIG_HPP
 echo -e "#define config_hpp\n" >> $CONFIG_HPP
-echo "#define CONFIG_PROG_WD_DIR \"$(pwd)\";" >> $CONFIG_HPP
+echo "#define CONFIG_PROG_WD_DIR std::string(getenv(\"HOME\")) + \"/local/DTarray_pro\";" >> $CONFIG_HPP
 echo -e "\n#endif /* config_hpp */" >> $CONFIG_HPP
 
 
