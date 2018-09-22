@@ -110,7 +110,7 @@ namespace params{
 					std::cerr << argv[i] << PARAM_ERROR_MESSAGE << "outputFormat" << std::endl;
 					return false;
 				}
-				outputFormat = intToOutputFormat(utils::toInt(argv[i]));
+				outputFormat = intToOutputFormat(std::stoi(argv[i]));
 				includeProteins = (outputFormat != none);
 				continue;
 			}
@@ -220,7 +220,7 @@ namespace params{
 					std::cerr << argv[i] << PARAM_ERROR_MESSAGE << "unicode" << std::endl;
 					return false;
 				}
-				unicode = utils::toInt(argv[i]);
+				unicode = std::stoi(argv[i]);
 				continue;
 			}
 			if(!strcmp(argv[i], "-p") || !strcmp(argv[i], "--peptides"))
@@ -235,7 +235,7 @@ namespace params{
 					std::cerr << argv[i] << PARAM_ERROR_MESSAGE << "peptideOutput" << std::endl;
 					return false;
 				}
-				peptideOutput = intToOutputFormat(utils::toInt(argv[i]));
+				peptideOutput = intToOutputFormat(std::stoi(argv[i]));
 				includePeptides = (peptideOutput != none);
 				continue;
 			}
@@ -251,7 +251,7 @@ namespace params{
 					std::cerr << argv[i] << PARAM_ERROR_MESSAGE << "peptideOutput" << std::endl;
 					return false;
 				}
-				locOutput = intToOutputFormat(utils::toInt(argv[i]));
+				locOutput = intToOutputFormat(std::stoi(argv[i]));
 				continue;
 			}
 			if(!strcmp(argv[i], "-g") || !strcmp(argv[i], "--group"))
@@ -266,7 +266,7 @@ namespace params{
 					std::cerr << argv[i] << PARAM_ERROR_MESSAGE << "peptideGroupMethod" << std::endl;
 					return false;
 				}
-				peptideGroupMethod = intToGroupFormat(utils::toInt(argv[i]));
+				peptideGroupMethod = intToGroupFormat(std::stoi(argv[i]));
 				continue;
 			}
 			if(!strcmp(argv[i], "-modG"))
@@ -281,7 +281,7 @@ namespace params{
 					std::cerr << argv[i] << PARAM_ERROR_MESSAGE << "modGroupMethod" << std::endl;
 					return false;
 				}
-				modGroupMethod = utils::toInt(argv[i]);					
+				modGroupMethod = std::stoi(argv[i]);
 				continue;
 			}
 			if(!strcmp(argv[i], "-modS"))
@@ -321,7 +321,7 @@ namespace params{
 					std::cerr << argv[i] << PARAM_ERROR_MESSAGE << "supInfoOutput" << std::endl;
 					return false;
 				}
-				supInfoOutput = utils::toInt(argv[i]);
+				supInfoOutput = std::stoi(argv[i]);
 				continue;
 			}
 			if(!strcmp(argv[i], "-n") || !strcmp(argv[i], "--nullp"))
@@ -357,7 +357,7 @@ namespace params{
 					std::cerr << argv[i] << PARAM_ERROR_MESSAGE << "includeReverse" << std::endl;
 					return false;
 				}
-				includeReverse = utils::toInt(argv[i]);
+				includeReverse = std::stoi(argv[i]);
 				continue;
 			}
 			if(!strcmp(argv[i], "-f") || !strcmp(argv[i], "--prefix"))
@@ -572,7 +572,7 @@ namespace params{
 			if(utils::startsWith(line, VNUM_STR)) //check line begins with VNUM_STR
 			{
 				versionNum = parseVersionNum(line);
-				if(!(MIN_BIN_VERSION_NUM <= utils::toDouble(versionNum)))
+				if(!(MIN_BIN_VERSION_NUM <= std::stod(versionNum)))
 				{
 					std::cerr << "File list was generated under binary version: " << versionNum
 						<< std::endl << "Min flist version is: " << MIN_BIN_VERSION_NUM << std::endl;
@@ -614,7 +614,7 @@ namespace params{
 	bool Params::optionsCompatable() const
 	{
 		bool good = true;
-		assert(MIN_BIN_VERSION_NUM <= utils::toDouble(versionNum));
+		assert(MIN_BIN_VERSION_NUM <= std::stod(versionNum));
 		if(peptideGroupMethod == byScan && ((peptideOutput == wideFormat) || (peptideOutput == both)))
 		{
 			std::cerr << std::endl << "peptideGroupMethod and peptideOutput options are incompatable!" << std::endl

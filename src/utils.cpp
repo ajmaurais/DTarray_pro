@@ -295,77 +295,8 @@ std::string utils::getExtension(const std::string& filename)
 	return p > 0 && p != std::string::npos ? filename.substr(p) : filename;
 }
 
-/*********************/
-/*  type conversions */
-/*********************/
-
-//converts num to std::string because to_std::string does not work with stl 98
-/*template <typename _Tp> std::string utils::toString(_Tp num)
-{
-	std::string str;
-	std::stringstream convert;
-	
-	convert << num;
-	convert >> str;
-	
-	return str;
-}*/
-
-//converts std::string to int because atoi does not work with stl 98
-//Pre: str must be a std::string with a valid interger conversion
-int utils::toInt(std::string str)
-{
-	assert(isInteger(str));
-	
-	int num;
-	std::stringstream convert;
-	
-	convert << str;
-	convert >> num;
-	
-	return num;
-}
-
-//return true if str can be converted to an int
-bool utils::isInteger(std::string str)
-{
-	if(str.empty() || ((!isdigit(str[0])) && (str[0] != '-') && (str[0] != '+')))
-		return false ;
-	
-	char * p ;
-	strtol(str.c_str(), &p, 10) ;
-	
-	return (*p == 0) ;
-}
-
-//return true if str can be converted to a double
-bool utils::isDouble(std::string str)
-{
-	if(str.empty() || ((!isdigit(str[0])) && (str[0] != '-') && (str[0] != '+')))
-		return false ;
-	
-	char * p ;
-	strtod(str.c_str(), &p);
-	
-	return !(*p != '\0' || p == str);
-}
-
-//converts std::string to int because stod does not work with some c++ compilers
-//Precondition: str must be a std::string with a valid double conversion
-double utils::toDouble(std::string str)
-{
-	assert(isDouble(str));
-	double num;
-	std::stringstream convert;
-	
-	convert << str;
-	convert >> num;
-	
-	return num;
-}
-
 /*****************/
-/*  std::string utils */
+/*  string utils */
 /*****************/
 
 //returns true if findTxt is found in whithinTxt and false if it it not
@@ -502,7 +433,7 @@ std::string utils::repeat(std::string str, size_t numTimes)
 
 std::string utils::toSubscript(int _num)
 {
-	std::string strNum = utils::toString(_num);
+	std::string strNum = std::to_string(_num);
 	std::string ret = "";
 	
 	size_t len = strNum.length();

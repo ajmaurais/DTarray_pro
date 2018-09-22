@@ -31,6 +31,7 @@
 #include <stdexcept>
 #include <cassert>
 #include <utility>
+#include <string>
 
 #include <dtarray_pro.hpp>
 #include <utils.hpp>

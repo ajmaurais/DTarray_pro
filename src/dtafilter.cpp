@@ -155,7 +155,7 @@ bool Protein::getProteinData(std::string line)
 	_description = elems[8].substr(0, endOfDescription);
 	
 	//add spectrum count, coverage and sequence count for *this protein to colname
-	_col[*_colIndex]._count = utils::toInt(elems[2]);
+	_col[*_colIndex]._count = std::stoi(elems[2]);
 	std::string coverageTemp = elems[3];
 	coverageTemp = coverageTemp.substr(0, coverageTemp.find("%"));
 	_col[*_colIndex]._coverage = coverageTemp;
@@ -343,10 +343,10 @@ void Peptide::parsePeptide(const std::string& line)
 	
 	unique = elems[0] == "*";
 	parseSequence(elems[12]); //get calcSequence
-	_length = utils::toString(calcSequence.length());
+	_length = std::to_string(calcSequence.length());
 	_sequence = elems[12];
 	_col[*_colIndex]._obsMH = elems[5];
-	_col[*_colIndex]._count = utils::toInt(elems[11]);
+	_col[*_colIndex]._count = std::stoi(elems[11]);
 	_col[*_colIndex]._xCorr = elems[2];
 	
 	if(_par->includeModStat)
@@ -470,7 +470,7 @@ locReport::LocDat Protein::toLocDat(const std::string& _loc) const
 	
 	for(size_t i = 0; i < _colSize; i++)
 		newLocDat.initializeCol(i, _col[i]._colname, (_col[i]._count > 0), _col[i]._count,
-							_col[i]._uniquePeptides, utils::toInt(_col[i].sequenceCount));
+							_col[i]._uniquePeptides, std::stoi(_col[i].sequenceCount));
 	
 	return newLocDat;
 }
@@ -1184,7 +1184,7 @@ int parsePeptideSC(std::string line)
 	assert(elems.size() == 13);
 	
 	//return SC for peptide as int
-	return utils::toInt(elems[11]);
+	return std::stoi(elems[11]);
 }
 
 int parseModPeptide(std::string line)
@@ -1201,7 +1201,7 @@ int parseModPeptide(std::string line)
 	//return true if any DIFMODS are found in peptide std::string.
 	for(const char* p = DIFFMODS; *p; p++)
 		if(utils::strContains(*p, sequence))
-			return utils::toInt(elems[11]);
+			return std::stoi(elems[11]);
 	
 	return 0;
 }

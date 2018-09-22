@@ -32,6 +32,7 @@
 #include <iostream>
 #include <cstdlib>
 #include <ctime>
+#include <string>
 
 #include <dtarray_pro.hpp>
 #include <utils.hpp>
@@ -236,17 +237,11 @@ namespace params{
 			return wd;
 		}
 		std::string getmwDBFname() const{
-			/*return (mwDBFnameSpecified ? PROG_WD_DB + mwDBFname :
-					getwd() + mwDBFname);*/
-			
 			std::string ret = (mwDBFnameSpecified ? getwd() + mwDBFname :
 							   PROG_WD_DB + mwDBFname);
 			return ret;
 		}
 		std::string getSeqDBfname() const{
-			/*return (seqDBFnameSpecified ? PROG_WD_DB + seqDBfname :
-					getwd() + seqDBfname);*/
-			
 			std::string ret = (seqDBFnameSpecified ? getwd() + seqDBfname :
 							   PROG_WD_DB + seqDBfname);
 			return ret;

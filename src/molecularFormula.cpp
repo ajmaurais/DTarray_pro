@@ -66,7 +66,7 @@ void molFormula::Residue::initalize(molFormula::AtomMassMapType* _atomMassMap,
 	//initalize atom count map
 	size_t len = _header.size();
 	for(size_t i = 0; i < len; i++)
-		atomCountMap[_header[i]] = utils::toInt(_elems[i]);
+		atomCountMap[_header[i]] = std::stoi(_elems[i]);
 	
 	calcMasses(); //calculate residue mass
 	removeZeros(); //remove 0 atom counts
@@ -175,8 +175,8 @@ bool molFormula::Residues::readAtomMassTable()
 				continue;
 			}
 			else if(elems[0] == "A"){
-				atomMassMap[elems[1]] = molFormula::Species(utils::toDouble(elems[2]),
-															utils::toDouble(elems[3]));
+				atomMassMap[elems[1]] = molFormula::Species(std::stod(elems[2]),
+															std::stod(elems[3]));
 			}
 		}//end if
 	}//end while
@@ -295,7 +295,7 @@ std::string molFormula::getFormulaFromMap(const molFormula::AtomCountMapType& at
 			}
 			else {
 				formula += FORMULA_RESIDUE_ORDER[i];
-				formula += utils::toString(atomCountGraph[FORMULA_RESIDUE_ORDER[i]].first);
+				formula += std::to_string(atomCountGraph[FORMULA_RESIDUE_ORDER[i]].first);
 			}
 		}
 		atomCountGraph[FORMULA_RESIDUE_ORDER[i]].second = true;
@@ -312,7 +312,7 @@ std::string molFormula::getFormulaFromMap(const molFormula::AtomCountMapType& at
 		if(it->second.first > 1) {
 			if(unicode)
 				formula += utils::toSubscript(it->second.first);
-			else formula += utils::toString(it->second.first);
+			else formula += std::to_string(it->second.first);
 		}
 		it->second.second = true;
 	}
