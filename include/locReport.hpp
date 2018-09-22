@@ -37,12 +37,6 @@
 
 namespace locReport{
 	
-	/******************************/
-	/* namespace scoped constants */
-	/******************************/
-	
-	int const LOC_TABLE_SIZE = 100;
-	
 	/**********************/
 	/* class definitions */
 	/*********************/
@@ -92,7 +86,6 @@ namespace locReport{
 	};
 	
 	class LocDat{
-		//friend class LocDB;
 	private:
 		std::string loc;
 		std::string matchDir;
@@ -139,17 +132,12 @@ namespace locReport{
 	
 	class LocDB{
 	private:
-		//hashTable::HashTable<LocDat>* locTable;
 		typedef std::map<std::string, LocDat> LocTableType;
 		LocTableType locTable;
 		
 	public:
-		LocDB(){
-			//locTable = new hashTable::HashTable<LocDat>(LOC_TABLE_SIZE);
-		}
-		~LocDB(){
-			//delete locTable;
-		}
+		LocDB(){}
+		~LocDB(){}
 		
 		void addLoc(LocDat newLoc);
 		void writeLocReport(std::ofstream& outF, int fxnNum) const;

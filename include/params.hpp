@@ -51,13 +51,11 @@ namespace params{
 	const std::string DTAFILTER_NAME = "DTASelect-filter.txt";
 	
 	//default file locations
-	//const std::string PROG_SRC_DIR = "";
 	const std::string PROG_WD_HOME = std::string(getenv("HOME")) + "/local/DTarray_pro";
 	const std::string PROG_WD_DB = PROG_WD_HOME + "/db";
 	const std::string PROG_LOC_DB_FNAME = PROG_WD_DB + "/humanLoc.tsv";
 	const std::string PROG_SEQ_DB_FNAME = "/humanProteome.fasta";
 	const std::string PROG_MW_DB_FNAME = PROG_SEQ_DB_FNAME;
-	//const std::string PROG_AA_DB_FNAME = PROG_WD_DB + "/aaMasses.txt";
 	const std::string PROG_FXN_DB_FNAME = PROG_WD_DB + "/humanFxn.tsv";
 	const std::string PROG_ATOM_COUNT_TABLE_FNAME = PROG_WD_DB + "/defaultResidueAtoms.txt";
 	const std::string PROG_ATOM_MASS_TABLE_FNAME = PROG_WD_DB + "/atomMasses.txt";

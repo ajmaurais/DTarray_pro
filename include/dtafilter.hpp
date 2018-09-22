@@ -191,7 +191,6 @@ public:
 	void operator = (const Protein&);
 	
 	void consolidate(const Protein&);
-	//void apply(int);
 	void writeProtein(std::ofstream&);
 	void writePrey(std::ofstream&) const;
 	void writeInteractions(std::ofstream&) const;
@@ -248,8 +247,6 @@ public:
 
 int parsePeptideSC(std::string);
 int parseModPeptide(std::string);
-//std::string getID(std::string);
-//inline std::string parseSequence(std::string);
 
 /* dtafilter_hpp */
 

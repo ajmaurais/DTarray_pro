@@ -265,22 +265,6 @@ std::string molFormula::Residues::calcFormula(std::string _seq, bool unicode,
 	return getFormulaFromMap(atomCounts, unicode);
 }
 
-/*std::string molFormula::symbolToUnicode(std::string _symbol)
-{
-	if(!(utils::strContains(")", _symbol) && _symbol[0] == '('))
-		return _symbol;
-	std::string ret;
-	
-	size_t endParen = _symbol.find(")");
-	
-	std::string temp = _symbol.substr(1, endParen - 1);
-	
-	ret = utils::toSuperscript(utils::toInt(temp));
-	ret += _symbol.substr(endParen + 1);
-	
-	return ret;
-}*/
-
 std::string molFormula::getFormulaFromMap(const molFormula::AtomCountMapType& atomCountMap, bool unicode)
 {
 	std::string formula;

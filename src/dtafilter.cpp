@@ -147,22 +147,12 @@ bool Protein::getProteinData(std::string line)
 	//extract protein length
 	_length = elems[4];
 	
-	//extract matchDirrection
-	//size_t firstBar = elems[0].find("|");
-	//matchDirrection = line.substr(0, firstBar);
-	
-	//Extract uniprotID
-	//ID = ::getID(elems[0]);
-	//if(utils::strContains(REVERSE_MATCH, matchDirrection))
-		//ID = "reverse_" + ID;
-	
 	//extract MW
 	MW = elems[5];
 	
 	//extract shortened protein name and description
 	size_t endOfDescription = elems[8].find(" [");
 	_description = elems[8].substr(0, endOfDescription);
-	//getProtein(description);
 	
 	//add spectrum count, coverage and sequence count for *this protein to colname
 	_col[*_colIndex]._count = utils::toInt(elems[2]);
@@ -497,15 +487,6 @@ void Protein::addLocToTable()
 		_locTable->addLoc(toLocDat(*it));
 }
 
-/*void Protein::apply(int fxnNum)
-{
-	switch(fxnNum){
-		case 0 : addLocToTable();
-			break;
-		default : throw std::runtime_error("Function does not exist!");
-	}
-}*/
-
 void Protein::writePrey(std::ofstream& outF) const
 {
 	assert(outF);
@@ -835,7 +816,6 @@ bool Proteins::writeOut(std::string ofname, const params::Params& par)
 	}
 	
 	//print proteins and spectral counts
-	//data->write(outF);
 	for(DataType::iterator it = data.begin(); it != data.end(); ++it){
 		it->second.writeProtein(outF);
 	}

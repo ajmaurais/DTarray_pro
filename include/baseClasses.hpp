@@ -28,9 +28,7 @@
 
 #include <params.hpp>
 #include <map>
-//#include <hashTable.hpp>
 
-size_t const DATA_SIZE = 500;
 std::string const BLANK_STR = "null";
 std::string const BLANK_VAL = "-1";
 
@@ -94,7 +92,6 @@ template<class _Tp>
 class DBTemplate{
 protected:
 	static size_t _colIndex;
-	//hashTable::HashTable <_Tp>* data;
 	typedef std::map<std::string, _Tp> DataType;
 	DataType data;
 	
