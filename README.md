@@ -22,7 +22,7 @@ Optionally you can install the executable to `/usr/local/bin`  with.
 ```bash
 make install
 ```
-Or, create an alias for `DTarray` to `~/local/<program_directory>/bin/DTarray`.  
+Or, you can create an alias for `DTarray` to `~/local/<program_directory>/bin/DTarray`.  
 
 ## Uninstallation
 ```bash
@@ -30,8 +30,10 @@ make uninstall
 ```
 
 ## Usage
-From folder containing DTASelect-filter files with the format `<sample_name>.dtafilter`.  [DTsetup](https://github.com/ajmaurais/DTsetup) can be used to automatically setup the folder from multiple samples.
+From folder containing DTASelect-filter files with the format `<sample_name>.dtafilter`. 
 ```bash
 DTarray
 ```
+[DTsetup](https://github.com/ajmaurais/DTsetup) can optionally be used to automatically setup the folder.
+
 See `~/local/<program_directory>/helpFile.pdf` for a detailed explanation of optional arguments or use `DTarray -h` to see help file from the terminal.  
