@@ -2,7 +2,7 @@
 
 #global consts
 CONFIG_HPP="include/config.hpp"
-PROG_DIR="std::string(getenv(\"HOME\")) + \"/local/DTarray_pro\""
+PROG_DIR="std::string(getenv(\"HOME\")) + \"/local/$(basename $(pwd))\""
 SCRIPT_NAME="configure"
 
 #displays usage information and exits program
