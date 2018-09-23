@@ -5,3 +5,4 @@ bin/*
 DTarray_pro.xcodeproj/*
 obj/*
 helpFile.pdf
+include/config.hpp
