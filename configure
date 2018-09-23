@@ -35,7 +35,7 @@ while ! [[ -z "$1" ]] ; do
 		"-d"|"--progdir")
 			shift
 			isArg "$1"
-			PROG_DIR=$(absPath "$1") ;;
+			PROG_DIR="\"$(absPath "$1")\"" ;;
 		"-h"|"--help")
 			usage ;;
 		*)
