@@ -309,18 +309,12 @@ Include reverse matches.
 .SS OTHER
 .TP
 \fB-rw \fI<arg>\fP
-Rewrite existing param files in working directory.
+Rewrite existing files in working directory.
 .TP
 .in +0.75i
 \fBflist\fR
 .in +0.75i
 Rewrite input file list.
-.in
-.TP
-.in +0.75i
-\fBsmod\fR
-.in +0.75i
-Rewrite static modifications file. See \fB-mw\fR for details on smod file.
 .in
 .TP
 \fB--purge\fP

@@ -36,4 +36,4 @@ DTarray
 ```
 [DTsetup](https://github.com/ajmaurais/DTsetup) can optionally be used to automatically setup the folder.
 
-See `~/local/<program_directory>/helpFile.pdf` for a detailed explanation of optional arguments or use `DTarray -h` to see help file from the terminal.  
+See `~/local/<program_directory>/helpFile.pdf` for a detailed explanation of optional arguments or use `DTarray -h` to see the help file from the terminal.  
