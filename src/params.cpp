@@ -29,7 +29,7 @@
 
 namespace params{
 	
-	OutputFormat intToOutputFormat(int val)
+	Params::OutputFormat Params::intToOutputFormat(int val) const
 	{
 		switch(val){
 			case 0 : return none;
@@ -44,7 +44,7 @@ namespace params{
 		}
 	}
 	
-	PeptideGroupFormat intToGroupFormat(int val)
+	Params::PeptideGroupFormat Params::intToGroupFormat(int val) const
 	{
 		switch(val){
 			case 0 : return byScan;
@@ -57,7 +57,7 @@ namespace params{
 		}
 	}
 	
-	std::string groupFormatString(PeptideGroupFormat format)
+	std::string Params::groupFormatString(PeptideGroupFormat format)
 	{
 		switch(format){
 			case byScan : return "by scan";
@@ -69,9 +69,9 @@ namespace params{
 		}
 	}
 	
-	OutputFormat Params::outputFormat = wideFormat;
-	OutputFormat Params::peptideOutput = none;
-	OutputFormat Params::locOutput = none;
+	Params::OutputFormat Params::outputFormat = wideFormat;
+	Params::OutputFormat Params::peptideOutput = none;
+	Params::OutputFormat Params::locOutput = none;
 	
 	bool Params::getOpts(int argc, const char* const argv [])
 	{
@@ -631,12 +631,6 @@ namespace params{
 		{
 			std::cerr << std::endl <<"Non zero supInfoOutput with zero supInfoNum." << std::endl
 				<< "Use DTarray -h for more info." << std::endl << std::endl;
-			good = false;
-		}
-		if(!getSubCelluarLoc && locOutput != none)
-		{
-			std::cerr << std::endl << "Zero getSubCelluarLoc with nonzero locOutput." << std::endl
-			<< "Use DTarray -h for more info." << std::endl << std::endl;
 			good = false;
 		}
 		return good;

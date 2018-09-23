@@ -53,9 +53,9 @@ int main(int argc, char* argv[])
 	if(!par.optionsCompatable())
 		return -1;
 	
-	if(par.peptideOutput != params::none)
+	if(par.peptideOutput != params::Params::none)
 		std::cerr << std::endl << "Grouping peptides " <<
-		params::groupFormatString(par.peptideGroupMethod) << "." << std::endl;
+		params::Params::groupFormatString(par.peptideGroupMethod) << "." << std::endl;
 	
 	if(par.modGroupMethod != 0)
 		std::cerr << std::endl << "Grouping modified peptides." << std::endl;
@@ -147,8 +147,8 @@ int main(int argc, char* argv[])
 	//write out combined protein data
 	if(par.includeProteins)
 	{
-		assert(par.outputFormat != params::none);
-		if (par.outputFormat == params::wideFormat || par.outputFormat == params::both)
+		assert(par.outputFormat != params::Params::none);
+		if (par.outputFormat == params::Params::wideFormat || par.outputFormat == params::Params::both)
 		{
 			std::cerr << std::endl << "Writing protein data...";
 			if(!proteins.writeOut(par.getwd() + par.ofname, par))
@@ -159,7 +159,7 @@ int main(int argc, char* argv[])
 			std::cerr << " done!" << std::endl << "Protein data written in wide format to: "
 			<< par.ofname << std::endl << std::endl;
 		}
-		if(par.outputFormat == params::longFormat || par.outputFormat == params::both)
+		if(par.outputFormat == params::Params::longFormat || par.outputFormat == params::Params::both)
 		{
 			std::cerr << std::endl << "Writing protein data...";
 			if(!proteins.writeOutDB(par.getwd() + par.dbOfname, par))
@@ -175,8 +175,8 @@ int main(int argc, char* argv[])
 	//write out combined peptide data
 	if(par.includePeptides)
 	{
-		assert(par.peptideOutput != params::none);
-		if(par.peptideOutput == params::wideFormat || par.peptideOutput == params::both)
+		assert(par.peptideOutput != params::Params::none);
+		if(par.peptideOutput == params::Params::wideFormat || par.peptideOutput == params::Params::both)
 		{
 			std::cerr << std::endl << "Writing peptide data...";
 			if(!peptides.writeOut(par.getwd() + par.peptideOfFname, par))
@@ -188,7 +188,7 @@ int main(int argc, char* argv[])
 			<< par.peptideOfFname << std::endl << std::endl;
 		}
 		
-		if(par.peptideOutput == params::longFormat || par.peptideOutput == params::both)
+		if(par.peptideOutput == params::Params::longFormat || par.peptideOutput == params::Params::both)
 		{
 			std::cerr << std::endl << "Writing peptide data...";
 			if(!peptides.writeOutDB(par.getwd() + par.dbPeptideOfFname, par))
@@ -220,11 +220,11 @@ int main(int argc, char* argv[])
  	}
 	
 	//write sub celluar localization report
-	if(par.locOutput != params::none)
+	if(par.locOutput != params::Params::none)
 	{
 		proteins.buildLocTable();
 		
-		if(par.locOutput == params::wideFormat || par.locOutput == params::both)
+		if(par.locOutput == params::Params::wideFormat || par.locOutput == params::Params::both)
 		{
 			std::cerr << std::endl << "Writing sub celluar loc summary table...";
 			if(!proteins.writeWideLocTable(par.getwd() + par.locTableFname, par))
@@ -235,7 +235,7 @@ int main(int argc, char* argv[])
 			std::cerr << " done!" << std::endl << "Subcellular loc summary table written in wide format to: "
 			<< par.locTableFname << std::endl << std::endl;
 		}
-		if(par.locOutput == params::longFormat || par.locOutput == params::both)
+		if(par.locOutput == params::Params::longFormat || par.locOutput == params::Params::both)
 		{
 			std::cerr << std::endl << "Writing sub celluar loc summary table...";
 			if(!proteins.writeLongLocTable(par.getwd() + par.locTableLongFname, par))

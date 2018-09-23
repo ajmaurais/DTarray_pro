@@ -296,7 +296,7 @@ bool Proteins::readIn(params::Params* const pars,
 							newPeptide._matchDirrection = newProtein._matchDirrection;
 							newPeptide.parsePeptide(line);
 							
-							if(pars->peptideGroupMethod == params::byScan){
+							if(pars->peptideGroupMethod == params::Params::byScan){
 								peptides->data[newPeptide.key] = newPeptide;
 							}
 							else{
@@ -366,11 +366,11 @@ void Peptide::parsePeptide(const std::string& line)
 
 std::string Peptide::makeKey() const {
 	switch(_par->peptideGroupMethod){
-		case params::byScan : return _fileName;
+		case params::Params::byScan : return _fileName;
 			break;
-		case params::byProtein : return _proteinID + "_" + calcSequence + "_" + _charge;
+		case params::Params::byProtein : return _proteinID + "_" + calcSequence + "_" + _charge;
 			break;
-		case params::byCharge : return _proteinID + "_" + calcSequence;
+		case params::Params::byCharge : return _proteinID + "_" + calcSequence;
 			break;
 		default : throw std::runtime_error("Invalid type");
 	}
@@ -669,8 +669,8 @@ bool Proteins::writeOut(std::string ofname, const params::Params& par)
 	if(!outF)
 		return false;
 	
-	params::OutputFormat outputFormat = par.outputFormat;
-	par.outputFormat = params::wideFormat;
+	params::Params::OutputFormat outputFormat = par.outputFormat;
+	par.outputFormat = params::Params::wideFormat;
 	
 	int colNamesLength = DEFAULT_COL_NAMES_LENGTH;
 	
@@ -833,8 +833,8 @@ bool Proteins::writeOutDB(std::string ofname, const params::Params& par)
 	if(!outF)
 		return false;
 	
-	params::OutputFormat outputFormat = par.outputFormat;
-	par.outputFormat = params::longFormat;
+	params::Params::OutputFormat outputFormat = par.outputFormat;
+	par.outputFormat = params::Params::longFormat;
 	
 	//print column headers
 	std::vector<std::string> headers;
@@ -1247,7 +1247,7 @@ void Peptide::write(std::ofstream& outF)
 	<< OUT_DELIM <<	calcSequence
 	<< OUT_DELIM <<	_length;
 	
-	if(_par->peptideGroupMethod != params::byCharge)
+	if(_par->peptideGroupMethod != params::Params::byCharge)
 		outF << OUT_DELIM << _charge;
 	
 	outF << OUT_DELIM << unique;
@@ -1288,7 +1288,7 @@ void Peptide::write(std::ofstream& outF)
 	}
 	else if(_par->outputFormat == 2)
 	{
-		if(_par->peptideGroupMethod != params::byCharge)
+		if(_par->peptideGroupMethod != params::Params::byCharge)
 			outF << OUT_DELIM << _col[*_colIndex]._obsMH
 			<< OUT_DELIM << _col[*_colIndex]._xCorr
 			<< OUT_DELIM << _col[*_colIndex]._scan
@@ -1316,8 +1316,8 @@ bool Peptides::writeOut(std::string ofname, const params::Params& pars)
 	if(!outF)
 		return false;
 	
-	params::OutputFormat outputFormat = pars.outputFormat;
-	pars.outputFormat = params::wideFormat;
+	params::Params::OutputFormat outputFormat = pars.outputFormat;
+	pars.outputFormat = params::Params::wideFormat;
 	
 	bool supInfoS [] = {true, pars.includeModStat};
 	bool supInfo = false;
@@ -1337,7 +1337,7 @@ bool Peptides::writeOut(std::string ofname, const params::Params& pars)
 	std::vector<std::string>::iterator it;
 	headers.insert(headers.begin(), DEFALUT_PEPTIDE_COLNAMES, utils::end(DEFALUT_PEPTIDE_COLNAMES));
 	
-	if(pars.peptideGroupMethod != params::byCharge)
+	if(pars.peptideGroupMethod != params::Params::byCharge)
 	{
 		for(it = headers.begin(); it != headers.end(); it++)
 			if(*it == "Length(aa)")
@@ -1450,8 +1450,8 @@ bool Peptides::writeOutDB(std::string ofname, const params::Params& pars)
 	if(!outF)
 		return false;
 	
-	params::OutputFormat outputFormat = pars.outputFormat;
-	pars.outputFormat = params::longFormat;
+	params::Params::OutputFormat outputFormat = pars.outputFormat;
+	pars.outputFormat = params::Params::longFormat;
 	
 	//generate headers based off params
 	std::vector<std::string> headers;
@@ -1463,7 +1463,7 @@ bool Peptides::writeOutDB(std::string ofname, const params::Params& pars)
 	
 	for(int i = 0; i < defaultColNamesLen; i++)
 		headers.push_back(DEFALUT_PEPTIDE_DB_COLNAMES[i]);
-	if(pars.peptideGroupMethod != params::byCharge)
+	if(pars.peptideGroupMethod != params::Params::byCharge)
 	{
 		//headers to add
 		std::string add [] = {"ObsMH", "xCorr", "Scan", "Parent_file"};

@@ -46,8 +46,6 @@ namespace params{
 	
 	const std::string  PARAM_ERROR_MESSAGE = " is an invalid arguement for: ";
 	const std::string INVALID_ARG = " is an invalid option! Exiting...\nUse DTarray -h for help.";
-	enum OutputFormat {none, wideFormat, longFormat, both};
-	enum PeptideGroupFormat {byScan, byProtein, byCharge};
 	const std::string VNUM_STR = "<versionNum>";
 	const std::string END_VNUM_STR = "</versionNum>";
 	const std::string DTAFILTER_NAME = "DTASelect-filter.txt";
@@ -105,28 +103,10 @@ namespace params{
 	//stores names and locations for DTA filter files and output paramaters found in
 	//params file.
 	class Params{
-	private:
-		//friend class Proteins;
-		std::vector<FilterFileParam> file;
-		
-		std::string parseVersionNum(std::string) const;
-		
-		void displayHelp() const{
-			utils::systemCommand("man " + PROG_HELP_FILE_FNAME);
-		}
-		void usage() const;
-		bool writeStdFlist(std::ofstream&) const;
-		bool writeSubdirFlist(std::ofstream&) const;
-		void purgeDir(std::string) const;
-		
-		std::string wd;
-		std::string mwDBFname;
-		std::string seqDBfname;
-		bool mwDBFnameSpecified, seqDBFnameSpecified;
-		
-		size_t numFiles;
-		
 	public:
+		enum OutputFormat {none, wideFormat, longFormat, both};
+		enum PeptideGroupFormat {byScan, byProtein, byCharge};
+		
 		std::string flistName;
 		std::string versionNum;
 		std::string inputFormat;
@@ -247,11 +227,31 @@ namespace params{
 							   PROG_WD_DB + seqDBfname);
 			return ret;
 		}
+		static std::string groupFormatString(PeptideGroupFormat);
+	private:
+		//friend class Proteins;
+		std::vector<FilterFileParam> file;
+		
+		std::string parseVersionNum(std::string) const;
+		OutputFormat intToOutputFormat(int) const;
+		PeptideGroupFormat intToGroupFormat(int) const;
+		
+		void displayHelp() const{
+			utils::systemCommand("man " + PROG_HELP_FILE_FNAME);
+		}
+		void usage() const;
+		bool writeStdFlist(std::ofstream&) const;
+		bool writeSubdirFlist(std::ofstream&) const;
+		void purgeDir(std::string) const;
+		
+		std::string wd;
+		std::string mwDBFname;
+		std::string seqDBfname;
+		bool mwDBFnameSpecified, seqDBFnameSpecified;
+		
+		size_t numFiles;
+		
 	};
-	
-	OutputFormat intToOutputFormat(int);
-	PeptideGroupFormat intToGroupFormat(int);
-	std::string groupFormatString(PeptideGroupFormat);
 }
 
 /* params_hpp */
