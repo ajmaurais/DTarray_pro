@@ -10,7 +10,7 @@
 ```bash
 mkdir -p ~/local
 ```
-Next, download tarball of the latest release to `~/local`.  If you do not wish to build the program in `~/local`, you can run the configure script from the desired location with the `--progdir ./` option. 
+Next, download and unpack the tarball of the latest release to `~/local`.  If you do not wish to build the program in `~/local`, you can run the configure script from the desired location with the `--progdir ./` option. 
 
 To build the executable, run:
 ```bash
