@@ -1,6 +1,6 @@
 # DTarray_pro
 ## Combine DTASelect-filter files.
-DTarray_pro extracts Uniprot ID numbers, molecular weights, and spectral counts from .dtafilter files  stored  in  the  working directory.  Protein  data  is  combined  into  one  dataset and written to the working directory as a tab delimitated text file (.tsv). At runtime, a file list named dtarray_pro_flist.txt, containing all the valid DTAfilter  files  found  in  the  working directory,  is generated. If a file list already exists, the existing file list is used. Various options are available to, modify how files are treated in the working directory, extract additional data from the DTAfilter files, and to change the  output file format.
+`DTarray_pro` extracts Uniprot ID numbers, molecular weights, and spectral counts from .dtafilter files  stored  in  the  working directory.  Protein  data  is  combined  into  one  dataset and written to the working directory as a tab delimitated text file (.tsv). At runtime, a file list named dtarray_pro_flist.txt, containing all the valid DTASelect-filter files  found  in  the  working directory,  is generated. If a file list already exists, the existing file list is used. Various options are available to, modify how files are treated in the working directory, extract additional data from the DTASelect-filter files, and to change the  output file format.
 
 ## Installation
 
@@ -30,7 +30,7 @@ make uninstall
 ```
 
 ## Usage
-From folder containing DTAFilter files with the format `<sample_name>.dtafilter`.  [DTsetup](https://github.com/ajmaurais/DTsetup) can be used to automatically setup the folder from multiple samples.
+From folder containing DTASelect-filter files with the format `<sample_name>.dtafilter`.  [DTsetup](https://github.com/ajmaurais/DTsetup) can be used to automatically setup the folder from multiple samples.
 ```bash
 DTarray
 ```
