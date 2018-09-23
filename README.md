@@ -22,7 +22,7 @@ Optionally you can install the executable to `/usr/local/bin`  with.
 ```bash
 make install
 ```
-Or, can create an alias for `DTarray` to `~/local/<program_directory>/bin/DTarray`.  
+Or, create an alias for `DTarray` to `~/local/<program_directory>/bin/DTarray`.  
 
 ## Uninstallation
 ```bash
