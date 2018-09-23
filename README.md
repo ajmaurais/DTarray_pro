@@ -30,7 +30,7 @@ make uninstall
 ```
 
 ## Usage
-From folder containing DTASelect-filter files with the format `<sample_name>.dtafilter`. 
+From a folder containing DTASelect-filter files with the format `<sample_name>.dtafilter`. 
 ```bash
 DTarray
 ```
