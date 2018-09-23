@@ -10,11 +10,11 @@ DTarray_pro expects to be installed in `~/local`.  The program needs data stored
 ```bash
 mkdir -p ~/local
 ```
-Next, download tarball of the latest release to `~/local`.  If you do not wish to build the program in `~/local`, you can run the configure script with the `--progdir <path_to_dir>` option. 
+Next, download tarball of the latest release to `~/local`.  If you do not wish to build the program in `~/local`, you can run the configure script from the desired location with the `--progdir ./` option. 
 
 To build the executable, run:
 ```bash
-cd <program_dirrectory>
+cd ~local/<program_dir>
 ./configure
 make
 ```
@@ -30,8 +30,8 @@ make uninstall
 ```
 
 ## Usage
-From folder containing DTAFilter files with the format `<sample_name>.dtafilter`.  
+From folder containing DTAFilter files with the format `<sample_name>.dtafilter`.  [DTsetup](https://github.com/ajmaurais/DTsetup) can be used to automatically setup the folder from multiple samples.
 ```bash
 DTarray
 ```
-See `~/local/<program_directory>/helpFile.pdf` for detailed explanation of optional arguments or use `DTarray -h` to see help file from the terminal.  
+See `~/local/<program_directory>/helpFile.pdf` for a detailed explanation of optional arguments or use `DTarray -h` to see help file from the terminal.  
