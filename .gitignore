@@ -23,3 +23,6 @@ testing/data/prey_file.txt
 testing/temp/*
 testing/log/*
 
+#pbs e and o files
+*pbs.e[0-9]*
+*pbs.o[0-9]*
