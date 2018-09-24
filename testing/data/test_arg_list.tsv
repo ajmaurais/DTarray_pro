@@ -1,14 +1,29 @@
 index	option	arg
+1	i	
+2	i	i std
+3	i	i subdir
+4	o	
+5	o	o 0
+6	o	o 1
+7	o	o 2
 8	o	o 3
+9	p	
+10	p	p 0
+11	p	p 1
+12	p	p 2
 13	p	p 3
+14	lr	
+15	lr	lr 0
+16	lr	lr 1
+17	lr	lr 2
 18	lr	lr 3
 19	mw	
 20	mw	mw
 21	act	
 22	act	act atomCountTable.txt
 23	unicode	
-24	unicode	unicode _0
-25	unicode	unicode 1
+24	unicode	0
+25	unicode	1
 26	seq	
 27	seq	seq
 28	g	
