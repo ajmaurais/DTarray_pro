@@ -21,12 +21,20 @@ def main(argv):
     parser.add_argument('arg_list',
                         help = '.tsv file with all arguments to consider.')
     
-    parser.add_argument('output', help = 'Output file name')
+    parser.add_argument('ofname', help = 'Output file name')
     
-    parser.add_argument('-a', '--add_dash',
+    parser.add_argument('-a', '--addDash',
                         type = int,
                         choices = [0, 1],
-                        default = 1)
+                        default = 1,
+                        help = 'Choose whether to add dash to {} column'.format(COLS_ARG))
+    
+    parser.add_argument('-c', '--combineMethod',
+                        choices = ['p', 's'],
+                        default = 'p',
+                        help = 'Choose how to build arg list. '
+                        'p is cartesian product of arg combinations, '
+                        's is all options for single args. p is the default')
     
     args = parser.parse_args()
     
@@ -46,7 +54,7 @@ def main(argv):
             cols = line[0].split('\t')
             
             arg = cols[colNames[COLS_ARG]].strip()
-            if args.add_dash and arg != '':
+            if args.addDash and arg != '':
                 arg = '-' + arg
             
             if cols[colNames[COLS_OPTION]] in argLists.keys():
@@ -54,30 +62,39 @@ def main(argv):
             else:
                 argLists[cols[colNames[COLS_OPTION]]] = [arg]
     
-    prod = 0
-    for key in argLists.keys():
-        length = len(argLists[key])
-        print('{} : {}'.format(key, length))
-        if prod == 0:
-            prod = length
-        else: prod *= length
-    
-    print('product is {}'.format(prod))
-    
     #create list of possible combinations of args
     tests = list()
-    for comb in itertools.product(*argLists.values()):        
-        #conc args
-        arg = ''
-        for x in comb:
-            if x == '':
-                continue
-            arg = arg + ' ' + x
-
-        tests.append(arg)
-        
-    outF = open(args.output, 'w')
     
+    if args.combineMethod == 'p':
+        #calculate number of combinations                
+        prod = 0
+        for key in argLists.keys():
+            length = len(argLists[key])
+            print('{} : {}'.format(key, length))
+            if prod == 0:
+                prod = length
+            else: prod *= length
+        
+        print('{} total combinations'.format(prod))
+        
+        #calculate combinations
+        for comb in itertools.product(*argLists.values()):        
+            #conc args
+            arg = ''
+            for x in comb:
+                if x == '':
+                    continue
+                arg = arg + ' ' + x
+            tests.append(arg)
+            
+    elif args.combineMethod == 's':
+        for value in argLists.values():
+            for arg in value:
+                if arg != '':
+                    tests.append(arg)
+    
+    #write tests to args.ofname    
+    outF = open(args.ofname, 'w')
     for arg in tests:
         outF.write('{}\n'.format(arg))
     
