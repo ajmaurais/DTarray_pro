@@ -428,7 +428,7 @@ bool Proteins::readIn(params::Params* const par, Peptides* const peptides)
 			std::cerr <<"Failed to read in " << par->getFilePath(Proteins::_colIndex) <<"!" << std::endl << "Exiting..." << std::endl;
 			return false;
 		}
-		std::cerr << "Adding " << par->getFileColname(Proteins::_colIndex) << "..." << std::endl;
+		std::cout << "Adding " << par->getFileColname(Proteins::_colIndex) << "..." << std::endl;
 	}
 	return true;
 }
