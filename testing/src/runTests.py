@@ -37,8 +37,7 @@ def writeSummary(out, binPath, testType, timeStamp, nTests, nError, printHeader 
     if printHeader:
         out.write('paramater\tvalue\n')
     
-    out.write('paramater\tvalue\n'
-               'binPath\t{}\n'
+    out.write('binPath\t{}\n'
                'testType\t{}\n'
                'timeStamp\t{}\n'
                'nTests\t{}\n'
@@ -125,9 +124,11 @@ def main(argv):
     writeSummary(outF, args.binaryPath, args.type, timeStamp, nTests, nError)
     
     if args.verbose:
-        writeSummary(sys.stdout, args.binaryPath, args.type, timeStamp, nTests, nError)
+        sys.stdout.write('\n')
+        writeSummary(sys.stdout, args.binaryPath, args.type,
+                     timeStamp, nTests, nError, False)
     
-    sys.stdout.write('Done\n')
+    sys.stdout.write('\nDone\n')
     
 if __name__ == '__main__':
     main(sys.argv)

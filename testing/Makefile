@@ -1,30 +1,35 @@
 
 #commands
-PYTHON := python
+PYTHON := python3
 
 #dirs
-TEMP_DIR := temp
-DATA_DIR := data
 SRC_DIR := src
+DTARRAY_BIN := ../bin/DTarray
 
 #file names
-SINGLE_ARG_LIST := test_arg_list.tsv
+SINGLE_ARG_LIST := test_arg_list_single.tsv
 SINGLE_TEST_ARGS := test_args_single.txt
 ALL_ARG_LIST := test_arg_list_short.tsv
 ALL_TEST_ARGS := test_args_all.txt
+TEST_SCRIPT := $(SRC_DIR)/runTests.py
 
-.PHONY: argLists clean
+.PHONY: argLists errorTest clean
 
-argLists: $(TEMP_DIR)/$(SINGLE_TEST_ARGS) $(TEMP_DIR)/$(ALL_TEST_ARGS)
+argLists: temp/$(SINGLE_TEST_ARGS) temp/$(ALL_TEST_ARGS)
 
-$(TEMP_DIR)/$(SINGLE_TEST_ARGS) : $(DATA_DIR)/$(SINGLE_ARG_LIST)
-	mkdir -p $(TEMP_DIR)
-	$(PYTHON) $(SRC_DIR)/makeArgList.py -c s $(DATA_DIR)/$(SINGLE_ARG_LIST) $(TEMP_DIR)/$(SINGLE_TEST_ARGS)
+errorTest : temp/$(SINGLE_TEST_ARGS)
+	$(PYTHON) $(TEST_SCRIPT) -v temp/test_args_single.txt $(DTARRAY_BIN)
 
-$(TEMP_DIR)/$(ALL_TEST_ARGS) : $(DATA_DIR)/$(ALL_ARG_LIST)
-	mkdir -p $(TEMP_DIR)
-	$(PYTHON) $(SRC_DIR)/makeArgList.py -c p $(DATA_DIR)/$(ALL_ARG_LIST) $(TEMP_DIR)/$(ALL_TEST_ARGS)
+temp/$(SINGLE_TEST_ARGS) : testLists/$(SINGLE_ARG_LIST)
+	mkdir -p temp
+	$(PYTHON) $(SRC_DIR)/makeArgList.py -c s testLists/$(SINGLE_ARG_LIST) temp/$(SINGLE_TEST_ARGS)
+
+temp/$(ALL_TEST_ARGS) : testLists/$(ALL_ARG_LIST)
+	mkdir -p temp
+	$(PYTHON) $(SRC_DIR)/makeArgList.py -c p testLists/$(ALL_ARG_LIST) temp/$(ALL_TEST_ARGS)
+
+
 
 clean:
 	rm -fv temp/*
-
+	rm -rfv log/*

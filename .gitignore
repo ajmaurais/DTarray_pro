@@ -12,6 +12,8 @@ testing/bin/*
 testing/.spyproject/*
 testing/data/DTarray_long.tsv
 testing/data/DTarray_pro.tsv
+testing/data/atomCountTable.txt
+testing/data/dtarray_pro_flist.txt
 testing/data/interaction_file.txt
 testing/data/loc_summary.tsv
 testing/data/loc_summary_long.tsv
