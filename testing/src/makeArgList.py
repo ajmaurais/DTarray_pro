@@ -16,7 +16,8 @@ def checkCols(_colNames):
 
 def main(argv):
 
-    parser = argparse.ArgumentParser(prog = 'makeArgList')
+    parser = argparse.ArgumentParser(prog = 'makeArgList',
+                                     description = 'Make list of arguments to run tests on.')
     
     parser.add_argument('arg_list',
                         help = '.tsv file with all arguments to consider.')
@@ -70,7 +71,6 @@ def main(argv):
         prod = 0
         for key in argLists.keys():
             length = len(argLists[key])
-            print('{} : {}'.format(key, length))
             if prod == 0:
                 prod = length
             else: prod *= length

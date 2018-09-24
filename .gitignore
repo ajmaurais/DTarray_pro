@@ -18,3 +18,5 @@ testing/data/loc_summary_long.tsv
 testing/data/peptideList.tsv
 testing/data/peptideList_long.tsv
 testing/data/prey_file.txt
+testing/temp/*
+
