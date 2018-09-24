@@ -55,7 +55,7 @@ def main(argv):
             cols = line[0].split('\t')
             
             arg = cols[colNames[COLS_ARG]].strip()
-            if args.addDash and arg != '':
+            if args.addDash and arg:
                 arg = '-' + arg
             
             if cols[colNames[COLS_OPTION]] in argLists.keys():
@@ -82,7 +82,7 @@ def main(argv):
             #conc args
             arg = ''
             for x in comb:
-                if x == '':
+                if not x:
                     continue
                 arg = arg + ' ' + x
             tests.append(arg)
@@ -90,7 +90,7 @@ def main(argv):
     elif args.combineMethod == 's':
         for value in argLists.values():
             for arg in value:
-                if arg != '':
+                if arg:
                     tests.append(arg)
     
     #write tests to args.ofname    
