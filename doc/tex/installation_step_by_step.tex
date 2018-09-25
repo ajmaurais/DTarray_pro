@@ -46,9 +46,7 @@
 	
 	\section{Introduction}
 	
-	\texttt{DTarray\_pro} extracts Uniprot ID numbers, molecular weights, and spectral counts from \texttt{.dtafilter} files stored in the working directory. Protein data is combined into one dataset and written to the working directory as a tab delimitated text file (.tsv). 
-		
-	This document will describe how to install the latest version of \texttt{DTarray\_pro} step by step. Some experience with using a unix shell is assumed.  
+	\texttt{DTarray\_pro} extracts Uniprot ID numbers, molecular weights, and spectral counts from \texttt{.dtafilter} files stored in the working directory. Protein data is combined into one dataset and written to the working directory as a tab delimitated text file (.tsv). This document will describe how to install the latest version of \texttt{DTarray\_pro} step by step. Some experience with using a unix shell is assumed.  
 		
 	\section{Installation}
 	
@@ -82,7 +80,7 @@
 
 	\subsection{Build DTarray\_pro executable}
 	\begin{itemize}
-		\item Before you can use \texttt{DTarray\_pro}, you have to build the executable from source code. Fortunately \texttt{DTarray\_pro} is configured to work with a build automation tool called \texttt{make} so the process should be straightforward.
+		\item Before you can use \texttt{DTarray\_pro}, you have to build the executable from source. Fortunately \texttt{DTarray\_pro} is configured to work with a build automation tool called \texttt{make} so the process should be straightforward.
 		
 		\item To build \texttt{DTarray\_pro} run the folowing commands in your terminal from the \texttt{\textasciitilde/local/DTarray\_pro-\VERSION} directory.
 		
@@ -113,14 +111,14 @@
 		
 		\begin{figure}[h!]
 			\centering
-			\includegraphics[width=0.5\textwidth]{step_1.png}
+			\includegraphics[width=0.7\textwidth]{step_1.png}
 		\end{figure}
 		
 		\item Scroll to the bottom of the file and add the line: \\ \texttt{alias DTarray "\textasciitilde/local/DTarray\_pro-1.7.4/bin/DTarray"}
 		
 		\begin{figure}[h!]
 			\centering
-			\includegraphics[width=0.6\textwidth]{step_2.png}
+			\includegraphics[width=0.8\textwidth]{step_2.png}
 		\end{figure}
 	
 		\item To save and exit the file, hit \texttt{\textasciicircum + X}. A dialog should show up at the bottom which says: 
@@ -158,7 +156,6 @@
 		\end{lstlisting}
 		
 	\end{itemize}
-	
 	
 	\section{Usage}
 	
