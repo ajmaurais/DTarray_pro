@@ -33,12 +33,12 @@ int main(int argc, char* argv[])
 	if(!par.getOpts(argc, argv))
 		return -1;
 	
-	std::cerr << std::endl << "DTarray_pro v" << BIN_VERSION_NUM << std::endl;
+	std::cout << std::endl << "DTarray_pro v" << BIN_VERSION_NUM << std::endl;
 	
 	if(!utils::fileExists(par.getwd() + par.flistName) || par.rewriteFlist)
 	{
 		assert(par.writeFlist());
-		std::cerr << std::endl << "Generating " << par.flistName << " using " << par.inputFormat << " input format." << std::endl;
+		std::cout << std::endl << "Generating " << par.flistName << " using " << par.inputFormat << " input format." << std::endl;
 	}
 	if(!par.readFlist(par.flistName, par.getwd()))
 	{
@@ -54,11 +54,11 @@ int main(int argc, char* argv[])
 		return -1;
 	
 	if(par.peptideOutput != params::Params::none)
-		std::cerr << std::endl << "Grouping peptides " <<
+		std::cout << std::endl << "Grouping peptides " <<
 		params::Params::groupFormatString(par.peptideGroupMethod) << "." << std::endl;
 	
 	if(par.modGroupMethod != 0)
-		std::cerr << std::endl << "Grouping modified peptides." << std::endl;
+		std::cout << std::endl << "Grouping modified peptides." << std::endl;
 	
 	Proteins proteins(par);
 	Peptides peptides(par);
@@ -79,70 +79,70 @@ int main(int argc, char* argv[])
 		//read in subcellular locations database
 		if(par.getSubCelluarLoc)
 		{
-			std::cerr << std::endl << "Reading subcellular locations database...";
+			std::cout << std::endl << "Reading subcellular locations database...";
 			if(!proteins.readInLocDB(par.locDBfname))
 			{
 				std::cerr <<"Failed to read protein location DB file! Exiting..." << std::endl;
 				return -1;
 			}
-			std::cerr << " done!" << std::endl;
+			std::cout << " done!" << std::endl;
 		}
 		//read in fxn database
 		if(par.getFxn)
 		{
-			std::cerr << std::endl << "Reading protein function database...";
+			std::cout << std::endl << "Reading protein function database...";
 			if(!proteins.readInFxnDB(par.fxnDBfname))
 			{
 				std::cerr <<"Failed to read protein function DB file! Exiting..." << std::endl;
 				return -1;
 			}
-			std::cerr << " done!" << std::endl;
+			std::cout << " done!" << std::endl;
 		}
 		//calculate mass of peptides or proteins from sequence and amino acid mass databases
 		if(par.calcMW)
 		{
-			std::cerr << std::endl << "Getting protein sequences from " << par.getmwDBFname() << "...";
+			std::cout << std::endl << "Getting protein sequences from " << par.getmwDBFname() << "...";
 			if(!proteins.readInMWdb(par))
 			{
 				std::cerr << "Failed to read mwDB files! Exiting..." << std::endl;
 				return -1;
 			}
-			std::cerr << " done!" << std::endl;
+			std::cout << " done!" << std::endl;
 			peptides.setMWdb(proteins.get_mwdb());
 		}
 		if((!par.calcMW && par.getSeq ) || (par.calcMW  && (par.getSeqDBfname() != par.getmwDBFname())))
 		{
-			std::cerr << std::endl << "Getting protein sequences from " << par.getSeqDBfname() << "...";
+			std::cout << std::endl << "Getting protein sequences from " << par.getSeqDBfname() << "...";
 			if(!proteins.readInSeqDB(par.getSeqDBfname()))
 			{
 				std::cerr << "Failed to read seqDB file! Exiting..." << std::endl;
 				return -1;
 			}
-			std::cerr << " done!" << std::endl;
+			std::cout << " done!" << std::endl;
 		}
 	}
 	else if(par.calcMW) //read mwdb for peptides if skipped for proteins
 	{
-		std::cerr << std::endl << "Getting residue formulas from " << par.atomCountTableFname << "...";
+		std::cout << std::endl << "Getting residue formulas from " << par.atomCountTableFname << "...";
 		if(!peptides.readInMWdb(par))
 		{
 			std::cerr << "Failed to read mwDB files! Exiting..." << std::endl;
 			return -1;
 		}
-		std::cerr << " done!" << std::endl;
+		std::cout << " done!" << std::endl;
 	}//end if par.includeProteins
 	
 	if(!par.includeReverse)
-		std::cerr << std::endl << "Skipping reverse matches..." << std::endl;
+		std::cout << std::endl << "Skipping reverse matches..." << std::endl;
 	
 	//read in and combine files
-	std::cerr << std::endl;
+	std::cout << std::endl;
 	if(!proteins.readIn(&par, &peptides))
 		return -1;
-	std::cerr << std::endl << par.getNumFiles() << " files combined." << std::endl;
+	std::cout << std::endl << par.getNumFiles() << " files combined." << std::endl;
 	
 	if(!par.sampleNamePrefix.empty())
-		std::cerr << std::endl << "Parsing colnames by prefix: " << par.sampleNamePrefix << std::endl;
+		std::cout << std::endl << "Parsing colnames by prefix: " << par.sampleNamePrefix << std::endl;
 	
 	//write out combined protein data
 	if(par.includeProteins)
@@ -150,24 +150,24 @@ int main(int argc, char* argv[])
 		assert(par.outputFormat != params::Params::none);
 		if (par.outputFormat == params::Params::wideFormat || par.outputFormat == params::Params::both)
 		{
-			std::cerr << std::endl << "Writing protein data...";
+			std::cout << std::endl << "Writing protein data...";
 			if(!proteins.writeOut(par.getwd() + par.ofname, par))
 			{
 				std::cerr << "Could not write out file! Exiting..." << std::endl;
 				return -1;
 			}
-			std::cerr << " done!" << std::endl << "Protein data written in wide format to: "
+			std::cout << " done!" << std::endl << "Protein data written in wide format to: "
 			<< par.ofname << std::endl << std::endl;
 		}
 		if(par.outputFormat == params::Params::longFormat || par.outputFormat == params::Params::both)
 		{
-			std::cerr << std::endl << "Writing protein data...";
+			std::cout << std::endl << "Writing protein data...";
 			if(!proteins.writeOutDB(par.getwd() + par.dbOfname, par))
 			{
 				std::cerr << "Could not write out file! Exiting..." << std::endl;
 				return -1;
 			}
-			std::cerr << " done!" << std::endl << "Protein data written in long format to: "
+			std::cout << " done!" << std::endl << "Protein data written in long format to: "
 			<< par.dbOfname << std::endl << std::endl;
 		}
 	}
@@ -178,25 +178,25 @@ int main(int argc, char* argv[])
 		assert(par.peptideOutput != params::Params::none);
 		if(par.peptideOutput == params::Params::wideFormat || par.peptideOutput == params::Params::both)
 		{
-			std::cerr << std::endl << "Writing peptide data...";
+			std::cout << std::endl << "Writing peptide data...";
 			if(!peptides.writeOut(par.getwd() + par.peptideOfFname, par))
 			{
 				std::cerr << "Could not write out file! Exiting..." << std::endl;
 				return -1;
 			}
-			std::cerr << " done!" << std::endl << "Peptide data written in wide format to: "
+			std::cout << " done!" << std::endl << "Peptide data written in wide format to: "
 			<< par.peptideOfFname << std::endl << std::endl;
 		}
 		
 		if(par.peptideOutput == params::Params::longFormat || par.peptideOutput == params::Params::both)
 		{
-			std::cerr << std::endl << "Writing peptide data...";
+			std::cout << std::endl << "Writing peptide data...";
 			if(!peptides.writeOutDB(par.getwd() + par.dbPeptideOfFname, par))
 			{
 				std::cerr << "Could not write out file! Exiting..." << std::endl;
 				return -1;
 			}
-			std::cerr << " done!" << std::endl << "Peptide data written in long format to: "
+			std::cout << " done!" << std::endl << "Peptide data written in long format to: "
 			<< par.dbPeptideOfFname << std::endl << std::endl;
 		}
 	}
@@ -204,7 +204,7 @@ int main(int argc, char* argv[])
 	//write saintExpress input files
 	if(par.includeSaint)
 	{
-		std::cerr << std::endl << "Writing saint output files...";
+		std::cout << std::endl << "Writing saint output files...";
 		if(!proteins.writeSaint(par.getwd() + par.saintPreyFname, Proteins::preyFile))
 		{
 			std::cerr << "Could not write prey file! Exiting..." << std::endl;
@@ -215,7 +215,7 @@ int main(int argc, char* argv[])
 			std::cerr << "Could not write interaction file! Exiting..." << std::endl;
 			return -1;
 		}
-		std::cerr << " done!" << std::endl << "prey file written to: " << par.saintPreyFname << std::endl
+		std::cout << " done!" << std::endl << "prey file written to: " << par.saintPreyFname << std::endl
 		<< "interaction data written to: " << par.saintPreyFname << std::endl << std::endl;
  	}
 	
@@ -226,24 +226,24 @@ int main(int argc, char* argv[])
 		
 		if(par.locOutput == params::Params::wideFormat || par.locOutput == params::Params::both)
 		{
-			std::cerr << std::endl << "Writing sub celluar loc summary table...";
+			std::cout << std::endl << "Writing sub celluar loc summary table...";
 			if(!proteins.writeWideLocTable(par.getwd() + par.locTableFname, par))
 			{
 				std::cerr << "Could not write loc summary table! Exiting..." << std::endl;
 				return -1;
 			}
-			std::cerr << " done!" << std::endl << "Subcellular loc summary table written in wide format to: "
+			std::cout << " done!" << std::endl << "Subcellular loc summary table written in wide format to: "
 			<< par.locTableFname << std::endl << std::endl;
 		}
 		if(par.locOutput == params::Params::longFormat || par.locOutput == params::Params::both)
 		{
-			std::cerr << std::endl << "Writing sub celluar loc summary table...";
+			std::cout << std::endl << "Writing sub celluar loc summary table...";
 			if(!proteins.writeLongLocTable(par.getwd() + par.locTableLongFname, par))
 			{
 				std::cerr << "Could not write loc summary table! Exiting..." << std::endl;
 				return -1;
 			}
-			std::cerr << " done!" << std::endl << "Subcellular loc summary table written in long format to: "
+			std::cout << " done!" << std::endl << "Subcellular loc summary table written in long format to: "
 			<< par.locTableLongFname << std::endl << std::endl;
 		}
 	}

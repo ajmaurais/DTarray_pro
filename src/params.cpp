@@ -376,9 +376,9 @@ namespace params{
 			}
 			if(!strcmp(argv[i], "-v") || !strcmp(argv[i], "--version"))
 			{
-				std::cerr << "DTarray_pro " << BIN_VERSION_NUM << std::endl;
-				std::cerr << "Last git commit: " << GIT_DATE << std::endl;
-				std::cerr << "git revision: " << GIT_COMMIT << std::endl;
+				std::cout << "DTarray_pro " << BIN_VERSION_NUM << std::endl;
+				std::cout << "Last git commit: " << GIT_DATE << std::endl;
+				std::cout << "git revision: " << GIT_COMMIT << std::endl;
 				return false;
 			}
 			if(!strcmp(argv[i], "--purge"))
@@ -388,7 +388,7 @@ namespace params{
 			}
 			if(!strcmp(argv[i], "-pswd"))
 			{
-				std::cerr << PROG_WD_HOME << std::endl;
+				std::cout << PROG_WD_HOME << std::endl;
 				return false;
 			}
 			if(!strcmp(argv[i], "-oswd"))
@@ -436,8 +436,8 @@ namespace params{
 			return false;
 		
 		if(wdSpecified)
-			std::cerr << std::endl << "Generating " << _wd << DEFAULT_ATOM_COUNT_TABLE_FNAME << std::endl;
-		else std::cerr << std::endl <<"Generating ./" << DEFAULT_ATOM_COUNT_TABLE_FNAME << std::endl;
+			std::cout << std::endl << "Generating " << _wd << DEFAULT_ATOM_COUNT_TABLE_FNAME << std::endl;
+		else std::cout << std::endl <<"Generating ./" << DEFAULT_ATOM_COUNT_TABLE_FNAME << std::endl;
 		
 		outF << utils::COMMENT_SYMBOL << " Residue atom counts for DTarray_pro" << std::endl
 		<< utils::COMMENT_SYMBOL << " File generated on: " << utils::ascTime() << std::endl
@@ -453,7 +453,7 @@ namespace params{
 		assert(file.read());
 		
 		while(!file.end())
-			std::cerr << file.getLine() << std::endl;
+			std::cout << file.getLine() << std::endl;
 	}
 	
 	//removes all DTarray_pro generated files with default flie names in
@@ -474,8 +474,8 @@ namespace params{
 				if(utils::fileExists(_wd + *p))
 				{
 					if(wdSpecified)
-						std::cerr << "Removed " << _wd << *p << std::endl;
-					else std::cerr << "Removed ./" << *p << std::endl;
+						std::cout << "Removed " << _wd << *p << std::endl;
+					else std::cout << "Removed ./" << *p << std::endl;
 					utils::systemCommand("rm -f " + _wd + *p);
 				}
 			}
@@ -492,7 +492,7 @@ namespace params{
 		std::ofstream outF((wd + flistName).c_str());
 		if(!outF)
 		{
-			std::cout << "Could not write flist!" << std::endl;
+			std::cerr << "Could not write flist!" << std::endl;
 			return false;
 		}
 		
@@ -505,7 +505,7 @@ namespace params{
 		else if(inputFormat == "subdir")
 			return writeSubdirFlist(outF);
 		else{
-			std::cout << inputFormat << " is not a valid input format!" << std::endl;
+			std::cerr << inputFormat << " is not a valid input format!" << std::endl;
 			return false;
 		}//end of else
 	} //end of functon

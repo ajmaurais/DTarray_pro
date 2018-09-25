@@ -1,0 +1,62 @@
+index	option	arg
+1	i	
+2	i	i std
+3	i	I subdir
+4	o	
+5	o	o 0
+6	o	o 1
+7	o	o 2
+8	o	o 3
+9	p	
+10	p	p 0
+11	p	p 1
+12	p	p 2
+13	p	p 3
+14	lr	
+15	lr	lr 0
+16	lr	lr 1
+17	lr	lr 2
+18	lr	lr 3
+19	mw	
+20	mw	mw
+21	act	
+22	act	act atomCountTable.txt
+23	unicode	
+24	unicode	-unicode 0
+25	unicode	-unicode 1
+26	seq	
+27	seq	seq
+28	g	
+29	g	g 0
+30	g	g 1
+31	g	g 2
+32	modG	
+33	modG	modG 0
+34	modG	modG 1
+35	u	
+36	u	u
+37	c	
+38	c	c
+39	modS	
+40	modS	modS
+41	seqC	
+42	seqC	seqC
+43	s	
+44	s	s 0
+45	s	s 1
+46	n	
+47	n	n 0
+48	n	n 1
+49	rev	
+50	rev	rev 0
+51	rev	rev 1
+52	loc	
+53	loc	loc
+54	fxn	
+55	fxn	fxn
+56	saint	
+57	saint	saint bait_file.txt
+58	rw	
+59	rw	rw flist
+60	flist	
+61	flist	flist dtarray_pro_flist.txt

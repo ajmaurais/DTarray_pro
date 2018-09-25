@@ -6,6 +6,8 @@ DTarray_pro.xcodeproj/*
 obj/*
 helpFile.pdf
 include/config.hpp
+
+#stuff from testing folder
 testing/bin/*
 
 ## Core latex/pdflatex auxiliary files:
@@ -51,3 +53,20 @@ testing/bin/*
 *.synctex.gz(busy)
 *.pdfsync
 
+testing/.spyproject/*
+testing/data/DTarray_long.tsv
+testing/data/DTarray_pro.tsv
+testing/data/atomCountTable.txt
+testing/data/dtarray_pro_flist.txt
+testing/data/interaction_file.txt
+testing/data/loc_summary.tsv
+testing/data/loc_summary_long.tsv
+testing/data/peptideList.tsv
+testing/data/peptideList_long.tsv
+testing/data/prey_file.txt
+testing/temp/*
+testing/log/*
+
+#pbs e and o files
+*pbs.e[0-9]*
+*pbs.o[0-9]*

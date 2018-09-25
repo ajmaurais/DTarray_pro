@@ -29,14 +29,9 @@
 #include <stdio.h>
 #include <string>
 
-//deal with older c++ compilers
-#if (__cplusplus == 199711L || __cplusplus == 1)
-	#define nullptr NULL
-#endif
-
 //make sure this value is defined
 #ifndef PATH_MAX
-	#define PATH_MAX 1024
+#define PATH_MAX 1024
 #endif
 
 #define BIN_VERSION_NUM "1.7"

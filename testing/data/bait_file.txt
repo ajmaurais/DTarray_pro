@@ -1,0 +1,2 @@
+Biotin-PG_Tryp_SF_RA_P1_1	SF	T
+Biotin-PG_Tryp_SF_Healthy_P1_1	Healthy	C
