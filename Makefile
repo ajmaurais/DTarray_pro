@@ -91,7 +91,6 @@ helpFile.pdf : db/helpFile.man
 clean:
 	rm -f $(OBJDIR)/*.o $(BINDIR)/$(EXE)
 	rm -f helpFile.pdf
-	rm -f installation_step_by_step.pdf
 	cd $(TEX_DIR) && rm -f ./*.aux ./*.dvi ./*.fdb_latexmk ./*.fls ./*.log ./*.out ./*.pdf ./*.toc 
 
 install: $(BINDIR)/$(EXE)
