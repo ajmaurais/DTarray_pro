@@ -46,7 +46,7 @@
 	
 	\section{Introduction}
 	
-	\texttt{DTarray\_pro} extracts Uniprot ID numbers, molecular weights, and spectral counts from \texttt{.dtafilter} files stored in the working directory. Protein data is combined into one dataset and written to the working directory as a tab delimitated text file (.tsv). This document will describe how to install the latest version of \texttt{DTarray\_pro} step by step. Some experience using a unix shell is assumed.  
+	\texttt{DTarray\_pro} extracts Uniprot ID numbers, molecular weights, and spectral counts from DTASelect-filter files. Protein data is combined into one dataset and written to the working directory as a tab delimitated text file (.tsv). This document will describe how to install and use the latest version of \texttt{DTarray\_pro} step by step. Some experience using a unix shell is assumed.  
 		
 	\section{Installation}
 	
@@ -159,5 +159,35 @@
 	\end{itemize}
 	
 	\section{Usage}
+	
+	\subsection{Input format options}
+	
+	Users have two options for how the input DTASelect-filter files passed to \texttt{DTarray\_pro} are structured.  
+	
+	\subsubsection{std mode} 
+		
+	In \texttt{std} mode, DTASelect-filter are stored in a common directory and the files are named with the format \texttt{<sample\_name>.dtafilter} (This is the default input mode for \texttt{DTarray\_pro}.)
+	
+	\begin{lstlisting}
+		$ ls
+		sample_1.dtafilter		sample_2.dtafilter
+		sample_3.dtafilter		sample_4.dtafilter
+	\end{lstlisting}
+	
+	The user can either manually setup the 
+		
+		%\item \textbf{subdir} mode, where 
+	
+	\subsubsection{subidr mode}
+	
+	In \texttt{subdir} mode, DTASelect-filter files are stored in a separate directory, the directory name is the sample name, and the filter files are named \texttt{DTASelect-filter.txt} (This is the default input mode for \texttt{dtarray.pl}.)
+	
+	\begin{lstlisting}
+		$ find */*.txt
+		sample_1/DTASelect-filter.txt
+		sample_2/DTASelect-filter.txt
+		sample_3/DTASelect-filter.txt
+		sample_4/DTASelect-filter.txt
+	\end{lstlisting}
 	
 \end{document}
