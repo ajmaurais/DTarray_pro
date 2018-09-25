@@ -7,8 +7,8 @@ obj/*
 helpFile.pdf
 include/config.hpp
 
-#stuff from testing folder
-testing/bin/*
+#stuff from test folder
+test/bin/*
 
 ## Core latex/pdflatex auxiliary files:
 *.aux
@@ -53,19 +53,19 @@ testing/bin/*
 *.synctex.gz(busy)
 *.pdfsync
 
-testing/.spyproject/*
-testing/data/DTarray_long.tsv
-testing/data/DTarray_pro.tsv
-testing/data/atomCountTable.txt
-testing/data/dtarray_pro_flist.txt
-testing/data/interaction_file.txt
-testing/data/loc_summary.tsv
-testing/data/loc_summary_long.tsv
-testing/data/peptideList.tsv
-testing/data/peptideList_long.tsv
-testing/data/prey_file.txt
-testing/temp/*
-testing/log/*
+test/.spyproject/*
+test/data/DTarray_long.tsv
+test/data/DTarray_pro.tsv
+test/data/atomCountTable.txt
+test/data/dtarray_pro_flist.txt
+test/data/interaction_file.txt
+test/data/loc_summary.tsv
+test/data/loc_summary_long.tsv
+test/data/peptideList.tsv
+test/data/peptideList_long.tsv
+test/data/prey_file.txt
+test/temp/*
+test/log/*
 
 #pbs e and o files
 *pbs.e[0-9]*
