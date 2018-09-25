@@ -46,7 +46,7 @@
 	
 	\section{Introduction}
 	
-	\texttt{DTarray\_pro} extracts Uniprot ID numbers, molecular weights, and spectral counts from \texttt{.dtafilter} files stored in the working directory. Protein data is combined into one dataset and written to the working directory as a tab delimitated text file (.tsv). This document will describe how to install the latest version of \texttt{DTarray\_pro} step by step. Some experience with using a unix shell is assumed.  
+	\texttt{DTarray\_pro} extracts Uniprot ID numbers, molecular weights, and spectral counts from \texttt{.dtafilter} files stored in the working directory. Protein data is combined into one dataset and written to the working directory as a tab delimitated text file (.tsv). This document will describe how to install the latest version of \texttt{DTarray\_pro} step by step. Some experience using a unix shell is assumed.  
 		
 	\section{Installation}
 	
@@ -72,7 +72,7 @@
 			$ tar -xfv DTarray_pro-1.7.4.tar
 		\end{lstlisting}
 		
-		\item As a result, new directory should be created in \texttt{~/local} named \texttt{DTarray\_pro-\VERSION}
+		\item As a result, a new directory should be created in \texttt{~/local} named \texttt{DTarray\_pro-\VERSION}
 		
 		\item Once you have unpacked the archive, you no longer need the \texttt{.tar} file and can delete if of you wish.
 		
@@ -82,9 +82,10 @@
 	\begin{itemize}
 		\item Before you can use \texttt{DTarray\_pro}, you have to build the executable from source. Fortunately \texttt{DTarray\_pro} is configured to work with a build automation tool called \texttt{make} so the process should be straightforward.
 		
-		\item To build \texttt{DTarray\_pro} run the folowing commands in your terminal from the \texttt{\textasciitilde/local/DTarray\_pro-\VERSION} directory.
+		\item To build \texttt{DTarray\_pro} run the folowing commands in your terminal.
 		
 		\begin{lstlisting}
+			$ cd ~/local/DTarray_pro-1.7.4/
 			$ ./configure
 			$ make
 		\end{lstlisting}

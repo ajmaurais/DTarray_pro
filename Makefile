@@ -3,6 +3,8 @@
 # C++ Compiler
 CXX := g++
 #
+# latexmk
+TEX := /Library/TeX/texbin/latexmk
 #
 # Flags
 #
@@ -48,6 +50,9 @@ BINDIR := bin
 #   Build scripts
 SCRIPTS := scripts
 #
+#   Tex dir
+TEX_DIR := doc/tex
+#
 #   Install dirrectory
 INSTALL_DIR := /usr/local/bin/
 #
@@ -61,12 +66,16 @@ OBJS := $(subst $(SRCDIR)/,$(OBJDIR)/,$(SRCS:.cpp=.o))
 CXXFLAGS += $(INCLUDEFLAGS) -I$(HEADERDIR)
 LDFLAGS += $(LIBFLAGS)
 
-.PHONY: all gitVersion clean distclean install uninstall
+.PHONY: all gitVersion clean distclean install uninstall detailedInstallation
 
-all: gitVersion $(BINDIR)/$(EXE) helpFile.pdf
+all: gitVersion $(BINDIR)/$(EXE) helpFile.pdf installation_step_by_step.pdf
 
-gitVersion:
+gitVersion :
 	bash $(SCRIPTS)/makeGitVersion.sh
+
+installation_step_by_step.pdf : $(TEX_DIR)/installation_step_by_step.tex
+	cd $(TEX_DIR) && $(TEX) -pdf installation_step_by_step.tex
+	cp $(TEX_DIR)/installation_step_by_step.pdf .
 
 $(BINDIR)/$(EXE): $(OBJS)
 	mkdir -p $(BINDIR)
@@ -82,6 +91,8 @@ helpFile.pdf : db/helpFile.man
 clean:
 	rm -f $(OBJDIR)/*.o $(BINDIR)/$(EXE)
 	rm -f helpFile.pdf
+	rm -f installation_step_by_step.pdf
+	cd $(TEX_DIR) && rm -f ./*.aux ./*.dvi ./*.fdb_latexmk ./*.fls ./*.log ./*.out ./*.pdf ./*.toc 
 
 install: $(BINDIR)/$(EXE)
 	cp $(BINDIR)/$(EXE) $(INSTALL_DIR)/$(EXE)
