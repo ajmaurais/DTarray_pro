@@ -1,0 +1,80 @@
+
+\documentclass[12pt]{article}
+
+\newcommand{\VERSION}{1.7.4}
+
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage[autostyle, english = american]{csquotes}
+\MakeOuterQuote{"}
+
+\usepackage{xcolor}
+\usepackage{listings, lstautogobble}
+
+\lstset{language=bash,
+	keywordstyle=\color{black},
+	basicstyle=\small\ttfamily,
+	commentstyle=\ttfamily\itshape\color{gray},
+	stringstyle=\ttfamily,
+	showstringspaces=false,
+	breaklines=true,
+	frameround=ffff,
+	frame=single,
+	rulecolor=\color{black},
+	autogobble=true
+}
+
+\usepackage{hyperref}
+\hypersetup{
+	colorlinks=true,
+	linktoc=all,
+	linkcolor=blue,
+	citecolor=blue
+}
+
+\begin{document}
+	
+	\title{DTarray\_pro installation and basic usage}
+	\author{Aaron Maurais}
+	\date{24 September 2018}
+	
+	\maketitle
+	\tableofcontents
+	%\newpage
+	
+	\section{Installation}
+	
+	\subsection{Download and unpack DTarray\_pro archive file from GitHub}
+	\begin{itemize}
+		\item Navigate to the \href{https://github.com/ajmaurais/DTarray_pro/releases}{releases} tab on the \texttt{DTarray\_pro} GitHub page.
+		
+		\item The files for the latest release should be at the top of the page.
+		
+		\item Download the file: \texttt{Source code (tar.gz)} to you computer for the latest release
+		
+		\item \texttt{DTarray\_pro} expects to be installed in \texttt{\textasciitilde/local}. The program needs data stored in text files in \texttt{\textasciitilde/local/DTarray\_pro-\VERSION/db} for some features to work. First make the directory \texttt{\textasciitilde/local} on your \texttt{pleiades} account if it doesn't already exist.
+		
+		\item Transfer the source code archive (should be named something like \texttt{DTarray\_pro-\VERSION.tar}) to your \texttt{pleiades} account using your FTP client of choice.	
+		
+		\item The source code archive has to be unpacked before you can access it. To unpack the \texttt{.tar} type the following commands in your terminal.
+		
+		\begin{lstlisting}
+			cd ~/local
+			tar -xfv DTarray_pro-1.7.4.tar
+		\end{lstlisting}
+		
+		\item As a result, new directory should be created in \texttt{~/local} named \texttt{DTarray\_pro-\VERSION}
+		
+		\item Once you have unpacked the archive, you no longer need the \texttt{.tar} file and can delete if of you wish.
+		
+	\end{itemize}
+
+	\subsection{Build DTarray\_pro executable}
+	\begin{itemize}
+		\item 
+	\end{itemize}
+	
+	
+	\section{Usage}
+	
+\end{document}
