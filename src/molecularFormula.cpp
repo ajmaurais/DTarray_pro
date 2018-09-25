@@ -54,7 +54,7 @@ void molFormula::Residue::removeZeros()
 	}
 }
 
-void molFormula::Residue::initalize(molFormula::AtomMassMapType* _atomMassMap,
+void molFormula::Residue::initialize(molFormula::AtomMassMapType* _atomMassMap,
 									const molFormula::HeaderType& _header,
 									const std::vector<std::string>& _elems)
 {
@@ -63,7 +63,7 @@ void molFormula::Residue::initalize(molFormula::AtomMassMapType* _atomMassMap,
 	
 	atomMassMap = _atomMassMap;
 	
-	//initalize atom count map
+	//initialize atom count map
 	size_t len = _header.size();
 	for(size_t i = 0; i < len; i++)
 		atomCountMap[_header[i]] = std::stoi(_elems[i]);
@@ -183,15 +183,15 @@ bool molFormula::Residues::readAtomMassTable()
 	return true;
 }//end fxn
 
-bool molFormula::Residues::initalize(std::string _atomCountTableLoc, std::string _massTableLoc)
+bool molFormula::Residues::initialize(std::string _atomCountTableLoc, std::string _massTableLoc)
 {
 	atomCountTableLoc = _atomCountTableLoc;
 	massTableLoc = _massTableLoc;
 	
-	return initalize();
+	return initialize();
 }
 
-bool molFormula::Residues::initalize()
+bool molFormula::Residues::initialize()
 {
 	bool gootAtomMassTable = readAtomMassTable();
 	bool goodAtomCountTable = readAtomCountTable();

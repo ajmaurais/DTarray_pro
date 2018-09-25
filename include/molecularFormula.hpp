@@ -109,12 +109,12 @@ namespace molFormula{
 		Residue(molFormula::AtomMassMapType* _atomMassMap,
 				const molFormula::HeaderType& _header,
 				const std::vector<std::string>& _elems){
-			initalize(_atomMassMap, _header, _elems);
+			initialize(_atomMassMap, _header, _elems);
 		}
 		~Residue() {}
 		
 		//modifers
-		void initalize(AtomMassMapType* , const HeaderType&, const std::vector<std::string>&);
+		void initialize(AtomMassMapType* , const HeaderType&, const std::vector<std::string>&);
 		
 		//properties
 		void combineAtomCountMap(AtomCountMapType&) const;
@@ -151,8 +151,8 @@ namespace molFormula{
 		bool readAtomCountTable();
 		bool readAtomMassTable(std::string);
 		bool readAtomMassTable();
-		bool initalize();
-		bool initalize(std::string, std::string);
+		bool initialize();
+		bool initialize(std::string, std::string);
 		
 		std::string calcFormula(std::string, bool unicode = UNICODE_AS_DEFAULT,
 								bool _nterm = true, bool _cterm = true) const;

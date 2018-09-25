@@ -63,7 +63,7 @@ namespace mwDB{
 			delete seqDB;
 		}
 		
-		bool initalize(const params::Params&);
+		bool initialize(const params::Params&);
 	};
 	
 	std::string getID(std::string str);

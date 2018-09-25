@@ -254,10 +254,10 @@ void utils::systemCommand(std::string command)
 }
 
 //make dir.
-//returns true if sucessful
+//returns true if successful
 bool utils::mkdir(const char* path)
 {
-	//get abs path and make sure that it dosen't already exist
+	//get abs path and make sure that it doesn't already exist
 	//return false if it does
 	std::string rpath = absPath(path);
 	if(dirExists(rpath))

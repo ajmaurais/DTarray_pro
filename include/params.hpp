@@ -44,7 +44,7 @@ namespace params{
 	/* namespace scoped constants */
 	/******************************/
 	
-	const std::string  PARAM_ERROR_MESSAGE = " is an invalid arguement for: ";
+	const std::string  PARAM_ERROR_MESSAGE = " is an invalid argument for: ";
 	const std::string INVALID_ARG = " is an invalid option! Exiting...\nUse DTarray -h for help.";
 	const std::string VNUM_STR = "<versionNum>";
 	const std::string END_VNUM_STR = "</versionNum>";
@@ -91,7 +91,7 @@ namespace params{
 		FilterFileParam(std::string);
 		~FilterFileParam() {}
 		
-		//properities
+		//properties
 		std::string getPath() const{
 			return path;
 		}
@@ -100,7 +100,7 @@ namespace params{
 		}
 	};
 		
-	//stores names and locations for DTA filter files and output paramaters found in
+	//stores names and locations for DTA filter files and output parameters found in
 	//params file.
 	class Params{
 	public:
@@ -146,7 +146,7 @@ namespace params{
 		
 		Params ()
 		{
-			//change default paramaters here
+			//change default parameters here
 			wd = "";
 			flistName = DEFAULT_FLIST_NAME;
 			versionNum = "";

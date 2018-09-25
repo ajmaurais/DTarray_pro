@@ -97,7 +97,7 @@ public:
 	void calcMW();
 	void operator = (const Peptide&);
 	
-	//properities
+	//properties
 	bool operator == (const Peptide& comp) const{
 		return comp.key == key;
 	}
@@ -132,7 +132,7 @@ public:
 		_mwdb = mwdb;
 	}
 	
-	//properities
+	//properties
 	bool writeOut(std::string, const params::Params&);
 	bool writeOutDB(std::string, const params::Params&);
 };
@@ -227,7 +227,7 @@ public:
 	bool readBaitFile(std::string);
 	void buildLocTable();
 	
-	//properities
+	//properties
 	molFormula::Residues get_mwdb() const{
 		return _mwdb;
 	}

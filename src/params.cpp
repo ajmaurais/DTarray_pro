@@ -456,7 +456,7 @@ namespace params{
 			std::cout << file.getLine() << std::endl;
 	}
 	
-	//removes all DTarray_pro generated files with default flie names in
+	//removes all DTarray_pro generated files with default file names in
 	//working dirrectory
 	void Params::purgeDir(std::string _wd) const
 	{
@@ -508,7 +508,7 @@ namespace params{
 			std::cerr << inputFormat << " is not a valid input format!" << std::endl;
 			return false;
 		}//end of else
-	} //end of functon
+	} //end of function
 	
 	bool Params::writeStdFlist(std::ofstream& outF) const
 	{
@@ -617,13 +617,13 @@ namespace params{
 		assert(MIN_BIN_VERSION_NUM <= std::stod(versionNum));
 		if(peptideGroupMethod == byScan && ((peptideOutput == wideFormat) || (peptideOutput == both)))
 		{
-			std::cerr << std::endl << "peptideGroupMethod and peptideOutput options are incompatable!" << std::endl
+			std::cerr << std::endl << "peptideGroupMethod and peptideOutput options are incompatible!" << std::endl
 				<< "Use DTarray -h for more info." << std::endl << std::endl;
 			good = false;
 		}
 		if(modGroupMethod == 1 && (peptideGroupMethod == byScan || peptideOutput == none))
 		{
-			std::cerr << std::endl << "modGroupMethod and peptide output options are incompatable!" << std::endl
+			std::cerr << std::endl << "modGroupMethod and peptide output options are incompatible!" << std::endl
 				<< "Use DTarray -h for more info." << std::endl << std::endl;
 			good = false;
 		}

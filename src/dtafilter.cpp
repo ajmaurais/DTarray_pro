@@ -136,7 +136,7 @@ bool Protein::getProteinData(std::string line)
 	//parse elem[0]
 	if(!parse_matchDir_ID_Protein(elems[0])) return false;
 	
-	//keep fullDescription but seperate by spaces instead of tabs
+	//keep fullDescription but separate by spaces instead of tabs
 	fullDescription = elems[0];
 	for(int i = 1; i < 9; i++)
 		fullDescription += (" " + elems[i]);
@@ -252,7 +252,7 @@ bool Proteins::readIn(params::Params* const pars,
 				}
 			}
 			else{
-				//initalize Protein to hold data for current line
+				//initialize Protein to hold data for current line
 				Protein newProtein(pars, &_locDB, &_fxnDB, &_mwdb, &_seqDB, &_baitFile, &_locTable);
 				newProtein.initialize(colNamesTemp, colNamesLen, &_colIndex);
 				
@@ -435,7 +435,7 @@ bool Proteins::readIn(params::Params* const par, Peptides* const peptides)
 
 bool Proteins::readInMWdb(const params::Params& par)
 {
-	return _mwdb.initalize(par);
+	return _mwdb.initialize(par);
 }
 
 bool Proteins::readInSeqDB(std::string fname)
@@ -460,7 +460,7 @@ bool Proteins::readBaitFile(std::string fname)
 
 bool Peptides::readInMWdb(const params::Params& par)
 {
-	return _mwdb.initalize(par.atomCountTableFname,
+	return _mwdb.initialize(par.atomCountTableFname,
 							par.atomMassTableFname);
 }
 

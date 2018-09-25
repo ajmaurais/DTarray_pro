@@ -156,7 +156,7 @@ namespace locReport{
 				break;
 			case 1 : writeLong(outF);
 				break;
-			default : throw std::runtime_error("functon does not exist!");
+			default : throw std::runtime_error("function does not exist!");
 		}
 	}
 }
