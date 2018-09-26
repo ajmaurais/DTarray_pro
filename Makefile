@@ -68,7 +68,7 @@ LDFLAGS += $(LIBFLAGS)
 
 .PHONY: all gitVersion clean distclean install uninstall
 
-all: gitVersion $(BINDIR)/$(EXE) helpFile.pdf DTarray_pro-Userguide.pdf
+all: gitVersion $(BINDIR)/$(EXE) helpFile.pdf DTarray_pro-Userguide.pdf $(BINDIR)/DTsetup
 
 gitVersion :
 	bash $(SCRIPTS)/makeGitVersion.sh
@@ -88,8 +88,12 @@ $(OBJDIR)/%.o: $(SRCDIR)/%.cpp
 helpFile.pdf : db/helpFile.man
 	bash $(SCRIPTS)/updateMan.sh
 
+$(BINDIR)/DTsetup : DTsetup/dtsetup.sh
+	cp DTsetup/dtsetup.sh $(BINDIR)/DTsetup
+	chmod +x $(BINDIR)/DTsetup
+
 clean:
-	rm -f $(OBJDIR)/*.o $(BINDIR)/$(EXE)
+	rm -f $(OBJDIR)/*.o $(BINDIR)/$(EXE) $(BINDIR)/DTsetup
 	rm -f helpFile.pdf
 	cd $(TEX_DIR) && rm -f ./*.aux ./*.dvi ./*.fdb_latexmk ./*.fls ./*.log ./*.out ./*.pdf ./*.toc 
 
