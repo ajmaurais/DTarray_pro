@@ -621,9 +621,9 @@ namespace params{
 				<< "Use DTarray -h for more info." << std::endl << std::endl;
 			good = false;
 		}
-		if(modGroupMethod == 1 && (peptideGroupMethod == byScan || peptideOutput == none))
+		if(modGroupMethod == 1 && peptideGroupMethod == byScan)
 		{
-			std::cerr << std::endl << "modGroupMethod and peptide output options are incompatible!" << std::endl
+			std::cerr << std::endl << "modGroupMethod and peptideGroupMethod options are incompatible!" << std::endl
 				<< "Use DTarray -h for more info." << std::endl << std::endl;
 			good = false;
 		}
