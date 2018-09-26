@@ -32,11 +32,15 @@ HEADERDIR := include
 #
 #   .git
 GITDIR := .git
+ifneq ("$(wildcard $(GITDIR))","")
+GIT_EXISTS = 1
+else
+GIT_EXISTS = 0
+endif
 #
 #   git_version
-#ifneq ("$(wildcard $(GITDIR))","")
 GIT_VERSION := gitVersion.hpp
-#endif
+#
 #
 #   Sources
 SRCDIR := src
@@ -66,11 +70,17 @@ OBJS := $(subst $(SRCDIR)/,$(OBJDIR)/,$(SRCS:.cpp=.o))
 CXXFLAGS += $(INCLUDEFLAGS) -I$(HEADERDIR)
 LDFLAGS += $(LIBFLAGS)
 
-.PHONY: all gitVersion clean distclean install uninstall
+.PHONY: all clean distclean install uninstall
 
-all: gitVersion $(BINDIR)/$(EXE) $(BINDIR)/DTsetup helpFile.pdf DTarray_pro-Userguide.pdf
+TARGETS = $(BINDIR)/$(EXE) $(BINDIR)/DTsetup helpFile.pdf DTarray_pro-Userguide.pdf
 
-gitVersion :
+ifeq ($(GIT_EXISTS),)
+TARGETS = $(HEADERDIR)/$(GIT_VERSION) + TARGETS
+endif
+
+all: $(TARGETS)
+
+$(HEADERDIR)/$(GIT_VERSION) : GITDIR
 	bash $(SCRIPTS)/makeGitVersion.sh
 
 DTarray_pro-Userguide.pdf : $(TEX_DIR)/DTarray_pro-Userguide.tex
