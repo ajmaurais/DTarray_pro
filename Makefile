@@ -4,7 +4,7 @@
 CXX := g++
 #
 # latexmk
-TEX := /Library/TeX/texbin/latexmk
+TEX := $(shell command -v latexmk 2> /dev/null)
 #
 # Flags
 #
@@ -68,14 +68,18 @@ LDFLAGS += $(LIBFLAGS)
 
 .PHONY: all gitVersion clean distclean install uninstall
 
-all: gitVersion $(BINDIR)/$(EXE) helpFile.pdf DTarray_pro-Userguide.pdf $(BINDIR)/DTsetup
+all: gitVersion $(BINDIR)/$(EXE) $(BINDIR)/DTsetup helpFile.pdf DTarray_pro-Userguide.pdf
 
 gitVersion :
 	bash $(SCRIPTS)/makeGitVersion.sh
 
 DTarray_pro-Userguide.pdf : $(TEX_DIR)/DTarray_pro-Userguide.tex
-	cd $(TEX_DIR) && $(TEX) -pdf DTarray_pro-Userguide.tex
+ifndef TEX
+	$(warning "No latexmk in $(PATH), skipping build of DTarray_pro-Userguide.pdf")
+else
+	cd $(TEX_DIR) && latexmk -pdf DTarray_pro-Userguide.tex
 	cp $(TEX_DIR)/DTarray_pro-Userguide.pdf .
+endif
 
 $(BINDIR)/$(EXE): $(OBJS)
 	mkdir -p $(BINDIR)
