@@ -4,6 +4,8 @@
 
 ## Installation
 
+Download the latest release [here](https://github.com/ajmaurais/DTarray_pro/releases).
+
 `DTarray_pro` is written in c++ 11 and can be compiled on linux or OS-X with gcc.  Command line developer tools are required to build `DTarray_pro` on OS-X.  
 
 `DTarray_pro` expects to be installed in `~/local`.  The program needs data stored in text files in `~local/<program_dir>/db` for some features to work.  First make `~/local` if it doesn't exist.  
