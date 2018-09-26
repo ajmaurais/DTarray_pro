@@ -66,16 +66,16 @@ OBJS := $(subst $(SRCDIR)/,$(OBJDIR)/,$(SRCS:.cpp=.o))
 CXXFLAGS += $(INCLUDEFLAGS) -I$(HEADERDIR)
 LDFLAGS += $(LIBFLAGS)
 
-.PHONY: all gitVersion clean distclean install uninstall detailedInstallation
+.PHONY: all gitVersion clean distclean install uninstall
 
-all: gitVersion $(BINDIR)/$(EXE) helpFile.pdf installation_step_by_step.pdf
+all: gitVersion $(BINDIR)/$(EXE) helpFile.pdf DTarray_pro-Userguide.pdf
 
 gitVersion :
 	bash $(SCRIPTS)/makeGitVersion.sh
 
-installation_step_by_step.pdf : $(TEX_DIR)/installation_step_by_step.tex
-	cd $(TEX_DIR) && $(TEX) -pdf installation_step_by_step.tex
-	cp $(TEX_DIR)/installation_step_by_step.pdf .
+DTarray_pro-Userguide.pdf : $(TEX_DIR)/DTarray_pro-Userguide.tex
+	cd $(TEX_DIR) && $(TEX) -pdf DTarray_pro-Userguide.tex
+	cp $(TEX_DIR)/DTarray_pro-Userguide.pdf .
 
 $(BINDIR)/$(EXE): $(OBJS)
 	mkdir -p $(BINDIR)

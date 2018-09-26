@@ -253,7 +253,7 @@ Include peptides with 0 spectral counts in output file.
 Include information about number of modified peptides. Separate columns for number of spectral counts for modified peptides and total spectral conts will be included in protein and peptide output files.
 .TP
 \fB-mw
-Calculate protein/peptide molecular weights and molecular formulas. Columns will be included for average mass, monoisotopic mass and molecular formula.  Peptide/protein masses and formulas are calculated from \*[ACT_FNAME] which contains the number and types of atoms found in each amino acid and a table located at \*[DEFAULT_ACT_LOC] containing the masses of each atom. By default the atom count table at \*[DEFAULT_ACT_LOC] is used. The user can also supply a custom \*[ACT_FNAME] file with the \fB-act\fP option. Protein sequence information is stored in a fasta formatted file. The default sequence file is \*[SEQ_DB_FNAME].
+Calculate protein/peptide molecular weights and molecular formulas. Columns will be included for average mass, monoisotopic mass and molecular formula.  Peptide/protein masses and formulas are calculated from \*[ACT_FNAME] which contains the number and types of atoms found in each amino acid and a table located at \*[AMT_LOC] containing the masses of each atom. By default the atom count table at \*[DEFAULT_ACT_LOC] is used. The user can also supply a custom \*[ACT_FNAME] file with the \fB-act\fP option. Protein sequence information is stored in a fasta formatted file. The default sequence file is \*[SEQ_DB_FNAME].
 .TP
 .in +0.75i
 \fI<fafsa_file>
