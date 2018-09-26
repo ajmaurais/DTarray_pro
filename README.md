@@ -36,6 +36,6 @@ From a folder containing DTASelect-filter files with the format `<sample_name>.d
 ```bash
 DTarray
 ```
-[DTsetup](https://github.com/ajmaurais/DTsetup) can optionally be used to automatically setup the folder.
+The `bash` script located at `bin/DTsetup` can optionally be used to automatically setup the folder.
 
 See `~/local/<program_directory>/helpFile.pdf` for a detailed explanation of optional arguments or use `DTarray -h` to see the help file from the terminal.  
