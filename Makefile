@@ -72,15 +72,16 @@ LDFLAGS += $(LIBFLAGS)
 
 .PHONY: all clean distclean install uninstall
 
+#TARGETS = $(HEADERDIR)/$(GIT_VERSION) $(BINDIR)/$(EXE) $(BINDIR)/DTsetup helpFile.pdf DTarray_pro-Userguide.pdf
 TARGETS = $(BINDIR)/$(EXE) $(BINDIR)/DTsetup helpFile.pdf DTarray_pro-Userguide.pdf
 
-ifeq ($(GIT_EXISTS),)
-TARGETS = $(HEADERDIR)/$(GIT_VERSION) + TARGETS
+ifeq ($(GIT_EXISTS), 1)
+TARGETS := $(HEADERDIR)/$(GIT_VERSION) $(TARGETS)
 endif
 
 all: $(TARGETS)
 
-$(HEADERDIR)/$(GIT_VERSION) : GITDIR
+$(HEADERDIR)/$(GIT_VERSION) : $(GITDIR)
 	bash $(SCRIPTS)/makeGitVersion.sh
 
 DTarray_pro-Userguide.pdf : $(TEX_DIR)/DTarray_pro-Userguide.tex
