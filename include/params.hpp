@@ -194,8 +194,10 @@ namespace params{
 			locTableFname = LOC_TABLE_FNAME;
 			locTableLongFname = LOC_TABLE_LONG_FNAME;
 			locSupInfoNum = 0;
-			filterStr = "";
+			excludeStr = "";
 			filter = false;
+			matchRegex = true;
+			toLower = true;
 		}
 		
 		//modifiers
@@ -219,11 +221,20 @@ namespace params{
 		std::string getwd() const{
 			return wd;
 		}
-		std::string getFilterStr() const{
-			return filterStr;
+		std::string getExcludeStr() const{
+			return excludeStr;
+		}
+		std::string getAddStr() const{
+			return addStr;
 		}
 		bool getFilter() const{
 			return filter;
+		}
+		bool getMatchRegex() const{
+			return matchRegex;
+		}
+		bool getToLower() const{
+			return toLower;
 		}
 		std::string getmwDBFname() const{
 			std::string ret = (mwDBFnameSpecified ? getwd() + mwDBFname :
@@ -255,8 +266,8 @@ namespace params{
 		std::string wd;
 		std::string mwDBFname;
 		std::string seqDBfname;
-		std::string filterStr;
-		bool filter;
+		std::string excludeStr, addStr;
+		bool filter, matchRegex, toLower;
 		bool mwDBFnameSpecified, seqDBFnameSpecified;
 		
 		size_t numFiles;

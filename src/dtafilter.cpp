@@ -154,16 +154,51 @@ bool Protein::getProteinData(std::string line)
 	size_t endOfDescription = elems[8].find(" [");
 	_description = elems[8].substr(0, endOfDescription);
 	
-	//check if description contains par.filterStr
+	//check _par->filter is true
 	if(_par->getFilter())
 	{
-		//std::string temp = utils::toLower(_description);
-		if(utils::strContains(_par->getFilterStr(), utils::toLower(_description)))
+		//transform subject str to lowercase
+		std::string temp;
+		if(_par->getToLower()) temp = utils::toLower(_description);
+		else temp = _description;
+		
+		//if(utils::strContains("keratin", temp))
+		//	std::cout << "Found!\n";
+		
+		//if exclude
+		if(!_par->getExcludeStr().empty())
 		{
-			std::cout << "Skipping: " << _description << std::endl;
-			return false;
-		}
-	}
+			if(_par->getMatchRegex())
+			{
+				//bool match = std::regex_search(temp, std::regex(_par->getExcludeStr()));
+				if(std::regex_search(temp, std::regex(_par->getExcludeStr())))
+				{
+					std::cout << "Skipping: " << _description << std::endl;
+					return false;
+				}
+			}
+			else {
+				if(utils::strContains(_par->getExcludeStr(), temp))
+				{
+					std::cout << "Skipping: " << temp << std::endl;
+					return false;
+				}
+			} //end else
+		}// end if exclude
+		
+		//if add
+		if(!_par->getAddStr().empty())
+		{
+			if(_par->getMatchRegex())
+			{
+				//bool match = std::regex_search(temp, std::regex(_par->getAddStr()));
+				if(!std::regex_search(temp, std::regex(_par->getAddStr()))) return false;
+			}
+			else {
+				if(!utils::strContains(_par->getExcludeStr(), temp)) return false;
+			} //end else
+		} //end if add
+	}//end if filter
 	
 	//add spectrum count, coverage and sequence count for *this protein to colname
 	_col[*_colIndex]._count = std::stoi(elems[2]);
@@ -617,7 +652,8 @@ void Protein::writeProtein(std::ofstream& outF)
 		
 		if (_par->parseSampleName)
 		{
-			outF << OUT_DELIM << parseSample(_col[*_colIndex]._colname, _par->sampleNamePrefix, _par->parseSampleName, 1)
+			outF << OUT_DELIM << parseSample(_col[*_colIndex]._colname, _par->sampleNamePrefix,
+											 _par->parseSampleName, 1, _par->getMatchRegex())
 			<< OUT_DELIM << parseReplicate(_col[*_colIndex]._colname);
 		}
 		
@@ -779,8 +815,8 @@ bool Proteins::writeOut(std::string ofname, const params::Params& par)
 		for(int i = 0; i < par.getNumFiles(); i++)
 		{
 			if (i == 0)
-				outF << parseSample(_colNames[i], par.sampleNamePrefix, false, 0);
-			else outF << tabs << parseSample(_colNames[i], par.sampleNamePrefix, false, 0);
+				outF << parseSample(_colNames[i], par.sampleNamePrefix, false, 0, par.getMatchRegex());
+			else outF << tabs << parseSample(_colNames[i], par.sampleNamePrefix, false, 0, par.getMatchRegex());
 		}
 		outF << std::endl;
 		for(int i = 0; i < colNamesLength; i++)
@@ -814,7 +850,7 @@ bool Proteins::writeOut(std::string ofname, const params::Params& par)
 		for(int i = 0; i <= par.supInfoNum; i++)
 		{
 			for(int i = 0; i < par.getNumFiles(); i ++)
-				ofColNames.push_back(parseSample(_colNames[i], par.sampleNamePrefix, false, 0));
+				ofColNames.push_back(parseSample(_colNames[i], par.sampleNamePrefix, false, 0, par.getMatchRegex()));
 		}
 		int colNamesLen = int(ofColNames.size());
 		for(int i = 0; i < colNamesLen; i++)
@@ -1116,8 +1152,8 @@ bool Proteins::writeWideLocTable(std::string fname, const params::Params& pars) 
 		for(int i = 0; i < pars.getNumFiles(); i++)
 		{
 			if (i == 0)
-			outF << parseSample(_colNames[i], pars.sampleNamePrefix, false, 0);
-			else outF << tabs << parseSample(_colNames[i], pars.sampleNamePrefix, false, 0);
+			outF << parseSample(_colNames[i], pars.sampleNamePrefix, false, 0, pars.getMatchRegex());
+			else outF << tabs << parseSample(_colNames[i], pars.sampleNamePrefix, false, 0, pars.getMatchRegex());
 		}
 		outF << std::endl;
 		for(int i = 0; i < headers.size(); i++)
@@ -1147,7 +1183,7 @@ bool Proteins::writeWideLocTable(std::string fname, const params::Params& pars) 
 		for(int i = 0; i <= supInfoNum - 1; i++)
 		{
 			for(int i = 0; i < pars.getNumFiles(); i ++)
-				ofColNames.push_back(parseSample(_colNames[i], pars.sampleNamePrefix, false, 0));
+				ofColNames.push_back(parseSample(_colNames[i], pars.sampleNamePrefix, false, 0, pars.getMatchRegex()));
 		}
 		int colNamesLen = int(ofColNames.size());
 		for(int i = 0; i < colNamesLen; i++)
@@ -1165,7 +1201,7 @@ bool Proteins::writeWideLocTable(std::string fname, const params::Params& pars) 
 }
 
 //optional fxn to parse long sample name
-std::string parseSample(std::string sampleName, std::string prefix, bool parseSampleName, bool outputFormat)
+/*std::string parseSample(std::string sampleName, std::string prefix, bool parseSampleName, bool outputFormat)
 {
 	//return unparsed sampleName if prefix is empty std::string or is not found in sampleName
 	if(!parseSampleName && (!utils::strContains(prefix, sampleName) || prefix.length() == 0)){
@@ -1178,6 +1214,27 @@ std::string parseSample(std::string sampleName, std::string prefix, bool parseSa
 		std::string sample = utils::removeSubstr(prefix, sampleName); //remove prefix from sampleName
 		return outputFormat ? sample.substr(0, sample.find_last_of("_")) : sample;
 	}
+}*/
+
+std::string parseSample(std::string sampleName, std::string prefix,
+						bool parseSampleName, bool outputFormat, bool re)
+{
+	 std::regex pattern = std::regex(prefix);
+	
+	 //return unparsed sampleName if prefix is empty string or is not found in sampleName
+	 if(!parseSampleName && (!(re ? std::regex_search(sampleName, pattern) :
+							   utils::strContains(prefix, sampleName)) ||
+							 prefix.length() == 0)){
+		 return sampleName;
+	 }
+	 else if(parseSampleName && prefix.empty()){
+		 return sampleName.substr(0, sampleName.find_last_of("_"));
+	 }
+	 else {
+		 std::string sample = re ? std::regex_replace(sampleName, pattern, "") :
+								   utils::removeSubstr(prefix, sampleName); //remove prefix from sampleName
+		 return outputFormat ? sample.substr(0, sample.find_last_of("_")) : sample;
+	 }
 }
 
 //get replicate number from sample name
@@ -1313,7 +1370,8 @@ void Peptide::write(std::ofstream& outF)
 		
 		if(_par->parseSampleName)
 		{
-			outF << OUT_DELIM << parseSample(_col[*_colIndex]._colname, _par->sampleNamePrefix, _par->parseSampleName, 1)
+			outF << OUT_DELIM << parseSample(_col[*_colIndex]._colname, _par->sampleNamePrefix,
+											 _par->parseSampleName, 1, _par->getMatchRegex())
 			<< OUT_DELIM <<	parseReplicate(_col[*_colIndex]._colname);
 		}
 	}
@@ -1396,8 +1454,8 @@ bool Peptides::writeOut(std::string ofname, const params::Params& pars)
 		for(int i = 0; i < pars.getNumFiles(); i++)
 		{
 			if (i == 0)
-				outF << parseSample(_colNames[i], pars.sampleNamePrefix, false, 0);
-			else outF << tabs << parseSample(_colNames[i], pars.sampleNamePrefix, false, 0);
+				outF << parseSample(_colNames[i], pars.sampleNamePrefix, false, 0, pars.getMatchRegex());
+			else outF << tabs << parseSample(_colNames[i], pars.sampleNamePrefix, false, 0, pars.getMatchRegex());
 		}
 		outF << std::endl;
 		for(int i = 0; i < headers.size(); i++)
@@ -1431,7 +1489,7 @@ bool Peptides::writeOut(std::string ofname, const params::Params& pars)
 		for(int i = 0; i <= pars.peptideSupInfoNum; i++)
 		{
 			for(int i = 0; i < pars.getNumFiles(); i ++)
-				ofColNames.push_back(parseSample(_colNames[i], pars.sampleNamePrefix, false, 0));
+				ofColNames.push_back(parseSample(_colNames[i], pars.sampleNamePrefix, false, 0, pars.getMatchRegex()));
 		}
 		int colNamesLen = int(ofColNames.size());
 		for(int i = 0; i < colNamesLen; i++)

@@ -48,6 +48,6 @@
 std::string const REVERSE_MATCH = "Reverse_";
 
 std::string parseReplicate(std::string);
-std::string parseSample(std::string, std::string, bool, bool);
+std::string parseSample(std::string, std::string, bool, bool, bool);
 
 /* dtarray_pro.hpp */

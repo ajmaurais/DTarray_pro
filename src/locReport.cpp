@@ -89,7 +89,8 @@ namespace locReport{
 			if(pars->parseSampleName)
 				outF << OUT_DELIM << parseSample(col[i].getSampleName(),
 												 pars->sampleNamePrefix,
-												 pars->parseSampleName, 1)
+												 pars->parseSampleName, 1,
+												 pars->getMatchRegex())
 				<< OUT_DELIM << parseReplicate(col[i].getSampleName());
 			
 			outF << OUT_DELIM << col[i].getCount()

@@ -135,8 +135,11 @@ int main(int argc, char* argv[])
 	if(!par.includeReverse)
 		std::cout << std::endl << "Skipping reverse matches..." << std::endl;
 	
-	if(par.getFilter())
-		std::cout << std::endl << "Excluding proteins with descriptions including: " << par.getFilterStr() << std::endl;
+	if(!par.getExcludeStr().empty())
+		std::cout << std::endl << "Excluding proteins with descriptions including: " << par.getExcludeStr() << std::endl;
+	
+	if(!par.getAddStr().empty())
+		std::cout << std::endl << "Only including proteins with descriptions including: " << par.getAddStr() << std::endl;
 	
 	//read in and combine files
 	std::cout << std::endl;

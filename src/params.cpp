@@ -374,15 +374,56 @@ namespace params{
 				else throw std::runtime_error("bad opts!");
 				continue;
 			}
-			if(!strcmp(argv[i], "-l") || !strcmp(argv[i], "--exclude"))
+			if(!strcmp(argv[i], "-e") || !strcmp(argv[i], "--exclude"))
 			{
 				if(!utils::isArg(argv[++i]))
 				{
 					usage();
 					return false;
 				}
-				filterStr = std::string(argv[i]);
+				excludeStr = std::string(argv[i]);
 				filter = true;
+				continue;
+			}
+			if(!strcmp(argv[i], "-a") || !strcmp(argv[i], "--add"))
+			{
+				if(!utils::isArg(argv[++i]))
+				{
+					usage();
+					return false;
+				}
+				addStr = std::string(argv[i]);
+				filter = true;
+				continue;
+			}
+			if(!strcmp(argv[i], "-r") || !strcmp(argv[i], "--regex"))
+			{
+				if(!utils::isArg(argv[++i]))
+				{
+					usage();
+					return false;
+				}
+				if(!(!strcmp(argv[i], "0") || !strcmp(argv[i], "1")))
+				{
+					std::cerr << argv[i] << PARAM_ERROR_MESSAGE << "matchRegex" << std::endl;
+					return false;
+				}
+				matchRegex = std::stoi(argv[i]);
+				continue;
+			}
+			if(!strcmp(argv[i], "-l") || !strcmp(argv[i], "--toLower"))
+			{
+				if(!utils::isArg(argv[++i]))
+				{
+					usage();
+					return false;
+				}
+				if(!(!strcmp(argv[i], "0") || !strcmp(argv[i], "1")))
+				{
+					std::cerr << argv[i] << PARAM_ERROR_MESSAGE << "toLower" << std::endl;
+					return false;
+				}
+				toLower = std::stoi(argv[i]);
 				continue;
 			}
 			if(!strcmp(argv[i], "-v") || !strcmp(argv[i], "--version"))

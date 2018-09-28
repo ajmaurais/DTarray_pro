@@ -33,6 +33,7 @@
 #include <string>
 #include <algorithm>
 #include <stdexcept>
+#include <regex>
 
 #include <dtarray_pro.hpp>
 #include <baseClasses.hpp>
