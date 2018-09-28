@@ -154,6 +154,17 @@ bool Protein::getProteinData(std::string line)
 	size_t endOfDescription = elems[8].find(" [");
 	_description = elems[8].substr(0, endOfDescription);
 	
+	//check if description contains par.filterStr
+	if(_par->getFilter())
+	{
+		//std::string temp = utils::toLower(_description);
+		if(utils::strContains(_par->getFilterStr(), utils::toLower(_description)))
+		{
+			std::cout << "Skipping: " << _description << std::endl;
+			return false;
+		}
+	}
+	
 	//add spectrum count, coverage and sequence count for *this protein to colname
 	_col[*_colIndex]._count = std::stoi(elems[2]);
 	std::string coverageTemp = elems[3];

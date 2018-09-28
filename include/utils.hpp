@@ -142,11 +142,11 @@ namespace utils{
 	std::string getExtension(const std::string&);
 	
 	//std::string utils
-	bool strContains(std::string, std::string);
-	bool strContains(char, std::string);
+	bool strContains(std::string findTxt, std::string whithinTxt);
+	bool strContains(char findTxt, std::string whithinTxt);
 	bool startsWith(std::string whithinStr, std::string findStr);
 	bool endsWith(std::string whithinStr, std::string findStr);
-	void split (const std::string&, const char, std::vector<std::string>&);
+	void split(const std::string&, const char, std::vector<std::string>&);
 	std::string trimTraling(const std::string&);
 	std::string trimLeading(const std::string&);
 	std::string trim(const std::string&);

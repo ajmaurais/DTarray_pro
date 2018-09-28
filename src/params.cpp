@@ -374,6 +374,17 @@ namespace params{
 				else throw std::runtime_error("bad opts!");
 				continue;
 			}
+			if(!strcmp(argv[i], "-l") || !strcmp(argv[i], "--exclude"))
+			{
+				if(!utils::isArg(argv[++i]))
+				{
+					usage();
+					return false;
+				}
+				filterStr = std::string(argv[i]);
+				filter = true;
+				continue;
+			}
 			if(!strcmp(argv[i], "-v") || !strcmp(argv[i], "--version"))
 			{
 				std::cout << "DTarray_pro " << BIN_VERSION_NUM << std::endl;
