@@ -7,7 +7,7 @@
 .ds DEFAULT_ACT_LOC \fI\*[PROG_WD_DB]\fI/\fI\*[ACT_FNAME]\fR
 .ds AMT_LOC \fI\*[PROG_WD_DB]\fI/atomMasses.txt\fR
 .ds FLIST_FNAME \fIdtarray_pro_flist.txt\fR
-.TH "DTarray_pro v1.7.5" 1 "28 September 2018" "DTarray_pro"
+.TH "DTarray_pro v1.8.0" 1 "28 September 2018" "DTarray_pro"
 .SH NAME
 DTarray_pro - Combine DTASelect-filter files.
 .SH SYNOPSIS
