@@ -1231,7 +1231,7 @@ std::string parseSample(std::string sampleName, std::string prefix,
 		 return sampleName.substr(0, sampleName.find_last_of("_"));
 	 }
 	 else {
-		 std::string sample = re ? std::regex_replace(sampleName, pattern, "") :
+		 std::string sample = re ? std::regex_replace(sampleName, pattern, std::string("")) :
 								   utils::removeSubstr(prefix, sampleName); //remove prefix from sampleName
 		 return outputFormat ? sample.substr(0, sample.find_last_of("_")) : sample;
 	 }
