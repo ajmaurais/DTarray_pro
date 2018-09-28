@@ -96,7 +96,7 @@
 			$ make
 		\end{lstlisting}
 		
-		\item After you have run \texttt{make}, there should be several new files in the \texttt{DTarray\_pro-\VERSION} directory.  If everything worked, two executables files should be located at \texttt{DTarray\_pro-\VERSION/bin/}
+		\item After you have run \texttt{make}, there should be several new files in the \texttt{DTarray\_pro-\VERSION} directory.  If everything worked, two executable files should be located at \texttt{DTarray\_pro-\VERSION/bin/}
 		
 		\begin{lstlisting}
 			$ ls bin
@@ -123,20 +123,25 @@
 			$ nano .tcshrc
 		\end{lstlisting}
 		
-		\item After starting \texttt{nano}, your terminal window should look something like this:
+		\item After starting \texttt{nano}, your terminal window should look something Figure \ref{fig:step_1}.
 		
 		\begin{figure}[h!]
 			\centering
 			\includegraphics[width=0.7\textwidth]{step_1.png}
+			\caption{Example terminal window after opening \texttt{.tcshrc} with \texttt{nano}}
+			\label{fig:step_1}
 		\end{figure}
 		
 		\item Scroll to the bottom of the file and add the lines: \\
 		\texttt{alias DTarray "\textasciitilde/local/DTarray\_pro-\VERSION/bin/DTarray"} \\
-		\texttt{alias DTsetup "\textasciitilde/local/DTarray\_pro-\VERSION/bin/DTsetup"}		
+		\texttt{alias DTsetup "\textasciitilde/local/DTarray\_pro-\VERSION/bin/DTsetup"} \\
+		(See Figure \ref{fig:step_2} for an example).
 		
 		\begin{figure}[h!]
 			\centering
 			\includegraphics[width=0.7\textwidth]{step_2.png}
+			\caption{\texttt{.tcshrc} with new aliases for \texttt{DTarray\_pro} and \texttt{DTsetup}}
+			\label{fig:step_2}
 		\end{figure}
 	
 		\item To save and exit the file, hit \texttt{\textasciicircum + X}. A dialog should show up at the bottom which says: 
@@ -235,6 +240,7 @@
 	\noindent
 	If \texttt{DTarray\_pro} was successful, two files should have been generated.  \texttt{DTarray\_pro.tsv} is a tab delimitated text file (.tsv) which contains a row for each protein and a column for the spectral counts of that protein in each sample.  \texttt{dtarray\_pro\_flist.txt} is a list of valid \texttt{.dtafilter} files found in the directory.  If a file list already exists in the folder, the existing file list is used.  The user can edit the file list to change the order of the columns in the output file and add additional files to the list.  
 	
+	\pagebreak
 	\subsubsection{subidr mode}
 	
 	In \texttt{subdir} mode, DTASelect-filter files are stored in a separate directory, the directory name is the sample name, and the filter files are named \texttt{DTASelect-filter.txt} (This is the default input mode for \texttt{dtarray.pl}.)
