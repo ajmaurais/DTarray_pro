@@ -7,7 +7,7 @@
 .ds DEFAULT_ACT_LOC \fI\*[PROG_WD_DB]\fI/\fI\*[ACT_FNAME]\fR
 .ds AMT_LOC \fI\*[PROG_WD_DB]\fI/atomMasses.txt\fR
 .ds FLIST_FNAME \fIdtarray_pro_flist.txt\fR
-.TH "DTarray_pro v1.7.3" 1 "13 September 2018" "DTarray_pro"
+.TH "DTarray_pro v1.7.5" 1 "28 September 2018" "DTarray_pro"
 .SH NAME
 DTarray_pro - Combine DTASelect-filter files.
 .SH SYNOPSIS
@@ -34,6 +34,10 @@ DTarray_pro - Combine DTASelect-filter files.
 [\fB--unicode\fR \fI<0/1>\fR]
 [\fB-seq\fR [\fI<fasta_file>\fR]]
 [\fB-f\fR [\fI<prefix>\fR]]
+[\fB-e\fR \fI<pattern>\fR]
+[\fB-a\fR \fI<pattern>\fR]
+[\fB-r\fR \fI<0/1>\fR]
+[\fB-l\fR \fI<0/1>\fR]
 [\fB-d\fR \fI<dir>\fR]
 [\fB-flist\fR \fI<file>\fR]
 [\fB-rw\fR \fI<arg>\fP]
@@ -261,10 +265,10 @@ Calculate protein/peptide molecular weights and molecular formulas. Columns will
 The user can optionally specify a fafsa formatted file to lookup protein sequences.
 .in
 .TP
-\fB-mact, -makeAtomCountTable\fR
+\fB-mact, --makeAtomCountTable\fR
 Copy default atom count file to working directory and exit program.
 .TP
-\fB-act, -atomCountTable\fR \fI<file>
+\fB-act, --atomCountTable\fR \fI<file>
 Use user specified atom count table. If the \fB-mw\fP option is not also specified, this option will be ignored.  
 .TP
 \fB--unicode\fR \fI<0/1>\fR
@@ -288,7 +292,45 @@ Include columns for sample name and replicate number in long protein and peptide
 .in +0.75i
 \fI<prefix>\fP
 .in +0.75i
-Remove \fI<prefix>\fR from all sample names. If \fI<prefix>\fR is not found in sample name, name is unchanged. In long output format, columns will be included for long sample name, short sample name and replicate number. 
+Remove \fI<prefix>\fR from all sample names. By default, \fI<prefix>\fR is matched as a regular expression. If \fI<prefix>\fR is not found in sample name, name is unchanged. In long output format, columns will be included for long sample name, short sample name and replicate number. 
+.in
+
+.SS OPTIONS TO FILTER OUTPUT
+.TP
+\fB-e, --exclude\fR \fI<pattern>\fR
+Exclude any protein or peptide where the protein description matches \fI<pattern>\fR. By default matching to pattern is not case sensitive, and \fI<pattern>\fR is interpreted as a regular expression.
+.TP
+\fB-a, --add\fR \fI<pattern>\fR
+Only include proteins or peptides where the protein description matches \fI<pattern>\fR. By default matching to pattern is not case sensitive, and \fI<pattern>\fR is interpreted as a regular expression.
+.TP
+\fB-r, --regex\fR \fI<0/1>\fR
+Choose whether \fI<pattern>\fR in \fB-a\fR and \fB-e\fR options and \fI<prefix>\fR in \fB-f\fR is interpreted as a regular expression. \fB0\fR is the default. If \fB-a\fR and \fB-e\fR are not specified, this argument is ignored.
+.TP
+.in +0.75i
+\fB0\fR
+.in +0.75i
+Do not interpret \fI<pattern>\fR  as a regular expression.
+.in
+.TP
+.in +0.75i
+\fB1\fR
+.in +0.75i
+Do not interpret \fI<pattern>\fR as a regular expression.
+.in
+.TP
+\fB-l, --toLower\fR \fI<0/1>\fR
+Choose whether \fI<pattern>\fR in \fB-a\fR and \fB-e\fR options are case sensitive. \fB1\fR is the default. If \fB-a\fR and \fB-e\fR are not specified, this argument is ignored.
+.TP
+.in +0.75i
+\fB0\fR
+.in +0.75i
+Perform case sensitive match with \fI<pattern>\fR.
+.in
+.TP
+.in +0.75i
+\fB1\fR
+.in +0.75i
+Do not perform case sensitive match with \fI<pattern>\fR.
 .in
 .TP
 \fB-rev\fR
