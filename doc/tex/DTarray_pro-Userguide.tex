@@ -11,7 +11,7 @@
 \usepackage{listings, lstautogobble}
 
 \usepackage{graphicx}
-\graphicspath{{../figures/}}
+\graphicspath{{../fig/}}
 
 \usepackage{booktabs}
 \setlength{\heavyrulewidth}{1.5pt}
@@ -96,16 +96,25 @@
 			$ make
 		\end{lstlisting}
 		
-		\item After you have run \texttt{make}, there should be several new files in the \texttt{DTarray\_pro-\VERSION} directory.  If everything worked, the executable file should be located at \texttt{DTarray\_pro-\VERSION/bin/DTarray}
+		\item After you have run \texttt{make}, there should be several new files in the \texttt{DTarray\_pro-\VERSION} directory.  If everything worked, two executables files should be located at \texttt{DTarray\_pro-\VERSION/bin/}
+		
+		\begin{lstlisting}
+			$ ls bin
+			DTarray		DTsetup
+		\end{lstlisting}
+		
+		\item \texttt{DTarray} is the executable for \texttt{DTarray\_pro}
+		
+		\item \texttt{DTsetup} is the executable for a script which will automatically setup DTASelect-filter to be read into \texttt{DTarray\_pro}.
 		
 	\end{itemize}
 
-	\subsection{Adding a shortcut for DTarray\_pro (optional)}
+	\subsection{Adding a shortcut for DTarray\_pro and DTsetup (optional)}
 	
-	To run \texttt{DTarray\_pro} you have to navigate on your terminal to a folder which contains DTASelect-filter files then type the full path to the executable file relative from the directory you are currently in.  Its possible to install a program system wide so you don't have to type the path every time, but without administrative privileges, its a bit complicated. A workaround is to create a shortcut or alias to the executable file.  This section will explain how to add an alias for \texttt{DTarray\_pro} to your shell profile on \texttt{pleiades}
+	To run \texttt{DTarray\_pro} you have to navigate on your terminal to a folder which contains DTASelect-filter files then type the full path to the executable file relative from the directory you are currently in.  Its possible to install a program system wide so you don't have to type the path every time, but without administrative privileges, its a bit complicated. A workaround is to create a shortcut or alias to the executable file.  This section will explain how to add an alias for \texttt{DTarray\_pro} and \texttt{DTsetup} to your shell profile on \texttt{pleiades}
 	
 	\begin{itemize}
-		\item To add an alias for \texttt{DTarray\_pro}, you will have to edit your shell profile, which is a file stored in your home directory named \texttt{.tcshrc}.
+		\item To add an alias for \texttt{DTarray\_pro} and \texttt{DTsetup}, you will have to edit your shell profile, which is a file stored in your home directory named \texttt{.tcshrc}.
 		
 		\item To edit your shell profile, you will use a command line text editor called \texttt{nano}. To open \texttt{.tcshrc} in \texttt{nano}, type:
 		
@@ -121,15 +130,14 @@
 			\includegraphics[width=0.7\textwidth]{step_1.png}
 		\end{figure}
 		
-		\item Scroll to the bottom of the file and add the line: \\ \texttt{alias DTarray "\textasciitilde/local/DTarray\_pro-1.7.4/bin/DTarray"}
+		\item Scroll to the bottom of the file and add the lines: \\
+		\texttt{alias DTarray "\textasciitilde/local/DTarray\_pro-1.7.4/bin/DTarray"} \\
+		\texttt{alias DTsetup "\textasciitilde/local/DTarray\_pro-1.7.4/bin/DTsetup"}		
 		
 		\begin{figure}[h!]
 			\centering
 			\includegraphics[width=0.7\textwidth]{step_2.png}
 		\end{figure}
-	
-		%\clearpage
-		%\par\bigskip
 	
 		\item To save and exit the file, hit \texttt{\textasciicircum + X}. A dialog should show up at the bottom which says: 
 		\begin{lstlisting}
@@ -170,7 +178,26 @@
 	
 	\section{Usage}
 	
-	\subsection{Input format options}
+	\subsection{Setting up filter files with DTsetup} \label{sec:dtsetup}
+	
+	\texttt{DTsetup} searches all directories one level below where it is run for a file named \texttt{DTASelect-filter.txt}. If a matching file is found, it is copied into a folder named \texttt{<date>\_<time>\_dtarraySetup} with the name \texttt{<sample\_name>.dtafilter}. Once \texttt{DTsetup} is run, \texttt{DTarray\_pro} can be run from the newly created directory to compare spectral counts for proteins found in multiple runs.
+	
+	\bigskip
+	\noindent
+	To run \texttt{DTsetup}, first navigate to a directory containing subdirectories with \texttt{DTASelect-filter.txt} files and run the command:
+	
+	\begin{lstlisting}
+		$ DTsetup
+		Creating dtarraySetup folder in parent dirrectory...
+		Copying DTA filter files to 18-09-28_121625_dtarraySetup
+			Adding ./sample_1...
+			Adding ./sample_2...
+			Adding ./sample_3...
+			Adding ./sample_4...
+		Done
+	\end{lstlisting}
+	
+	\subsection{DTarray\_pro Input format options}
 	
 	Users have two options for how the input DTASelect-filter files read in by \texttt{DTarray\_pro} are structured.  
 	
@@ -185,7 +212,7 @@
 	\end{lstlisting}
 	
 	\noindent
-	The user can either manually setup the folder, or use \href{https://github.com/ajmaurais/DTsetup}{DTsetup} to automatically generate the folder.  To run \texttt{DTarray\_pro} in \texttt{std} mode, run the commands:
+	The user can either manually setup the folder, or use \texttt{DTsetup} to automatically generate the folder.  To run \texttt{DTarray\_pro} in \texttt{std} mode, run the commands:
 	
 	\begin{lstlisting}
 		$ cd <path_to_directory_with_filterfiles>
@@ -231,7 +258,7 @@
 	\noindent
 	Upon completion, a files named \texttt{DTarray\_pro.tsv} and \texttt{dtarray\_pro\_flist.txt} are generated formatted the same as in \texttt{std} mode.
 	
-	\subsection{Output file options}
+	\subsection{DTarray\_pro Output file options}
 	
 	This document will not provide an exhaustive list of options for \texttt{DTarray\_pro}. Instead, this section will provide examples of options will likely find useful.  For the full list of optional arguments see \texttt{DTarray\_pro-\VERSION/helpFile.pdf} or use \texttt{DTarray -h} to see the help file from the terminal.
 	
@@ -360,7 +387,7 @@
 	
 	\texttt{DTarray\_pro} will calculate protein/peptide molecular weights and  molecular  formulas when the \texttt{-mw} option is provided. Columns  will  be  included in output files for average mass, monoisotopic mass and molecular formula.  
 	
-	\pagebreak
+	%\pagebreak
 	\bigskip
 	\noindent
 	Three files are required for the calculation:
