@@ -60,3 +60,15 @@ index	option	arg
 59	rw	rw flist
 60	flist	
 61	flist	flist dtarray_pro_flist.txt
+62	r	
+63	r	r 0
+64	r	r 1
+65	l	
+66	l	l 0
+67	l	l 1
+68	e	
+69	e	e 1
+70	e	e 0
+71	a	
+72	a	a 0
+73	a	a 1

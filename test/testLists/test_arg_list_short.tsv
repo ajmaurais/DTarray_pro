@@ -23,5 +23,11 @@ index	option	arg
 50	rev	rev 1
 51	loc	
 52	loc	loc
-53	fxn	
-54	fxn	fxn
+63	r	r 0
+64	r	r 1
+66	l	l 0
+67	l	l 1
+68	e	
+69	e	e keratin
+70	a	
+71	a	a keratin
