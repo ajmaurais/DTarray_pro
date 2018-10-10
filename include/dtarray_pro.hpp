@@ -45,7 +45,7 @@
 #define IN_DELIM '\t'
 #endif
 
-std::string const REVERSE_MATCH = "Reverse_";
+std::string const REVERSE_MATCH = "reverse_";
 
 std::string parseReplicate(std::string);
 std::string parseSample(std::string, std::string, bool, bool, bool);

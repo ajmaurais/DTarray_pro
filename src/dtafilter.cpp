@@ -112,6 +112,7 @@ void Peptide::operator = (const Peptide& p)
 	calcSequence = p.calcSequence;
 	_length = p._length;
 	_proteinID = p._proteinID;
+	_matchDirrection = p._matchDirrection;
 	_calcMH = p._calcMH;
 	_fileName = p._fileName;
 	_protein = p._protein;
@@ -217,14 +218,14 @@ bool Protein::parse_matchDir_ID_Protein(std::string str)
 	
 	try{
 		if(elems.size() == 3){
-			_matchDirrection = elems.at(0);
+			_matchDirrection = utils::toLower(elems.at(0));
 			_ID = elems.at(1);
 			
 			size_t underScoreI = elems.at(2).find_last_of("_");
 			_protein = elems.at(2).substr(0, underScoreI);
 		}
 		else{
-			_matchDirrection = elems.at(0);
+			_matchDirrection = utils::toLower(elems.at(0));
 			_ID = elems.at(0);
 			_protein = elems.at(0);
 		}
