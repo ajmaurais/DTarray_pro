@@ -71,7 +71,7 @@
 		
 		\item Transfer the source code archive (should be named something like \texttt{DTarray\_pro-\VERSION.tar}) to your \texttt{pleiades} account using your FTP client of choice.	
 		
-		\item The source code archive has to be unpacked before you can access it. To unpack the \texttt{.tar} type the following commands in your terminal.
+		\item The source code archive has to be unpacked before you can access it. To unpack the \texttt{.tar} file, type the following commands in your terminal.
 		
 		\begin{lstlisting}
 			$ cd ~/local
@@ -111,7 +111,7 @@
 
 	\subsection{Adding a shortcut for DTarray\_pro and DTsetup (optional)}
 	
-	To run \texttt{DTarray\_pro} you have to navigate on your terminal to a folder which contains DTASelect-filter files then type the full path to the executable file relative from the directory you are currently in.  Its possible to install a program system wide so you don't have to type the path every time, but without administrative privileges, its a bit complicated. A workaround is to create a shortcut or alias to the executable file.  This section will explain how to add an alias for \texttt{DTarray\_pro} and \texttt{DTsetup} to your shell profile on \texttt{pleiades}
+	To run \texttt{DTarray\_pro} you have to navigate on your terminal to a folder which contains DTASelect-filter files then type the full path to the executable file.  Its possible to install a program system wide so you don't have to type the path every time, but without administrative privileges, its a bit complicated. A workaround is to create a shortcut or alias to the executable file.  This section will explain how to add an alias for \texttt{DTarray\_pro} and \texttt{DTsetup} to your shell profile on \texttt{pleiades}
 	
 	\begin{itemize}
 		\item To add an alias for \texttt{DTarray\_pro} and \texttt{DTsetup}, you will have to edit your shell profile, which is a file stored in your home directory named \texttt{.tcshrc}.
@@ -266,7 +266,7 @@
 	
 	\subsection{DTarray\_pro Output file options}
 	
-	This document will not provide an exhaustive list of options for \texttt{DTarray\_pro}. Instead, this section will provide examples of options will likely find useful.  For the full list of optional arguments see \texttt{DTarray\_pro-\VERSION/helpFile.pdf} or use \texttt{DTarray -h} to see the help file from the terminal.
+	This document will not provide an exhaustive list of options for \texttt{DTarray\_pro}. Instead, this section will provide examples of options will likely find most useful.  For the full list of optional arguments see \texttt{DTarray\_pro-\VERSION/helpFile.pdf} or use \texttt{DTarray -h} to see the help file from the terminal.
 	
 	\subsubsection{Get spectral counts for unique peptides by protein} \label{sec:unique_sc}
 	
@@ -308,7 +308,7 @@
 	
 	%\bigskip
 	\noindent
-	The \texttt{-s} option can be used to control this behavior. To group the columns by sample (table \ref{table:s_1}, then observation add the \texttt{-s 1} option.
+	The \texttt{-s} option can be used to control this behavior. To group the columns by sample , then observation (table \ref{table:s_1}) add the \texttt{-s 1} option.
 	
 	\begin{lstlisting}
 		$ DTarray -u -s 1
@@ -335,6 +335,7 @@
 	
 	\subsubsection{Get spectral counts for peptides}
 	
+	\noindent
 	By default no peptide file is generated.  To also generate a file containing spectral counts for peptides in each sample, use the \texttt{-p 1} option.
 	
 	\begin{lstlisting}
@@ -346,6 +347,7 @@
 	
 	\subsubsection{Modify how peptides are grouped in output file}
 	
+	\noindent
 	By default, peptides are grouped by sequence and parent protein.  A separate entry for each	charge state of a given peptide will be  included  in  peptide	output files.  If the \texttt{-g 2} option is set, peptides will also be grouped by charge; i.e., the spectral counts for each peptide will be the sum of all charge states identified for that peptide.
 	
 	\begin{lstlisting}
@@ -356,7 +358,7 @@
 	The \texttt{-modG <group\_method>} specifies how to group modified peptides in \texttt{peptideList.tsv}.  By default peptides  with  the  same sequence, but different modification status will not be grouped. A separate entry will be  included for each modification status found for a peptide. To ignore modification status when grouping peptides, use the \texttt{-modG 1} option.
 	
 	\begin{lstlisting}
-		$ DTarray -p 1 -modG 0
+		$ DTarray -p 1 -modG 1
 	\end{lstlisting}
 	
 	\noindent
@@ -407,12 +409,13 @@
 	\end{enumerate}
 	
 	\noindent
-	By default the atom count table located at \texttt{DTarray\_pro-\VERSION/db/atomCountTable.txt} is used. The default atom count table includes a static modification for iodoacetamide alkylation.  To calculate peptide and protein masses with default residue masses, run:
+	By default the atom count table located at \texttt{DTarray\_pro-\VERSION/db/atomCountTable.txt} is used. The default atom count table includes a static modification on cysteine for iodoacetamide alkylation.  To calculate peptide and protein masses with default residue masses, run:
 	
 	\begin{lstlisting}
 		$ DTarray -p 1 -mw
 	\end{lstlisting}
 	
+	\noindent
 	The  user  can  also supply a custom \texttt{atomCountTable.txt} file with the \texttt{-act <file\_name>} option. A copy of the default atom count table can be generated in the working directory with the \texttt{-mact} option.  
 	
 	\begin{lstlisting}
