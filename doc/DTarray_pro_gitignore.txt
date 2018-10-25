@@ -1,0 +1,12 @@
+
+# DTarray_pro output files
+
+dtarray_pro_flist.txt
+DTarray_pro.tsv
+DTarray_long.tsv
+peptideList.tsv
+peptideList_long.tsv
+prey_file.txt
+interaction_file.txt
+loc_summary.tsv
+loc_summary_long.tsv
