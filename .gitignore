@@ -6,6 +6,7 @@ DTarray_pro.xcodeproj/*
 obj/*
 helpFile.pdf
 include/config.hpp
+doc/doxygen/html/*
 
 #stuff from test folder
 test/bin/*
