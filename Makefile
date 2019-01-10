@@ -94,9 +94,9 @@ endif
 
 $(BINDIR)/$(EXE): $(OBJS)
 	mkdir -p $(BINDIR)
-	$(CXX) $(LDFLAGS) $? -o $@
+	$(CXX) $(LDFLAGS) $(OBJS) -o $@
 
-$(OBJDIR)/%.o: $(SRCDIR)/%.cpp
+$(OBJDIR)/%.o: $(SRCDIR)/%.cpp $(HEADERDIR)/%.hpp
 	mkdir -p $(OBJDIR)
 	$(CXX) $(CXXFLAGS) $< -o $@
 
