@@ -208,6 +208,7 @@ namespace params{
 		bool writeFlist();
 		bool optionsCompatable() const;
 		bool writeAtomCountTable(std::string) const;
+		void printGitVersion() const;
 		std::string getFilePath(size_t index) const {
 			return file[index].getPath();
 		}

@@ -25,7 +25,6 @@
 //
 
 #include <params.hpp>
-#include <gitVersion.hpp>
 
 namespace params{
 	
@@ -428,9 +427,7 @@ namespace params{
 			}
 			if(!strcmp(argv[i], "-v") || !strcmp(argv[i], "--version"))
 			{
-				std::cout << "DTarray_pro " << BIN_VERSION_NUM << std::endl;
-				std::cout << "Last git commit: " << GIT_DATE << std::endl;
-				std::cout << "git revision: " << GIT_COMMIT << std::endl;
+				printGitVersion();
 				return false;
 			}
 			if(!strcmp(argv[i], "--purge"))
@@ -539,6 +536,15 @@ namespace params{
 		else{
 			std::cerr << "Dir does not exist!" << std::endl;
 		}
+	}
+	
+	/**
+	 Print git version and date and time of last commit to std::out.
+	 */
+	void params::Params::printGitVersion() const{
+		std::cout << "DTarray_pro " << BIN_VERSION_NUM << std::endl;
+		std::cout << "Last git commit: " << GIT_VERSION << std::endl;
+		std::cout << "git revision: " << GIT_DATE << std::endl;
 	}
 	
 	bool Params::writeFlist()
