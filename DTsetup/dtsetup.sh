@@ -3,7 +3,7 @@
 invalidOptionMessage="is an invalid option! Exiting..."
 format="std"
 
-#get arguements
+#get arguments
 while ! [[ -z "$1" ]] ; do
 	case $1 in
 		"-f" | "--format")
