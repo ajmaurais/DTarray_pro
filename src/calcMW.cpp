@@ -45,19 +45,24 @@ namespace mwDB{
 	
 	bool SeqDB::readIn(std::string fname)
 	{
-		utils::File data(fname);
-		if(!data.read(fname))
-			return false;
+		std::ifstream inF(fname);
+		if(!inF) return false;
 		
 		std::string line;
 		std::string tempID;
-		while(!data.end())
+		while(utils::safeGetline(inF, line))
 		{
-			line = data.getLine_skip_trim();
+			//line = data.getLine_skip_trim();
+			line = utils::trim(line);
+			if(line.empty())
+			
 			if(line[0] == '>' && !utils::strContains("Reverse", line))
 			{
 				tempID = mwDB::getID(line);
-				line = data.getLine_skip_trim();
+				utils::safeGetline(inF, line);
+				line = utils::trim(line);
+				assert(!line.empty());
+				
 				if(line[0] == '>')
 					return false;
 				seqLibrary[tempID] = line;

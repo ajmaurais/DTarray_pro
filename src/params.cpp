@@ -498,14 +498,18 @@ namespace params{
 		return true;
 	}
 	
-	//print program usage information located in PROG_USAGE_FNAME
+	/**
+	 \brief Print usage to \p out
+	 
+	 Prints contents of ParamsBase::_usageFile to \p out
+	 \param out ostream to print to.
+	 */
 	void Params::usage() const
 	{
-		utils::File file(PROG_USAGE_FNAME);
-		assert(file.read());
-		
-		while(!file.end())
-			std::cout << file.getLine() << std::endl;
+		std::ifstream inF(PROG_USAGE_FNAME);
+		std::string line;
+		while(utils::safeGetline(inF, line))
+			std::cerr << line << NEW_LINE;
 	}
 	
 	//removes all DTarray_pro generated files with default file names in
@@ -521,7 +525,7 @@ namespace params{
 				DB_OFNAME, PEPTIDE_OFNAME, PEPTIDE_DB_OFNAME, SAINT_PREY_FILE,
 				SAINT_INTERACTION_FILE, LOC_TABLE_FNAME, LOC_TABLE_LONG_FNAME};
 			
-			for(std::string* p = utils::begin(deleteFiles); p != utils::end(deleteFiles); ++p)
+			for(std::string* p = std::begin(deleteFiles); p != std::end(deleteFiles); ++p)
 			{
 				if(utils::fileExists(_wd + *p))
 				{
@@ -612,15 +616,15 @@ namespace params{
 	
 	bool Params::readFlist(std::string fname, std::string path)
 	{
-		utils::File data;
-		if(!data.read(path + fname))
-			return false;
+		std::ifstream inF(path + fname);
+		if(!inF) return false;
 
 		numFiles = 0;
 		std::string line;
 		
-		do{
-			line = data.getLine_skip_trim();
+		while(utils::safeGetline(inF, line))
+		{
+			//line = data.getLine_skip_trim();
 			if(utils::startsWith(line, VNUM_STR)) //check line begins with VNUM_STR
 			{
 				versionNum = parseVersionNum(line);
@@ -634,18 +638,21 @@ namespace params{
 			}
 			if(line == "<flist>")
 			{
-				do{
-					if(data.end())
-						return false;
-					line = data.getLine_skip_trim();
-					if(line == "</flist>")
-						continue;
+				std::streampos pos;
+				while(utils::safeGetline(inF, line, pos))
+				{
+					line = utils::trim(line);
+					if(line.empty() || utils::isCommentLine(line)) continue;
+					if(line == "</flist>"){
+						inF.seekg(pos);
+						break;
+					}
 					file.push_back(FilterFileParam(line));
 					numFiles++;
-				} while(line != "</flist>");
+				}
 				continue;
 			}
-		} while(!data.end());
+		}
 		
 		return true;
 	}

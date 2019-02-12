@@ -69,14 +69,15 @@ void DBProtein::operator = (const DBProtein& pget)
 
 bool Dbase::readIn(std::string fname)
 {
-	utils::File file(fname);
-	if(!file.read(fname))
-		return false;
+	std::ifstream inF(fname);
+	if(!inF) return false;
 	
 	std::string line;
 	
-	while(!file.end()){
-		line = file.getLine_skip_trim();
+	while(utils::safeGetline(inF, line)){
+		line = utils::trim(line);
+		if(line.empty()) continue;
+		
 		DBProtein newDBProtein(line);
 		
 		//skip line if it is header line

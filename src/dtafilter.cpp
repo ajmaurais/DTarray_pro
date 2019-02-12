@@ -272,22 +272,23 @@ bool Proteins::readIn(params::Params* const pars,
 					  Peptides * const peptides)
 {
 	std::string fname = pars->getwd() + pars->getFilePath(_colIndex);
-	utils::File file;
-	if(!file.read(fname))
-		return false;
+	//utils::File file;
+	//if(!file.read(fname))
+	//	return false;
+	
+	std::ifstream inF(fname);
+	if(!inF) return false;
 	
 	DataType::iterator proteinIndex;
 	bool inProtein = false;
-	bool getNewLine = true;
+	//bool getNewLine = true;
 	bool foundHeader = false;
 	std::string line;
 	std::map<std::string, Peptide>::iterator peptidesIndex;
 	size_t colNamesLen = pars->getNumFiles();
 	
-	while(!file.end()){
-		if(getNewLine)
-			line = file.getLine();
-		getNewLine = true;
+	while(utils::safeGetline(inF, line))
+	{
 		if(utils::strContains('%', line)) //find protein header lines by percent symbol for percent coverage
 		{
 			if(!foundHeader)
@@ -321,13 +322,14 @@ bool Proteins::readIn(params::Params* const pars,
 				//get peptide data if applicable
 				if((pars->includeUnique || pars->includePeptides || pars->includeModStat) && inProtein)
 				{
-					line = file.getLine();
-					getNewLine = false;
-					while(!file.end())
+					//line = file.getLine();
+					//getNewLine = false;
+					std::streampos pos;
+					while(utils::safeGetline(inF, line, pos))
 					{
-						if(getNewLine)
+						/*if(getNewLine)
 							line = file.getLine();
-						getNewLine = true;
+						getNewLine = true;*/
 						
 						//break if starting new protein or end of file
 						if(utils::strContains('%', line) || line == "\tProteins\tPeptide IDs\tSpectra")
@@ -372,7 +374,7 @@ bool Proteins::readIn(params::Params* const pars,
 							
 						}
 					}//end of while
-					getNewLine = false;
+					inF.seekg(pos);
 					inProtein = false;
 				}//end of if
 			}//end of else
@@ -1067,7 +1069,7 @@ bool Proteins::writeLongLocTable(std::string fname, const params::Params& pars) 
 		headers.push_back("Sample");
 	}
 	
-	headers.insert(headers.end(), utils::begin(LOC_REPORT_HEADERS), utils::end(LOC_REPORT_HEADERS));
+	headers.insert(headers.end(), std::begin(LOC_REPORT_HEADERS), std::end(LOC_REPORT_HEADERS));
 	
 	if(pars.includeUnique)
 	{
@@ -1108,7 +1110,7 @@ bool Proteins::writeWideLocTable(std::string fname, const params::Params& pars) 
 	
 	int supInfoNum = pars.includeUnique + 3;
 	
-	repeatedHeadersV.insert(repeatedHeadersV.end(), utils::begin(LOC_REPORT_HEADERS), utils::end(LOC_REPORT_HEADERS));
+	repeatedHeadersV.insert(repeatedHeadersV.end(), std::begin(LOC_REPORT_HEADERS), std::end(LOC_REPORT_HEADERS));
 	
 	if(pars.includeUnique)
 	{
@@ -1405,7 +1407,7 @@ bool Peptides::writeOut(std::string ofname, const params::Params& pars)
 	//generate headers based off params
 	std::vector<std::string> headers;
 	std::vector<std::string>::iterator it;
-	headers.insert(headers.begin(), DEFALUT_PEPTIDE_COLNAMES, utils::end(DEFALUT_PEPTIDE_COLNAMES));
+	headers.insert(headers.begin(), DEFALUT_PEPTIDE_COLNAMES, std::end(DEFALUT_PEPTIDE_COLNAMES));
 	
 	if(pars.peptideGroupMethod != params::Params::byCharge)
 	{
@@ -1549,7 +1551,7 @@ bool Peptides::writeOutDB(std::string ofname, const params::Params& pars)
 		{
 			if(*it == "CalcMH")
 			{
-				headers.insert(it + 1, utils::begin(add), utils::end(add));
+				headers.insert(it + 1, std::begin(add), std::end(add));
 				break;
 			}
 		}

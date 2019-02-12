@@ -36,22 +36,19 @@ namespace saint{
 	
 	bool BaitFile::read()
 	{
-		if(_fname.empty())
-		{
+		if(_fname.empty()){
 			std::cerr << "\nBaitFile fname not specified!\n";
 			return false;
 		}
 		
-		utils::File file(_fname);
-		if(!file.read())
-			return false;
+		std::ifstream inF(_fname);
+		if(!inF) return false;
 		
 		std::string line;
 		std::vector<std::string> elems;
 		
-		while(!file.end())
+		while(utils::safeGetline(inF, line))
 		{
-			line = file.getLine();
 			utils::split(line, '\t', elems);
 			assert(elems.size() == 3);
 			

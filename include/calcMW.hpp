@@ -34,10 +34,6 @@
 namespace mwDB{
 	class SeqDB;
 	
-	/*size_t const SEQ_LIB_SIZE = 10000;
-	size_t const AA_DB_SIZE = 20;
-	size_t const MAX_PARAM_ITTERATIONS = 100;*/
-	
 	std::string const SEQ_NOT_FOUND = "SEQUENCE_NOT_FOUND_IN_DB";
 	
 	class SeqDB{

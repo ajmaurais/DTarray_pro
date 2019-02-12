@@ -96,15 +96,17 @@ bool molFormula::Residues::readAtomCountTable()
 	if(atomCountTableLoc.empty())
 		throw std::runtime_error("atomCountTableLoc must be specified");
 	
-	utils::File file;
-	if(!file.read(atomCountTableLoc))
-		return false;
+	std::ifstream inF(atomCountTableLoc);
+	if(!inF) return false;
 	
 	std::string line;
 	std::vector<std::string> elems;
-	while(!file.end())
+	while(utils::safeGetline(inF, line))
 	{
-		line = file.getLine_skip_trim();
+		line = utils::trim(line);
+		if(line.empty() || utils::isCommentLine(line))
+			continue;
+		
 		line = line.substr(0, line.find(";"));
 		utils::split(line, IN_DELIM, elems);
 		utils::trimAll(elems);
@@ -154,15 +156,17 @@ bool molFormula::Residues::readAtomMassTable()
 	if(massTableLoc.empty())
 		throw std::runtime_error("atomCountTableLoc must be specified");
 	
-	utils::File file;
-	if(!file.read(massTableLoc))
-		return false;
+	std::ifstream inF(massTableLoc);
+	if(!inF) return false;
 	
 	std::string line;
 	std::vector<std::string> elems;
-	while(!file.end())
+	while(utils::safeGetline(inF, line))
 	{
-		line = file.getLine_skip_trim();
+		line = utils::trim(line);
+		if(line.empty() || utils::isCommentLine(line))
+			continue;		
+		
 		utils::split(line, IN_DELIM, elems);
 		utils::trimAll(elems);
 		

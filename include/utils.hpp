@@ -1,31 +1,15 @@
 //
 //  utils.hpp
-//  DTarray_pro
-// -----------------------------------------------------------------------------
-// Copyright 2018 Aaron maurais
-// -----------------------------------------------------------------------------
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
+//  costom general utils library
 //
-// The above copyright notice and this permission notice shall be included in
-// all copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-// FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-// DEALINGS IN THE SOFTWARE.
-// -----------------------------------------------------------------------------
+//  Created by Aaron Maurais on 8/31/17.
+//  Copyright © 2017 Aaron Maurais. All rights reserved.
 //
 
-#pragma once
+#ifndef utils_hpp
+#define utils_hpp
 
+#include <iostream>
 #include <cassert>
 #include <sstream>
 #include <sys/stat.h>
@@ -40,9 +24,23 @@
 #include <vector>
 #include <fstream>
 #include <algorithm>
+#include <cmath>
+#include <string>
+#include <cctype>
+#include <type_traits>
 
 #ifndef PATH_MAX
 	#define PATH_MAX 1024
+#endif
+
+#ifndef IN_DELIM
+	#define IN_DELIM '\t'
+#endif
+#ifndef OUT_DELIM
+	#define OUT_DELIM '\t'
+#endif
+#ifndef NEW_LINE
+#define NEW_LINE '\n'
 #endif
 
 namespace utils{
@@ -53,127 +51,110 @@ namespace utils{
 	
 	std::string const WHITESPACE = " \f\n\r\t\v";
 	std::string const COMMENT_SYMBOL = "#";
-	enum newline_type {lf, crlf, cr, unknown};
-	char const DEFAULT_LINE_DELIM = '\n';
-	size_t const DEFAULT_BEGIN_LINE = 0;
 	bool const IGNORE_HIDDEN_FILES = true; //ignore hidden files in utils::ls
+	int const PROGRESS_BAR_WIDTH = 60;
+	
 	std::string const SUBSCRIPT_MAP [] = {"\u2080", "\u2081", "\u2082", "\u2083",
 		"\u2084", "\u2085", "\u2086", "\u2087", "\u2088", "\u2089"};
-	/*std::string const SUPERSCRIPT_MAP [] = {"\u00B0", "\u00B1", "\u00B2", "\u00B3",
-		"\u00B4", "\u00B5", "\u00B6", "\u00B7", "\u00B8", "\u00B9"};*/
-	
-	/******************************/
-	/*     class definitions     */
-	/*****************************/
-	
-	class File;
-	
-	//file class for reading in text files line by line
-	//automatically detects and handles line return characters from different operating systems
-	class File{
-	private:
-		char* buffer;
-		char delim;
-		newline_type delimType;
-		std::string fname;
-		size_t beginLine;
-		std::stringstream ss;
-		unsigned long slen;
-	public:
-		File(){
-			buffer = nullptr;
-			slen = 0;
-		}
-		File(std::string str){
-			buffer = nullptr;
-			fname = str;
-			slen = 0;
-		}
-		~File(){}
-		
-		//modifers
-		bool read(std::string);
-		bool read();
-		std::string getLine();
-		std::string getLine_skip();
-		std::string getLine_trim();
-		std::string getLine_skip_trim();
-		std::string getLine_trim_skip();
-		
-		//properties
-		bool end(){
-			return (ss.tellg() >= slen);
-		}
-		std::string getFname() const{
-			return fname;
-		}
-		char getDelim() const{
-			return delim;
-		}
-		newline_type getNewLineType() const{
-			return delimType;
-		}
-	};
 	
 	/*************/
 	/* functions */
 	/*************/
 	
 	//file utils
-	char getDelim(newline_type);
-	newline_type detectLineEnding_killStream(std::ifstream&);
-	newline_type detectLineEnding(std::ifstream&);
+	void readBuffer(std::string fname, char** buffer, size_t& size);
 	bool dirExists(const char*);
 	bool dirExists(std::string);
 	bool fileExists(const char*);
 	bool fileExists(std::string);
+	bool isDir(const char*);
+	bool isDir(std::string);
 	std::string pwd();
 	std::string absPath(std::string);
 	std::string absPath(const char*);
-	bool isAbsPath(const std::string&);
-	bool isAbsPath(const char*);
 	bool ls(const char*, std::vector<std::string>&);
 	bool ls(const char*, std::vector<std::string>&, std::string);
 	bool mkdir(std::string);
 	bool mkdir(const char*);
 	void systemCommand(std::string command);
-	std::string baseName(const std::string& path, const std::string& delims = "/\\");
+	std::string baseName(std::string path, const std::string& delims = "/\\");
+	std::string dirName(std::string path, const std::string& delims = "/\\");
+	std::string parentDir(std::string path, char delim = '/');
 	std::string removeExtension(const std::string&);
 	std::string getExtension(const std::string&);
-	
+	std::istream& safeGetline(std::istream& is, std::string& t);
+	std::istream& safeGetline(std::istream& is, std::string& t, std::streampos& oldPos);
+		
 	//std::string utils
-	bool strContains(std::string findTxt, std::string whithinTxt);
-	bool strContains(char findTxt, std::string whithinTxt);
+	bool strContains(std::string, std::string);
+	bool strContains(char, std::string);
 	bool startsWith(std::string whithinStr, std::string findStr);
 	bool endsWith(std::string whithinStr, std::string findStr);
-	void split(const std::string&, const char, std::vector<std::string>&);
+	void split (const std::string&, const char, std::vector<std::string>&);
 	std::string trimTraling(const std::string&);
 	std::string trimLeading(const std::string&);
 	std::string trim(const std::string&);
 	void trimAll(std::vector<std::string>&);
-	void removeBlanks(std::vector<std::string>&);
 	bool isCommentLine(std::string);
-	std::string removeSubstr(std::string, std::string);
-	std::string removeChars(char, std::string);
+	std::string removeSubstr(std::string,std::string);
+	std::string removeChars(char,std::string);
 	std::string toLower(std::string);
 	std::string repeat(std::string, size_t);
-	void getLineTrim(std::istream& is, std::string& line,
-		char delim = DEFAULT_LINE_DELIM, size_t beg= DEFAULT_BEGIN_LINE);
-	void getLine(std::istream& is, std::string& line,
-		char delim = DEFAULT_LINE_DELIM, size_t beg= DEFAULT_BEGIN_LINE);
+	size_t offset(const char* buf, size_t len, const char* str);
+	size_t offset(const char* buf, size_t len, std::string s);
+	void removeEmptyStrings(std::vector<std::string>&);
 	std::string toSubscript(int);
-	//std::string toSuperscript(int);
 	
 	//other
+	bool isInteger(const std::string & s);
 	bool isFlag(const char*);
 	bool isArg(const char*);
+	void printProgress(float progress, std::ostream& out, int barWidth = PROGRESS_BAR_WIDTH);
+	void printProgress(float progress, int barWidth = PROGRESS_BAR_WIDTH);
 	std::string ascTime();
-	template <typename _Tp, size_t N> _Tp* begin(_Tp(&arr)[N]) {
-		return &arr[0];
+	template <typename _Tp> int round(_Tp num){
+		return floor(num + 0.5);
 	}
-	template <typename _Tp, size_t N> _Tp* end(_Tp(&arr)[N]) {
-		return &arr[0]+N;
+	
+	/**
+	 Get number of digits in an integer.
+	 \param num number to count digits of
+	 \pre \p num must be an integer type
+	 \return number of digits in \p num
+	 */
+	template <typename _Tp> int numDigits(_Tp num){
+		static_assert(std::is_integral<_Tp>::value, "num must be integer");
+		int count = 0;
+		while (num != 0) {
+			count++;
+			num /= 10;
+		}
+		return count;
 	}
+	
+	/**
+	 Determine whether compare is between compare - range and compare + range.
+	 @param value reference value
+	 @param compare value to search for in range
+	 @param range the range
+	 @return True if compare is in range
+	 */
+	template<typename _Tp> bool inRange(_Tp value, _Tp compare, _Tp range){
+		return abs(value - compare) <= range;
+	}
+	
+	/**
+	 Determine whether comp is beg <= comp and comp <= end
+	 @param beg beginning of range
+	 @param end end of range
+	 @param comp the value to search for in range
+	 @return True if comp is in range
+	 */
+	template<typename _Tp> bool inSpan(_Tp beg, _Tp end, _Tp comp){
+		return beg <= comp && comp <= end;
+	}
+	int getInt(int min, int max);
 }
 
-/* utils_hpp */
+#endif /* utils_hpp */
+
