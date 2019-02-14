@@ -1,6 +1,6 @@
 //
 //  dtafilter.hpp
-//  DTarray_AJM
+//  DTarray_pro
 // -----------------------------------------------------------------------------
 // Copyright 2018 Aaron maurais
 // -----------------------------------------------------------------------------
@@ -43,6 +43,7 @@
 #include <calcMW.hpp>
 #include <saintOutput.hpp>
 #include <locReport.hpp>
+#include <fastaFile.hpp>
 #include <molecularFormula.hpp>
 
 /******************************/
@@ -148,8 +149,10 @@ private:
 	
 	//pointers to Proteins data
 	static Dbase* _locDB;
-	static mwDB::MWDB_Protein* _mwdb;
-	static mwDB::SeqDB* _seqDB;
+	//static mwDB::MWDB_Protein* _mwdb;
+	//static mwDB::SeqDB* _seqDB;
+	static molFormula::Residues* _mwdb;
+	static fastaFile::FastaFile* _seqDB;
 	static Dbase* _fxnDB;
 	static saint::BaitFile* _baitFile;
 	static locReport::LocDB* _locTable;
@@ -175,8 +178,10 @@ public:
 	Protein(params::Params* const pars,
 			Dbase* const locDB,
 			Dbase* const fxnDB,
-			mwDB::MWDB_Protein* const mwdb,
-			mwDB::SeqDB* const seqDB,
+			//mwDB::MWDB_Protein* const mwdb,
+			//mwDB::SeqDB* const seqDB,
+			molFormula::Residues* const mwdb,
+			fastaFile::FastaFile* const seqDB,
 			saint::BaitFile* const baitFile,
 			locReport::LocDB* const locTable)
 		: ProteinDataTemplate<SampleData_protein>(pars) {
@@ -204,8 +209,10 @@ class Proteins : public DBTemplate<Protein>{
 	friend class saint::BaitFile;
 	Dbase _locDB;
 	Dbase _fxnDB;
-	mwDB::MWDB_Protein _mwdb;
-	mwDB::SeqDB _seqDB;
+	//mwDB::MWDB_Protein _mwdb;
+	//mwDB::SeqDB _seqDB;
+	molFormula::Residues _mwdb;
+	fastaFile::FastaFile _seqDB;
 	saint::BaitFile _baitFile;
 	locReport::LocDB _locTable;
 	
@@ -218,7 +225,7 @@ public:
 	enum OutputFiles {preyFile, interactionFile};
 	
 	//constructor
-	Proteins(const params::Params& pars) : DBTemplate<Protein>(pars){}
+	Proteins(const params::Params& pars) : DBTemplate<Protein>(), _seqDB() {}
 	Proteins() : DBTemplate<Protein>(){}
 	~Proteins(){}
 	

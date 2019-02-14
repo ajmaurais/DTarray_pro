@@ -100,8 +100,10 @@ namespace params{
 		}
 	};
 		
-	//stores names and locations for DTA filter files and output parameters found in
-	//params file.
+	/**
+	 stores names and locations for DTA filter files and output parameters found in
+	 params file.
+	 */
 	class Params{
 	public:
 		enum OutputFormat {none, wideFormat, longFormat, both};

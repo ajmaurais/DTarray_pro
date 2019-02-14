@@ -1,6 +1,6 @@
 //
 //  dtafilter.cpp
-//  DTarray_AJM
+//  DTarray_pro
 // -----------------------------------------------------------------------------
 // Copyright 2018 Aaron maurais
 // -----------------------------------------------------------------------------
@@ -28,8 +28,8 @@
 
 Dbase* Protein::_locDB = nullptr;
 Dbase* Protein::_fxnDB = nullptr;
-mwDB::MWDB_Protein* Protein::_mwdb = nullptr;
-mwDB::SeqDB* Protein::_seqDB = nullptr;
+molFormula::Residues* Protein::_mwdb = nullptr;
+fastaFile::FastaFile* Protein::_seqDB = nullptr;
 saint::BaitFile* Protein::_baitFile = nullptr;
 locReport::LocDB* Protein::_locTable = nullptr;
 
@@ -241,11 +241,11 @@ bool Protein::parse_matchDir_ID_Protein(std::string str)
 
 void Protein::calcMW()
 {
-	std::string tmp_sequence = _mwdb->seqDB->getSequence(_ID);
+	std::string tmp_sequence = _seqDB->getSequence(_ID);
 	
-	if(tmp_sequence == mwDB::SEQ_NOT_FOUND)
+	if(tmp_sequence == fastaFile::PROT_SEQ_NOT_FOUND)
 	{
-		_sequence = mwDB::SEQ_NOT_FOUND;
+		_sequence = fastaFile::PROT_SEQ_NOT_FOUND;
 		_avgMass = -1;
 		_monoMass = -1;
 		_formula = "NA";
@@ -484,12 +484,13 @@ bool Proteins::readIn(params::Params* const par, Peptides* const peptides)
 
 bool Proteins::readInMWdb(const params::Params& par)
 {
-	return _mwdb.initialize(par);
+	return _mwdb.initialize(par.atomCountTableFname,
+							par.atomMassTableFname);
 }
 
 bool Proteins::readInSeqDB(std::string fname)
 {
-	return _seqDB.readIn(fname);
+	return _seqDB.read(fname);
 }
 
 bool Proteins::readInFxnDB(std::string fname)

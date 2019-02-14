@@ -73,7 +73,7 @@ int main(int argc, char* argv[])
 		}
 	}
 	
-	//only do this stuff if peptide output file is to be generated
+	//only do this stuff if protein output file is to be generated
 	if(par.includeProteins)
 	{
 		//read in subcellular locations database
@@ -101,7 +101,7 @@ int main(int argc, char* argv[])
 		//calculate mass of peptides or proteins from sequence and amino acid mass databases
 		if(par.calcMW)
 		{
-			std::cout << std::endl << "Getting protein sequences from " << par.getmwDBFname() << "...";
+			std::cout << std::endl << "Getting residue formulas from " << par.getmwDBFname() << "...";
 			if(!proteins.readInMWdb(par))
 			{
 				std::cerr << "Failed to read mwDB files! Exiting..." << std::endl;
@@ -110,7 +110,7 @@ int main(int argc, char* argv[])
 			std::cout << " done!" << std::endl;
 			peptides.setMWdb(proteins.get_mwdb());
 		}
-		if((!par.calcMW && par.getSeq ) || (par.calcMW  && (par.getSeqDBfname() != par.getmwDBFname())))
+		if(par.getSeq)
 		{
 			std::cout << std::endl << "Getting protein sequences from " << par.getSeqDBfname() << "...";
 			if(!proteins.readInSeqDB(par.getSeqDBfname()))
