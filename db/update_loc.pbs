@@ -1,0 +1,6 @@
+#!/bin/tcsh
+#PBS -l mem=12gb,nodes=1:ppn=6,walltime=24:00:00
+
+cd /home/mauraisa/local/DTarray_pro/db 
+locScraper --nThread 48 humanLoc.tsv  
+
