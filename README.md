@@ -20,16 +20,6 @@ cd ~local/<program_dir>
 ./configure
 make
 ```
-Optionally you can install the executable to `/usr/local/bin`  with.
-```bash
-make install
-```
-Or, you can create an alias for `DTarray` to `~/local/<program_directory>/bin/DTarray`.  
-
-## Uninstallation
-```bash
-make uninstall
-```
 
 ## Usage
 From a folder containing DTASelect-filter files with the format `<sample_name>.dtafilter`. 

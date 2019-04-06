@@ -61,9 +61,6 @@ SCRIPTS := scripts
 #   Tex dir
 TEX_DIR := doc/tex
 #
-#   Install dirrectory
-INSTALL_DIR := /usr/local/bin/
-#
 #
 ################################################################################
 
@@ -74,7 +71,7 @@ OBJS := $(subst $(SRCDIR)/,$(OBJDIR)/,$(SRCS:.cpp=.o))
 CXXFLAGS += $(INCLUDEFLAGS) -I$(HEADERDIR)
 LDFLAGS += $(LIBFLAGS)
 
-.PHONY: all clean distclean install uninstall
+.PHONY: all clean distclean
 
 #TARGETS = $(HEADERDIR)/$(GIT_VERSION) $(BINDIR)/$(EXE) $(BINDIR)/DTsetup helpFile.pdf DTarray_pro-Userguide.pdf
 TARGETS = $(BINDIR)/$(EXE) $(BINDIR)/DTsetup helpFile.pdf DTarray_pro-Userguide.pdf
@@ -108,11 +105,5 @@ clean:
 	rm -f $(OBJDIR)/*.o $(BINDIR)/$(EXE) $(BINDIR)/DTsetup
 	rm -f helpFile.pdf
 	cd $(TEX_DIR) && rm -f ./*.aux ./*.dvi ./*.fdb_latexmk ./*.fls ./*.log ./*.out ./*.pdf ./*.toc 
-
-install: $(BINDIR)/$(EXE)
-	cp $(BINDIR)/$(EXE) $(INSTALL_DIR)/$(EXE)
-
-uninstall:
-	rm -fv $(INSTALL_DIR)/$(EXE)
 
 distclean: clean
