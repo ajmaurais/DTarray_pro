@@ -463,3 +463,21 @@ std::string utils::ascTime()
 	return(std::string(curTime));
 }
 
+/**
+ \brief Find all indecies of substring in string.
+ 
+ \param searchStr Buffer to search.
+ \param findStr String to find.
+ \param indecies set contain all indecies
+ */
+void utils::getIdxOfSubstr(char* searchStr, const char* findStr,
+					std::vector<size_t>& indecies)
+{
+	char* tmp = searchStr;
+	size_t incrementAmt = strlen(findStr);
+	while((tmp = strstr(tmp, findStr)) != nullptr){
+		indecies.push_back((size_t)(tmp - searchStr));
+		tmp += incrementAmt;
+	}
+}
+

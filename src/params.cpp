@@ -166,28 +166,17 @@ namespace params{
 			}
 			if(!strcmp(argv[i], "-mw"))
 			{
-				if(!utils::isArg(argv[i+1]))
-				{
-					mwDBFname = seqDBfname;
+				if(utils::isArg(argv[i+1])){
+					mwDBFname = utils::absPath(argv[++i]);
 				}
-				else if(utils::isArg(argv[i+1])){
-					mwDBFname = std::string(argv[++i]);
-					mwDBFnameSpecified = true;
-				}
-				else throw std::runtime_error("bad opts!");
 				calcMW = true;
 				continue;
 			}
 			if(!strcmp(argv[i], "-seq"))
 			{
-				if(!utils::isArg(argv[i+1])){
-					seqDBfname = PROG_SEQ_DB_FNAME;
+				if(utils::isArg(argv[i+1])){
+					seqDBfname = utils::absPath(argv[++i]);
 				}
-				else if(utils::isArg(argv[i+1])){
-					seqDBfname = argv[++i];
-					seqDBFnameSpecified = true;
-				}
-				else throw std::runtime_error("bad opts!");
 				getSeq = true;
 				continue;
 			}
@@ -370,7 +359,7 @@ namespace params{
 					parseSampleName = true;
 					sampleNamePrefix = std::string(argv[++i]);
 				}
-				else throw std::runtime_error("bad opts!");
+				else return false;
 				continue;
 			}
 			if(!strcmp(argv[i], "-e") || !strcmp(argv[i], "--exclude"))

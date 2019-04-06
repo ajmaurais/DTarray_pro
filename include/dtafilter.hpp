@@ -89,8 +89,12 @@ class Peptide : public ProteinDataTemplate<SampleData_peptide> {
 	friend class Proteins;
 	friend class Peptides;
 public:
-	Peptide (params::Params* const par, molFormula::Residues* const _mwdb) : ProteinDataTemplate <SampleData_peptide>(par){
-		mwdb = _mwdb;
+	Peptide (params::Params* const par,
+			 molFormula::Residues* const mwdb,
+			 fastaFile::FastaFile* const seqdb) :
+	ProteinDataTemplate <SampleData_peptide>(par){
+		_mwdb = mwdb;
+		_seqDB = seqdb;
 	}
 	Peptide () : ProteinDataTemplate <SampleData_peptide> () {}
 	~Peptide() {}
@@ -113,7 +117,8 @@ private:
 	std::string _proteinID, _calcMH, _fileName, _protein, _description, _charge;
 	bool unique;
 	
-	static molFormula::Residues* mwdb;
+	static molFormula::Residues* _mwdb;
+	static fastaFile::FastaFile* _seqDB;
 
 	void parsePeptide(const std::string&);
 	void parseSequence(const std::string&);
@@ -123,16 +128,24 @@ class Peptides : public DBTemplate<Peptide> {
 	friend class Proteins;
 private:
 	molFormula::Residues _mwdb;
+	fastaFile::FastaFile* _seqDB;
 	
 public:
-	Peptides(const params::Params& pars) : DBTemplate<Peptide>(pars){}
-	Peptides() : DBTemplate<Peptide>(){}
+	Peptides(const params::Params& pars) : DBTemplate<Peptide>(pars){
+		_seqDB = new fastaFile::FastaFile(pars.getSeqDBfname());
+	}
+	Peptides() : DBTemplate<Peptide>(){
+		_seqDB = new fastaFile::FastaFile();
+	}
 	~Peptides(){}
 	
 	//modifers
 	bool readInMWdb(const params::Params&);
 	void setMWdb(molFormula::Residues mwdb){
 		_mwdb = mwdb;
+	}
+	void setSeqDB(fastaFile::FastaFile* const seqdb){
+		_seqDB = seqdb;
 	}
 	
 	//properties
@@ -220,12 +233,12 @@ class Proteins : public DBTemplate<Protein>{
 	bool readIn(params::Params* const,
 				const std::vector <SampleData_protein>&,
 				const std::vector<SampleData_peptide>&,
-				Peptides* const);
+				Peptides&);
 public:
 	enum OutputFiles {preyFile, interactionFile};
 	
 	//constructor
-	Proteins(const params::Params& pars) : DBTemplate<Protein>(), _seqDB() {}
+	Proteins(const params::Params& pars) : DBTemplate<Protein>(pars), _seqDB() {}
 	Proteins() : DBTemplate<Protein>(){}
 	~Proteins(){}
 	
@@ -237,8 +250,11 @@ public:
 	void buildLocTable();
 	
 	//properties
-	molFormula::Residues get_mwdb() const{
+	molFormula::Residues& get_mwdb(){
 		return _mwdb;
+	}
+	fastaFile::FastaFile* get_seqdb(){
+		return &_seqDB;
 	}
 	bool writeOut(std::string, const params::Params&);
 	bool writeOutDB(std::string, const params::Params&);
@@ -247,7 +263,7 @@ public:
 	bool writeLongLocTable(std::string, const params::Params&) const;
 	
 	//modifiers
-	bool readIn(params::Params* const, Peptides* const);
+	bool readIn(params::Params* const, Peptides&);
 };
 
 /*************/

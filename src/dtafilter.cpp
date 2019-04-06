@@ -33,7 +33,8 @@ fastaFile::FastaFile* Protein::_seqDB = nullptr;
 saint::BaitFile* Protein::_baitFile = nullptr;
 locReport::LocDB* Protein::_locTable = nullptr;
 
-molFormula::Residues* Peptide::mwdb = nullptr;
+molFormula::Residues* Peptide::_mwdb = nullptr;
+fastaFile::FastaFile* Peptide::_seqDB = nullptr;
 
 //diffmod symbols to search for
 const char* DIFFMODS = "*";
@@ -260,16 +261,16 @@ void Protein::calcMW()
 
 void Peptide::calcMW()
 {
-	_avgMass = mwdb->calcMW(calcSequence);
-	_monoMass = mwdb->calcMono(calcSequence);
-	_formula = mwdb->calcFormula(calcSequence, _par->unicode);
+	_avgMass = _mwdb->calcMW(calcSequence);
+	_monoMass = _mwdb->calcMono(calcSequence);
+	_formula = _mwdb->calcFormula(calcSequence, _par->unicode);
 }
 
 //loop through protein header and peptide lines in DTA filter file and add data to Proteins
 bool Proteins::readIn(params::Params* const pars,
 					  const std::vector <SampleData_protein>& colNamesTemp,
 					  const std::vector<SampleData_peptide>& pColNamesTemp,
-					  Peptides * const peptides)
+					  Peptides& peptides)
 {
 	std::string fname = pars->getwd() + pars->getFilePath(_colIndex);
 	//utils::File file;
@@ -337,8 +338,8 @@ bool Proteins::readIn(params::Params* const pars,
 						
 						if(pars->includePeptides)
 						{
-							Peptide newPeptide(pars, &peptides->_mwdb);
-							newPeptide.initialize(pColNamesTemp, colNamesLen, &peptides->_colIndex);
+							Peptide newPeptide(pars, &peptides._mwdb, peptides._seqDB);
+							newPeptide.initialize(pColNamesTemp, colNamesLen, &peptides._colIndex);
 							newPeptide._proteinID = newProtein._ID;
 							newPeptide._protein = newProtein._protein;
 							newPeptide._description = newProtein._description;
@@ -346,15 +347,15 @@ bool Proteins::readIn(params::Params* const pars,
 							newPeptide.parsePeptide(line);
 							
 							if(pars->peptideGroupMethod == params::Params::byScan){
-								peptides->data[newPeptide.key] = newPeptide;
+								peptides.data[newPeptide.key] = newPeptide;
 							}
 							else{
-								peptidesIndex = peptides->data.find(newPeptide.key);
-								if(peptidesIndex == peptides->data.end()){
-									peptides->data[newPeptide.key] = newPeptide;
+								peptidesIndex = peptides.data.find(newPeptide.key);
+								if(peptidesIndex == peptides.data.end()){
+									peptides.data[newPeptide.key] = newPeptide;
 								}
 								else{
-									peptides->data[newPeptide.key].consolidate(newPeptide);
+									peptides.data[newPeptide.key].consolidate(newPeptide);
 								}
 							}
 						}
@@ -454,7 +455,7 @@ void Peptide::clear()
 
 //public Proteins::readIn function which adds all files in filterFileParams to Proteins
 //and summarizes progress for user.
-bool Proteins::readIn(params::Params* const par, Peptides* const peptides)
+bool Proteins::readIn(params::Params* const par, Peptides& peptides)
 {
 	size_t colNamesLen = par->getNumFiles();
 	
@@ -785,7 +786,7 @@ bool Proteins::writeOut(std::string ofname, const params::Params& par)
 		for(int i = 0; i < headers.size(); i++)
 			if(headers[i] == "Mass(Da)")
 			{
-				headers.insert(it + i + 1, MWCALC_HEADERS[2]);
+				headers.insert(it + i + 1, MWCALC_HEADERS[3]);
 				colNamesLength = int(headers.size());
 				break;
 			}
@@ -946,7 +947,7 @@ bool Proteins::writeOutDB(std::string ofname, const params::Params& par)
 		for(int i = 0; i < headers.size(); i++)
 			if(headers[i] == "Mass(Da)")
 			{
-				headers.insert(it + i + 1, MWCALC_HEADERS[2]);
+				headers.insert(it + i + 1, MWCALC_HEADERS[3]);
 				len = int(headers.size());
 				break;
 			}

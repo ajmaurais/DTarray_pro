@@ -101,7 +101,7 @@ int main(int argc, char* argv[])
 		//calculate mass of peptides or proteins from sequence and amino acid mass databases
 		if(par.calcMW)
 		{
-			std::cout << std::endl << "Getting residue formulas from " << par.getmwDBFname() << "...";
+			std::cout << std::endl << "Getting residue formulas from " << par.getSeqDBfname() << "...";
 			if(!proteins.readInMWdb(par))
 			{
 				std::cerr << "Failed to read mwDB files! Exiting..." << std::endl;
@@ -119,6 +119,7 @@ int main(int argc, char* argv[])
 				return -1;
 			}
 			std::cout << " done!" << std::endl;
+			peptides.setSeqDB(proteins.get_seqdb());
 		}
 	}
 	else if(par.calcMW) //read mwdb for peptides if skipped for proteins
@@ -136,14 +137,16 @@ int main(int argc, char* argv[])
 		std::cout << std::endl << "Skipping reverse matches..." << std::endl;
 	
 	if(!par.getExcludeStr().empty())
-		std::cout << std::endl << "Excluding proteins with descriptions including: " << par.getExcludeStr() << std::endl;
+		std::cout << std::endl << "Excluding proteins with descriptions including: " <<
+		par.getExcludeStr() << std::endl;
 	
 	if(!par.getAddStr().empty())
-		std::cout << std::endl << "Only including proteins with descriptions including: " << par.getAddStr() << std::endl;
+		std::cout << std::endl << "Only including proteins with descriptions including: " <<
+		par.getAddStr() << std::endl;
 	
 	//read in and combine files
 	std::cout << std::endl;
-	if(!proteins.readIn(&par, &peptides))
+	if(!proteins.readIn(&par, peptides))
 		return -1;
 	std::cout << std::endl << par.getNumFiles() << " files combined." << std::endl;
 	

@@ -54,8 +54,7 @@ namespace params{
     const std::string PROG_WD_HOME = CONFIG_PROG_WD_DIR;
 	const std::string PROG_WD_DB = PROG_WD_HOME + "/db";
 	const std::string PROG_LOC_DB_FNAME = PROG_WD_DB + "/humanLoc.tsv";
-	const std::string PROG_SEQ_DB_FNAME = "/humanProteome.fasta";
-	const std::string PROG_MW_DB_FNAME = PROG_SEQ_DB_FNAME;
+	const std::string PROG_SEQ_DB_FNAME = PROG_WD_DB + "/humanProteome.fasta";
 	const std::string PROG_FXN_DB_FNAME = PROG_WD_DB + "/humanFxn.tsv";
 	const std::string PROG_ATOM_COUNT_TABLE_FNAME = PROG_WD_DB + "/defaultResidueAtoms.txt";
 	const std::string PROG_ATOM_MASS_TABLE_FNAME = PROG_WD_DB + "/atomMasses.txt";
@@ -161,9 +160,6 @@ namespace params{
 			rewriteFlist = false;
 			locDBfname = PROG_LOC_DB_FNAME;
 			calcMW = false;
-			mwDBFname = PROG_MW_DB_FNAME;
-			mwDBFnameSpecified = false;
-			seqDBFnameSpecified = false;
 			atomMassTableFname = PROG_ATOM_MASS_TABLE_FNAME;
 			atomCountTableFname = PROG_ATOM_COUNT_TABLE_FNAME;
 			unicode = false;
@@ -239,15 +235,16 @@ namespace params{
 		bool getToLower() const{
 			return toLower;
 		}
-		std::string getmwDBFname() const{
+		/*std::string getmwDBFname() const{
 			std::string ret = (mwDBFnameSpecified ? getwd() + mwDBFname :
 							   PROG_WD_DB + mwDBFname);
 			return ret;
-		}
+		}*/
 		std::string getSeqDBfname() const{
-			std::string ret = (seqDBFnameSpecified ? getwd() + seqDBfname :
-							   PROG_WD_DB + seqDBfname);
-			return ret;
+			//std::string ret = (seqDBFnameSpecified ? getwd() + seqDBfname :
+							   //PROG_WD_DB + seqDBfname);
+			//return ret;
+			return seqDBfname;
 		}
 		static std::string groupFormatString(PeptideGroupFormat);
 	private:
@@ -271,7 +268,7 @@ namespace params{
 		std::string seqDBfname;
 		std::string excludeStr, addStr;
 		bool filter, matchRegex, toLower;
-		bool mwDBFnameSpecified, seqDBFnameSpecified;
+		//bool mwDBFnameSpecified, seqDBFnameSpecified;
 		
 		size_t numFiles;
 	};
