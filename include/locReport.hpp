@@ -60,27 +60,27 @@ namespace locReport{
 		};
 		~Loc(){}
 		
-		inline void operator = (const Loc& add){
+		void operator = (const Loc& add){
 			count = add.count; specSum = add.specSum;
 			uniqSpecSum = add.uniqSpecSum; seqCount = add.seqCount;
 		}
 		
-		inline void consolidate(const Loc&);
+		void consolidate(const Loc&);
 		void initializeCol(std::string, unsigned int, unsigned int, unsigned int, unsigned int);
 		
-		inline std::string getSampleName() const{
+		std::string getSampleName() const{
 			return sampleName;
 		}
-		inline int getCount() const{
+		int getCount() const{
 			return count;
 		}
-		inline int getSpecSum() const{
+		int getSpecSum() const{
 			return specSum;
 		}
-		inline int getUniqSpecSum() const{
+		int getUniqSpecSum() const{
 			return uniqSpecSum;
 		}
-		inline int getSeqCount() const{
+		int getSeqCount() const{
 			return seqCount;
 		}
 	};
@@ -110,15 +110,15 @@ namespace locReport{
 		std::string getKey() const{
 			return utils::toLower(loc);
 		}
-		inline bool operator == (const LocDat& comp) const{
+		bool operator == (const LocDat& comp) const{
 			return getKey() == comp.getKey();
 		}
-		inline void operator = (const LocDat& add){
+		void operator = (const LocDat& add){
 			col = add.col;
 			loc = add.loc;
 		}
 		
-		inline void initializeCol(size_t colIndex, std::string _sampleName,
+		void initializeCol(size_t colIndex, std::string _sampleName,
 								  unsigned int _count, unsigned int _specSum,
 								  unsigned int _uniqSpecSum, unsigned int _seqCount) {
 			col[colIndex].initializeCol(_sampleName, _count, _specSum, _uniqSpecSum, _seqCount);

@@ -11,6 +11,7 @@
 /**
  \brief Search for \p proteinID in FastaFile::_buffer and extract protein sequence.
  \param proteinID uniprot ID of protein to search for.
+ \param verbose Should detials of ids not found be printed to std::cerr?
  \return If found, parent protein sequence. If protein sequence is not found returns
  fastaFile::PROT_SEQ_NOT_FOUND.
  */
@@ -25,8 +26,7 @@ std::string fastaFile::FastaFile::getSequence(std::string proteinID, bool verbos
 	auto offsetIt = _idIndex.find(proteinID);
 	if(offsetIt == _idIndex.end()){
 		if(verbose){
-			std::cerr << "Warning! ID: " << proteinID << " not found in fastaFile.\r";
-			std::cerr.flush();
+			std::cerr << "Warning! ID: " << proteinID << " not found in fastaFile.\n";
 		}
 		_foundSequences[proteinID] = fastaFile::PROT_SEQ_NOT_FOUND;
 		return fastaFile::PROT_SEQ_NOT_FOUND;
@@ -67,7 +67,7 @@ std::string fastaFile::FastaFile::getModifiedResidue(std::string proteinID,
 													 int modLoc)
 {
 	bool temp;
-	return getModifiedResidue(proteinID, peptideSeq, modLoc, temp);
+	return getModifiedResidue(proteinID, peptideSeq, modLoc, false, temp);
 }
 
 /**
@@ -77,17 +77,19 @@ std::string fastaFile::FastaFile::getModifiedResidue(std::string proteinID,
  \param peptideSeq unmodified peptide sequence.
  \param modLoc location of modified residue in peptide
  (where 0 is the beginning of the peptide.)
+ \param verbose Should detials of ids not found be printed to std::cerr?
  \param found set to false if first instance of searching for protein and it not being found
  */
 std::string fastaFile::FastaFile::getModifiedResidue(std::string proteinID,
 													 std::string peptideSeq,
 													 int modLoc,
+													 bool verbose,
 													 bool& found)
 {
 	found = true;
 	std::string seq;
 	if(_foundSequences.find(proteinID) == _foundSequences.end()){
-		seq = getSequence(proteinID);
+		seq = getSequence(proteinID, verbose);
 		if(seq == fastaFile::PROT_SEQ_NOT_FOUND)
 			found = false;
 	}

@@ -39,26 +39,27 @@ fastaFile::FastaFile* Peptide::_seqDB = nullptr;
 //diffmod symbols to search for
 const char* DIFFMODS = "*";
 
-void Protein::consolidate(const Protein& toAdd)
+void Protein::consolidate(const Protein& rhs)
 {
-	_col[*toAdd._colIndex]._colname = toAdd._col[*toAdd._colIndex]._colname;
-	_col[*toAdd._colIndex]._count = toAdd._col[*toAdd._colIndex]._count;
-	_col[*toAdd._colIndex]._uniquePeptides = toAdd._col[*toAdd._colIndex]._uniquePeptides;
-	_col[*toAdd._colIndex]._coverage = toAdd._col[*toAdd._colIndex]._coverage;
-	_col[*toAdd._colIndex].sequenceCount = toAdd._col[*toAdd._colIndex].sequenceCount;
-	_col[*toAdd._colIndex]._modPeptides = toAdd._col[*toAdd._colIndex]._modPeptides;
-	_col[*toAdd._colIndex]._modPeptidesSC = toAdd._col[*toAdd._colIndex]._modPeptidesSC;
+	_col[*rhs._colIndex]._colname = rhs._col[*rhs._colIndex]._colname;
+	_col[*rhs._colIndex]._count = rhs._col[*rhs._colIndex]._count;
+	_col[*rhs._colIndex]._uniquePeptides = rhs._col[*rhs._colIndex]._uniquePeptides;
+	_col[*rhs._colIndex]._coverage = rhs._col[*rhs._colIndex]._coverage;
+	_col[*rhs._colIndex].sequenceCount = rhs._col[*rhs._colIndex].sequenceCount;
+	_col[*rhs._colIndex]._modPeptides = rhs._col[*rhs._colIndex]._modPeptides;
+	_col[*rhs._colIndex]._modPeptidesSC = rhs._col[*rhs._colIndex]._modPeptidesSC;
 }
 
-void Peptide::consolidate(const Peptide& toAdd)
+void Peptide::consolidate(const Peptide& rhs)
 {
-	_col[*toAdd._colIndex]._colname = toAdd._col[*toAdd._colIndex]._colname;
-	_col[*toAdd._colIndex]._count += toAdd._col[*toAdd._colIndex]._count;
-	_col[*toAdd._colIndex]._scan = toAdd._col[*toAdd._colIndex]._scan;
-	_col[*toAdd._colIndex]._parentFile = toAdd._col[*toAdd._colIndex]._parentFile;
-	_col[*toAdd._colIndex]._obsMH = toAdd._col[*toAdd._colIndex]._obsMH;
-	_col[*toAdd._colIndex]._modPeptidesSC += toAdd._col[*toAdd._colIndex]._modPeptidesSC;
-	_col[*toAdd._colIndex]._xCorr = toAdd._col[*toAdd._colIndex]._xCorr;
+	_col[*rhs._colIndex]._colname = rhs._col[*rhs._colIndex]._colname;
+	_col[*rhs._colIndex]._count += rhs._col[*rhs._colIndex]._count;
+	_col[*rhs._colIndex]._scan = rhs._col[*rhs._colIndex]._scan;
+	_col[*rhs._colIndex]._parentFile = rhs._col[*rhs._colIndex]._parentFile;
+	_col[*rhs._colIndex]._obsMH = rhs._col[*rhs._colIndex]._obsMH;
+	_col[*rhs._colIndex]._modPeptidesSC += rhs._col[*rhs._colIndex]._modPeptidesSC;
+	_col[*rhs._colIndex]._xCorr = rhs._col[*rhs._colIndex]._xCorr;
+	_mods.insert(rhs._mods.begin(), rhs._mods.end());
 }
 
 template <class _Tp>
@@ -88,43 +89,48 @@ void Protein::addFxn()
 	fxn = _fxnDB->getDat(_ID);
 }
 
-void Protein::operator = (const Protein& p)
+void Protein::operator = (const Protein& rhs)
 {
-	_ID = p._ID;
-	_protein = p._protein;
-	_description = p._description;
-	MW = p.MW;
-	pI = p.pI;
-	_length = p._length;
-	loc = p.loc;
-	fxn = p.fxn;
-	fullDescription = p.fullDescription;
-	_matchDirrection = p._matchDirrection;
-	_col.insert(_col.begin(), p._col.begin(), p._col.end());
-	_avgMass = p._avgMass;
-	_monoMass = p._monoMass;
-	_sequence = p._sequence;
-	_supDataAdded = p._supDataAdded;
+	_ID = rhs._ID;
+	_protein = rhs._protein;
+	_description = rhs._description;
+	MW = rhs.MW;
+	pI = rhs.pI;
+	_length = rhs._length;
+	loc = rhs.loc;
+	fxn = rhs.fxn;
+	fullDescription = rhs.fullDescription;
+	_matchDirrection = rhs._matchDirrection;
+	_col.insert(_col.begin(), rhs._col.begin(), rhs._col.end());
+	_avgMass = rhs._avgMass;
+	_monoMass = rhs._monoMass;
+	_sequence = rhs._sequence;
+	_supDataAdded = rhs._supDataAdded;
 }
 
-void Peptide::operator = (const Peptide& p)
+void Peptide::operator = (const Peptide& rhs)
 {
-	key = p.key;
-	calcSequence = p.calcSequence;
-	_length = p._length;
-	_proteinID = p._proteinID;
-	_matchDirrection = p._matchDirrection;
-	_calcMH = p._calcMH;
-	_fileName = p._fileName;
-	_protein = p._protein;
-	_description = p._description;
-	_charge = p._charge;
-	unique = p.unique;
-	_col.insert(_col.begin(), p._col.begin(), p._col.end());
-	_avgMass = p._avgMass;
-	_monoMass = p._monoMass;
-	_sequence = p._sequence;
-	_supDataAdded = p._supDataAdded;
+	_key = rhs._key;
+	_calcSequence = rhs._calcSequence;
+	_length = rhs._length;
+	_proteinID = rhs._proteinID;
+	_matchDirrection = rhs._matchDirrection;
+	_calcMH = rhs._calcMH;
+	_fileName = rhs._fileName;
+	_protein = rhs._protein;
+	_description = rhs._description;
+	_charge = rhs._charge;
+	unique = rhs.unique;
+	_compareSequence = rhs._compareSequence;
+	_baseSequence = rhs._baseSequence;
+	_mods = rhs._mods;
+	_begin = rhs._begin;
+	_end = rhs._end;
+	_col.insert(_col.begin(), rhs._col.begin(), rhs._col.end());
+	_avgMass = rhs._avgMass;
+	_monoMass = rhs._monoMass;
+	_sequence = rhs._sequence;
+	_supDataAdded = rhs._supDataAdded;
 }
 
 //parse proten header line and extract desired data
@@ -133,6 +139,7 @@ bool Protein::getProteinData(std::string line)
 	//split line by tabs
 	std::vector<std::string> elems;
 	utils::split(line, IN_DELIM, elems);
+	utils::removeEmptyStrings(elems);
 	assert(elems.size() == 9);
 	
 	//parse elem[0]
@@ -261,12 +268,63 @@ void Protein::calcMW()
 
 void Peptide::calcMW()
 {
-	_avgMass = _mwdb->calcMW(calcSequence);
-	_monoMass = _mwdb->calcMono(calcSequence);
-	_formula = _mwdb->calcFormula(calcSequence, _par->unicode);
+	_avgMass = _mwdb->calcMW(_calcSequence);
+	_monoMass = _mwdb->calcMono(_calcSequence);
+	_formula = _mwdb->calcFormula(_calcSequence, _par->unicode);
 }
 
-//loop through protein header and peptide lines in DTA filter file and add data to Proteins
+/**
+ \brief Calculate the _begin, _end, and _mods Peptide members. <br>
+ 
+ Peptide::_proteinID is used to lookup parent protein sequence in
+ Peptide::_seqDB. The index at which the peptide begins in the protein
+ is then used to calculate the _mods and _end members.
+ */
+void Peptide::calcMod()
+{
+	std::string _protSeq = _seqDB->getSequence(_proteinID);
+	if(_protSeq == fastaFile::PROT_SEQ_NOT_FOUND){
+		_begin = 0; _end = 0;
+		_mods.insert(fastaFile::PROT_SEQ_NOT_FOUND);
+		return;
+	}
+	
+	if(_baseSequence == "CLALGMSRDAVK")
+		std::cout << "Found!" << NEW_LINE;
+	
+	//get start index of peptide sequence in protein sequence
+	size_t length = _calcSequence.length();
+	_begin = _protSeq.find(_baseSequence) + 1; // 1 added to _begin here
+	if(_begin == std::string::npos){
+		_begin = 0; _end = 0;
+		_mods.insert(fastaFile::PEP_SEQ_NOT_FOUND);
+		return;
+	}
+	
+	size_t posCount = 0;
+	bool modFound;
+	for(size_t i = 0; i < length; i++)
+	{
+		modFound = false;
+		for(const char* c = DIFFMODS; *c; c++)
+		{
+			if(_calcSequence[i] == *c)
+			{
+				modFound = true;
+				_mods.insert(std::string(1, _calcSequence[i - 1]) +
+							 std::to_string(_begin + posCount - 1));
+				break;
+			}
+		}
+		
+		if(!modFound) posCount++;
+	}
+	_end = _begin + posCount - 1;
+}
+
+/**
+ Loop through protein header and peptide lines in DTA filter file and add data to Proteins
+ */
 bool Proteins::readIn(params::Params* const pars,
 					  const std::vector <SampleData_protein>& colNamesTemp,
 					  const std::vector<SampleData_peptide>& pColNamesTemp,
@@ -290,6 +348,8 @@ bool Proteins::readIn(params::Params* const pars,
 	
 	while(utils::safeGetline(inF, line))
 	{
+		if(utils::trim(line).empty())
+			continue;
 		if(utils::strContains('%', line)) //find protein header lines by percent symbol for percent coverage
 		{
 			if(!foundHeader)
@@ -328,9 +388,8 @@ bool Proteins::readIn(params::Params* const pars,
 					std::streampos pos;
 					while(utils::safeGetline(inF, line, pos))
 					{
-						/*if(getNewLine)
-							line = file.getLine();
-						getNewLine = true;*/
+						if(utils::trim(line).empty())
+							continue;
 						
 						//break if starting new protein or end of file
 						if(utils::strContains('%', line) || line == "\tProteins\tPeptide IDs\tSpectra")
@@ -344,18 +403,18 @@ bool Proteins::readIn(params::Params* const pars,
 							newPeptide._protein = newProtein._protein;
 							newPeptide._description = newProtein._description;
 							newPeptide._matchDirrection = newProtein._matchDirrection;
-							newPeptide.parsePeptide(line);
+							newPeptide._parsePeptide(line);
 							
 							if(pars->peptideGroupMethod == params::Params::byScan){
-								peptides.data[newPeptide.key] = newPeptide;
+								peptides.data[newPeptide._key] = newPeptide;
 							}
 							else{
-								peptidesIndex = peptides.data.find(newPeptide.key);
+								peptidesIndex = peptides.data.find(newPeptide._key);
 								if(peptidesIndex == peptides.data.end()){
-									peptides.data[newPeptide.key] = newPeptide;
+									peptides.data[newPeptide._key] = newPeptide;
 								}
 								else{
-									peptides.data[newPeptide.key].consolidate(newPeptide);
+									peptides.data[newPeptide._key].consolidate(newPeptide);
 								}
 							}
 						}
@@ -384,16 +443,16 @@ bool Proteins::readIn(params::Params* const pars,
 	return true;
 }
 
-void Peptide::parsePeptide(const std::string& line)
+void Peptide::_parsePeptide(const std::string& line)
 {
 	std::vector<std::string> elems;
 	utils::split(line, IN_DELIM, elems);
-	
+	//utils::removeEmptyStrings(elems);
 	assert(elems.size() == 13);
 	
 	unique = elems[0] == "*";
-	parseSequence(elems[12]); //get calcSequence
-	_length = std::to_string(calcSequence.length());
+	_parseSequence(elems[12]); //get calcSequence and compare sequence
+	_length = std::to_string(_calcSequence.length());
 	_sequence = elems[12];
 	_col[*_colIndex]._obsMH = elems[5];
 	_col[*_colIndex]._count = std::stoi(elems[11]);
@@ -409,7 +468,7 @@ void Peptide::parsePeptide(const std::string& line)
 	elems.clear();
 	utils::split(temp, '.', elems);
 	_charge = elems[3];
-	key = makeKey();
+	_key = makeKey();
 	_col[*_colIndex]._scan = elems[2];
 	_col[*_colIndex]._parentFile = elems[0];
 }
@@ -418,9 +477,9 @@ std::string Peptide::makeKey() const {
 	switch(_par->peptideGroupMethod){
 		case params::Params::byScan : return _fileName;
 			break;
-		case params::Params::byProtein : return _proteinID + "_" + calcSequence + "_" + _charge;
+		case params::Params::byProtein : return _proteinID + "_" + _compareSequence + "_" + _charge;
 			break;
-		case params::Params::byCharge : return _proteinID + "_" + calcSequence;
+		case params::Params::byCharge : return _proteinID + "_" + _compareSequence;
 			break;
 		default : throw std::runtime_error("Invalid type");
 	}
@@ -446,7 +505,7 @@ void Peptide::clear()
 	_col.clear();
 	unique = 0;
 	_calcMH.clear();
-	key.clear();
+	_key.clear();
 	_fileName.clear();
 	_avgMass = 0;
 	_monoMass = 0;
@@ -538,7 +597,7 @@ void Protein::addLocToTable()
 		_locTable->addLoc(toLocDat(*it));
 }
 
-void Protein::writePrey(std::ofstream& outF) const
+void Protein::writePrey(std::ostream& outF) const
 {
 	assert(outF);
 	outF << _ID << OUT_DELIM <<
@@ -573,7 +632,7 @@ void Protein::addSupData()
 	_supDataAdded = true;
 }
 
-void Protein::writeProtein(std::ofstream& outF)
+void Protein::writeProtein(std::ostream& outF)
 {
 	if(!outF)
 		throw std::runtime_error("Bad std::ofstream");
@@ -680,32 +739,32 @@ void Protein::writeProtein(std::ofstream& outF)
 	outF << std::endl;
 }
 
-void Protein::writeCount(std::ofstream& outF) const
+void Protein::writeCount(std::ostream& outF) const
 {
 	assert(outF);
 	for(int i = 0; i < _colSize; i++)
 		outF << OUT_DELIM << _col[i]._count;
 }
-void Protein::writeUnique(std::ofstream& outF) const
+void Protein::writeUnique(std::ostream& outF) const
 {
 	assert(outF);
 	for(int i = 0; i < _colSize; i++)
 		outF << OUT_DELIM << _col[i]._uniquePeptides;
 }
-void Protein::writeCoverage(std::ofstream& outF) const
+void Protein::writeCoverage(std::ostream& outF) const
 {
 	assert(outF);
 	for(int i = 0; i < _colSize; i++)
 		outF << OUT_DELIM << _col[i]._coverage;
 }
-void Protein::writeSequenceCount(std::ofstream& outF) const
+void Protein::writeSequenceCount(std::ostream& outF) const
 {
 	assert(outF);
 	for(int i = 0; i < _colSize; i++)
 		outF << OUT_DELIM << _col[i].sequenceCount;
 }
 
-void Protein::writeModStat(std::ofstream& outF) const
+void Protein::writeModStat(std::ostream& outF) const
 {
 	assert(outF);
 	for(int i = 0; i < _colSize; i++)
@@ -745,52 +804,29 @@ bool Proteins::writeOut(std::string ofname, const params::Params& par)
 	headers.insert(it, DEFAULT_COL_NAMES, DEFAULT_COL_NAMES + colNamesLength);
 	
 	//print column headers
-	if(par.getSubCelluarLoc)
-	{
-		for(it = headers.begin(); it != headers.end(); it++)
-			if(*it == "Mass(Da)")
-			{
-				headers.insert(it + 1, "subcelluar_loc");
-				colNamesLength = int(headers.size());
-				break;
-			}
+	if(par.getSubCelluarLoc){
+		it = std::find(headers.begin(), headers.end(), "Mass(Da)");
+		headers.insert(it + 1, "subcelluar_loc");
 	}
-	if(par.getFxn)
-	{
-		for(it = headers.begin(); it != headers.end(); it++)
-			if(*it == "Mass(Da)")
-			{
-				headers.insert(it + 1, "Function");
-				colNamesLength = int(headers.size());
-				break;
-			}
+	if(par.getFxn){
+		it = std::find(headers.begin(), headers.end(), "Mass(Da)");
+		headers.insert(it + 1, "Function");
 	}
-	if(par.calcMW)
-	{
+	if(par.calcMW){
 		int mwHeadersLen = MWCALC_HEADERS_LENGTH;
 		if(par.getSeq)
 			mwHeadersLen++;
 		
-		it = headers.begin();
-		for(int i = 0; i < colNamesLength; i++)
-			if(headers[i] == "Mass(Da)")
-			{
-				headers.insert(it + i + 1, MWCALC_HEADERS, MWCALC_HEADERS + mwHeadersLen);
-				colNamesLength = int(headers.size());
-				break;
-			}
+		it = std::find(headers.begin(), headers.end(), "Mass(Da)");
+		headers.insert(it + 1, MWCALC_HEADERS, MWCALC_HEADERS + mwHeadersLen);
+		
 	}
-	else if(par.getSeq && !par.calcMW)
-	{
-		it = headers.begin();
-		for(int i = 0; i < headers.size(); i++)
-			if(headers[i] == "Mass(Da)")
-			{
-				headers.insert(it + i + 1, MWCALC_HEADERS[3]);
-				colNamesLength = int(headers.size());
-				break;
-			}
+	else if(par.getSeq && !par.calcMW){
+		it = std::find(headers.begin(), headers.end(), "Mass(Da)");
+		headers.insert(it + 1, MWCALC_HEADERS[3]);
 	}
+	
+	colNamesLength = int(headers.size());
 	if(!par.sampleNamePrefix.empty())
 	{
 		std::string delim;
@@ -1114,16 +1150,9 @@ bool Proteins::writeWideLocTable(std::string fname, const params::Params& pars) 
 	
 	repeatedHeadersV.insert(repeatedHeadersV.end(), std::begin(LOC_REPORT_HEADERS), std::end(LOC_REPORT_HEADERS));
 	
-	if(pars.includeUnique)
-	{
-		for(it = repeatedHeadersV.begin(); it != repeatedHeadersV.end(); ++it)
-		{
-			if(*it == "Sum_SC")
-			{
-				repeatedHeadersV.insert(it + 1, "Sum_uniq_SC");
-				break;
-			}
-		}
+	if(pars.includeUnique){
+		it = std::find(repeatedHeadersV.begin(), repeatedHeadersV.end(), "Sum_SC");
+		repeatedHeadersV.insert(it + 1, "Sum_uniq_SC");
 	}
 	
 	if(!pars.sampleNamePrefix.empty())
@@ -1205,22 +1234,9 @@ bool Proteins::writeWideLocTable(std::string fname, const params::Params& pars) 
 	return true;
 }
 
-//optional fxn to parse long sample name
-/*std::string parseSample(std::string sampleName, std::string prefix, bool parseSampleName, bool outputFormat)
-{
-	//return unparsed sampleName if prefix is empty std::string or is not found in sampleName
-	if(!parseSampleName && (!utils::strContains(prefix, sampleName) || prefix.length() == 0)){
-		return sampleName;
-	}
-	else if(parseSampleName && prefix.empty()){
-		return sampleName.substr(0, sampleName.find_last_of("_"));
-	}
-	else {
-		std::string sample = utils::removeSubstr(prefix, sampleName); //remove prefix from sampleName
-		return outputFormat ? sample.substr(0, sample.find_last_of("_")) : sample;
-	}
-}*/
-
+/**
+ optional fxn to parse long sample name
+ */
 std::string parseSample(std::string sampleName, std::string prefix,
 						bool parseSampleName, bool outputFormat, bool re)
 {
@@ -1242,13 +1258,15 @@ std::string parseSample(std::string sampleName, std::string prefix,
 	 }
 }
 
-//get replicate number from sample name
+//!get replicate number from sample name
 std::string parseReplicate(std::string str)
 {
 	return str.substr(str.find_last_of("_")+1);
 }
 
-//return number of spectral counts for a peptide from a line in DTA filter file
+/**
+ Get number of spectral counts for a peptide from a line in DTA filter file
+ */
 int parsePeptideSC(std::string line)
 {
 	//split line by tabs
@@ -1279,21 +1297,48 @@ int parseModPeptide(std::string line)
 	return 0;
 }
 
-inline void Peptide::parseSequence(const std::string& str)
+/**
+ Generate _calcSequence, _baseSequence, and _compareSequence by parsing \p str.
+ \param str full peptide sequence to parse
+ */
+void Peptide::_parseSequence(const std::string& str)
 {
 	size_t firstP = str.find(".");
 	size_t secP = str.find_last_of(".");
-
-	if(firstP == std::string::npos || secP == std::string::npos)
-		calcSequence = str;
-	else calcSequence = str.substr(firstP + 1, secP - (str.length() - secP));
 	
-	if(_par->modGroupMethod == 1)
-		for(const char* p = DIFFMODS; *p; p++)
-			calcSequence = utils::removeChars(*p, calcSequence);
+	//calc calcSequence
+	if(firstP == std::string::npos || secP == std::string::npos)
+		_calcSequence = str;
+	else _calcSequence = str.substr(firstP + 1, secP - (str.length() - secP));
+	
+	//calc compareSequence
+	_baseSequence = _calcSequence;
+	for(const char* p = DIFFMODS; *p; p++)
+		_baseSequence = utils::removeChars(*p, _baseSequence);
+	
+	//get _compareSequence
+	_compareSequence = _par->modGroupMethod == 0 ? _calcSequence : _baseSequence;
 }
 
-void Peptide::write(std::ofstream& outF)
+/**
+ Concat Peptide::_mods into a nicely formated string.
+ 
+ \param delim deliminator between multiple mods
+ \return mods as a single string.
+ */
+std::string Peptide::getMods(std::string delim) const
+{
+	std::string ret = "";
+	for(auto it = _mods.begin(); it != _mods.end(); ++it)
+	{
+		if(it == _mods.begin())
+			ret += *it;
+		else ret += delim + *it;
+	}
+	return ret;
+}
+
+void Peptide::write(std::ostream& outF)
 {
 	if(!outF)
 		throw std::runtime_error("Bad std::ofstream!");
@@ -1306,6 +1351,8 @@ void Peptide::write(std::ofstream& outF)
 	{
 		if(_par->calcMW)
 			calcMW();
+		if(_par->getSeq)
+			calcMod();
 		_supDataAdded = true;
 	}
 	
@@ -1317,13 +1364,18 @@ void Peptide::write(std::ofstream& outF)
 	<< OUT_DELIM <<	_protein
 	<< OUT_DELIM <<	_description
 	<< OUT_DELIM << _sequence
-	<< OUT_DELIM <<	calcSequence
+	<< OUT_DELIM <<	_compareSequence
 	<< OUT_DELIM <<	_length;
 	
 	if(_par->peptideGroupMethod != params::Params::byCharge)
 		outF << OUT_DELIM << _charge;
 	
 	outF << OUT_DELIM << unique;
+	
+	if(_par->getSeq)
+		outF << OUT_DELIM << _begin
+		<< OUT_DELIM << _end
+		<< OUT_DELIM << getMods();
 	
 	std::streamsize ss = outF.precision();
 	outF.precision(6); //write floating point nums with 5 digits
@@ -1409,25 +1461,21 @@ bool Peptides::writeOut(std::string ofname, const params::Params& pars)
 	//generate headers based off params
 	std::vector<std::string> headers;
 	std::vector<std::string>::iterator it;
-	headers.insert(headers.begin(), DEFALUT_PEPTIDE_COLNAMES, std::end(DEFALUT_PEPTIDE_COLNAMES));
+	headers.insert(headers.begin(),
+				   DEFALUT_PEPTIDE_COLNAMES,
+				   std::end(DEFALUT_PEPTIDE_COLNAMES));
 	
-	if(pars.peptideGroupMethod != params::Params::byCharge)
-	{
-		for(it = headers.begin(); it != headers.end(); it++)
-			if(*it == "Length(aa)")
-			{
-				headers.insert(it + 1, "Charge");
-				break;
-			}
+	if(pars.peptideGroupMethod != params::Params::byCharge){
+		it = std::find(headers.begin(), headers.end(), "Length(aa)");
+		headers.insert(it + 1, "Charge");
 	}
-	if(pars.calcMW)
-	{
-		for(it = headers.begin(); it != headers.end(); it++)
-			if(*it == "Unique")
-			{
-				headers.insert(it + 1, MWCALC_HEADERS, MWCALC_HEADERS + 3);
-				break;
-			}
+	if(pars.calcMW){
+		it = std::find(headers.begin(), headers.end(), "Unique");
+		headers.insert(it + 1, MWCALC_HEADERS, MWCALC_HEADERS + 3);
+	}
+	if(pars.getSeq){
+		it = std::find(headers.begin(), headers.end(), "Unique");
+		headers.insert(it + 1, PEP_SEQ_HEADERS, PEP_SEQ_HEADERS + PEP_SEQ_HEADERS_LEN);
 	}
 	
 	if(!pars.sampleNamePrefix.empty())
@@ -1541,40 +1589,24 @@ bool Peptides::writeOutDB(std::string ofname, const params::Params& pars)
 	{
 		//headers to add
 		std::string add [] = {"ObsMH", "xCorr", "Scan", "Parent_file"};
-		for(it = headers.begin(); it != headers.end(); it++)
-		{
-			if(*it == "Length(aa)")
-			{
-				headers.insert(it + 1, "Charge");
-				break;
-			}
+		if(pars.peptideGroupMethod != params::Params::byCharge){
+			it = std::find(headers.begin(), headers.end(), "Length(aa)");
+			headers.insert(it + 1, "Charge");
 		}
-		for(it = headers.begin(); it != headers.end(); it++)
-		{
-			if(*it == "CalcMH")
-			{
-				headers.insert(it + 1, std::begin(add), std::end(add));
-				break;
-			}
-		}
+		it = std::find(headers.begin(), headers.end(), "CalcMH");
+		headers.insert(it + 1, std::begin(add), std::end(add));
 	}
-	if(pars.calcMW)
-	{
-		for(it = headers.begin(); it != headers.end(); it++)
-			if(*it == "Unique")
-			{
-				headers.insert(it + 1, MWCALC_HEADERS, MWCALC_HEADERS + 3);
-				break;
-			}
+	if(pars.calcMW){
+		it = std::find(headers.begin(), headers.end(), "Unique");
+		headers.insert(it + 1, MWCALC_HEADERS, MWCALC_HEADERS + 3);
 	}
-	if(pars.includeModStat)
-	{
-		for(it = headers.begin(); it != headers.end(); it++)
-			if(*it == "Spectral_counts")
-			{
-				headers.insert(it+1, "Mod_pep_SC");
-				break;
-			}
+	if(pars.getSeq){
+		it = std::find(headers.begin(), headers.end(), "Unique");
+		headers.insert(it + 1, PEP_SEQ_HEADERS, PEP_SEQ_HEADERS + PEP_SEQ_HEADERS_LEN);
+	}
+	if(pars.includeModStat){
+		it = std::find(headers.begin(), headers.end(), "Spectral_counts");
+		headers.insert(it+1, "Mod_pep_SC");
 	}
 	
 	//print headers

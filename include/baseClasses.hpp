@@ -47,10 +47,10 @@ public:
 	ProteinTemplate() {}
 	~ProteinTemplate() {}
 	
-	inline bool operator == (const ProteinTemplate& comp) const{
+	bool operator == (const ProteinTemplate& comp) const{
 		return comp._ID == _ID;
 	}
-	inline bool operator == (std::string comp) const{
+	bool operator == (std::string comp) const{
 		return comp == _ID;
 	}
 	
@@ -131,7 +131,7 @@ public:
 	}
 	~SampleData() {}
 	
-	inline bool isNull() const{
+	bool isNull() const{
 		return _count == 0;
 	}
 };

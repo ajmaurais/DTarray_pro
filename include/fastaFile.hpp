@@ -54,11 +54,9 @@ namespace fastaFile {
 		
 		//properties
 		std::string getSequence(std::string proteinID, bool verbose = false);
-		//void getMatchRange()
-		//std::string getModifiedResidue(std::string peptideSeq) const;
 		std::string getModifiedResidue(std::string proteinID, std::string peptideSeq, int modLoc);
 		std::string getModifiedResidue(std::string proteinID, std::string peptideSeq,
-									   int modLoc, bool& found);
+									   int modLoc, bool verbose, bool& found);
 		int getMoodifiedResidueNumber(std::string peptideSeq, int modLoc) const;
 	};
 }

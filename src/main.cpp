@@ -98,40 +98,32 @@ int main(int argc, char* argv[])
 			}
 			std::cout << " done!" << std::endl;
 		}
-		//calculate mass of peptides or proteins from sequence and amino acid mass databases
-		if(par.calcMW)
-		{
-			std::cout << std::endl << "Getting residue formulas from " << par.getSeqDBfname() << "...";
-			if(!proteins.readInMWdb(par))
-			{
-				std::cerr << "Failed to read mwDB files! Exiting..." << std::endl;
-				return -1;
-			}
-			std::cout << " done!" << std::endl;
-			peptides.setMWdb(proteins.get_mwdb());
-		}
-		if(par.getSeq)
-		{
-			std::cout << std::endl << "Getting protein sequences from " << par.getSeqDBfname() << "...";
-			if(!proteins.readInSeqDB(par.getSeqDBfname()))
-			{
-				std::cerr << "Failed to read seqDB file! Exiting..." << std::endl;
-				return -1;
-			}
-			std::cout << " done!" << std::endl;
-			peptides.setSeqDB(proteins.get_seqdb());
-		}
-	}
-	else if(par.calcMW) //read mwdb for peptides if skipped for proteins
+	}//end if par.includeProteins
+	
+	//calculate mass of peptides or proteins from sequence and amino acid mass databases
+	if(par.calcMW)
 	{
-		std::cout << std::endl << "Getting residue formulas from " << par.atomCountTableFname << "...";
-		if(!peptides.readInMWdb(par))
+		std::cout << std::endl << "Getting residue formulas from " <<
+		par.atomCountTableFname << "...";
+		if(!proteins.readInMWdb(par))
 		{
 			std::cerr << "Failed to read mwDB files! Exiting..." << std::endl;
 			return -1;
 		}
 		std::cout << " done!" << std::endl;
-	}//end if par.includeProteins
+		peptides.setMWdb(proteins.get_mwdb());
+	}
+	if(par.getSeq || (par.calcMW && par.includeProteins))
+	{
+		std::cout << std::endl << "Getting protein sequences from " << par.getSeqDBfname() << "...";
+		if(!proteins.readInSeqDB(par.getSeqDBfname()))
+		{
+			std::cerr << "Failed to read seqDB file! Exiting..." << std::endl;
+			return -1;
+		}
+		std::cout << " done!" << std::endl;
+		peptides.setSeqDB(proteins.get_seqdb());
+	}
 	
 	if(!par.includeReverse)
 		std::cout << std::endl << "Skipping reverse matches..." << std::endl;

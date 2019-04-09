@@ -34,6 +34,7 @@
 #include <algorithm>
 #include <stdexcept>
 #include <regex>
+#include <set>
 
 #include <dtarray_pro.hpp>
 #include <baseClasses.hpp>
@@ -73,6 +74,9 @@ std::string const DEFALUT_PEPTIDE_DB_COLNAMES [] = {"Protein_ID", "Parent_protei
 	"Sample", "Replicate"};
 size_t const DEFALUT_PEPTIDE_DB_COLNAMES_LEN = 10;
 
+std::string const PEP_SEQ_HEADERS [] = {"begin", "end", "mods"};
+size_t const PEP_SEQ_HEADERS_LEN = 3;
+
 char const DB_DELIM = ';';
 std::string const LOC_REPORT_HEADERS [] = {"Count", "Sum_SC", "Sum_seq_count"};
 
@@ -102,26 +106,38 @@ public:
 	//modifers
 	void clear();
 	void calcMW();
+	void calcMod();
 	void operator = (const Peptide&);
 	
 	//properties
 	bool operator == (const Peptide& comp) const{
-		return comp.key == key;
+		return comp._key == _key;
 	}
 	std::string makeKey() const;
+	std::string getMods(std::string delim = "|") const;
 	void consolidate(const Peptide&);
-	void write(std::ofstream&);
+	void write(std::ostream&);
 	
 private:
-	std::string key, calcSequence;
+	//!Key used to compare peptides when grouping by charge or mod state
+	std::string _key;
+	//!Sequence with pre cleavage N and C terminal residues removed
+	std::string _calcSequence;
+	//!calcSequence with/without modification depending on compare method
+	std::string _compareSequence;
+	//!calcSequence without modification
+	std::string _baseSequence;
 	std::string _proteinID, _calcMH, _fileName, _protein, _description, _charge;
 	bool unique;
+	//!Contains string representations of sites of modifications in peptdie
+	std::set<std::string> _mods;
+	size_t _begin, _end;
 	
 	static molFormula::Residues* _mwdb;
 	static fastaFile::FastaFile* _seqDB;
-
-	void parsePeptide(const std::string&);
-	void parseSequence(const std::string&);
+	
+	void _parsePeptide(const std::string&);
+	void _parseSequence(const std::string&);
 };
 
 class Peptides : public DBTemplate<Peptide> {
@@ -181,11 +197,11 @@ private:
 	void addSupData();
 	void addLocToTable();
 	
-	void writeCount(std::ofstream&) const;
-	void writeUnique(std::ofstream&) const;
-	void writeCoverage(std::ofstream&) const;
-	void writeSequenceCount(std::ofstream&) const;
-	void writeModStat(std::ofstream&) const;
+	void writeCount(std::ostream&) const;
+	void writeUnique(std::ostream&) const;
+	void writeCoverage(std::ostream&) const;
+	void writeSequenceCount(std::ostream&) const;
+	void writeModStat(std::ostream&) const;
 	
 public:
 	Protein(params::Params* const pars,
@@ -211,8 +227,8 @@ public:
 	void operator = (const Protein&);
 	
 	void consolidate(const Protein&);
-	void writeProtein(std::ofstream&);
-	void writePrey(std::ofstream&) const;
+	void writeProtein(std::ostream&);
+	void writePrey(std::ostream&) const;
 	void writeInteractions(std::ofstream&) const;
 	locReport::LocDat toLocDat(const std::string&) const;
 };
