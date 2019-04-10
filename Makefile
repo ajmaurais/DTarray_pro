@@ -71,7 +71,7 @@ SRCS := $(wildcard $(SRCDIR)/*.cpp)
 OBJS := $(subst $(SRCDIR)/,$(OBJDIR)/,$(SRCS:.cpp=.o))
 
 CXXFLAGS += $(INCLUDEFLAGS) -I$(HEADERDIR)
-LDFLAGS += $(LIBFLAGS) -L$(LIBDIR) $(UTILS_LIB)
+LDFLAGS += $(LIBFLAGS) -L$(LIBDIR)
 
 .PHONY: all clean distclean
 
@@ -89,7 +89,7 @@ endif
 
 $(BINDIR)/$(EXE): $(UTILS_LIB) $(OBJS)
 	mkdir -p $(BINDIR)
-	$(CXX) $(LDFLAGS) $(OBJS) -o $@
+	$(CXX) $(LDFLAGS) $(OBJS) $(UTILS_LIB) -o $@
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.cpp $(HEADERDIR)/%.hpp
 	mkdir -p $(OBJDIR)
