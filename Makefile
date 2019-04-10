@@ -1,4 +1,3 @@
-
 #
 # C++ Compiler
 CXX := g++
@@ -19,10 +18,10 @@ CXXFLAGS += -c -g -Wall -std=c++11 -DGIT_VERSION="\"${GITVERSION}\"" -DGIT_DATE=
 LDFLAGS += -g
 #
 #   Library
-LIBFLAGS :=
+LIBFLAGS := -L./lib
 #
 #   Include
-INCLUDEFLAGS :=
+INCLUDEFLAGS := -I./utils/include
 #
 #
 # Program name
@@ -30,6 +29,10 @@ EXE := DTarray
 #
 #
 # Directories
+#
+# utils
+UTILS_DIR := utils
+UTILS_LIB := lib/utils.a
 #
 #   Headers
 HEADERDIR := include
@@ -41,10 +44,6 @@ GIT_EXISTS = 1
 else
 GIT_EXISTS = 0
 endif
-#
-#   git_version
-GIT_VERSION := gitVersion.hpp
-#
 #
 #   Sources
 SRCDIR := src
@@ -69,11 +68,10 @@ SRCS := $(wildcard $(SRCDIR)/*.cpp)
 OBJS := $(subst $(SRCDIR)/,$(OBJDIR)/,$(SRCS:.cpp=.o))
 
 CXXFLAGS += $(INCLUDEFLAGS) -I$(HEADERDIR)
-LDFLAGS += $(LIBFLAGS)
+LDFLAGS += $(LIBFLAGS) $(UTILS_LIB)
 
 .PHONY: all clean distclean
 
-#TARGETS = $(HEADERDIR)/$(GIT_VERSION) $(BINDIR)/$(EXE) $(BINDIR)/DTsetup helpFile.pdf DTarray_pro-Userguide.pdf
 TARGETS = $(BINDIR)/$(EXE) $(BINDIR)/DTsetup helpFile.pdf DTarray_pro-Userguide.pdf
 
 all: $(TARGETS)
@@ -86,13 +84,16 @@ else
 	cp $(TEX_DIR)/DTarray_pro-Userguide.pdf .
 endif
 
-$(BINDIR)/$(EXE): $(OBJS)
+$(BINDIR)/$(EXE): $(UTILS_LIB) $(OBJS)
 	mkdir -p $(BINDIR)
 	$(CXX) $(LDFLAGS) $(OBJS) -o $@
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.cpp $(HEADERDIR)/%.hpp
 	mkdir -p $(OBJDIR)
 	$(CXX) $(CXXFLAGS) $< -o $@
+
+$(UTILS_LIB):
+	cd $(UTILS_DIR); $(MAKE)
 
 helpFile.pdf : db/helpFile.man
 	bash $(SCRIPTS)/updateMan.sh
@@ -104,6 +105,7 @@ $(BINDIR)/DTsetup : DTsetup/dtsetup.sh
 clean:
 	rm -f $(OBJDIR)/*.o $(BINDIR)/$(EXE) $(BINDIR)/DTsetup
 	rm -f helpFile.pdf
-	cd $(TEX_DIR) && rm -f ./*.aux ./*.dvi ./*.fdb_latexmk ./*.fls ./*.log ./*.out ./*.pdf ./*.toc 
+	cd $(TEX_DIR) && rm -f ./*.aux ./*.dvi ./*.fdb_latexmk ./*.fls ./*.log ./*.out ./*.pdf ./*.toc
+	cd $(UTILS_DIR); $(MAKE) clean
 
 distclean: clean

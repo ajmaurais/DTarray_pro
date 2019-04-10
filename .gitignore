@@ -4,6 +4,7 @@ a.out
 bin/*
 DTarray_pro.xcodeproj/*
 obj/*
+lib/*
 helpFile.pdf
 include/config.hpp
 doc/doxygen/html/*
