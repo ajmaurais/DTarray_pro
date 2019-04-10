@@ -37,14 +37,6 @@ UTILS_LIB := lib/utils.a
 #   Headers
 HEADERDIR := include
 #
-#   .git
-GITDIR := .git
-ifneq ("$(wildcard $(GITDIR))","")
-GIT_EXISTS = 1
-else
-GIT_EXISTS = 0
-endif
-#
 #   Sources
 SRCDIR := src
 #
@@ -66,7 +58,7 @@ TEX_DIR := doc/tex
 #
 ################################################################################
 
-HEADERS := $(wildcard $(HEADERDIR)/*.h)
+HEADERS := $(wildcard $(HEADERDIR)/*.hpp)
 SRCS := $(wildcard $(SRCDIR)/*.cpp)
 OBJS := $(subst $(SRCDIR)/,$(OBJDIR)/,$(SRCS:.cpp=.o))
 
@@ -91,7 +83,7 @@ $(BINDIR)/$(EXE): $(UTILS_LIB) $(OBJS)
 	mkdir -p $(BINDIR)
 	$(CXX) $(LDFLAGS) $(OBJS) $(UTILS_LIB) -o $@
 
-$(OBJDIR)/%.o: $(SRCDIR)/%.cpp $(HEADERDIR)/%.hpp
+$(OBJDIR)/%.o: $(SRCDIR)/%.cpp $(HEADERS)
 	mkdir -p $(OBJDIR)
 	$(CXX) $(CXXFLAGS) $< -o $@
 
