@@ -18,7 +18,7 @@ CXXFLAGS += -c -g -Wall -std=c++11 -DGIT_VERSION="\"${GITVERSION}\"" -DGIT_DATE=
 LDFLAGS += -g
 #
 #   Library
-LIBFLAGS := -L./lib
+LIBFLAGS :=
 #
 #   Include
 INCLUDEFLAGS := -I./utils/include
@@ -51,6 +51,9 @@ SRCDIR := src
 #   Objects
 OBJDIR := obj
 #
+#	Libraries
+LIBDIR := lib
+#
 #   Binary
 BINDIR := bin
 #
@@ -68,7 +71,7 @@ SRCS := $(wildcard $(SRCDIR)/*.cpp)
 OBJS := $(subst $(SRCDIR)/,$(OBJDIR)/,$(SRCS:.cpp=.o))
 
 CXXFLAGS += $(INCLUDEFLAGS) -I$(HEADERDIR)
-LDFLAGS += $(LIBFLAGS) $(UTILS_LIB)
+LDFLAGS += $(LIBFLAGS) -L$(LIBDIR) $(UTILS_LIB)
 
 .PHONY: all clean distclean
 
@@ -94,6 +97,8 @@ $(OBJDIR)/%.o: $(SRCDIR)/%.cpp $(HEADERDIR)/%.hpp
 
 $(UTILS_LIB):
 	cd $(UTILS_DIR); $(MAKE)
+	mkdir -p $(LIBDIR)
+	cd $(LIBDIR); ln -s ../$(UTILS_DIR)/$(UTILS_LIB)
 
 helpFile.pdf : db/helpFile.man
 	bash $(SCRIPTS)/updateMan.sh
@@ -103,7 +108,7 @@ $(BINDIR)/DTsetup : DTsetup/dtsetup.sh
 	chmod +x $(BINDIR)/DTsetup
 
 clean:
-	rm -f $(OBJDIR)/*.o $(BINDIR)/$(EXE) $(BINDIR)/DTsetup
+	rm -f $(OBJDIR)/*.o $(BINDIR)/$(EXE) $(BINDIR)/DTsetup $(LIBDIR)/*.a
 	rm -f helpFile.pdf
 	cd $(TEX_DIR) && rm -f ./*.aux ./*.dvi ./*.fdb_latexmk ./*.fls ./*.log ./*.out ./*.pdf ./*.toc
 	cd $(UTILS_DIR); $(MAKE) clean
