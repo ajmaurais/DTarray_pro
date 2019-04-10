@@ -28,13 +28,13 @@
 
 Dbase* Protein::_locDB = nullptr;
 Dbase* Protein::_fxnDB = nullptr;
-molFormula::Residues* Protein::_mwdb = nullptr;
-fastaFile::FastaFile* Protein::_seqDB = nullptr;
+utils::Residues* Protein::_mwdb = nullptr;
+utils::FastaFile* Protein::_seqDB = nullptr;
 saint::BaitFile* Protein::_baitFile = nullptr;
 locReport::LocDB* Protein::_locTable = nullptr;
 
-molFormula::Residues* Peptide::_mwdb = nullptr;
-fastaFile::FastaFile* Peptide::_seqDB = nullptr;
+utils::Residues* Peptide::_mwdb = nullptr;
+utils::FastaFile* Peptide::_seqDB = nullptr;
 
 //diffmod symbols to search for
 const char* DIFFMODS = "*";
@@ -251,9 +251,9 @@ void Protein::calcMW()
 {
 	std::string tmp_sequence = _seqDB->getSequence(_ID);
 	
-	if(tmp_sequence == fastaFile::PROT_SEQ_NOT_FOUND)
+	if(tmp_sequence == utils::PROT_SEQ_NOT_FOUND)
 	{
-		_sequence = fastaFile::PROT_SEQ_NOT_FOUND;
+		_sequence = utils::PROT_SEQ_NOT_FOUND;
 		_avgMass = -1;
 		_monoMass = -1;
 		_formula = "NA";
@@ -283,9 +283,9 @@ void Peptide::calcMW()
 void Peptide::calcMod()
 {
 	std::string _protSeq = _seqDB->getSequence(_proteinID);
-	if(_protSeq == fastaFile::PROT_SEQ_NOT_FOUND){
+	if(_protSeq == utils::PROT_SEQ_NOT_FOUND){
 		_begin = 0; _end = 0;
-		_mods.insert(fastaFile::PROT_SEQ_NOT_FOUND);
+		_mods.insert(utils::PROT_SEQ_NOT_FOUND);
 		return;
 	}
 	
@@ -297,7 +297,7 @@ void Peptide::calcMod()
 	_begin = _protSeq.find(_baseSequence) + 1; // 1 added to _begin here
 	if(_begin == std::string::npos){
 		_begin = 0; _end = 0;
-		_mods.insert(fastaFile::PEP_SEQ_NOT_FOUND);
+		_mods.insert(utils::PEP_SEQ_NOT_FOUND);
 		return;
 	}
 	

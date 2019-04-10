@@ -48,11 +48,11 @@ namespace mwDB{
 		std::string getSequence(std::string) const;
 	};
 	
-	class MWDB_Protein : public molFormula::Residues{
+	class MWDB_Protein : public utils::Residues{
 	public:
 		SeqDB* seqDB;
 		
-		MWDB_Protein() : molFormula::Residues(){
+		MWDB_Protein() : utils::Residues(){
 			seqDB = new SeqDB;
 		}
 		~MWDB_Protein(){
