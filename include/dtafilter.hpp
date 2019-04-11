@@ -38,13 +38,13 @@
 
 #include <dtarray_pro.hpp>
 #include <baseClasses.hpp>
-#include <dbase.hpp>
 #include <utils.hpp>
 #include <params.hpp>
 #include <calcMW.hpp>
 #include <saintOutput.hpp>
 #include <locReport.hpp>
 #include <fastaFile.hpp>
+#include <tsvFile.hpp>
 #include <molecularFormula.hpp>
 
 /******************************/
@@ -80,6 +80,8 @@ size_t const PEP_SEQ_HEADERS_LEN = 3;
 char const DB_DELIM = ';';
 std::string const LOC_REPORT_HEADERS [] = {"Count", "Sum_SC", "Sum_seq_count"};
 
+std::string const DAT_NOT_FOUND = "NOT_FOUND_IN_DB";
+
 /**********************/
 /* class definitions */
 /*********************/
@@ -89,18 +91,18 @@ class Proteins;
 class Peptide;
 class Peptides;
 
-class Peptide : public ProteinDataTemplate<SampleData_peptide> {
+class Peptide : public base::ProteinDataTemplate<base::SampleData_peptide> {
 	friend class Proteins;
 	friend class Peptides;
 public:
 	Peptide (params::Params* const par,
 			 utils::Residues* const mwdb,
 			 utils::FastaFile* const seqdb) :
-	ProteinDataTemplate <SampleData_peptide>(par){
+	ProteinDataTemplate <base::SampleData_peptide>(par){
 		_mwdb = mwdb;
 		_seqDB = seqdb;
 	}
-	Peptide () : ProteinDataTemplate <SampleData_peptide> () {}
+	Peptide () : ProteinDataTemplate <base::SampleData_peptide> () {}
 	~Peptide() {}
 	
 	//modifers
@@ -140,7 +142,7 @@ private:
 	void _parseSequence(const std::string&);
 };
 
-class Peptides : public DBTemplate<Peptide> {
+class Peptides : public base::DBTemplate<Peptide> {
 	friend class Proteins;
 private:
 	utils::Residues _mwdb;
@@ -170,19 +172,17 @@ public:
 };
 
 //stores data for each protein found in filter file
-class Protein : public ProteinTemplate , public ProteinDataTemplate<SampleData_protein> {
+class Protein : public base::ProteinTemplate , public base::ProteinDataTemplate<base::SampleData_protein> {
 	friend class Proteins;
 private:
 	std::string MW, loc, fxn;
 	std::string fullDescription, pI;
 	
 	//pointers to Proteins data
-	static Dbase* _locDB;
-	//static mwDB::MWDB_Protein* _mwdb;
-	//static mwDB::SeqDB* _seqDB;
+	static base::StringMap* _locDB;
+	static base::StringMap* _fxnDB;
 	static utils::Residues* _mwdb;
 	static utils::FastaFile* _seqDB;
-	static Dbase* _fxnDB;
 	static saint::BaitFile* _baitFile;
 	static locReport::LocDB* _locTable;
 	
@@ -205,15 +205,13 @@ private:
 	
 public:
 	Protein(params::Params* const pars,
-			Dbase* const locDB,
-			Dbase* const fxnDB,
-			//mwDB::MWDB_Protein* const mwdb,
-			//mwDB::SeqDB* const seqDB,
+			base::StringMap* fxnDB,
+			base::StringMap* locDB,
 			utils::Residues* const mwdb,
 			utils::FastaFile* const seqDB,
 			saint::BaitFile* const baitFile,
 			locReport::LocDB* const locTable)
-		: ProteinDataTemplate<SampleData_protein>(pars) {
+		: ProteinDataTemplate<base::SampleData_protein>(pars) {
 		_locDB = locDB;
 		_mwdb = mwdb;
 		_seqDB = seqDB;
@@ -221,7 +219,7 @@ public:
 		_baitFile = baitFile;
 		_locTable = locTable;
 	}
-	Protein() : ProteinDataTemplate<SampleData_protein>() {}
+	Protein() : ProteinDataTemplate<base::SampleData_protein>() {}
 	~Protein(){}
 	
 	void operator = (const Protein&);
@@ -234,12 +232,11 @@ public:
 };
 
 //stores data for all proteins found in DTA filter files
-class Proteins : public DBTemplate<Protein>{
+class Proteins : public base::DBTemplate<Protein>{
 	friend class saint::BaitFile;
-	Dbase _locDB;
-	Dbase _fxnDB;
-	//mwDB::MWDB_Protein _mwdb;
-	//mwDB::SeqDB _seqDB;
+private:
+	base::StringMap _locDB;
+	base::StringMap _fxnDB;
 	utils::Residues _mwdb;
 	utils::FastaFile _seqDB;
 	saint::BaitFile _baitFile;
@@ -247,9 +244,13 @@ class Proteins : public DBTemplate<Protein>{
 	
 	//modifers
 	bool readIn(params::Params* const,
-				const std::vector <SampleData_protein>&,
-				const std::vector<SampleData_peptide>&,
+				const std::vector <base::SampleData_protein>&,
+				const std::vector<base::SampleData_peptide>&,
 				Peptides&);
+	
+	static bool _readDB(std::string fname,
+						base::StringMap& dat,
+						const std::string columns [2]);
 public:
 	enum OutputFiles {preyFile, interactionFile};
 	

@@ -26,8 +26,8 @@
 
 #include <dtafilter.hpp>
 
-Dbase* Protein::_locDB = nullptr;
-Dbase* Protein::_fxnDB = nullptr;
+base::StringMap* Protein::_locDB = nullptr;
+base::StringMap* Protein::_fxnDB = nullptr;
 utils::Residues* Protein::_mwdb = nullptr;
 utils::FastaFile* Protein::_seqDB = nullptr;
 saint::BaitFile* Protein::_baitFile = nullptr;
@@ -63,7 +63,8 @@ void Peptide::consolidate(const Peptide& rhs)
 }
 
 template <class _Tp>
-void ProteinDataTemplate<_Tp>::initialize(const std::vector<_Tp>& tempColNames, size_t colNamesLen, size_t* colIndex)
+void base::ProteinDataTemplate<_Tp>::initialize(const std::vector<_Tp>& tempColNames,
+												size_t colNamesLen, size_t* colIndex)
 {
 	_col.clear();
 	_col.insert(_col.begin(), tempColNames.begin(), tempColNames.end());
@@ -80,13 +81,21 @@ void Protein::addSeq()
 void Protein::addLoc()
 {
 	assert(_locDB != nullptr);
-	loc = _locDB->getDat(_ID);
+	auto it = _locDB->find(_ID);
+	if(it == _locDB->end()){
+		loc = DAT_NOT_FOUND;
+	}
+	else loc = it->second;
 }
 
 void Protein::addFxn()
 {
 	assert(_fxnDB != nullptr);
-	fxn = _fxnDB->getDat(_ID);
+	auto it = _fxnDB->find(_ID);
+	if(it == _fxnDB->end()){
+		fxn = DAT_NOT_FOUND;
+	}
+	else fxn = it->second;
 }
 
 void Protein::operator = (const Protein& rhs)
@@ -326,8 +335,8 @@ void Peptide::calcMod()
  Loop through protein header and peptide lines in DTA filter file and add data to Proteins
  */
 bool Proteins::readIn(params::Params* const pars,
-					  const std::vector <SampleData_protein>& colNamesTemp,
-					  const std::vector<SampleData_peptide>& pColNamesTemp,
+					  const std::vector <base::SampleData_protein>& colNamesTemp,
+					  const std::vector<base::SampleData_peptide>& pColNamesTemp,
 					  Peptides& peptides)
 {
 	std::string fname = pars->getwd() + pars->getFilePath(_colIndex);
@@ -518,14 +527,14 @@ bool Proteins::readIn(params::Params* const par, Peptides& peptides)
 {
 	size_t colNamesLen = par->getNumFiles();
 	
-	std::vector<SampleData_protein> colNamesTemp;
-	std::vector<SampleData_peptide> pColNamesTemp;
+	std::vector<base::SampleData_protein> colNamesTemp;
+	std::vector<base::SampleData_peptide> pColNamesTemp;
 	
 	for(int i = 0; i < colNamesLen; i++)
 	{
-		SampleData_protein temp (_colNames[i]);
+		base::SampleData_protein temp (_colNames[i]);
 		colNamesTemp.push_back(temp);
-		SampleData_peptide pTemp (_colNames[i]);
+		base::SampleData_peptide pTemp (_colNames[i]);
 		pColNamesTemp.push_back(pTemp);
 	}
 	
@@ -553,14 +562,53 @@ bool Proteins::readInSeqDB(std::string fname)
 	return _seqDB.read(fname);
 }
 
+/**
+ Read data from tsv file into base::StringMap.
+ 
+ \param fname File name of .tsv file.
+ \param dat Empty map to populate.
+ \param columns Array where first element key column name and second is value name.
+ \return true if sucessful, false if \p fname can't be read, or \p columns to not
+ exist in \p fname.
+ */
+bool Proteins::_readDB(std::string fname,
+					   base::StringMap& dat,
+					   const std::string columns [2])
+{
+	dat.clear();
+	//read tsv file
+	utils::TsvFile tsvFile;
+	if(!tsvFile.read(fname)) return false;
+	
+	//make sure required columns exist
+	for(int i = 0; i < 2; i++){
+		if(!tsvFile.colExists(columns[i])){
+			std::cerr << "Required column: " << columns[i]
+			<< " does not exist in " << fname << NEW_LINE;
+			return false;
+		}
+	}
+	
+	size_t nRow = tsvFile.getNrow();
+	for(size_t i = 0; i < nRow; i++){
+		dat[tsvFile.getValStr(i, columns[0])] = tsvFile.getValStr(i, columns[1]);
+	}
+	
+	return true;
+}
+
 bool Proteins::readInFxnDB(std::string fname)
 {
-	return _fxnDB.readIn(fname);
+	std::string cols [] = {"id", "panther_category"};
+	
+	return _readDB(fname, _fxnDB, cols);
 }
 
 bool Proteins::readInLocDB(std::string fname)
 {
-	return _locDB.readIn(fname);
+	std::string cols [] = {"id", "subcelluarloc"};
+	
+	return _readDB(fname, _locDB, cols);
 }
 
 bool Proteins::readBaitFile(std::string fname)
@@ -804,13 +852,13 @@ bool Proteins::writeOut(std::string ofname, const params::Params& par)
 	headers.insert(it, DEFAULT_COL_NAMES, DEFAULT_COL_NAMES + colNamesLength);
 	
 	//print column headers
-	if(par.getSubCelluarLoc){
-		it = std::find(headers.begin(), headers.end(), "Mass(Da)");
-		headers.insert(it + 1, "subcelluar_loc");
-	}
 	if(par.getFxn){
 		it = std::find(headers.begin(), headers.end(), "Mass(Da)");
 		headers.insert(it + 1, "Function");
+	}
+	if(par.getSubCelluarLoc){
+		it = std::find(headers.begin(), headers.end(), "Mass(Da)");
+		headers.insert(it + 1, "subcelluar_loc");
 	}
 	if(par.calcMW){
 		int mwHeadersLen = MWCALC_HEADERS_LENGTH;

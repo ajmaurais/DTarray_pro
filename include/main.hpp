@@ -31,7 +31,6 @@
 #include <params.hpp>
 #include <dtafilter.hpp>
 #include <calcMW.hpp>
-#include <dbase.hpp>
 #include <saintOutput.hpp>
 #include <locReport.hpp>
 #include <molecularFormula.hpp>
