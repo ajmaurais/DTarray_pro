@@ -66,12 +66,10 @@ namespace base
 	template <class _Tp>
 	class ProteinDataTemplate{
 	public:
-		ProteinDataTemplate(params::Params* const par) {
-			_par = par;
+		ProteinDataTemplate() {
 			_supDataAdded = false;
 		}
 		void initialize(const std::vector<_Tp>&, size_t, size_t*);
-		ProteinDataTemplate(){}
 		~ProteinDataTemplate(){}
 		
 	protected:

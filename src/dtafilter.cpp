@@ -340,16 +340,12 @@ bool Proteins::readIn(params::Params* const pars,
 					  Peptides& peptides)
 {
 	std::string fname = pars->getwd() + pars->getFilePath(_colIndex);
-	//utils::File file;
-	//if(!file.read(fname))
-	//	return false;
 	
 	std::ifstream inF(fname);
 	if(!inF) return false;
 	
 	DataType::iterator proteinIndex;
 	bool inProtein = false;
-	//bool getNewLine = true;
 	bool foundHeader = false;
 	std::string line;
 	std::map<std::string, Peptide>::iterator peptidesIndex;
@@ -371,7 +367,7 @@ bool Proteins::readIn(params::Params* const pars,
 			}
 			else{
 				//initialize Protein to hold data for current line
-				Protein newProtein(pars, &_locDB, &_fxnDB, &_mwdb, &_seqDB, &_baitFile, &_locTable);
+				Protein newProtein;
 				newProtein.initialize(colNamesTemp, colNamesLen, &_colIndex);
 				
 				//parse protein header line and skip if error
@@ -392,8 +388,6 @@ bool Proteins::readIn(params::Params* const pars,
 				//get peptide data if applicable
 				if((pars->includeUnique || pars->includePeptides || pars->includeModStat) && inProtein)
 				{
-					//line = file.getLine();
-					//getNewLine = false;
 					std::streampos pos;
 					while(utils::safeGetline(inF, line, pos))
 					{
@@ -406,7 +400,7 @@ bool Proteins::readIn(params::Params* const pars,
 						
 						if(pars->includePeptides)
 						{
-							Peptide newPeptide(pars, &peptides._mwdb, peptides._seqDB);
+							Peptide newPeptide;
 							newPeptide.initialize(pColNamesTemp, colNamesLen, &peptides._colIndex);
 							newPeptide._proteinID = newProtein._ID;
 							newPeptide._protein = newProtein._protein;
@@ -456,7 +450,6 @@ void Peptide::_parsePeptide(const std::string& line)
 {
 	std::vector<std::string> elems;
 	utils::split(line, IN_DELIM, elems);
-	//utils::removeEmptyStrings(elems);
 	assert(elems.size() == 13);
 	
 	unique = elems[0] == "*";
@@ -521,10 +514,31 @@ void Peptide::clear()
 	_proteinID.clear();
 }
 
-//public Proteins::readIn function which adds all files in filterFileParams to Proteins
-//and summarizes progress for user.
+/**
+ Public Proteins::readIn function which adds all files in filterFileParams to Proteins
+ and summarizes progress for user.
+ 
+ \param par Initalized Params object.
+ \param peptides Peptides object to add peptide data to.
+ 
+ \return true if I/O was suecessful.
+ */
 bool Proteins::readIn(params::Params* const par, Peptides& peptides)
 {
+	//initalize static Protein variables
+	Protein::_par = par;
+	Protein::_locDB = &_locDB;
+	Protein::_fxnDB = &_fxnDB;
+	Protein::_mwdb = &_mwdb;
+	Protein::_seqDB = &_seqDB;
+	Protein::_baitFile = &_baitFile;
+	Protein::_locTable = &_locTable;
+	
+	//initalize statid Peptide variables
+	Peptide::_par = par;
+	Peptide::_mwdb = &peptides._mwdb;
+	Peptide::_seqDB = peptides._seqDB;
+	
 	size_t colNamesLen = par->getNumFiles();
 	
 	std::vector<base::SampleData_protein> colNamesTemp;

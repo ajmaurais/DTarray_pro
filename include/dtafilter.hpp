@@ -95,14 +95,7 @@ class Peptide : public base::ProteinDataTemplate<base::SampleData_peptide> {
 	friend class Proteins;
 	friend class Peptides;
 public:
-	Peptide (params::Params* const par,
-			 utils::Residues* const mwdb,
-			 utils::FastaFile* const seqdb) :
-	ProteinDataTemplate <base::SampleData_peptide>(par){
-		_mwdb = mwdb;
-		_seqDB = seqdb;
-	}
-	Peptide () : ProteinDataTemplate <base::SampleData_peptide> () {}
+	Peptide () : ProteinDataTemplate <base::SampleData_peptide>(){}
 	~Peptide() {}
 	
 	//modifers
@@ -204,21 +197,6 @@ private:
 	void writeModStat(std::ostream&) const;
 	
 public:
-	Protein(params::Params* const pars,
-			base::StringMap* fxnDB,
-			base::StringMap* locDB,
-			utils::Residues* const mwdb,
-			utils::FastaFile* const seqDB,
-			saint::BaitFile* const baitFile,
-			locReport::LocDB* const locTable)
-		: ProteinDataTemplate<base::SampleData_protein>(pars) {
-		_locDB = locDB;
-		_mwdb = mwdb;
-		_seqDB = seqDB;
-		_fxnDB = fxnDB;
-		_baitFile = baitFile;
-		_locTable = locTable;
-	}
 	Protein() : ProteinDataTemplate<base::SampleData_protein>() {}
 	~Protein(){}
 	
