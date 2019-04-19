@@ -235,20 +235,11 @@ namespace params{
 		bool getToLower() const{
 			return toLower;
 		}
-		/*std::string getmwDBFname() const{
-			std::string ret = (mwDBFnameSpecified ? getwd() + mwDBFname :
-							   PROG_WD_DB + mwDBFname);
-			return ret;
-		}*/
 		std::string getSeqDBfname() const{
-			//std::string ret = (seqDBFnameSpecified ? getwd() + seqDBfname :
-							   //PROG_WD_DB + seqDBfname);
-			//return ret;
 			return seqDBfname;
 		}
 		static std::string groupFormatString(PeptideGroupFormat);
 	private:
-		//friend class Proteins;
 		std::vector<FilterFileParam> file;
 		
 		std::string parseVersionNum(std::string) const;
@@ -258,17 +249,15 @@ namespace params{
 		void displayHelp() const{
 			utils::systemCommand("man " + PROG_HELP_FILE_FNAME);
 		}
-		void usage() const;
+		void usage(std::ostream& out = std::cerr) const;
 		bool writeStdFlist(std::ofstream&) const;
 		bool writeSubdirFlist(std::ofstream&) const;
 		void purgeDir(std::string) const;
 		
 		std::string wd;
-		std::string mwDBFname;
 		std::string seqDBfname;
 		std::string excludeStr, addStr;
 		bool filter, matchRegex, toLower;
-		//bool mwDBFnameSpecified, seqDBFnameSpecified;
 		
 		size_t numFiles;
 	};

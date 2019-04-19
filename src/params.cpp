@@ -167,7 +167,7 @@ namespace params{
 			if(!strcmp(argv[i], "-mw"))
 			{
 				if(utils::isArg(argv[i+1])){
-					mwDBFname = utils::absPath(argv[++i]);
+					seqDBfname = utils::absPath(argv[++i]);
 				}
 				calcMW = true;
 				continue;
@@ -444,8 +444,6 @@ namespace params{
 		//fix options
 		if(wd[wd.length() - 1] != '/')
 			wd += "/";
-		if(calcMW && !getSeq)
-			seqDBfname = mwDBFname;
 		if(locOutput != none)
 		{
 			getSubCelluarLoc = true;
@@ -490,12 +488,12 @@ namespace params{
 	 Prints contents of ParamsBase::_usageFile to \p out
 	 \param out ostream to print to.
 	 */
-	void Params::usage() const
+	void Params::usage(std::ostream& out) const
 	{
 		std::ifstream inF(PROG_USAGE_FNAME);
 		std::string line;
 		while(utils::safeGetline(inF, line))
-			std::cerr << line << NEW_LINE;
+			out << line << NEW_LINE;
 	}
 	
 	//removes all DTarray_pro generated files with default file names in

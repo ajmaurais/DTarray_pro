@@ -7,7 +7,7 @@
 .ds DEFAULT_ACT_LOC \fI\*[PROG_WD_DB]\fI/\fI\*[ACT_FNAME]\fR
 .ds AMT_LOC \fI\*[PROG_WD_DB]\fI/atomMasses.txt\fR
 .ds FLIST_FNAME \fIdtarray_pro_flist.txt\fR
-.TH "DTarray_pro v1.8.0" 1 "28 September 2018" "DTarray_pro"
+.TH "DTarray_pro v1.8.1" 1 "11 April 2019" "DTarray_pro"
 .SH NAME
 DTarray_pro - Combine DTASelect-filter files.
 .SH SYNOPSIS
@@ -191,15 +191,6 @@ Use \*[LOC_DB_FNAME] to lookup subcelluar localization information for proteins 
 .TP
 \fB-fxn\fP
 Use \*[FXN_DB_FNAME] to include panther category for proteins in output file.
-.TP
-\fB-seq\fR
-Use sequence information in \*[SEQ_DB_FNAME], to include protein sequences in output file.
-.TP
-.in +0.75i
-\fI<fafsa_file>
-.in +0.75i
-The user can optionally specify a fafsa formatted file to lookup protein sequences. The \fI<fasta_file>\fR used to calculate protein molecular weights does not have to be the same as the \fI<fasta_file>\fR used to search for protein sequences.
-.in
 
 .SS PEPTIDE FILE OPTIONS
 \fB-g, --group\fP
@@ -263,6 +254,15 @@ Calculate protein/peptide molecular weights and molecular formulas. Columns will
 \fI<fafsa_file>
 .in +0.75i
 The user can optionally specify a fafsa formatted file to lookup protein sequences.
+.in
+.TP
+\fB-seq\fR
+Use sequence information in \*[SEQ_DB_FNAME], to include protein sequences in output file.
+.TP
+.in +0.75i
+\fI<fafsa_file>
+.in +0.75i
+The user can optionally specify a fafsa formatted file to lookup protein sequences. If a \fI<fasta_file>\fR is specified in both the \fB-seq\fR and \fB-mw\fR arguments, the later argument overrides the earlier one.
 .in
 .TP
 \fB-mact, --makeAtomCountTable\fR
