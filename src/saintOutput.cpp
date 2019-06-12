@@ -49,6 +49,7 @@ namespace saint{
 		
 		while(utils::safeGetline(inF, line))
 		{
+			if(utils::trim(line) == "") continue;
 			utils::split(line, '\t', elems);
 			assert(elems.size() == 3);
 			
