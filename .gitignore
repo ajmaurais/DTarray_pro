@@ -8,6 +8,7 @@ lib/*
 helpFile.pdf
 include/config.hpp
 doc/doxygen/html/*
+*.html
 
 #stuff from test folder
 test/bin/*
