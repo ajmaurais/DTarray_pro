@@ -518,14 +518,14 @@ void Peptide::clear()
  Public Proteins::readIn function which adds all files in filterFileParams to Proteins
  and summarizes progress for user.
  
- \param par Initalized Params object.
+ \param par Initialized Params object.
  \param peptides Peptides object to add peptide data to.
  
  \return true if I/O was suecessful.
  */
 bool Proteins::readIn(params::Params* const par, Peptides& peptides)
 {
-	//initalize static Protein variables
+	//initialize static Protein variables
 	Protein::_par = par;
 	Protein::_locDB = &_locDB;
 	Protein::_fxnDB = &_fxnDB;
@@ -534,7 +534,7 @@ bool Proteins::readIn(params::Params* const par, Peptides& peptides)
 	Protein::_baitFile = &_baitFile;
 	Protein::_locTable = &_locTable;
 	
-	//initalize statid Peptide variables
+	//initialize statid Peptide variables
 	Peptide::_par = par;
 	Peptide::_mwdb = &peptides._mwdb;
 	Peptide::_seqDB = peptides._seqDB;
@@ -582,7 +582,7 @@ bool Proteins::readInSeqDB(std::string fname)
  \param fname File name of .tsv file.
  \param dat Empty map to populate.
  \param columns Array where first element key column name and second is value name.
- \return true if sucessful, false if \p fname can't be read, or \p columns to not
+ \return true if successful, false if \p fname can't be read, or \p columns to not
  exist in \p fname.
  */
 bool Proteins::_readDB(std::string fname,
@@ -1383,7 +1383,7 @@ void Peptide::_parseSequence(const std::string& str)
 }
 
 /**
- Concat Peptide::_mods into a nicely formated string.
+ Concat Peptide::_mods into a nicely formatted string.
  
  \param delim deliminator between multiple mods
  \return mods as a single string.
