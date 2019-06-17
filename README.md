@@ -20,7 +20,7 @@ git clone --recurse-submodules --single-branch --branch stable https://github.co
 
 To build the executable, run:
 ```bash
-cd ~local/DTarray_pro
+cd ~/local/DTarray_pro
 ./configure
 make
 ```
