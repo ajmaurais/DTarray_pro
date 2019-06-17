@@ -28,7 +28,7 @@ make
 After compilation, the `bin` directory should contain two files:
 
 * `DTarray` - the `DTarray_pro` executable.
-* `DTSetup` - a bash script which optionally be used to automatically setup the input directory for `DTarray`
+* `DTSetup` - a bash script which can optionally be used to automatically setup the input directory for `DTarray`
 
 ## Usage
 From a folder containing DTASelect-filter files with the format `<sample_name>.dtafilter`. 
