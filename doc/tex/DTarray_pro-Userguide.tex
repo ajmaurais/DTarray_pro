@@ -10,9 +10,6 @@
 \usepackage{xcolor}
 \usepackage{listings, lstautogobble}
 
-\usepackage{graphicx}
-\graphicspath{{../fig/}}
-
 \usepackage{booktabs}
 \setlength{\heavyrulewidth}{1.5pt}
 \setlength{\abovetopsep}{4pt}
@@ -42,13 +39,12 @@
 	
 	\title{DTarray\_pro-\VERSION \space User Guide}
 	\author{Aaron Maurais}
-	\date{28 September 2018}
+	\date{14 June 2019}
 	
 	\maketitle
 	\tableofcontents
 	\newpage
-	
-	
+		
 	\section{Introduction}
 	
 	\texttt{DTarray\_pro} extracts Uniprot ID numbers, molecular weights, and spectral counts from DTASelect-filter files. Protein data is combined into one dataset and written to the working directory as a tab delimitated text file (.tsv). This document will describe how to install and use the latest version of \texttt{DTarray\_pro} step by step. Some experience using a unix shell is assumed.  
@@ -56,129 +52,125 @@
 	
 	\section{Installation}
 	
-	\texttt{DTarray\_pro} is hosted at GitHub, which is a free hosting service for distributed version control in software development.  
-	The latest stable version of \texttt{DTarray\_pro} will be posted at \url{https://github.com/ajmaurais/DTarray_pro/releases}
-	
-	\subsection{Download and unpack DTarray\_pro archive file from GitHub}
+	\subsection{Downloading DTarray\_pro source code.}
+
 	\begin{itemize}
-		\item Navigate to the \href{https://github.com/ajmaurais/DTarray_pro/releases}{releases} tab on the \texttt{DTarray\_pro} GitHub page.
-		
-		\item The files for the latest release should be at the top of the page.
-		
-		\item Download the file: \texttt{Source code (tar.gz)} for the latest release, to you computer.
-		
-		\item \texttt{DTarray\_pro} expects to be installed in \texttt{\textasciitilde/local}. The program needs data stored in text files in \texttt{\textasciitilde/local/DTarray\_pro-\VERSION/db} for some features to work. First make the directory \texttt{\textasciitilde/local} on your \texttt{pleiades} account if it doesn't already exist.
-		
-		\item Transfer the source code archive (should be named something like \texttt{DTarray\_pro-\VERSION.tar}) to your \texttt{pleiades} account using your FTP client of choice.	
-		
-		\item The source code archive has to be unpacked before you can access it. To unpack the \texttt{.tar} file, type the following commands in your terminal.
-		
-		\begin{lstlisting}
-			$ cd ~/local
-			$ tar -xfv DTarray_pro-1.8.0.tar
-		\end{lstlisting}
-		
-		\item As a result, a new directory should be created in \texttt{~/local} named \texttt{DTarray\_pro-\VERSION}
-		
-		\item Once you have unpacked the archive, you no longer need the \texttt{.tar} file and can delete if of you wish.
-		
+
+	\item \texttt{DTarray\_pro} expects to be installed in \texttt{\$HOME/local}. The program needs files stored in \texttt{\$HOME/local/DTarray\_pro/db} for some features to work. First, make \texttt{\$HOME/local} if it doesn't exist.
+
+	\begin{lstlisting}
+	 		$ mkdir -p ~/local
+	\end{lstlisting}
+
+	\item If you do not wish to build the program in \texttt{\$HOME/local}, you can run the configure script from the desired location with the \texttt{--program-directory <path>} option.
+
+	\item \texttt{DTarray\_pro} is hosted at GitHub, which is a free hosting service for distributed version control in software development. To clone the latest version of the stable branch from the GitHub repo into your current working directory, run:
+
+	\begin{lstlisting}
+		$ git clone --recurse-submodules --single-branch --branch stable https://github.com/ajmaurais/DTarray_pro
+	\end{lstlisting}
+
 	\end{itemize}
 
-	\subsection{Build DTarray\_pro executable}
+	\subsection{Compiling DTarray\_pro}
+
 	\begin{itemize}
-		\item Before you can use \texttt{DTarray\_pro}, you have to build the executable from source. Fortunately \texttt{DTarray\_pro} is configured to work with a build automation tool called \texttt{make} so the process should be straightforward.
+
+	\item \texttt{DTarray\_pro} is written in vanilla c++ 11 and can be compiled on linux or macOS systems with gcc. Other compilers may work but have not been tested.
+
+	\item To configure and build \texttt{DTarray\_pro}, run:
+
+	\begin{lstlisting}
+		$ cd ~/local/DTarray_pro
+		$ ./configure
+		$ make
+	\end{lstlisting}
+
+	\item After you have run \texttt{make}, there should be several new files in the \texttt{DTarray\_pro} directory.  If everything worked, two executable files should be located at \texttt{DTarray\_pro/bin/}
 		
-		\item To build \texttt{DTarray\_pro} run the following commands in your terminal.
+	\begin{lstlisting}
+		$ ls bin
+		DTarray		DTsetup
+	\end{lstlisting}
 		
-		\begin{lstlisting}
-			$ cd ~/local/DTarray_pro-1.8.0/
-			$ ./configure
-			$ make
-		\end{lstlisting}
+	\item \texttt{DTarray} is the executable for \texttt{DTarray\_pro}
 		
-		\item After you have run \texttt{make}, there should be several new files in the \texttt{DTarray\_pro-\VERSION} directory.  If everything worked, two executable files should be located at \texttt{DTarray\_pro-\VERSION/bin/}
-		
-		\begin{lstlisting}
-			$ ls bin
-			DTarray		DTsetup
-		\end{lstlisting}
-		
-		\item \texttt{DTarray} is the executable for \texttt{DTarray\_pro}
-		
-		\item \texttt{DTsetup} is the executable for a script which will automatically setup DTASelect-filter to be read into \texttt{DTarray\_pro}.
-		
+	\item \texttt{DTsetup} is the executable for a script which will automatically setup DTASelect-filter to be read into \texttt{DTarray\_pro}.
+
 	\end{itemize}
 
-	\subsection{Adding a shortcut for DTarray\_pro and DTsetup (optional)}
+	% \subsection{Installing DTarray\_pro and DTsetup (optional)}
+
+
 	
-	To run \texttt{DTarray\_pro} you have to navigate on your terminal to a folder which contains DTASelect-filter files then type the full path to the executable file.  Its possible to install a program system wide so you don't have to type the path every time, but without administrative privileges, its a bit complicated. A workaround is to create a shortcut or alias to the executable file.  This section will explain how to add an alias for \texttt{DTarray\_pro} and \texttt{DTsetup} to your shell profile on \texttt{pleiades}
+	% To run \texttt{DTarray\_pro} you have to navigate on your terminal to a folder which contains DTASelect-filter files then type the full path to the executable file.  Its possible to install a program system wide so you don't have to type the path every time, but without administrative privileges, its a bit complicated. A workaround is to create a shortcut or alias to the executable file.  This section will explain how to add an alias for \texttt{DTarray\_pro} and \texttt{DTsetup} to your shell profile on \texttt{pleiades}
 	
-	\begin{itemize}
-		\item To add an alias for \texttt{DTarray\_pro} and \texttt{DTsetup}, you will have to edit your shell profile, which is a file stored in your home directory named \texttt{.tcshrc}.
+	% \begin{itemize}
+	% 	\item To add an alias for \texttt{DTarray\_pro} and \texttt{DTsetup}, you will have to edit your shell profile, which is a file stored in your home directory named \texttt{.tcshrc}.
 		
-		\item To edit your shell profile, you will use a command line text editor called \texttt{nano}. To open \texttt{.tcshrc} in \texttt{nano}, type:
+	% 	\item To edit your shell profile, you will use a command line text editor called \texttt{nano}. To open \texttt{.tcshrc} in \texttt{nano}, type:
 		
-		\begin{lstlisting}
-			$ cd
-			$ nano .tcshrc
-		\end{lstlisting}
+	% 	\begin{lstlisting}
+	% 		$ cd
+	% 		$ nano .tcshrc
+	% 	\end{lstlisting}
 		
-		\item After starting \texttt{nano}, your terminal window should look something Figure \ref{fig:step_1}.
+	% 	\item After starting \texttt{nano}, your terminal window should look something Figure \ref{fig:step_1}.
 		
-		\begin{figure}[h!]
-			\centering
-			\includegraphics[width=0.7\textwidth]{step_1.png}
-			\caption{Example terminal window after opening \texttt{.tcshrc} with \texttt{nano}}
-			\label{fig:step_1}
-		\end{figure}
+	% 	\begin{figure}[h!]
+	% 		\centering
+	% 		\includegraphics[width=0.7\textwidth]{step_1.png}
+	% 		\caption{Example terminal window after opening \texttt{.tcshrc} with \texttt{nano}}
+	% 		\label{fig:step_1}
+	% 	\end{figure}
 		
-		\item Scroll to the bottom of the file and add the lines: \\
-		\texttt{alias DTarray "\textasciitilde/local/DTarray\_pro-\VERSION/bin/DTarray"} \\
-		\texttt{alias DTsetup "\textasciitilde/local/DTarray\_pro-\VERSION/bin/DTsetup"} \\
-		(See Figure \ref{fig:step_2} for an example).
+	% 	\item Scroll to the bottom of the file and add the lines: \\
+	% 	\texttt{alias DTarray "\textasciitilde/local/DTarray\_pro-\VERSION/bin/DTarray"} \\
+	% 	\texttt{alias DTsetup "\textasciitilde/local/DTarray\_pro-\VERSION/bin/DTsetup"} \\
+	% 	(See Figure \ref{fig:step_2} for an example).
 		
-		\begin{figure}[h!]
-			\centering
-			\includegraphics[width=0.7\textwidth]{step_2.png}
-			\caption{\texttt{.tcshrc} with new aliases for \texttt{DTarray\_pro} and \texttt{DTsetup}}
-			\label{fig:step_2}
-		\end{figure}
+	% 	\begin{figure}[h!]
+	% 		\centering
+	% 		\includegraphics[width=0.7\textwidth]{step_2.png}
+	% 		\caption{\texttt{.tcshrc} with new aliases for \texttt{DTarray\_pro} and \texttt{DTsetup}}
+	% 		\label{fig:step_2}
+	% 	\end{figure}
 	
-		\item To save and exit the file, hit \texttt{\textasciicircum + X}. A dialog should show up at the bottom which says: 
-		\begin{lstlisting}
-			Save modified buffer (ANSWERING "No" WILL DESTROY CHANGES) ?
-		\end{lstlisting}
-		\item Hit \texttt{y}
+	% 	\item To save and exit the file, hit \texttt{\textasciicircum + X}. A dialog should show up at the bottom which says: 
+	% 	\begin{lstlisting}
+	% 		Save modified buffer (ANSWERING "No" WILL DESTROY CHANGES) ?
+	% 	\end{lstlisting}
+	% 	\item Hit \texttt{y}
 		
-		\item Next a dialog should show up at the bottom which says 
+	% 	\item Next a dialog should show up at the bottom which says 
 		
-		\begin{lstlisting}
-			File name to write: .tcshrc
-		\end{lstlisting}
+	% 	\begin{lstlisting}
+	% 		File name to write: .tcshrc
+	% 	\end{lstlisting}
 		
-		\item Hit \texttt{enter} to exit.
+	% 	\item Hit \texttt{enter} to exit.
 		
-		\item Finally you have to tell the computer to reload your shell profile after you have modified it with the command:
+	% 	\item Finally you have to tell the computer to reload your shell profile after you have modified it with the command:
 		
-		\begin{lstlisting}
-			$ source .tcshrc
-		\end{lstlisting}
+	% 	\begin{lstlisting}
+	% 		$ source .tcshrc
+	% 	\end{lstlisting}
 		
-		\item You can test your alias by typing the following command from your home directory:
+	% 	\item You can test your alias by typing the following command from your home directory:
 		
-		\begin{lstlisting}
-			$ DTarray --version
-		\end{lstlisting}
+	% 	\begin{lstlisting}
+	% 		$ DTarray --version
+	% 	\end{lstlisting}
 		
-		\item If the alias is recognized by the computer, it should display something like:
+	% 	\item If the alias is recognized by the computer, it should display something like:
 		
-		\begin{lstlisting}
-			DTarray_pro 1.7
-			Last git commit: Sat Sep 22 20:28:17 2018
-			git revision: 04d30f4fd7790abfca60197d85cefc9d2a
-		\end{lstlisting}
+	% 	\begin{lstlisting}
+	% 		DTarray_pro 1.7
+	% 		Last git commit: Sat Sep 22 20:28:17 2018
+	% 		git revision: 04d30f4fd7790abfca60197d85cefc9d2a
+	% 	\end{lstlisting}
 		
-	\end{itemize}
+	% \end{itemize}
 	
 	
 	\section{Usage}
@@ -266,7 +258,7 @@
 	
 	\subsection{DTarray\_pro Output file options}
 	
-	This document will not provide an exhaustive list of options for \texttt{DTarray\_pro}. Instead, this section will provide examples of options will likely find most useful.  For the full list of optional arguments see \texttt{DTarray\_pro-\VERSION/helpFile.pdf} or use \texttt{DTarray -h} to see the help file from the terminal.
+	This document will not provide an exhaustive list of options for \texttt{DTarray\_pro}. Instead, this section will provide examples of options will likely find most useful.  For the full list of optional arguments see \texttt{DTarray\_pro/helpFile.pdf} or use \texttt{DTarray -h} to see the help file from the terminal.
 	
 	\subsubsection{Get spectral counts for unique peptides by protein} \label{sec:unique_sc}
 	
@@ -280,7 +272,7 @@
 	
 	\subsubsection{Specify how to group supplementary information columns in output file} \label{sec:sup_info}
 	
-	The examples in this section are use the \texttt{-u} option (section \ref{sec:unique_sc}), but the \texttt{-s} option is also compatible with other \texttt{DTarray\_pro} options including the \texttt{-lr} option (see section \ref{sec:loc})
+	The examples in this section all use the \texttt{-u} option (section \ref{sec:unique_sc}), but the \texttt{-s} option is also compatible with other \texttt{DTarray\_pro} options including the \texttt{-lr} option (see section \ref{sec:loc})
 	
 	\bigskip
 	\noindent
@@ -343,7 +335,7 @@
 	\end{lstlisting}
 	
 	\noindent
-	An additional file should be generated named \texttt{peptideList.tsv} containing peptide data.
+	An additional file will be generated named \texttt{peptideList.tsv} containing peptide data.
 	
 	\subsubsection{Modify how peptides are grouped in output file}
 	
@@ -366,8 +358,7 @@
 	
 	\subsubsection{Get subcelluar location data for proteins} \label{sec:loc}
 	
-	\texttt{DTarray\_pro} can use \texttt{DTarray\_pro-\VERSION/db/humanLoc.tsv}  to lookup subcelluar localization information for proteins.  \texttt{humanLoc.tsv} contains Uniprot annotations for subcelluar localization by Uniprot ID,	updated as of Jan 18 2017. Currently, sub cell location information
-	is available for human proteins only.
+	\texttt{DTarray\_pro} can use \texttt{DTarray\_pro/db/humanLoc.tsv}  to lookup subcelluar localization information for proteins.  \texttt{humanLoc.tsv} contains Uniprot annotations for subcelluar localization by Uniprot ID,	updated as of Apr 19, 2019. Currently, sub cell location information is available for human proteins only.
 	
 	\bigskip
 	\noindent
@@ -403,13 +394,13 @@
 	\begin{enumerate}
 		\item  An atom count table, named \texttt{atomCountTable.txt} which contains the number and types of atoms found in each amino acid (similar to \texttt{Cimage} table).
 		
-		\item An atom mass table, located at \texttt{DTarray\_pro-\VERSION/db/atomMasses.txt}, containing the masses of each atom.  
+		\item An atom mass table, located at \texttt{DTarray\_pro/db/atomMasses.txt}, containing the masses of each atom.  
 		
-		\item A \texttt{.fasta} file to lookup protein sequences located at \\ \texttt{DTarray\_pro-\VERSION/db/humanProteome.fasta} (required for proteins only) Currently, the \texttt{-mw} option is supported for human proteins only.
+		\item A \texttt{.fasta} file to lookup protein sequences located at \\ \texttt{DTarray\_pro/db/humanProteome.fasta} (required for proteins only) Currently, the \texttt{-mw} option is supported for human proteins only.
 	\end{enumerate}
 	
 	\noindent
-	By default the atom count table located at \texttt{DTarray\_pro-\VERSION/db/atomCountTable.txt} is used. The default atom count table includes a static modification on cysteine for iodoacetamide alkylation.  To calculate peptide and protein masses with default residue masses, run:
+	By default the atom count table located at \texttt{DTarray\_pro/db/atomCountTable.txt} is used. The default atom count table includes a static modification on cysteine for iodoacetamide alkylation.  To calculate peptide and protein masses with default residue masses, run:
 	
 	\begin{lstlisting}
 		$ DTarray -p 1 -mw
@@ -426,6 +417,6 @@
 	\end{lstlisting}
 	
 	\noindent
-	The user can also edit the default atom count table as at \\ \texttt{DTarray\_pro-\VERSION/db/atomCountTable.txt} as desired, but editing \\ \texttt{DTarray\_pro-\VERSION/db/atomMasses.txt} is not recommended.
+	The user can also edit the default atom count table as at \\ \texttt{DTarray\_pro/db/atomCountTable.txt} as desired, but editing \\ \texttt{DTarray\_pro/db/atomMasses.txt} is not recommended.
 	
 \end{document}

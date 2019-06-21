@@ -32,7 +32,7 @@ function isArg {
 #get args
 while ! [[ -z "$1" ]] ; do
 	case $1 in
-		"-d"|"--progdir")
+		"-d"|"--program-directory")
 			shift
 			isArg "$1"
 			PROG_DIR="\"$(absPath "$1")\"" ;;
@@ -45,7 +45,7 @@ while ! [[ -z "$1" ]] ; do
 done		
 
 #update config.hpp
-echo "Updateing config.hpp..."
+echo "Updating $CONFIG_HPP..."
 echo -e "\n#ifndef config_hpp" > $CONFIG_HPP
 echo -e "#define config_hpp\n" >> $CONFIG_HPP
 echo "#define CONFIG_PROG_WD_DIR $PROG_DIR;" >> $CONFIG_HPP
