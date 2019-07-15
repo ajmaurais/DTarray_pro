@@ -79,8 +79,8 @@ int main(int argc, char* argv[])
 		//read in subcellular locations database
 		if(par.getSubCelluarLoc)
 		{
-			std::cout << std::endl << "Reading subcellular locations database...";
-			if(!proteins.readInLocDB(par.locDBfname))
+			std::cout << std::endl << "Reading: \"" << par.getLocCol() << "\" from subcellular locations database...";
+			if(!proteins.readInLocDB(par.locDBfname, par.getLocCol()))
 			{
 				std::cerr <<"Failed to read protein location DB file! Exiting..." << std::endl;
 				return -1;

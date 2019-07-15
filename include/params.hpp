@@ -192,6 +192,7 @@ namespace params{
 			locTableFname = LOC_TABLE_FNAME;
 			locTableLongFname = LOC_TABLE_LONG_FNAME;
 			locSupInfoNum = 0;
+			locCol = "loc";
 			excludeStr = "";
 			filter = false;
 			matchRegex = true;
@@ -238,6 +239,7 @@ namespace params{
 		std::string getSeqDBfname() const{
 			return seqDBfname;
 		}
+		std::string getLocCol() const;
 		static std::string groupFormatString(PeptideGroupFormat);
 	private:
 		std::vector<FilterFileParam> file;
@@ -258,6 +260,7 @@ namespace params{
 		std::string seqDBfname;
 		std::string excludeStr, addStr;
 		bool filter, matchRegex, toLower;
+		std::string locCol;
 		
 		size_t numFiles;
 	};

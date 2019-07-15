@@ -68,6 +68,23 @@ namespace params{
 		}
 	}
 	
+	/**
+	 Get name of location column.
+	 
+	 \return one of "subcelluar_loc", "go_cellular_component", "all_locations".
+	 */
+	std::string Params::getLocCol() const{
+		//Options are: subcelluar_loc go_cellular_component all_locations
+		if(locCol == "loc")
+			return "subcelluar_loc";
+		else if(locCol == "go")
+			return "go_cellular_component";
+		else if(locCol == "both")
+			return "all_locations";
+		else
+			throw std::runtime_error("Unknown column!");
+	}
+	
 	Params::OutputFormat Params::outputFormat = wideFormat;
 	Params::OutputFormat Params::peptideOutput = none;
 	Params::OutputFormat Params::locOutput = none;
@@ -157,6 +174,21 @@ namespace params{
 			if(!strcmp(argv[i], "-loc"))
 			{
 				getSubCelluarLoc = true;
+				continue;
+			}
+			if(!strcmp(argv[i], "-lc") || !strcmp(argv[i], "--locCol"))
+			{
+				if(!utils::isArg(argv[++i]))
+				{
+					usage();
+					return false;
+				}
+				if(!(!strcmp(argv[i], "loc") || !strcmp(argv[i], "go") || !strcmp(argv[i], "both")))
+				{
+					std::cerr << argv[i] << PARAM_ERROR_MESSAGE << "locCol" << std::endl;
+					return false;
+				}
+				locCol = std::string(argv[i]);
 				continue;
 			}
 			if(!strcmp(argv[i], "-fxn"))

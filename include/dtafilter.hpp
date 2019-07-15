@@ -237,7 +237,7 @@ public:
 	Proteins() : DBTemplate<Protein>(){}
 	~Proteins(){}
 	
-	bool readInLocDB(std::string);
+	bool readInLocDB(std::string fname, std::string col);
 	bool readInMWdb(const params::Params&);
 	bool readInSeqDB(std::string);
 	bool readInFxnDB(std::string);

@@ -618,9 +618,17 @@ bool Proteins::readInFxnDB(std::string fname)
 	return _readDB(fname, _fxnDB, cols);
 }
 
-bool Proteins::readInLocDB(std::string fname)
+/**
+ Read data from csv file containing protein subcelluar localizations.
+ 
+ \param fname Path to file.
+ \param col Name of column to get data from.
+ 
+ \return true if sucessful.
+ */
+bool Proteins::readInLocDB(std::string fname, std::string col)
 {
-	std::string cols [] = {"id", "subcelluarloc"};
+	std::string cols [] = {"id", col};
 	
 	return _readDB(fname, _locDB, cols);
 }

@@ -27,6 +27,7 @@ DTarray_pro - Combine DTASelect-filter files.
 [\fB-saint\fR \fI<bait_file>\fR]
 [\fB-rev \fI<0/1>\fR]
 [\fB-loc\fR]
+[\fB-lc\fR]
 [\fB-fxn\fR]
 [\fB-mw\fR [\fI<fasta_file>\fR]]
 [\fB-mact\fR]
@@ -188,6 +189,27 @@ Group columns by observation.
 .TP
 \fB-loc\fP
 Use \*[LOC_DB_FNAME] to lookup subcelluar localization information for proteins in output file. humanLoc.tsv contains Uniprot annotations for subcelluar localization by Uniprot ID, updated as of Jan 18 2017. Currently, sub cell location information is available for human proteins only.
+.TP
+\fB-lc, --locCol\fR
+Specify which data to use for \fB-loc\fR and \fB--locReport\fR options.
+.TP
+.in +0.75i
+\fBloc\fR
+.in +0.75i
+Use Uniprot subcellular location annotations.
+.in
+.TP
+.in +0.75i
+\fBgo\fR
+.in +0.75i
+Use GO terms for cellular component.
+.in
+.TP
+.in +0.75i
+\fBboth\fR
+.in +0.75i
+Use both Uniprot annotations and GO terms.
+.in
 .TP
 \fB-fxn\fP
 Use \*[FXN_DB_FNAME] to include panther category for proteins in output file.
