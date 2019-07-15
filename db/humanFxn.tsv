@@ -1,4 +1,4 @@
-ID	Protein	Subfamily	Panther_category
+id	protein	subfamily	panther_category
 Q5SQN1	Synaptosomal-associated protein 47;SNAP47;ortholog	SYNAPTOSOMAL-ASSOCIATED PROTEIN 47 (PTHR19305:SF21)	SNARE protein(PC00150)
 P60880	Synaptosomal-associated protein 25;SNAP25;ortholog	SYNAPTOSOMAL-ASSOCIATED PROTEIN 25 (PTHR19305:SF17)	SNARE protein(PC00150)
 O00161	Synaptosomal-associated protein 23;SNAP23;ortholog	SYNAPTOSOMAL-ASSOCIATED PROTEIN 23 (PTHR19305:SF12)	SNARE protein(PC00150)
