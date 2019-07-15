@@ -874,13 +874,13 @@ bool Proteins::writeOut(std::string ofname, const params::Params& par)
 	headers.insert(it, DEFAULT_COL_NAMES, DEFAULT_COL_NAMES + colNamesLength);
 	
 	//print column headers
-	if(par.getFxn){
-		it = std::find(headers.begin(), headers.end(), "Mass(Da)");
-		headers.insert(it + 1, "Function");
-	}
 	if(par.getSubCelluarLoc){
 		it = std::find(headers.begin(), headers.end(), "Mass(Da)");
 		headers.insert(it + 1, "subcelluar_loc");
+	}
+	if(par.getFxn){
+		it = std::find(headers.begin(), headers.end(), "Mass(Da)");
+		headers.insert(it + 1, "Function");
 	}
 	if(par.calcMW){
 		int mwHeadersLen = MWCALC_HEADERS_LENGTH;
@@ -997,40 +997,24 @@ bool Proteins::writeOutDB(std::string ofname, const params::Params& par)
 	//print column headers
 	std::vector<std::string> headers;
 	std::vector<std::string>::iterator it = headers.begin();
-	int len = DEFAULT_COL_NAMES_DB_LENGTH;
 	
 	for (int i = 0; i < DEFAULT_COL_NAMES_DB_LENGTH ; i++)
 		headers.push_back(DEFAULT_COL_NAMES_DB[i]);
 	
 	if(par.parseSampleName)
 	{
-		for(it = headers.begin(); it != headers.end(); it++)
-			if(*it == "Long_sample_name")
-			{
-				headers.insert(it + 1, PARSE_SAMPLE_NAME_HEADERS, PARSE_SAMPLE_NAME_HEADERS + PARSE_SAMPLE_NAME_HEADERS_LEN);
-				len = int(headers.size());
-				break;
-			}
+		it = std::find(headers.begin(), headers.end(), "Long_sample_name");
+		headers.insert(it + 1, PARSE_SAMPLE_NAME_HEADERS, PARSE_SAMPLE_NAME_HEADERS + PARSE_SAMPLE_NAME_HEADERS_LEN);
 	}
 	if(par.getSubCelluarLoc)
 	{
-		for(it = headers.begin(); it != headers.end(); it++)
-			if(*it == "Mass(Da)")
-			{
-				headers.insert(it + 1, "Subcelluar_loc");
-				len = int(headers.size());
-				break;
-			}
+		it = std::find(headers.begin(), headers.end(), "Mass(Da)");
+		headers.insert(it + 1, "Subcelluar_loc");
 	}
 	if(par.getFxn)
 	{
-		for(it = headers.begin(); it != headers.end(); it++)
-			if(*it == "Mass(Da)")
-			{
-				headers.insert(it + 1, "Function");
-				len = int(headers.size());
-				break;
-			}
+		it = std::find(headers.begin(), headers.end(), "Mass(Da)");
+		headers.insert(it + 1, "Function");
 	}
 	if(par.calcMW)
 	{
@@ -1038,74 +1022,35 @@ bool Proteins::writeOutDB(std::string ofname, const params::Params& par)
 		if(par.getSeq)
 			mwHeadersLen++;
 		
-		it = headers.begin();
-		for(int i = 0; i < headers.size(); i++)
-			if(headers[i] == "Mass(Da)")
-			{
-				headers.insert(it + i + 1, MWCALC_HEADERS, MWCALC_HEADERS + mwHeadersLen);
-				len = int(headers.size());
-				break;
-			}
+		it = std::find(headers.begin(), headers.end(), "Mass(Da)");
+		headers.insert(it + 1, MWCALC_HEADERS, MWCALC_HEADERS + mwHeadersLen);
 	}
 	else if(par.getSeq && !par.calcMW)
 	{
 		it = headers.begin();
-		for(int i = 0; i < headers.size(); i++)
-			if(headers[i] == "Mass(Da)")
-			{
-				headers.insert(it + i + 1, MWCALC_HEADERS[3]);
-				len = int(headers.size());
-				break;
-			}
+		it = std::find(headers.begin(), headers.end(), "Mass(Da)");
+		headers.insert(it + 1, MWCALC_HEADERS[3]);
 	}
 	if(par.includeModStat)
 	{
-		for(it = headers.begin(); it != headers.end(); it++)
-		{
-			if(*it == "Spectral_counts")
-			{
-				headers.insert(it + 1, SUP_INFO_HEADERS[5]);
-				headers.insert(it + 1, SUP_INFO_HEADERS[4]);
-				len = int(headers.size());
-				break;
-			}
-		}
+		it = std::find(headers.begin(), headers.end(), "Spectral_counts");
+		headers.insert(it + 1, SUP_INFO_HEADERS[5]);
+		headers.insert(it + 1, SUP_INFO_HEADERS[4]);
 	}
 	if(par.includeSequenceCount)
 	{
-		for(it = headers.begin(); it != headers.end(); it++)
-		{
-			if(*it == "Spectral_counts")
-			{
-				headers.insert(it + 1, SUP_INFO_HEADERS[3]);
-				len = int(headers.size());
-				break;
-			}
-		}
+		it = std::find(headers.begin(), headers.end(), "Spectral_counts");
+		headers.insert(it + 1, SUP_INFO_HEADERS[3]);
 	}
 	if(par.includeCoverage)
 	{
-		for(it = headers.begin(); it != headers.end(); it++)
-		{
-			if(*it == "Spectral_counts")
-			{
-				headers.insert(it + 1, SUP_INFO_HEADERS[2]);
-				len = int(headers.size());
-				break;
-			}
-		}
+		it = std::find(headers.begin(), headers.end(), "Spectral_counts");
+		headers.insert(it + 1, SUP_INFO_HEADERS[2]);
 	}
 	if(par.includeUnique)
 	{
-		for(it = headers.begin(); it != headers.end(); it++)
-		{
-			if(*it == "Spectral_counts")
-			{
-				headers.insert(it + 1, SUP_INFO_HEADERS[1]);
-				len = int(headers.size());
-				break;
-			}
-		}
+		it = std::find(headers.begin(), headers.end(), "Spectral_counts");
+		headers.insert(it + 1, SUP_INFO_HEADERS[1]);
 	}
 
 	for (it = headers.begin(); it != headers.end(); it++)
