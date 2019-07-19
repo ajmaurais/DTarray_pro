@@ -65,7 +65,7 @@ OBJS := $(subst $(SRCDIR)/,$(OBJDIR)/,$(SRCS:.cpp=.o))
 CXXFLAGS += $(INCLUDEFLAGS) -I$(HEADERDIR)
 LDFLAGS += $(LIBFLAGS) -L$(LIBDIR)
 
-.PHONY: all clean distclean
+.PHONY: all clean distclean doc
 
 TARGETS = $(BINDIR)/$(EXE) $(BINDIR)/DTsetup helpFile.pdf DTarray_pro-Userguide.pdf
 
@@ -98,6 +98,9 @@ helpFile.pdf : db/helpFile.man
 $(BINDIR)/DTsetup : DTsetup/dtsetup.sh
 	cp DTsetup/dtsetup.sh $(BINDIR)/DTsetup
 	chmod +x $(BINDIR)/DTsetup
+
+doc:
+	doxygen doc/doxygen/Doxyfile
 
 clean:
 	rm -f $(OBJDIR)/*.o $(BINDIR)/$(EXE) $(BINDIR)/DTsetup $(LIBDIR)/*.a
