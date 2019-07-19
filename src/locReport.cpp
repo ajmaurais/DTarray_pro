@@ -50,6 +50,10 @@ namespace locReport{
 	
 	void LocDB::addLoc(LocDat newLoc)
 	{
+		if(!locsOfInterest.empty())
+			if(!std::binary_search(locsOfInterest.begin(), locsOfInterest.end(), newLoc.getKey()))
+				return;
+		
 		LocTableType::iterator it = locTable.find(newLoc.getKey());
 		if(it == locTable.end()){
 			locTable[newLoc.getKey()] = newLoc;
@@ -159,5 +163,34 @@ namespace locReport{
 				break;
 			default : throw std::runtime_error("function does not exist!");
 		}
+	}
+	
+	/**
+	 \return reference to locsOfInterest.
+	 */
+	const LocDB::LocListType& LocDB::get_locsOfInterset() const{
+		return locsOfInterest;
+	}
+	
+	/**
+	 Set LocDB::locsOfInterest.
+	 A deep copy of \p rhs is made.
+	 
+	 \param rhs list to copy
+	 */
+	void LocDB::set_locsOfInterest(const LocListType& rhs){
+		locsOfInterest.clear();
+		
+		for(auto it = rhs.begin(); it != rhs.end(); ++it)
+			locsOfInterest.push_back(*it);
+			
+		std::sort(locsOfInterest.begin(), locsOfInterest.end());
+	}
+
+	/**
+	 Set LocDB::locsOfInterest to locReport::SUMMARY_LOCS.
+	 */
+	void LocDB::set_summaryLocs(){
+		set_locsOfInterest(LocListType(SUMMARY_LOCS, SUMMARY_LOCS + SUMMARY_LOCS_LEN));
 	}
 }

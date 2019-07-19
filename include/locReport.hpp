@@ -45,6 +45,13 @@ namespace locReport{
 	class Loc;
 	class LocDB;
 	
+	//!Locations to use in loc summary report
+	const std::string SUMMARY_LOCS [] = {"membrane", "cell membrane", "cytoskeleton", "cytoplasmic vesicle", "endosome", "endoplasmic reticulum", "golgi", "lysosome", "mitochondrion", "nucleus", "peroxisome", "secreted"};
+	const size_t SUMMARY_LOCS_LEN = 12;
+	
+	/**
+	 Stores location quantaty data for a single sample.
+	 */
 	class Loc{
 	private:
 		unsigned int count, specSum, uniqSpecSum, seqCount;
@@ -85,6 +92,9 @@ namespace locReport{
 		}
 	};
 	
+	/**
+	 Stores Loc data for all samples for a single location ID.
+	 */
 	class LocDat{
 	private:
 		std::string loc;
@@ -131,16 +141,30 @@ namespace locReport{
 	};
 	
 	class LocDB{
+		typedef std::vector<std::string> LocListType;
 	private:
 		typedef std::map<std::string, LocDat> LocTableType;
+		
+		//!Stores location and LocDat as key value pairs
 		LocTableType locTable;
+		
+		//!Stores locations to include in report. If empty, all locations are included.
+		LocListType locsOfInterest;
 		
 	public:
 		LocDB(){}
 		~LocDB(){}
 		
+		//modifers
 		void addLoc(LocDat newLoc);
+		void set_locsOfInterest(const LocListType&);
+		void set_summaryLocs();
+		const LocListType& get_locsOfInterset() const;
+		
+		//properties
 		void writeLocReport(std::ofstream& outF, int fxnNum) const;
+		
+		
 	};
 }
 

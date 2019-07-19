@@ -223,7 +223,7 @@ int main(int argc, char* argv[])
 	//write sub celluar localization report
 	if(par.locOutput != params::Params::none)
 	{
-		proteins.buildLocTable();
+		proteins.buildLocTable(par.locSummary);
 		
 		if(par.locOutput == params::Params::wideFormat || par.locOutput == params::Params::both)
 		{

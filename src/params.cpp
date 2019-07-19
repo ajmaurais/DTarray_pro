@@ -274,6 +274,11 @@ namespace params{
 				locOutput = intToOutputFormat(std::stoi(argv[i]));
 				continue;
 			}
+			if(!strcmp(argv[i], "-ls") || !strcmp(argv[i], "--locSummary"))
+			{
+				locSummary = true;
+				continue;
+			}
 			if(!strcmp(argv[i], "-g") || !strcmp(argv[i], "--group"))
 			{
 				if(!utils::isArg(argv[++i]))

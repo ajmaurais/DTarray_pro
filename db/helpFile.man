@@ -28,6 +28,7 @@ DTarray_pro - Combine DTASelect-filter files.
 [\fB-rev \fI<0/1>\fR]
 [\fB-loc\fR]
 [\fB-lc\fR]
+[\fB-ls\fR]
 [\fB-fxn\fR]
 [\fB-mw\fR [\fI<fasta_file>\fR]]
 [\fB-mact\fR]
@@ -147,6 +148,8 @@ Use long output format.
 Generate both wide and long output files.
 .in
 .TP
+\fB-ls, --locSummary\fR
+Generate a high level summary of protein localization data. Only spectral data for the folowing locations will be included; {"membrane", "cell membrane", "cytoskeleton", "cytoplasmic vesicle", "endosome", "endoplasmic reticulum", "golgi", "lysosome", "mitochondrion", "nucleus", "peroxisome", "secreted"}. By default, all locations are included.
 
 .TP
 \fB-saint\fI <bait_file>\fR

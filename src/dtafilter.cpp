@@ -1093,9 +1093,17 @@ bool Proteins::writeSaint(std::string fname, OutputFiles file) const
 	return true;
 }
 
-void Proteins::buildLocTable()
+/**
+ Populate Protein::_locTable with localization data.
+ 
+ \param summary Should sub-organell locations be omitted from loc report?
+ */
+void Proteins::buildLocTable(bool summary)
 {
-	//apply loc build fxn across data hash table
+	//init _locTable if necissary
+	if(summary) _locTable.set_summaryLocs();
+	
+	//apply loc build fxn across protein data
 	Protein::_locTable = &_locTable;
 	for(DataType::iterator it = data.begin(); it != data.end(); ++it)
 		it->second.addLocToTable();

@@ -242,7 +242,7 @@ public:
 	bool readInSeqDB(std::string);
 	bool readInFxnDB(std::string);
 	bool readBaitFile(std::string);
-	void buildLocTable();
+	void buildLocTable(bool summary = false);
 	
 	//properties
 	utils::Residues& get_mwdb(){

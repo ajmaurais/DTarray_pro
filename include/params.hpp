@@ -71,8 +71,8 @@ namespace params{
 	const std::string PEPTIDE_DB_OFNAME = "peptideList_long.tsv";
 	const std::string SAINT_PREY_FILE = "prey_file.txt";
 	const std::string SAINT_INTERACTION_FILE = "interaction_file.txt";
-	const std::string LOC_TABLE_FNAME = "loc_summary.tsv";
-	const std::string LOC_TABLE_LONG_FNAME = "loc_summary_long.tsv";
+	const std::string LOC_TABLE_FNAME = "loc_report.tsv";
+	const std::string LOC_TABLE_LONG_FNAME = "loc_report_long.tsv";
 	
 	/**********************/
 	/* class definitions */
@@ -144,6 +144,7 @@ namespace params{
 		std::string locTableFname, locTableLongFname;
 		static OutputFormat locOutput;
 		int locSupInfoNum;
+		bool locSummary;
 		
 		Params ()
 		{
@@ -193,6 +194,7 @@ namespace params{
 			locTableLongFname = LOC_TABLE_LONG_FNAME;
 			locSupInfoNum = 0;
 			locCol = "loc";
+			locSummary = false;
 			excludeStr = "";
 			filter = false;
 			matchRegex = true;
