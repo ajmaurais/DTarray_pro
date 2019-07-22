@@ -148,10 +148,6 @@ Use long output format.
 Generate both wide and long output files.
 .in
 .TP
-\fB-ls, --locSummary\fR
-Generate a high level summary of protein localization data. Only spectral data for the folowing locations will be included; {"membrane", "cell membrane", "cytoskeleton", "cytoplasmic vesicle", "endosome", "endoplasmic reticulum", "golgi", "lysosome", "mitochondrion", "nucleus", "peroxisome", "secreted"}. By default, all locations are included.
-
-.TP
 \fB-saint\fI <bait_file>\fR
 Generate input files for saintExpress. \fI<bait_file>\fP should be a text file with three columns separated by tabs: IP name (or sample name), bait name, and T if sample is test or C if sample is control. Two files are generated in working dirrectory: interaction_file.txt and prey_file.txt.
 .TP
@@ -173,7 +169,7 @@ Include percent sequence coverage for proteins in output file.
 \fB-seqC\fR
 Include sequence count for proteins in output file.
 .TP
-\fB-s\fR
+\fB-s\fI <0/1>\fR
 Specify how to group sup info columns in output file. \fB0\fR is the default. One or more run specific sup info options must be specified to use this option.
 .TP
 .in +0.75i
@@ -193,7 +189,7 @@ Group columns by observation.
 \fB-loc\fP
 Use \*[LOC_DB_FNAME] to lookup subcelluar localization information for proteins in output file. humanLoc.tsv contains Uniprot annotations for subcelluar localization by Uniprot ID, updated as of Jan 18 2017. Currently, sub cell location information is available for human proteins only.
 .TP
-\fB-lc, --locCol\fR
+\fB-lc, --locCol\fI <col>\fR
 Specify which data to use for \fB-loc\fR and \fB--locReport\fR options.
 .TP
 .in +0.75i
@@ -214,11 +210,14 @@ Use GO terms for cellular component.
 Use both Uniprot annotations and GO terms.
 .in
 .TP
+\fB-ls, --locSummary\fR
+Generate a high level summary of protein localization data. Only spectral data for the folowing locations will be included: {"membrane", "cell membrane", "cytoskeleton", "cytoplasmic vesicle", "endosome", "endoplasmic reticulum", "golgi", "lysosome", "mitochondrion", "nucleus", "peroxisome", "secreted"}. By default, all locations are included.
+.TP
 \fB-fxn\fP
 Use \*[FXN_DB_FNAME] to include panther category for proteins in output file.
 
 .SS PEPTIDE FILE OPTIONS
-\fB-g, --group\fP
+\fB-g, --group\fI <format>\fR
 Specify how peptides are grouped in peptide output files. \fB1\fR is the default.
 .TP
 .in +0.75i
@@ -232,12 +231,14 @@ Do not group peptides. In this format, each peptide will be output on a separate
 .in +0.75i
 Group peptides by parent protein. A separate entry for each charge state of a given peptide will be included in peptide output files.
 .in
+.TP
+.in +0.75i
 \fB2\fR
 .in +0.75i
 Group peptides by parent protein and charge. Peptides found in multiple charge states will be grouped in output files. 
 .in
 .TP
-\fB-modG\fR
+\fB-modG\fI <format>\fR
 Specify how to group modified peptides in peptide output files. \fB0\fR is the default.
 .TP
 .in +0.75i
@@ -252,7 +253,7 @@ Peptides with the same sequence, but different modification status will not be g
 Ignore modification status when grouping peptides.
 .in
 .TP
-\fB-n, --nullp\fR
+\fB-n, --nullp\fI <format>\fR
 Specify whether to include peptides with 0 spectral counts in long peptide output file. \fB0\fR is the default.
 .TP
 .in +0.75i
@@ -272,20 +273,20 @@ Include peptides with 0 spectral counts in output file.
 \fB-modS\fR
 Include information about number of modified peptides. Separate columns for number of spectral counts for modified peptides and total spectral conts will be included in protein and peptide output files.
 .TP
-\fB-mw
+\fB-mw \fR[\fI<fasta_file>\fR]
 Calculate protein/peptide molecular weights and molecular formulas. Columns will be included for average mass, monoisotopic mass and molecular formula.  Peptide/protein masses and formulas are calculated from \*[ACT_FNAME] which contains the number and types of atoms found in each amino acid and a table located at \*[AMT_LOC] containing the masses of each atom. By default the atom count table at \*[DEFAULT_ACT_LOC] is used. The user can also supply a custom \*[ACT_FNAME] file with the \fB-act\fP option. Protein sequence information is stored in a fasta formatted file. The default sequence file is \*[SEQ_DB_FNAME].
 .TP
 .in +0.75i
-\fI<fafsa_file>
+\fI<fasta_file>\fR
 .in +0.75i
 The user can optionally specify a fafsa formatted file to lookup protein sequences.
 .in
 .TP
-\fB-seq\fR
+\fB-seq \fR[\fI<fasta_file>\fR]
 Use sequence information in \*[SEQ_DB_FNAME], to include protein sequences in output file.
 .TP
 .in +0.75i
-\fI<fafsa_file>
+\fI<fasta_file>\fR
 .in +0.75i
 The user can optionally specify a fafsa formatted file to lookup protein sequences. If a \fI<fasta_file>\fR is specified in both the \fB-seq\fR and \fB-mw\fR arguments, the later argument overrides the earlier one.
 .in
@@ -311,7 +312,7 @@ Do not write molecular formulas with subscripts.
 Write molecular formulas with subscripts. Output files must be imported as UTF-8 text to see subscripts in Excel.
 .in
 .TP
-\fB-f\fR
+\fB-f\fR [\fI<prefix>\fR]
 Include columns for sample name and replicate number in long protein and peptide output files. If the sample name is in the format <sample name>_<number> all text after the last underscore (with the exception of the extension) in the sample name is used as the replicate number.
 .TP
 .in +0.75i
@@ -358,7 +359,7 @@ Perform case sensitive match with \fI<pattern>\fR.
 Do not perform case sensitive match with \fI<pattern>\fR.
 .in
 .TP
-\fB-rev\fR
+\fB-rev\fI <0/1>\fR
 Choose whether to include reverse matches in protein and peptide output files. \fB1\fR is the default.
 .TP
 .in +0.75i
