@@ -845,7 +845,7 @@ void Protein::writeModStat(std::ostream& outF) const
 }
 
 //write out combined protein lists to ofname in wide format
-bool Proteins::writeOut(std::string ofname, const params::Params& par)
+bool Proteins::writeWide(std::string ofname, const params::Params& par)
 {
 	std::ofstream outF (ofname.c_str());
 	
@@ -986,7 +986,7 @@ bool Proteins::writeOut(std::string ofname, const params::Params& par)
 }
 
 //write out combined protein lists to ofname in long format
-bool Proteins::writeOutDB(std::string ofname, const params::Params& par)
+bool Proteins::writeLong(std::string ofname, const params::Params& par)
 {
 	std::ofstream outF (ofname.c_str());
 	
@@ -1460,7 +1460,7 @@ void Peptide::write(std::ostream& outF)
 	outF << std::endl;
 }
 
-bool Peptides::writeOut(std::string ofname, const params::Params& pars)
+bool Peptides::writeWide(std::string ofname, const params::Params& pars)
 {
 	std::ofstream outF (ofname.c_str());
 	
@@ -1590,7 +1590,7 @@ bool Peptides::writeOut(std::string ofname, const params::Params& pars)
 }
 
 
-bool Peptides::writeOutDB(std::string ofname, const params::Params& pars)
+bool Peptides::writeLong(std::string ofname, const params::Params& pars)
 {
 	std::ofstream outF (ofname.c_str());
 	
