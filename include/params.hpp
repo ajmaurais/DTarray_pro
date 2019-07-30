@@ -126,6 +126,7 @@ namespace params{
 		bool getSeq;
 		bool includeCoverage;
 		bool includeSequenceCount;
+		bool getNSAF;
 		bool includePeptides;
 		bool includeProteins;
 		static OutputFormat peptideOutput;

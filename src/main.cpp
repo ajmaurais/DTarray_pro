@@ -149,6 +149,14 @@ int main(int argc, char* argv[])
 	if(par.includeProteins)
 	{
 		assert(par.outputFormat != params::Params::none);
+		
+		//Calculate denominator for NSAF
+		if(par.getNSAF){
+			std::cout << "Calculating summary values for NSAF...";
+			proteins.calcNSAF();
+			std::cout << " done!\n";
+		}
+		
 		if (par.outputFormat == params::Params::wideFormat || par.outputFormat == params::Params::both)
 		{
 			std::cout << std::endl << "Writing protein data...";

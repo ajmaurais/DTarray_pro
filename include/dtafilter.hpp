@@ -60,7 +60,7 @@ std::string const DEFAULT_COL_NAMES_DB [] = {"Full_description", "ID", "Protein"
 size_t const DEFAULT_COL_NAMES_DB_LENGTH = 9;
 std::string const PARSE_SAMPLE_NAME_HEADERS [] = {"Sample", "Replicate"};
 size_t const PARSE_SAMPLE_NAME_HEADERS_LEN = 2;
-std::string const SUP_INFO_HEADERS[] = {"SC", "Unique_pep_SC", "Coverage", "Sequence_count",
+std::string const SUP_INFO_HEADERS[] = {"SC", "NSAF", "Unique_pep_SC", "Coverage", "Sequence_count",
 	"Num_mod_pep", "SC_mod_pep"};
 size_t const SUP_INFO_HEADERS_LEN = 6;
 std::string const PEP_SUP_INFO_HEADERS[] = {"SC", "Mod_pep_SC"};
@@ -165,7 +165,7 @@ public:
 };
 
 //stores data for each protein found in filter file
-class Protein : public base::ProteinTemplate , public base::ProteinDataTemplate<base::SampleData_protein> {
+class Protein : public base::ProteinTemplate, public base::ProteinDataTemplate<base::SampleData_protein> {
 	friend class Proteins;
 private:
 	std::string MW, loc, fxn;
@@ -187,10 +187,12 @@ private:
 	void addSeq();
 	void addLoc();
 	void addFxn();
+	void addNSAF();
 	void addSupData();
 	void addLocToTable();
 	
 	void writeCount(std::ostream&) const;
+	void writeNSAF(std::ostream&) const;
 	void writeUnique(std::ostream&) const;
 	void writeCoverage(std::ostream&) const;
 	void writeSequenceCount(std::ostream&) const;
@@ -242,6 +244,7 @@ public:
 	bool readInSeqDB(std::string);
 	bool readInFxnDB(std::string);
 	bool readBaitFile(std::string);
+	void calcNSAF();
 	void buildLocTable(bool summary = false);
 	
 	//properties

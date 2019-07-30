@@ -162,6 +162,8 @@ namespace base
 	public:
 		std::string _coverage, sequenceCount;
 		int _modPeptides, _uniquePeptides;
+		//!Normalized spectral abundance factor
+		double _nsaf;
 		
 		SampleData_protein(std::string colName) : SampleData(colName){
 			
@@ -169,6 +171,7 @@ namespace base
 			sequenceCount = "0";
 			_modPeptides = 0;
 			_uniquePeptides = 0;
+			_nsaf = 0;
 			
 		}
 		SampleData_protein() : SampleData(){
@@ -176,6 +179,7 @@ namespace base
 			sequenceCount = "0";
 			_modPeptides = 0;
 			_uniquePeptides = 0;
+			_nsaf = 0;
 		}
 		~SampleData_protein() {}
 	};

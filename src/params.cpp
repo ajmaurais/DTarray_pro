@@ -339,6 +339,13 @@ namespace params{
 				supInfoNum++;
 				continue;
 			}
+			if(!strcmp(argv[i], "-nsaf"))
+			{
+				getNSAF = true;
+				getSeq = true;
+				supInfoNum++;
+				continue;
+			}
 			if(!strcmp(argv[i], "-s"))
 			{
 				if(!utils::isArg(argv[++i]))

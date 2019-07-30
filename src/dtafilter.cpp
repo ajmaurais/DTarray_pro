@@ -48,6 +48,7 @@ void Protein::consolidate(const Protein& rhs)
 	_col[*rhs._colIndex].sequenceCount = rhs._col[*rhs._colIndex].sequenceCount;
 	_col[*rhs._colIndex]._modPeptides = rhs._col[*rhs._colIndex]._modPeptides;
 	_col[*rhs._colIndex]._modPeptidesSC = rhs._col[*rhs._colIndex]._modPeptidesSC;
+	_col[*rhs._colIndex]._nsaf = rhs._col[*rhs._colIndex]._nsaf;
 }
 
 void Peptide::consolidate(const Peptide& rhs)
@@ -74,7 +75,7 @@ void base::ProteinDataTemplate<_Tp>::initialize(const std::vector<_Tp>& tempColN
 
 void Protein::addSeq()
 {
-	assert(_seqDB != nullptr);
+	assert(!_seqDB->empty());
 	std::string temp_seq = _seqDB->getSequence(_ID);
 	if(temp_seq == utils::PROT_SEQ_NOT_FOUND){
 		_sequence = utils::PROT_SEQ_NOT_FOUND;
@@ -579,6 +580,49 @@ bool Proteins::readInSeqDB(std::string fname){
 }
 
 /**
+ \brief Calculate NSAF per protein per sample.
+ */
+void Proteins::calcNSAF()
+{
+	assert(!_seqDB.empty());
+	size_t colLen = _colNames.size();
+	std::vector<double> _nsaf_denominator(colLen, 0);
+	
+	//make first pass to calculate denominators per sample
+	for(DataType::iterator it = data.begin(); it != data.end(); ++it)
+	{
+		//get protein sequence and length
+		if(!it->second._supDataAdded)
+			it->second.addSupData();
+		if(it->second._sequence == utils::PROT_SEQ_NOT_FOUND)
+			continue;
+		double proteinLenTemp = double(it->second._sequence.length());
+		
+		//calc denominator for each sample
+		for(size_t i = 0; i < colLen; i++){
+			_nsaf_denominator[i] += (double(it->second._col[i]._count) / proteinLenTemp);
+		}//end for i
+	}//end for it
+	
+	//make second pass to calculate NSAF per protein per sample
+	for(DataType::iterator it = data.begin(); it != data.end(); ++it)
+	{
+		if(it->second._sequence == utils::PROT_SEQ_NOT_FOUND){
+			for(size_t i = 0; i < colLen; i++){
+				it->second._col[i]._nsaf = -1;
+			}
+			continue;
+		}
+		double proteinLenTemp = double(it->second._sequence.length());
+		
+		for(size_t i = 0; i < colLen; i++){
+			it->second._col[i]._nsaf = ((double(it->second._col[i]._count) / proteinLenTemp) /
+										_nsaf_denominator[i]);
+		}//end for i
+	}//end for it
+}
+
+/**
  Read data from tsv file into base::StringMap.
  
  \param fname File name of .tsv file.
@@ -751,6 +795,10 @@ void Protein::writeProtein(std::ostream& outF)
 			for(int i = 0; i < _colSize; i++)
 			{
 				outF << OUT_DELIM << _col[i]._count;
+				
+				if(_par->getNSAF)
+					outF << OUT_DELIM << _col[i]._nsaf;
+				
 				if (_par->includeUnique)
 					outF << OUT_DELIM << _col[i]._uniquePeptides;
 				
@@ -768,6 +816,9 @@ void Protein::writeProtein(std::ostream& outF)
 		else if(_par->supInfoOutput == 1)
 		{
 			writeCount(outF);
+			
+			if(_par->getNSAF)
+				writeNSAF(outF);
 			
 			if(_par->includeUnique)
 				writeUnique(outF);
@@ -795,6 +846,9 @@ void Protein::writeProtein(std::ostream& outF)
 		
 		outF << OUT_DELIM << _col[*_colIndex]._count;
 		
+		if(_par->getNSAF)
+			outF << OUT_DELIM << _col[*_colIndex]._nsaf;
+		
 		if (_par->includeUnique)
 			outF << OUT_DELIM << _col[*_colIndex]._uniquePeptides;
 		
@@ -811,33 +865,37 @@ void Protein::writeProtein(std::ostream& outF)
 	outF << std::endl;
 }
 
-void Protein::writeCount(std::ostream& outF) const
-{
+void Protein::writeCount(std::ostream& outF) const{
 	assert(outF);
 	for(int i = 0; i < _colSize; i++)
 		outF << OUT_DELIM << _col[i]._count;
 }
-void Protein::writeUnique(std::ostream& outF) const
-{
+
+void Protein::writeNSAF(std::ostream& outF) const{
+	assert(outF);
+	for(int i = 0; i < _colSize; i++)
+		outF << OUT_DELIM << _col[i]._nsaf;
+}
+
+void Protein::writeUnique(std::ostream& outF) const{
 	assert(outF);
 	for(int i = 0; i < _colSize; i++)
 		outF << OUT_DELIM << _col[i]._uniquePeptides;
 }
-void Protein::writeCoverage(std::ostream& outF) const
-{
+
+void Protein::writeCoverage(std::ostream& outF) const{
 	assert(outF);
 	for(int i = 0; i < _colSize; i++)
 		outF << OUT_DELIM << _col[i]._coverage;
 }
-void Protein::writeSequenceCount(std::ostream& outF) const
-{
+
+void Protein::writeSequenceCount(std::ostream& outF) const{
 	assert(outF);
 	for(int i = 0; i < _colSize; i++)
 		outF << OUT_DELIM << _col[i].sequenceCount;
 }
 
-void Protein::writeModStat(std::ostream& outF) const
-{
+void Protein::writeModStat(std::ostream& outF) const{
 	assert(outF);
 	for(int i = 0; i < _colSize; i++)
 		outF << OUT_DELIM << _col[i]._modPeptides
@@ -857,8 +915,8 @@ bool Proteins::writeWide(std::string ofname, const params::Params& par)
 	
 	int colNamesLength = DEFAULT_COL_NAMES_LENGTH;
 	
-	bool supInfoS [] = {true, par.includeUnique, par.includeCoverage, par.includeSequenceCount,
-		par.includeModStat, par.includeModStat};
+	bool supInfoS [] = {true, par.getNSAF, par.includeUnique, par.includeCoverage,
+		par.includeSequenceCount, par.includeModStat, par.includeModStat};
 	bool supInfo = false;
 	std::vector<std::string> supInfoHeaders;
 	for(int i = 0; i < SUP_INFO_HEADERS_LEN; i++)
@@ -1036,20 +1094,25 @@ bool Proteins::writeLong(std::string ofname, const params::Params& par)
 	if(par.includeModStat)
 	{
 		it = std::find(headers.begin(), headers.end(), "Spectral_counts");
+		headers.insert(it + 1, SUP_INFO_HEADERS[6]);
 		headers.insert(it + 1, SUP_INFO_HEADERS[5]);
-		headers.insert(it + 1, SUP_INFO_HEADERS[4]);
 	}
 	if(par.includeSequenceCount)
 	{
 		it = std::find(headers.begin(), headers.end(), "Spectral_counts");
-		headers.insert(it + 1, SUP_INFO_HEADERS[3]);
+		headers.insert(it + 1, SUP_INFO_HEADERS[4]);
 	}
 	if(par.includeCoverage)
 	{
 		it = std::find(headers.begin(), headers.end(), "Spectral_counts");
-		headers.insert(it + 1, SUP_INFO_HEADERS[2]);
+		headers.insert(it + 1, SUP_INFO_HEADERS[3]);
 	}
 	if(par.includeUnique)
+	{
+		it = std::find(headers.begin(), headers.end(), "Spectral_counts");
+		headers.insert(it + 1, SUP_INFO_HEADERS[2]);
+	}
+	if(par.getNSAF)
 	{
 		it = std::find(headers.begin(), headers.end(), "Spectral_counts");
 		headers.insert(it + 1, SUP_INFO_HEADERS[1]);
