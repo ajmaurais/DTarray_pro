@@ -273,23 +273,14 @@ Include peptides with 0 spectral counts in output file.
 \fB-modS\fR
 Include information about number of modified peptides. Separate columns for number of spectral counts for modified peptides and total spectral conts will be included in protein and peptide output files.
 .TP
-\fB-mw \fR[\fI<fasta_file>\fR]
-Calculate protein/peptide molecular weights and molecular formulas. Columns will be included for average mass, monoisotopic mass and molecular formula.  Peptide/protein masses and formulas are calculated from \*[ACT_FNAME] which contains the number and types of atoms found in each amino acid and a table located at \*[AMT_LOC] containing the masses of each atom. By default the atom count table at \*[DEFAULT_ACT_LOC] is used. The user can also supply a custom \*[ACT_FNAME] file with the \fB-act\fP option. Protein sequence information is stored in a fasta formatted file. The default sequence file is \*[SEQ_DB_FNAME].
+\fB-mw
+Calculate protein/peptide molecular weights and molecular formulas. Columns will be included for average mass, monoisotopic mass and molecular formula.  Peptide/protein masses and formulas are calculated from \*[ACT_FNAME] which contains the number and types of atoms found in each amino acid and a table located at \*[AMT_LOC] containing the masses of each atom. By default the atom count table at \*[DEFAULT_ACT_LOC] is used. The user can also supply a custom \*[ACT_FNAME] file with the \fB-act\fP option. Protein sequence information is stored in a fasta formatted file. The default sequence file is \*[SEQ_DB_FNAME]. The user can specify a custom fasta file with the \fB-fasta\fR option.
 .TP
-.in +0.75i
-\fI<fasta_file>\fR
-.in +0.75i
-The user can optionally specify a fafsa formatted file to lookup protein sequences.
-.in
+\fB-seq
+Use sequence information in \*[SEQ_DB_FNAME], to include protein sequences in output file. The user can optionally specify a custom fasta file with the \fB-fasta\fR option.
 .TP
-\fB-seq \fR[\fI<fasta_file>\fR]
-Use sequence information in \*[SEQ_DB_FNAME], to include protein sequences in output file.
-.TP
-.in +0.75i
-\fI<fasta_file>\fR
-.in +0.75i
-The user can optionally specify a fafsa formatted file to lookup protein sequences. If a \fI<fasta_file>\fR is specified in both the \fB-seq\fR and \fB-mw\fR arguments, the later argument overrides the earlier one.
-.in
+\fB-fasta\fR \fI<fasta_file>\fR
+Path to custom fasta file to use for options which require protein sequences. By default \*[SEQ_DB_FNAME] is used.
 .TP
 \fB-mact, --makeAtomCountTable\fR
 Copy default atom count file to working directory and exit program.
