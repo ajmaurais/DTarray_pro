@@ -198,18 +198,27 @@ namespace params{
 			}
 			if(!strcmp(argv[i], "-mw"))
 			{
-				if(utils::isArg(argv[i+1])){
-					seqDBfname = utils::absPath(argv[++i]);
-				}
+				//if(utils::isArg(argv[i+1])){
+				//	seqDBfname = utils::absPath(argv[++i]);
+				//}
 				calcMW = true;
 				continue;
 			}
 			if(!strcmp(argv[i], "-seq"))
 			{
-				if(utils::isArg(argv[i+1])){
-					seqDBfname = utils::absPath(argv[++i]);
-				}
+				//if(utils::isArg(argv[i+1])){
+				//	seqDBfname = utils::absPath(argv[++i]);
+				//}
 				getSeq = true;
+				continue;
+			}
+			if(!strcmp(argv[i], "-fasta"))
+			{
+				if(!utils::isArg(argv[i++])){
+					usage();
+					return false;
+				}
+				seqDBfname = utils::absPath(argv[i]);
 				continue;
 			}
 			if(!strcmp(argv[i], "-mact") || !strcmp(argv[i], "--makeAtomCountTable"))
