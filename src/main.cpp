@@ -113,7 +113,7 @@ int main(int argc, char* argv[])
 		std::cout << " done!" << std::endl;
 		peptides.setMWdb(proteins.get_mwdb());
 	}
-	if(par.getSeq || (par.calcMW && par.includeProteins))
+	if(par.getSeq)
 	{
 		std::cout << std::endl << "Getting protein sequences from " << par.getSeqDBfname() << "...";
 		if(!proteins.readInSeqDB(par.getSeqDBfname()))

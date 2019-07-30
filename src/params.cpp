@@ -198,17 +198,13 @@ namespace params{
 			}
 			if(!strcmp(argv[i], "-mw"))
 			{
-				//if(utils::isArg(argv[i+1])){
-				//	seqDBfname = utils::absPath(argv[++i]);
-				//}
 				calcMW = true;
+				getSeq = true;
 				continue;
 			}
 			if(!strcmp(argv[i], "-seq"))
 			{
-				//if(utils::isArg(argv[i+1])){
-				//	seqDBfname = utils::absPath(argv[++i]);
-				//}
+				printSeq = true;
 				getSeq = true;
 				continue;
 			}

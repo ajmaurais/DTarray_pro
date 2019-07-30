@@ -75,7 +75,12 @@ void base::ProteinDataTemplate<_Tp>::initialize(const std::vector<_Tp>& tempColN
 void Protein::addSeq()
 {
 	assert(_seqDB != nullptr);
-	_sequence = _seqDB->getSequence(_ID);
+	std::string temp_seq = _seqDB->getSequence(_ID);
+	if(temp_seq == utils::PROT_SEQ_NOT_FOUND){
+		_sequence = utils::PROT_SEQ_NOT_FOUND;
+		return;
+	}
+	_sequence = temp_seq;
 }
 
 void Protein::addLoc()
@@ -258,18 +263,17 @@ bool Protein::parse_matchDir_ID_Protein(std::string str)
 
 void Protein::calcMW()
 {
-	std::string tmp_sequence = _seqDB->getSequence(_ID);
-	
-	if(tmp_sequence == utils::PROT_SEQ_NOT_FOUND)
+	//get protein sequence
+	if(_sequence.empty()) addSeq();
+	if(_sequence == utils::PROT_SEQ_NOT_FOUND)
 	{
-		_sequence = utils::PROT_SEQ_NOT_FOUND;
 		_avgMass = -1;
 		_monoMass = -1;
 		_formula = "NA";
 		return;
 	}
 	
-	_sequence = tmp_sequence;
+	//_sequence = tmp_sequence;
 	_avgMass = _mwdb->calcMW(_sequence);
 	_monoMass = _mwdb->calcMono(_sequence);
 	_formula = _mwdb->calcFormula(_sequence, _par->unicode);
@@ -565,14 +569,12 @@ bool Proteins::readIn(params::Params* const par, Peptides& peptides)
 	return true;
 }
 
-bool Proteins::readInMWdb(const params::Params& par)
-{
+bool Proteins::readInMWdb(const params::Params& par){
 	return _mwdb.initialize(par.atomCountTableFname,
 							par.atomMassTableFname);
 }
 
-bool Proteins::readInSeqDB(std::string fname)
-{
+bool Proteins::readInSeqDB(std::string fname){
 	return _seqDB.read(fname);
 }
 
@@ -691,12 +693,12 @@ void Protein::writeInteractions(std::ofstream& outF) const
 
 void Protein::addSupData()
 {
+	if(_par->getSeq)
+		addSeq();
 	if(_par->calcMW)
 		calcMW();
 	if(_par->getSubCelluarLoc)
 		addLoc();
-	if(_par->getSeq && !_par->calcMW)
-		addSeq();
 	if(_par->getFxn)
 		addFxn();
 	_supDataAdded = true;
@@ -732,7 +734,7 @@ void Protein::writeProtein(std::ostream& outF)
 		OUT_DELIM << _formula;
 	outF.precision(ss);
 	
-	if(_par->getSeq)
+	if(_par->printSeq)
 		outF << OUT_DELIM << _sequence;
 	
 	if(_par->getFxn)
@@ -884,14 +886,14 @@ bool Proteins::writeOut(std::string ofname, const params::Params& par)
 	}
 	if(par.calcMW){
 		int mwHeadersLen = MWCALC_HEADERS_LENGTH;
-		if(par.getSeq)
+		if(par.printSeq)
 			mwHeadersLen++;
 		
 		it = std::find(headers.begin(), headers.end(), "Mass(Da)");
 		headers.insert(it + 1, MWCALC_HEADERS, MWCALC_HEADERS + mwHeadersLen);
 		
 	}
-	else if(par.getSeq && !par.calcMW){
+	else if(par.printSeq && !par.calcMW){
 		it = std::find(headers.begin(), headers.end(), "Mass(Da)");
 		headers.insert(it + 1, MWCALC_HEADERS[3]);
 	}
@@ -1019,13 +1021,13 @@ bool Proteins::writeOutDB(std::string ofname, const params::Params& par)
 	if(par.calcMW)
 	{
 		int mwHeadersLen = MWCALC_HEADERS_LENGTH;
-		if(par.getSeq)
+		if(par.printSeq)
 			mwHeadersLen++;
 		
 		it = std::find(headers.begin(), headers.end(), "Mass(Da)");
 		headers.insert(it + 1, MWCALC_HEADERS, MWCALC_HEADERS + mwHeadersLen);
 	}
-	else if(par.getSeq && !par.calcMW)
+	else if(par.printSeq && !par.calcMW)
 	{
 		it = headers.begin();
 		it = std::find(headers.begin(), headers.end(), "Mass(Da)");
@@ -1374,7 +1376,7 @@ void Peptide::write(std::ostream& outF)
 	{
 		if(_par->calcMW)
 			calcMW();
-		if(_par->getSeq)
+		if(_par->printSeq)
 			calcMod();
 		_supDataAdded = true;
 	}
@@ -1395,7 +1397,7 @@ void Peptide::write(std::ostream& outF)
 	
 	outF << OUT_DELIM << unique;
 	
-	if(_par->getSeq)
+	if(_par->printSeq)
 		outF << OUT_DELIM << _begin
 		<< OUT_DELIM << _end
 		<< OUT_DELIM << getMods();
@@ -1496,7 +1498,7 @@ bool Peptides::writeOut(std::string ofname, const params::Params& pars)
 		it = std::find(headers.begin(), headers.end(), "Unique");
 		headers.insert(it + 1, MWCALC_HEADERS, MWCALC_HEADERS + 3);
 	}
-	if(pars.getSeq){
+	if(pars.printSeq){
 		it = std::find(headers.begin(), headers.end(), "Unique");
 		headers.insert(it + 1, PEP_SEQ_HEADERS, PEP_SEQ_HEADERS + PEP_SEQ_HEADERS_LEN);
 	}
@@ -1623,7 +1625,7 @@ bool Peptides::writeOutDB(std::string ofname, const params::Params& pars)
 		it = std::find(headers.begin(), headers.end(), "Unique");
 		headers.insert(it + 1, MWCALC_HEADERS, MWCALC_HEADERS + 3);
 	}
-	if(pars.getSeq){
+	if(pars.printSeq){
 		it = std::find(headers.begin(), headers.end(), "Unique");
 		headers.insert(it + 1, PEP_SEQ_HEADERS, PEP_SEQ_HEADERS + PEP_SEQ_HEADERS_LEN);
 	}
