@@ -113,7 +113,7 @@ int main(int argc, char* argv[])
 		std::cout << " done!" << std::endl;
 		peptides.setMWdb(proteins.get_mwdb());
 	}
-	if(par.getSeq || (par.calcMW && par.includeProteins))
+	if(par.getSeq)
 	{
 		std::cout << std::endl << "Getting protein sequences from " << par.getSeqDBfname() << "...";
 		if(!proteins.readInSeqDB(par.getSeqDBfname()))
@@ -152,7 +152,7 @@ int main(int argc, char* argv[])
 		if (par.outputFormat == params::Params::wideFormat || par.outputFormat == params::Params::both)
 		{
 			std::cout << std::endl << "Writing protein data...";
-			if(!proteins.writeOut(par.getwd() + par.ofname, par))
+			if(!proteins.writeWide(par.getwd() + par.ofname, par))
 			{
 				std::cerr << "Could not write out file! Exiting..." << std::endl;
 				return -1;
@@ -163,7 +163,7 @@ int main(int argc, char* argv[])
 		if(par.outputFormat == params::Params::longFormat || par.outputFormat == params::Params::both)
 		{
 			std::cout << std::endl << "Writing protein data...";
-			if(!proteins.writeOutDB(par.getwd() + par.dbOfname, par))
+			if(!proteins.writeLong(par.getwd() + par.dbOfname, par))
 			{
 				std::cerr << "Could not write out file! Exiting..." << std::endl;
 				return -1;
@@ -180,7 +180,7 @@ int main(int argc, char* argv[])
 		if(par.peptideOutput == params::Params::wideFormat || par.peptideOutput == params::Params::both)
 		{
 			std::cout << std::endl << "Writing peptide data...";
-			if(!peptides.writeOut(par.getwd() + par.peptideOfFname, par))
+			if(!peptides.writeWide(par.getwd() + par.peptideOfFname, par))
 			{
 				std::cerr << "Could not write out file! Exiting..." << std::endl;
 				return -1;
@@ -192,7 +192,7 @@ int main(int argc, char* argv[])
 		if(par.peptideOutput == params::Params::longFormat || par.peptideOutput == params::Params::both)
 		{
 			std::cout << std::endl << "Writing peptide data...";
-			if(!peptides.writeOutDB(par.getwd() + par.dbPeptideOfFname, par))
+			if(!peptides.writeLong(par.getwd() + par.dbPeptideOfFname, par))
 			{
 				std::cerr << "Could not write out file! Exiting..." << std::endl;
 				return -1;

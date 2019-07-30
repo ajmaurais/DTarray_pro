@@ -160,8 +160,8 @@ public:
 	}
 	
 	//properties
-	bool writeOut(std::string, const params::Params&);
-	bool writeOutDB(std::string, const params::Params&);
+	bool writeWide(std::string, const params::Params&);
+	bool writeLong(std::string, const params::Params&);
 };
 
 //stores data for each protein found in filter file
@@ -251,8 +251,8 @@ public:
 	utils::FastaFile* get_seqdb(){
 		return &_seqDB;
 	}
-	bool writeOut(std::string, const params::Params&);
-	bool writeOutDB(std::string, const params::Params&);
+	bool writeWide(std::string, const params::Params&);
+	bool writeLong(std::string, const params::Params&);
 	bool writeSaint(std::string, OutputFiles) const;
 	bool writeWideLocTable(std::string, const params::Params&) const;
 	bool writeLongLocTable(std::string, const params::Params&) const;

@@ -122,6 +122,7 @@ namespace params{
 		std::string atomMassTableFname, atomCountTableFname;
 		bool unicode;
 		std::string ofname, dbOfname, dbPeptideOfFname, peptideOfFname;
+		bool printSeq;
 		bool getSeq;
 		bool includeCoverage;
 		bool includeSequenceCount;
@@ -168,6 +169,7 @@ namespace params{
 			dbOfname = DB_OFNAME;
 			dbPeptideOfFname = PEPTIDE_DB_OFNAME;
 			peptideOfFname = PEPTIDE_OFNAME;
+			printSeq = false;
 			getSeq = false;
 			seqDBfname = PROG_SEQ_DB_FNAME;
 			includeCoverage = false;
