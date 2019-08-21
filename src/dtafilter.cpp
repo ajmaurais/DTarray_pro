@@ -600,7 +600,8 @@ void Proteins::calcNSAF()
 		
 		//calc denominator for each sample
 		for(size_t i = 0; i < colLen; i++){
-			_nsaf_denominator[i] += (double(it->second._col[i]._count) / proteinLenTemp);
+			it->second._col[i]._nsaf = (double(it->second._col[i]._count) / proteinLenTemp);
+			_nsaf_denominator[i] += it->second._col[i]._nsaf;
 		}//end for i
 	}//end for it
 	
@@ -612,12 +613,9 @@ void Proteins::calcNSAF()
 				it->second._col[i]._nsaf = -1;
 			}
 			continue;
-		}
-		double proteinLenTemp = double(it->second._sequence.length());
-		
+		}		
 		for(size_t i = 0; i < colLen; i++){
-			it->second._col[i]._nsaf = ((double(it->second._col[i]._count) / proteinLenTemp) /
-										_nsaf_denominator[i]);
+			it->second._col[i]._nsaf = (it->second._col[i]._nsaf / _nsaf_denominator[i]);
 		}//end for i
 	}//end for it
 }
