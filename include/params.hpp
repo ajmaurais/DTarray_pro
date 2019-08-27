@@ -127,6 +127,7 @@ namespace params{
 		bool includeCoverage;
 		bool includeSequenceCount;
 		bool getNSAF;
+		bool getEMPAI;
 		bool includePeptides;
 		bool includeProteins;
 		static OutputFormat peptideOutput;
@@ -178,6 +179,8 @@ namespace params{
 			includePeptides = false;
 			includeProteins = true;
 			getFxn = false;
+			getEMPAI = false;
+			getNSAF = false;
 			fxnDBfname = PROG_FXN_DB_FNAME;
 			useDefaultSeqDB = true;
 			includeNullPeptides = false;

@@ -100,8 +100,8 @@ int main(int argc, char* argv[])
 		}
 	}//end if par.includeProteins
 	
-	//calculate mass of peptides or proteins from sequence and amino acid mass databases
-	if(par.calcMW)
+	//Read AA mass and sequence databases
+	if(par.calcMW || par.getEMPAI)
 	{
 		std::cout << std::endl << "Getting residue formulas from " <<
 		par.atomCountTableFname << "...";
@@ -150,10 +150,16 @@ int main(int argc, char* argv[])
 	{
 		assert(par.outputFormat != params::Params::none);
 		
-		//Calculate denominator for NSAF
+		//Calculate NSAF
 		if(par.getNSAF){
-			std::cout << "Calculating summary values for NSAF...";
+			std::cout << "Calculating NSAF values...";
 			proteins.calcNSAF();
+			std::cout << " done!\n";
+		}
+		//Calculate emPAI
+		if(par.getNSAF){
+			std::cout << "Calculating emPAI values...";
+			proteins.calcEMPAI();
 			std::cout << " done!\n";
 		}
 		

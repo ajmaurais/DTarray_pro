@@ -323,8 +323,10 @@ namespace params{
 			}
 			if(!strcmp(argv[i], "-u"))
 			{
-				includeUnique = true;
-				supInfoNum++;
+				if(!includeUnique){
+					includeUnique = true;
+					supInfoNum++;
+				}
 				continue;
 			}
 			if(!strcmp(argv[i], "-c") || !strcmp(argv[i], "--coverage"))
@@ -344,6 +346,17 @@ namespace params{
 				getNSAF = true;
 				getSeq = true;
 				supInfoNum++;
+				continue;
+			}
+			if(!strcmp(argv[i], "-empai"))
+			{
+				getEMPAI = true;
+				getSeq = true;
+				supInfoNum++;
+				if(!includeUnique){
+					includeUnique = true;
+					supInfoNum++;
+				}
 				continue;
 			}
 			if(!strcmp(argv[i], "-s"))

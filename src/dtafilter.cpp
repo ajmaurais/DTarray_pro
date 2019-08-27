@@ -620,6 +620,11 @@ void Proteins::calcNSAF()
 	}//end for it
 }
 
+void Proteins::calcEMPAI()
+{
+	//
+}
+
 /**
  Read data from tsv file into base::StringMap.
  

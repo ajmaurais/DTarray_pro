@@ -164,6 +164,8 @@ namespace base
 		int _modPeptides, _uniquePeptides;
 		//!Normalized spectral abundance factor
 		double _nsaf;
+		//!Exponentially modified protein abundance index
+		double _empai;
 		
 		SampleData_protein(std::string colName) : SampleData(colName){
 			
@@ -172,6 +174,7 @@ namespace base
 			_modPeptides = 0;
 			_uniquePeptides = 0;
 			_nsaf = 0;
+			_empai = 0;
 			
 		}
 		SampleData_protein() : SampleData(){
@@ -180,6 +183,7 @@ namespace base
 			_modPeptides = 0;
 			_uniquePeptides = 0;
 			_nsaf = 0;
+			_empai = 0;
 		}
 		~SampleData_protein() {}
 	};

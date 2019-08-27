@@ -60,7 +60,7 @@ std::string const DEFAULT_COL_NAMES_DB [] = {"Full_description", "ID", "Protein"
 size_t const DEFAULT_COL_NAMES_DB_LENGTH = 9;
 std::string const PARSE_SAMPLE_NAME_HEADERS [] = {"Sample", "Replicate"};
 size_t const PARSE_SAMPLE_NAME_HEADERS_LEN = 2;
-std::string const SUP_INFO_HEADERS[] = {"SC", "NSAF", "Unique_pep_SC", "Coverage", "Sequence_count",
+std::string const SUP_INFO_HEADERS[] = {"SC", "nsaf", "Unique_pep_SC", "Coverage", "Sequence_count",
 	"Num_mod_pep", "SC_mod_pep"};
 size_t const SUP_INFO_HEADERS_LEN = 6;
 std::string const PEP_SUP_INFO_HEADERS[] = {"SC", "Mod_pep_SC"};
@@ -245,6 +245,7 @@ public:
 	bool readInFxnDB(std::string);
 	bool readBaitFile(std::string);
 	void calcNSAF();
+	void calcEMPAI();
 	void buildLocTable(bool summary = false);
 	
 	//properties
