@@ -2,7 +2,7 @@
 //  params.hpp
 //  DTarray_pro
 // -----------------------------------------------------------------------------
-// Copyright 2018 Aaron maurais
+// Copyright 2018 Aaron Maurais
 // -----------------------------------------------------------------------------
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -126,6 +126,7 @@ namespace params{
 		bool getSeq;
 		bool includeCoverage;
 		bool includeSequenceCount;
+		bool getNSAF;
 		bool includePeptides;
 		bool includeProteins;
 		static OutputFormat peptideOutput;

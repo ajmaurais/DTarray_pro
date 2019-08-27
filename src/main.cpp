@@ -2,7 +2,7 @@
 //  main.cpp
 //  DTarray_pro
 // -----------------------------------------------------------------------------
-// Copyright 2018 Aaron maurais
+// Copyright 2018 Aaron Maurais
 // -----------------------------------------------------------------------------
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -149,6 +149,14 @@ int main(int argc, char* argv[])
 	if(par.includeProteins)
 	{
 		assert(par.outputFormat != params::Params::none);
+		
+		//Calculate denominator for NSAF
+		if(par.getNSAF){
+			std::cout << "Calculating summary values for NSAF...";
+			proteins.calcNSAF();
+			std::cout << " done!\n";
+		}
+		
 		if (par.outputFormat == params::Params::wideFormat || par.outputFormat == params::Params::both)
 		{
 			std::cout << std::endl << "Writing protein data...";

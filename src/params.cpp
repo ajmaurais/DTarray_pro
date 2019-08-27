@@ -2,7 +2,7 @@
 //  params.cpp
 //  DTarray_Pro
 // -----------------------------------------------------------------------------
-// Copyright 2018 Aaron maurais
+// Copyright 2018 Aaron Maurais
 // -----------------------------------------------------------------------------
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -336,6 +336,13 @@ namespace params{
 			if(!strcmp(argv[i], "-seqC"))
 			{
 				includeSequenceCount = true;
+				supInfoNum++;
+				continue;
+			}
+			if(!strcmp(argv[i], "-nsaf"))
+			{
+				getNSAF = true;
+				getSeq = true;
 				supInfoNum++;
 				continue;
 			}
