@@ -52,33 +52,33 @@
 /*****************************/
 
 bool const INCLUDE_FULL_DESCRIPTION = true;
-std::string const DEFAULT_COL_NAMES [] = {"Full_description", "ID", "Protein", "Description", "pI",
-	"Length(aa)", "Mass(Da)"};
+std::string const DEFAULT_COL_NAMES [] = {"full_description", "id", "protein", "description", "pi",
+	"length_aa", "mass_da"};
 size_t const DEFAULT_COL_NAMES_LENGTH = 7;
-std::string const DEFAULT_COL_NAMES_DB [] = {"Full_description", "ID", "Protein", "Description",
-	"pI", "Length(aa)", "Mass(Da)",	"Long_sample_name", "Spectral_counts"};
+std::string const DEFAULT_COL_NAMES_DB [] = {"full_description", "id", "protein", "description",
+	"pi", "length_aa", "mass_da", "long_sample_name", "spectral_counts"};
 size_t const DEFAULT_COL_NAMES_DB_LENGTH = 9;
-std::string const PARSE_SAMPLE_NAME_HEADERS [] = {"Sample", "Replicate"};
+std::string const PARSE_SAMPLE_NAME_HEADERS [] = {"sample", "replicate"};
 size_t const PARSE_SAMPLE_NAME_HEADERS_LEN = 2;
-std::string const SUP_INFO_HEADERS[] = {"SC", "nsaf", "Unique_pep_SC", "Coverage", "Sequence_count",
-	"Num_mod_pep", "SC_mod_pep"};
+std::string const SUP_INFO_HEADERS[] = {"sc", "nsaf", "unique_pep_sc", "coverage", "sequence_count",
+	"num_mod_pep", "sc_mod_pep"};
 size_t const SUP_INFO_HEADERS_LEN = 6;
-std::string const PEP_SUP_INFO_HEADERS[] = {"SC", "Mod_pep_SC"};
+std::string const PEP_SUP_INFO_HEADERS[] = {"sc", "mod_pep_sc"};
 size_t const PEP_SUP_INFO_HEADERS_LEN = 2;
-std::string const MWCALC_HEADERS [] = {"Avg_mass", "Monoisotopic_mass", "Formula", "Sequence"};
+std::string const MWCALC_HEADERS [] = {"avg_mass", "mono_mass", "formula", "sequence"};
 size_t const MWCALC_HEADERS_LENGTH = 3;
-std::string const DEFALUT_PEPTIDE_COLNAMES [] = {"Protein_ID", "Parent_protein", "Protein_description",
-	"Full_sequence", "Sequence", "Length(aa)", "Unique", "CalcMH"};
-std::string const DEFALUT_PEPTIDE_DB_COLNAMES [] = {"Protein_ID", "Parent_protein", "Protein_description",
-	"Full_sequence", "Sequence", "Length(aa)", "Unique", "CalcMH", "Long_sample_name", "Spectral_counts",
-	"Sample", "Replicate"};
+std::string const DEFALUT_PEPTIDE_COLNAMES [] = {"protein_id", "parent_protein", "protein_description",
+	"full_sequence", "sequence", "length_aa", "unique", "calc_mh"};
+std::string const DEFALUT_PEPTIDE_DB_COLNAMES [] = {"protein_id", "parent_protein", "protein_description",
+	"full_sequence", "sequence", "length_aa", "unique", "calc_mh", "long_sample_name", "spectral_counts",
+	"sample", "replicate"};
 size_t const DEFALUT_PEPTIDE_DB_COLNAMES_LEN = 10;
 
 std::string const PEP_SEQ_HEADERS [] = {"begin", "end", "mods"};
 size_t const PEP_SEQ_HEADERS_LEN = 3;
 
 char const DB_DELIM = ';';
-std::string const LOC_REPORT_HEADERS [] = {"Count", "Sum_SC", "Sum_seq_count"};
+std::string const LOC_REPORT_HEADERS [] = {"count", "sum_sc", "sum_seq_count"};
 
 std::string const DAT_NOT_FOUND = "NOT_FOUND_IN_DB";
 
