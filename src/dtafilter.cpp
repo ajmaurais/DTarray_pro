@@ -662,7 +662,7 @@ bool Proteins::_readDB(std::string fname,
 
 bool Proteins::readInFxnDB(std::string fname)
 {
-	std::string cols [] = {"id", "panther_category"};
+	std::string cols [] = {UNIPROT_ID, PANTHER_CATEGORY};
 	
 	return _readDB(fname, _fxnDB, cols);
 }
@@ -677,7 +677,7 @@ bool Proteins::readInFxnDB(std::string fname)
  */
 bool Proteins::readInLocDB(std::string fname, std::string col)
 {
-	std::string cols [] = {"id", col};
+	std::string cols [] = {UNIPROT_ID, col};
 	
 	return _readDB(fname, _locDB, cols);
 }
@@ -938,24 +938,24 @@ bool Proteins::writeWide(std::string ofname, const params::Params& par)
 	
 	//print column headers
 	if(par.getSubCelluarLoc){
-		it = std::find(headers.begin(), headers.end(), "Mass(Da)");
-		headers.insert(it + 1, "subcelluar_loc");
+		it = std::find(headers.begin(), headers.end(), MASS_DA);
+		headers.insert(it + 1, PROTEIN_SUBCELLUAR_LOC);
 	}
 	if(par.getFxn){
-		it = std::find(headers.begin(), headers.end(), "Mass(Da)");
-		headers.insert(it + 1, "Function");
+		it = std::find(headers.begin(), headers.end(), MASS_DA);
+		headers.insert(it + 1, PROTEIN_FUNCTION);
 	}
 	if(par.calcMW){
 		int mwHeadersLen = MWCALC_HEADERS_LENGTH;
 		if(par.printSeq)
 			mwHeadersLen++;
 		
-		it = std::find(headers.begin(), headers.end(), "Mass(Da)");
+		it = std::find(headers.begin(), headers.end(), MASS_DA);
 		headers.insert(it + 1, MWCALC_HEADERS, MWCALC_HEADERS + mwHeadersLen);
 		
 	}
 	else if(par.printSeq && !par.calcMW){
-		it = std::find(headers.begin(), headers.end(), "Mass(Da)");
+		it = std::find(headers.begin(), headers.end(), MASS_DA);
 		headers.insert(it + 1, MWCALC_HEADERS[3]);
 	}
 	
@@ -1066,18 +1066,18 @@ bool Proteins::writeLong(std::string ofname, const params::Params& par)
 	
 	if(par.parseSampleName)
 	{
-		it = std::find(headers.begin(), headers.end(), "Long_sample_name");
+		it = std::find(headers.begin(), headers.end(), LONG_SAMPLE_NAME);
 		headers.insert(it + 1, PARSE_SAMPLE_NAME_HEADERS, PARSE_SAMPLE_NAME_HEADERS + PARSE_SAMPLE_NAME_HEADERS_LEN);
 	}
 	if(par.getSubCelluarLoc)
 	{
-		it = std::find(headers.begin(), headers.end(), "Mass(Da)");
-		headers.insert(it + 1, "Subcelluar_loc");
+		it = std::find(headers.begin(), headers.end(), MASS_DA);
+		headers.insert(it + 1, PROTEIN_SUBCELLUAR_LOC);
 	}
 	if(par.getFxn)
 	{
-		it = std::find(headers.begin(), headers.end(), "Mass(Da)");
-		headers.insert(it + 1, "Function");
+		it = std::find(headers.begin(), headers.end(), MASS_DA);
+		headers.insert(it + 1, PROTEIN_FUNCTION);
 	}
 	if(par.calcMW)
 	{
@@ -1085,39 +1085,39 @@ bool Proteins::writeLong(std::string ofname, const params::Params& par)
 		if(par.printSeq)
 			mwHeadersLen++;
 		
-		it = std::find(headers.begin(), headers.end(), "Mass(Da)");
+		it = std::find(headers.begin(), headers.end(), MASS_DA);
 		headers.insert(it + 1, MWCALC_HEADERS, MWCALC_HEADERS + mwHeadersLen);
 	}
 	else if(par.printSeq && !par.calcMW)
 	{
 		it = headers.begin();
-		it = std::find(headers.begin(), headers.end(), "Mass(Da)");
+		it = std::find(headers.begin(), headers.end(), MASS_DA);
 		headers.insert(it + 1, MWCALC_HEADERS[3]);
 	}
 	if(par.includeModStat)
 	{
-		it = std::find(headers.begin(), headers.end(), "Spectral_counts");
+		it = std::find(headers.begin(), headers.end(), SPECTRAL_COUNTS);
 		headers.insert(it + 1, SUP_INFO_HEADERS[6]);
 		headers.insert(it + 1, SUP_INFO_HEADERS[5]);
 	}
 	if(par.includeSequenceCount)
 	{
-		it = std::find(headers.begin(), headers.end(), "Spectral_counts");
+		it = std::find(headers.begin(), headers.end(), SPECTRAL_COUNTS);
 		headers.insert(it + 1, SUP_INFO_HEADERS[4]);
 	}
 	if(par.includeCoverage)
 	{
-		it = std::find(headers.begin(), headers.end(), "Spectral_counts");
+		it = std::find(headers.begin(), headers.end(), SPECTRAL_COUNTS);
 		headers.insert(it + 1, SUP_INFO_HEADERS[3]);
 	}
 	if(par.includeUnique)
 	{
-		it = std::find(headers.begin(), headers.end(), "Spectral_counts");
+		it = std::find(headers.begin(), headers.end(), SPECTRAL_COUNTS);
 		headers.insert(it + 1, SUP_INFO_HEADERS[2]);
 	}
 	if(par.getNSAF)
 	{
-		it = std::find(headers.begin(), headers.end(), "Spectral_counts");
+		it = std::find(headers.begin(), headers.end(), SPECTRAL_COUNTS);
 		headers.insert(it + 1, SUP_INFO_HEADERS[1]);
 	}
 
@@ -1186,16 +1186,16 @@ bool Proteins::writeLongLocTable(std::string fname, const params::Params& pars) 
 	
 	std::vector<std::string> headers;
 	std::vector<std::string>::iterator it;
-	headers.push_back("Location");
+	headers.push_back("location");
 	
 	if(pars.parseSampleName)
 	{
-		headers.push_back("Long_sample_name");
-		headers.push_back("Sample");
-		headers.push_back("Replicate");
+		headers.push_back("long_sample_name");
+		headers.push_back("sample");
+		headers.push_back("replicate");
 	}
 	else{
-		headers.push_back("Sample");
+		headers.push_back("sample");
 	}
 	
 	headers.insert(headers.end(), std::begin(LOC_REPORT_HEADERS), std::end(LOC_REPORT_HEADERS));
@@ -1204,9 +1204,9 @@ bool Proteins::writeLongLocTable(std::string fname, const params::Params& pars) 
 	{
 		for(it = headers.begin(); it != headers.end(); ++it)
 		{
-			if(*it == "Sum_SC")
+			if(*it == "sum_sc")
 			{
-				headers.insert(it + 1, "Sum_uniq_SC");
+				headers.insert(it + 1, "sum_uniq_sc");
 				break;
 			}
 		}
@@ -1557,15 +1557,15 @@ bool Peptides::writeWide(std::string ofname, const params::Params& pars)
 				   std::end(DEFALUT_PEPTIDE_COLNAMES));
 	
 	if(pars.peptideGroupMethod != params::Params::byCharge){
-		it = std::find(headers.begin(), headers.end(), "Length(aa)");
-		headers.insert(it + 1, "Charge");
+		it = std::find(headers.begin(), headers.end(), LENGTH_AA);
+		headers.insert(it + 1, CHARGE);
 	}
 	if(pars.calcMW){
-		it = std::find(headers.begin(), headers.end(), "Unique");
+		it = std::find(headers.begin(), headers.end(), UNIQUE);
 		headers.insert(it + 1, MWCALC_HEADERS, MWCALC_HEADERS + 3);
 	}
 	if(pars.printSeq){
-		it = std::find(headers.begin(), headers.end(), "Unique");
+		it = std::find(headers.begin(), headers.end(), UNIQUE);
 		headers.insert(it + 1, PEP_SEQ_HEADERS, PEP_SEQ_HEADERS + PEP_SEQ_HEADERS_LEN);
 	}
 	
@@ -1660,8 +1660,7 @@ bool Peptides::writeLong(std::string ofname, const params::Params& pars)
 {
 	std::ofstream outF (ofname.c_str());
 	
-	if(!outF)
-		return false;
+	if(!outF) return false;
 	
 	params::Params::OutputFormat outputFormat = pars.outputFormat;
 	pars.outputFormat = params::Params::longFormat;
@@ -1679,25 +1678,25 @@ bool Peptides::writeLong(std::string ofname, const params::Params& pars)
 	if(pars.peptideGroupMethod != params::Params::byCharge)
 	{
 		//headers to add
-		std::string add [] = {"ObsMH", "xCorr", "Scan", "Parent_file"};
+		std::string add [] = {OBS_MH, X_CORR, SCAN, PARENT_FILE};
 		if(pars.peptideGroupMethod != params::Params::byCharge){
-			it = std::find(headers.begin(), headers.end(), "Length(aa)");
-			headers.insert(it + 1, "Charge");
+			it = std::find(headers.begin(), headers.end(), LENGTH_AA);
+			headers.insert(it + 1, CHARGE);
 		}
-		it = std::find(headers.begin(), headers.end(), "CalcMH");
+		it = std::find(headers.begin(), headers.end(), CALC_MH);
 		headers.insert(it + 1, std::begin(add), std::end(add));
 	}
 	if(pars.calcMW){
-		it = std::find(headers.begin(), headers.end(), "Unique");
+		it = std::find(headers.begin(), headers.end(), UNIQUE);
 		headers.insert(it + 1, MWCALC_HEADERS, MWCALC_HEADERS + 3);
 	}
 	if(pars.printSeq){
-		it = std::find(headers.begin(), headers.end(), "Unique");
+		it = std::find(headers.begin(), headers.end(), UNIQUE);
 		headers.insert(it + 1, PEP_SEQ_HEADERS, PEP_SEQ_HEADERS + PEP_SEQ_HEADERS_LEN);
 	}
 	if(pars.includeModStat){
-		it = std::find(headers.begin(), headers.end(), "Spectral_counts");
-		headers.insert(it+1, "Mod_pep_SC");
+		it = std::find(headers.begin(), headers.end(), SPECTRAL_COUNTS);
+		headers.insert(it+1, SC_MODIFIED_PEPTIDES);
 	}
 	
 	//print headers

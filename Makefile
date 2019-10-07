@@ -9,9 +9,7 @@ TEX := $(shell command -v latexmk 2> /dev/null)
 GITVERSION:= $(shell git log -1 --pretty='%h')
 GITDATE:= $(shell git log -1 --format=%cd --date=local)
 #
-# Flags
-#
-#   Compiler
+#   Compiler flags
 CXXFLAGS += -c -g -Wall -std=c++11 -DGIT_VERSION="\"${GITVERSION}\"" -DGIT_DATE="\"${GITDATE}\""
 #
 #   Linker
