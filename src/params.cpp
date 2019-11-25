@@ -210,7 +210,7 @@ namespace params{
 			}
 			if(!strcmp(argv[i], "-fasta"))
 			{
-				if(!utils::isArg(argv[i++])){
+				if(!utils::isArg(argv[++i])){
 					usage();
 					return false;
 				}
