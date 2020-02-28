@@ -178,6 +178,7 @@ namespace params{
 			includePeptides = false;
 			includeProteins = true;
 			getFxn = false;
+			getNSAF = false;
 			fxnDBfname = PROG_FXN_DB_FNAME;
 			useDefaultSeqDB = true;
 			includeNullPeptides = false;
