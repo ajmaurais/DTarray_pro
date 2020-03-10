@@ -571,8 +571,7 @@ bool Proteins::readIn(params::Params* const par, Peptides& peptides)
 }
 
 bool Proteins::readInMWdb(const params::Params& par){
-	return _mwdb.initialize(par.atomCountTableFname,
-							par.atomMassTableFname);
+	return _mwdb.initialize(par.atomCountTableFname);
 }
 
 bool Proteins::readInSeqDB(std::string fname){
@@ -684,8 +683,7 @@ bool Proteins::readBaitFile(std::string fname)
 
 bool Peptides::readInMWdb(const params::Params& par)
 {
-	return _mwdb.initialize(par.atomCountTableFname,
-							par.atomMassTableFname);
+	return _mwdb.initialize(par.atomCountTableFname);
 }
 
 locReport::LocDat Protein::toLocDat(const std::string& _loc) const

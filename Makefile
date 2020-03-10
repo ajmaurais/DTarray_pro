@@ -32,7 +32,7 @@ EXE := DTarray
 #
 # utils
 UTILS_DIR := utils
-UTILS_LIB := lib/utils.a
+UTILS_LIB := lib/libutils.a
 #
 #   Headers
 HEADERDIR := include
@@ -90,7 +90,7 @@ $(OBJDIR)/%.o: $(SRCDIR)/%.cpp $(HEADERS)
 $(UTILS_LIB):
 	cd $(UTILS_DIR); $(MAKE)
 	mkdir -p $(LIBDIR)
-	cd $(LIBDIR); ln -s ../$(UTILS_DIR)/$(UTILS_LIB)
+	cd $(LIBDIR); ln -sF ../$(UTILS_DIR)/$(UTILS_LIB)
 
 helpFile.pdf : db/helpFile.man
 	bash $(SCRIPTS)/updateMan.sh

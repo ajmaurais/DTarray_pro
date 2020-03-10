@@ -143,7 +143,7 @@ private:
 	
 public:
 	Peptides(const params::Params& pars) : DBTemplate<Peptide>(pars){
-		_seqDB = new utils::FastaFile(pars.getSeqDBfname());
+		_seqDB = new utils::FastaFile(true, pars.getSeqDBfname());
 	}
 	Peptides() : DBTemplate<Peptide>(){
 		_seqDB = new utils::FastaFile();

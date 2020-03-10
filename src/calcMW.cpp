@@ -74,8 +74,7 @@ namespace mwDB{
 	bool MWDB_Protein::initialize(const params::Params& params)
 	{
 		bool val1 = seqDB->readIn(params.getSeqDBfname());
-		bool val2 = utils::Residues::initialize(params.atomCountTableFname,
-													params.atomMassTableFname);
+		bool val2 = utils::Residues::initialize(params.atomCountTableFname);
 		
 		return val1 && val2;
 	}

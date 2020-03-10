@@ -57,7 +57,6 @@ namespace params{
 	const std::string PROG_SEQ_DB_FNAME = PROG_WD_DB + "/humanProteome.fasta";
 	const std::string PROG_FXN_DB_FNAME = PROG_WD_DB + "/humanFxn.tsv";
 	const std::string PROG_ATOM_COUNT_TABLE_FNAME = PROG_WD_DB + "/defaultResidueAtoms.txt";
-	const std::string PROG_ATOM_MASS_TABLE_FNAME = PROG_WD_DB + "/atomMasses.txt";
 	const std::string PROG_HELP_FILE_FNAME = PROG_WD_DB + "/helpFile.man";
 	const std::string PROG_USAGE_FNAME = PROG_WD_DB + "/usage.txt";
 	
@@ -119,7 +118,7 @@ namespace params{
 		bool rewriteFlist;
 		std::string locDBfname;
 		bool calcMW;
-		std::string atomMassTableFname, atomCountTableFname;
+		std::string atomCountTableFname;
 		bool unicode;
 		std::string ofname, dbOfname, dbPeptideOfFname, peptideOfFname;
 		bool printSeq;
@@ -163,7 +162,6 @@ namespace params{
 			rewriteFlist = false;
 			locDBfname = PROG_LOC_DB_FNAME;
 			calcMW = false;
-			atomMassTableFname = PROG_ATOM_MASS_TABLE_FNAME;
 			atomCountTableFname = PROG_ATOM_COUNT_TABLE_FNAME;
 			unicode = false;
 			ofname = OFNAME;
