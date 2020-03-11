@@ -482,7 +482,7 @@ void Peptide::_parsePeptide(const std::string& line)
 
 std::string Peptide::makeKey() const {
 	switch(_par->peptideGroupMethod){
-		case params::Params::byScan : return _fileName;
+	    case params::Params::byScan : return std::to_string(*_colIndex) + "_" +  _fileName;
 			break;
 		case params::Params::byProtein : return _proteinID + "_" + _compareSequence + "_" + _charge;
 			break;
