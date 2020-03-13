@@ -37,6 +37,7 @@
 #include <dtarray_pro.hpp>
 #include <utils.hpp>
 #include <config.hpp>
+#include <git_info.h>
 
 namespace params{
 	
@@ -86,7 +87,7 @@ namespace params{
 		std::string colname;
 	public:
 		//constructor
-		FilterFileParam(std::string);
+		FilterFileParam(const std::string&);
 		~FilterFileParam() {}
 		
 		//properties
@@ -202,14 +203,13 @@ namespace params{
 		}
 		
 		//modifiers
-		bool readFlist(std::string, std::string);
+		bool readFlist(const std::string&, const std::string&);
 		bool getOpts(int, const char* const []);
 		
 		//properties
 		bool writeFlist();
 		bool optionsCompatable() const;
 		bool writeAtomCountTable(std::string) const;
-		void printGitVersion() const;
 		std::string getFilePath(size_t index) const {
 			return file[index].getPath();
 		}
@@ -246,10 +246,12 @@ namespace params{
 	private:
 		std::vector<FilterFileParam> file;
 		
-		std::string parseVersionNum(std::string) const;
+		std::string parseVersionNum(const std::string&) const;
 		OutputFormat intToOutputFormat(int) const;
 		PeptideGroupFormat intToGroupFormat(int) const;
-		
+        void printVersion(std::ostream& out = std::cout) const;
+        void printGitVersion(std::ostream& out = std::cout) const;
+
 		void displayHelp() const{
 			utils::systemCommand("man " + PROG_HELP_FILE_FNAME);
 		}

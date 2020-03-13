@@ -465,7 +465,8 @@ namespace params{
 			}
 			if(!strcmp(argv[i], "-v") || !strcmp(argv[i], "--version"))
 			{
-				printGitVersion();
+			    printVersion(std::cout);
+				printGitVersion(std::cout);
 				return false;
 			}
 			if(!strcmp(argv[i], "--purge"))
@@ -575,12 +576,10 @@ namespace params{
 	}
 	
 	/**
-	 Print git version and date and time of last commit to std::out.
+	 Print program version number to \p out.
 	 */
-	void params::Params::printGitVersion() const{
-		std::cout << "DTarray_pro " << BIN_VERSION_NUM << std::endl;
-		std::cout << "Last git commit: " << GIT_VERSION << std::endl;
-		std::cout << "git revision: " << GIT_DATE << std::endl;
+	void params::Params::printVersion(std::ostream& out) const{
+		out << "DTarray_pro " << BIN_VERSION_NUM << std::endl;
 	}
 	
 	bool Params::writeFlist()
@@ -618,7 +617,7 @@ namespace params{
 			return false;
 		}
 		
-		for(std::vector<std::string>::iterator it = filterFiles.begin(); it != filterFiles.end(); ++it)
+		for(auto it = filterFiles.begin(); it != filterFiles.end(); ++it)
 			outF << '\t' << (*it).substr(0, (*it).length() - DTAFILTER_EXT.length()) << OUT_DELIM << *it << std::endl;
 		
 		outF << "\n</flist>\n";
@@ -634,20 +633,20 @@ namespace params{
 		if(!utils::ls(wd.c_str(), files))
 			return false;
 		
-		for(std::vector<std::string>::iterator it = files.begin(); it != files.end(); ++it)
-			if(utils::dirExists(wd + *it))
-				if(utils::fileExists(wd + *it + "/" + DTAFILTER_NAME))
-					filterFiles.push_back(*it);
+		for(auto & file : files)
+			if(utils::dirExists(wd + file))
+				if(utils::fileExists(wd + file + "/" + DTAFILTER_NAME))
+					filterFiles.push_back(file);
 		
-		for(std::vector<std::string>::iterator it = filterFiles.begin(); it != filterFiles.end(); ++it)
-			outF << *it << OUT_DELIM << *it << "/" << DTAFILTER_NAME << std::endl;
+		for(auto & filterFile : filterFiles)
+			outF << filterFile << OUT_DELIM << filterFile << "/" << DTAFILTER_NAME << std::endl;
 		
 		outF << "\n</flist>\n";
 		
 		return true;
 	}
 
-	FilterFileParam::FilterFileParam(std::string line)
+	FilterFileParam::FilterFileParam(const std::string& line)
 	{
 		std::vector<std::string>elems;
 		utils::split(line, '\t', elems);
@@ -656,7 +655,7 @@ namespace params{
 		path = elems[1];
 	}
 	
-	bool Params::readFlist(std::string fname, std::string path)
+	bool Params::readFlist(const std::string& fname, const std::string& path)
 	{
 		std::ifstream inF(path + fname);
 		if(!inF) return false;
@@ -670,7 +669,7 @@ namespace params{
 			if(utils::startsWith(line, VNUM_STR)) //check line begins with VNUM_STR
 			{
 				versionNum = parseVersionNum(line);
-				if(!(MIN_BIN_VERSION_NUM <= std::stod(versionNum)))
+				if(MIN_BIN_VERSION_NUM > std::stod(versionNum))
 				{
 					std::cerr << "File list was generated under binary version: " << versionNum
 						<< std::endl << "Min flist version is: " << MIN_BIN_VERSION_NUM << std::endl;
@@ -689,7 +688,7 @@ namespace params{
 						inF.seekg(pos);
 						break;
 					}
-					file.push_back(FilterFileParam(line));
+					file.emplace_back(line);
 					numFiles++;
 				}
 				continue;
@@ -699,7 +698,7 @@ namespace params{
 		return true;
 	}
 	
-	std::string Params::parseVersionNum(std::string line) const
+	std::string Params::parseVersionNum(const std::string& line) const
 	{
 		size_t before = line.find(VNUM_STR);
 		size_t end = line.find(END_VNUM_STR);
@@ -736,4 +735,21 @@ namespace params{
 		}
 		return good;
 	} //end of function
+
+    /**
+     Print git version and date and time of last commit to \p out
+     \param out stream to print to
+     */
+    void Params::printGitVersion(std::ostream& out) const{
+        if(GIT_RETRIEVED_STATE) {
+            out << "Last git commit: " << GIT_HEAD_SHA1 << NEW_LINE
+                << "Git revision: " << GIT_LAST_COMMIT_DATE << NEW_LINE;
+            if(GIT_IS_DIRTY)
+                out << "WARN: there were uncommitted changes." << NEW_LINE;
+        }
+        else {
+            out << "WARN: failed to get the current git state. Is this a git repo?" << NEW_LINE;
+        }
+    }
 }//end of namespace
+

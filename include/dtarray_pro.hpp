@@ -45,14 +45,6 @@
 #define IN_DELIM '\t'
 #endif
 
-#ifndef GIT_VERSION
-#define GIT_VERSION "UNKNOWN"
-#endif
-
-#ifndef GIT_DATE
-#define GIT_DATE "UNKNOWN"
-#endif
-
 std::string const REVERSE_MATCH = "reverse_";
 
 std::string parseReplicate(std::string);
