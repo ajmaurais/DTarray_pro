@@ -12,6 +12,7 @@ doc/doxygen/html/*
 
 #stuff from test folder
 test/bin/*
+test/data/*
 
 ## Core latex/pdflatex auxiliary files:
 *.aux
