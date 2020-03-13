@@ -1,11 +1,9 @@
 
 set(FIND_UTILS_PATHS
-        ${PROJECT_SOURCE_DIR}/../utils
-        ${PROJECT_SOURCE_DIR}/../build/utils
-        ${PROJECT_SOURCE_DIR}/../utils_build
-        ${PROJECT_SOURCE_DIR}/../lib
-        /usr/local
-        /usr/local/lib)
+        ${PROJECT_SOURCE_DIR}/utils
+        ${PROJECT_SOURCE_DIR}/build/utils
+        ${PROJECT_SOURCE_DIR}/utils_build
+        ${PROJECT_SOURCE_DIR}/lib)
 
 find_path(UTILS_INCLUDE_DIR
             bufferFile.hpp
