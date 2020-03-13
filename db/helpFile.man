@@ -255,7 +255,7 @@ Ignore modification status when grouping peptides.
 .in
 .TP
 \fB-n, --nullp\fI <format>\fR
-Specify whether to include peptides with 0 spectral counts in long peptide output file. \fB0\fR is the default.
+Specify whether to include peptides and proteins with 0 spectral counts in long peptide output file. \fB0\fR is the default.
 .TP
 .in +0.75i
 \fB0\fR

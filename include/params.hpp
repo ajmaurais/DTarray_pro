@@ -131,8 +131,7 @@ namespace params{
 		static OutputFormat peptideOutput;
 		bool getFxn;
 		std::string fxnDBfname;
-		bool useDefaultSeqDB;
-		bool includeNullPeptides;
+		bool includeNullPs;
 		int supInfoOutput;
 		unsigned int supInfoNum, peptideSupInfoNum;
 		PeptideGroupFormat peptideGroupMethod;
@@ -178,8 +177,7 @@ namespace params{
 			getFxn = false;
 			getNSAF = false;
 			fxnDBfname = PROG_FXN_DB_FNAME;
-			useDefaultSeqDB = true;
-			includeNullPeptides = false;
+			includeNullPs = false;
 			supInfoOutput = 0;
 			peptideGroupMethod = byProtein;
 			supInfoNum = 0;

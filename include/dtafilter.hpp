@@ -160,8 +160,8 @@ public:
 	}
 	
 	//properties
-	bool writeWide(std::string, const params::Params&);
-	bool writeLong(std::string, const params::Params&);
+	bool writeWide(const std::string&, const params::Params&);
+	bool writeLong(const std::string&, const params::Params&);
 };
 
 //stores data for each protein found in filter file

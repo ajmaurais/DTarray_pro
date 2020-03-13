@@ -368,7 +368,7 @@ namespace params{
 					usage();
 					return false;
 				}
-				includeNullPeptides = true;
+				includeNullPs = std::stoi(argv[i]);
 				continue;
 			}
 			if(!strcmp(argv[i], "-saint"))
