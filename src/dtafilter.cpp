@@ -155,8 +155,13 @@ bool Protein::getProteinData(std::string line)
 	std::vector<std::string> elems;
 	utils::split(line, IN_DELIM, elems);
 	utils::removeEmptyStrings(elems);
-	assert(elems.size() == 9);
-	
+
+	// Get protein description index
+	int descriptionIndex;
+	if(elems.size() == 9) descriptionIndex = 8; // Old dtaselect
+	else if(elems.size() == 11) descriptionIndex = 10; // New dtaselect with NSAF and EMPAI
+	else throw std::runtime_error("Invalid protein line: " + line);
+
 	//parse elem[0]
 	if(!parse_matchDir_ID_Protein(elems[0])) return false;
 	
@@ -175,8 +180,8 @@ bool Protein::getProteinData(std::string line)
 	MW = elems[5];
 	
 	//extract shortened protein name and description
-	size_t endOfDescription = elems[8].find(" [");
-	_description = elems[8].substr(0, endOfDescription);
+	size_t endOfDescription = elems[descriptionIndex].find(" [");
+	_description = elems[descriptionIndex].substr(0, endOfDescription);
 	
 	//check _par->filter is true
 	if(_par->getFilter())
