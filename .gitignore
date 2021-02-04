@@ -9,6 +9,8 @@ helpFile.pdf
 include/config.hpp
 doc/doxygen/html/*
 *.html
+.idea
+build/*
 
 #stuff from test folder
 test/bin/*
